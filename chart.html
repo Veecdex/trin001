@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sectoral Distribution of Nigerian Technology Firms</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Data Labels Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white shadow-lg rounded-xl p-10 max-w-3xl w-full">
+
+<h2 class="text-center text-xl font-semibold mb-6">
+ Sectoral Distribution of Nigerian Technology Firms (2015–2024)
+</h2>
+
+<canvas id="sectorChart"></canvas>
+
+</div>
+
+<script>
+
+const ctx = document.getElementById('sectorChart');
+
+new Chart(ctx, {
+    type: 'pie',
+
+    data: {
+        labels: [
+            'Fintech',
+            'E-commerce',
+            'Logistics',
+            'HealthTech',
+            'EdTech',
+            'AgriTech',
+            'Enterprise Software'
+        ],
+
+        datasets: [{
+            data: [38,18,12,10,9,8,5],
+
+            backgroundColor: [
+                '#2563EB',
+                '#10B981',
+                '#F59E0B',
+                '#EF4444',
+                '#8B5CF6',
+                '#14B8A6',
+                '#6B7280'
+            ],
+
+            borderColor: '#ffffff',
+            borderWidth: 2
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+                position: 'bottom'
+            },
+
+            datalabels: {
+
+                color: "#ffffff",
+
+                font: {
+                    weight: "bold",
+                    size: 12
+                },
+
+                formatter: function(value, context) {
+
+                    const label = context.chart.data.labels[context.dataIndex];
+                    return label + "\n" + value + "%";
+
+                }
+
+            }
+
+        }
+
+    },
+
+    plugins: [ChartDataLabels]
+
+});
+
+</script>
+
+</body>
+</html>
