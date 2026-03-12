@@ -207,338 +207,512 @@ html {
   <div class="absolute bottom-10 right-20 w-96 h-96 bg-gray-200 rounded-full blur-3xl opacity-30"></div>
 </div>
 
-<main id="buy" class=" px-6 pb-24 pt-16 relative bg-gray-50">
+<main id="buy" class="px-6 pb-24 pt-20 bg-gradient-to-b from-gray-50 to-gray-100">
 
-  <div class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10 space-y-14">
-
-    <!-- HEADER -->
-    <div class="text-center space-y-3">
-      <h2 class="text-3xl font-semibold text-gray-900 tracking-tight">
-        Purchase Code Access
-      </h2>
-      <p class="text-gray-500 text-sm">
-        Enter your code, complete payment, and unlock instantly
-      </p>
-    </div>
-
-    <!-- STEPPER -->
-    <div class="flex justify-between items-center relative">
-
-      <!-- Line -->
-      <div class="absolute top-6 left-0 w-full h-0.5 bg-gray-200"></div>
-
-      <!-- STEP 1 -->
-      <div class="relative flex flex-col items-center z-10">
-        <div id="step1Circle"
-          class="w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg">
-
-          <!-- Key Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" 
-               class="w-5 h-5" 
-               fill="none" 
-               viewBox="0 0 24 24" 
-               stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M15 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7m0 0h3m-3 0H9" />
-          </svg>
-
-        </div>
-        <span class="mt-3 text-xs font-medium text-gray-700">
-          Enter Code
-        </span>
-      </div>
-
-      <!-- STEP 2 -->
-      <div class="relative flex flex-col items-center z-10">
-        <div id="step2Circle"
-          class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-
-          <!-- Card Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg"
-               class="w-5 h-5"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke="currentColor">
-            <rect x="2" y="5" width="20" height="14" rx="2" stroke-width="2"/>
-            <path stroke-width="2" d="M2 10h20"/>
-          </svg>
-
-        </div>
-        <span class="mt-3 text-xs text-gray-500">
-          Make Payment
-        </span>
-      </div>
-
-      <!-- STEP 3 -->
-      <div class="relative flex flex-col items-center z-10">
-        <div id="step3Circle"
-          class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-
-          <!-- Check Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg"
-               class="w-5 h-5"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke="currentColor">
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"/>
-          </svg>
-
-        </div>
-        <span class="mt-3 text-xs text-gray-500">
-          Confirmation
-        </span>
-      </div>
-
-    </div>
-
-    <!-- STEP 1 CONTENT -->
-    <div class="space-y-6">
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700">
-          Purchase Code
-        </label>
-        <input type="text"
-          class="w-full px-6 py-4 rounded-2xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black transition-all duration-300"
-          placeholder="Enter your unique code">
-      </div>
-
-      <button
-        class="w-full py-4 rounded-2xl bg-black text-white font-medium tracking-wide hover:bg-gray-800 transition-all duration-300 shadow-xl hover:shadow-2xl">
-        Continue to Payment
-      </button>
-
-    </div>
-
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+  
+  <!-- ACTIVATE CARD PANEL -->
+  <div class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10 space-y-10">
+  
+  <!-- HEADER -->
+  <div class="space-y-3">
+  <div class="flex items-center gap-3">
+  
+  <i data-lucide="key-round" class="w-6 h-6 text-black"></i>
+  
+  <h2 class="text-2xl font-semibold text-gray-900">
+  Activate Gift Card
+  </h2>
+  
   </div>
-
-</main>
-<section class="max-w-6xl mx-auto px-6 py-28">
-
-  <!-- Heading -->
-  <div class="text-center mb-20">
-    <h5 class="text-4xl md:text-4xl font-semibold tracking-tight">
-      Our Services
-    </h2>
-    <p class="text-gray-500 mt-4 max-w-xl mx-auto">
-      A structured and secure ecosystem built for seamless
-      physical gift card transactions.
-    </p>
+  
+  <p class="text-sm text-gray-500">
+  Enter your purchase code to activate the card and assign it to the recipient.
+  </p>
   </div>
-
-  <div class="grid md:grid-cols-2 gap-8">
-
-    <!-- BUY -->
-    <div class="group bg-white rounded-3xl p-10 border border-gray-100 shadow-sm 
-                hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-
-      <div class="w-14 h-14 rounded-2xl bg-black text-white flex items-center justify-center mb-8 transition group-hover:scale-110">
-        <i data-lucide="credit-card"></i>
-      </div>
-
-      <h3 class="text-2xl font-semibold mb-4">
-        Buy Gift Cards
-      </h3>
-
-      <p class="text-gray-600 leading-relaxed mb-8">
-        Purchase verified physical gift cards securely with instant
-        validation and balance confirmation.
-      </p>
-
-      <a href="#buy"
-         class="inline-flex items-center gap-2 font-medium text-black hover:gap-4 transition-all">
-        Get Started →
-      </a>
-
-    </div>
-
-    <!-- REDEEM -->
-    <div id="redeem" class="group bg-gradient-to-br from-black to-gray-900 text-white 
-                rounded-3xl p-10 shadow-xl 
-                hover:-translate-y-2 transition-all duration-500">
-
-      <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur 
-                  flex items-center justify-center mb-8 transition group-hover:scale-110">
-        <i data-lucide="wallet"></i>
-      </div>
-
-      <h3 class="text-2xl font-semibold mb-4">
-        Redeem Gift Cards
-      </h3>
-
-      <p class="text-white/70 leading-relaxed mb-8">
-        Validate and redeem balances through our trusted
-        retail-integrated processing system.
-      </p>
-
-      <span class="text-sm text-white/50">
-        Available at partner stores
-      </span>
-
-    </div>
-
+  
+  
+  <!-- STEPPER -->
+  <div class="flex justify-between items-center relative">
+  
+  <div class="absolute top-6 left-0 w-full h-0.5 bg-gray-200"></div>
+  
+  <!-- STEP 1 -->
+  <div class="relative flex flex-col items-center z-10">
+  <div class="w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg">
+  
+  <i data-lucide="key-round" class="w-5 h-5"></i>
+  
   </div>
-
-
-  <!-- SECOND ROW -->
-  <div class="grid md:grid-cols-2 gap-8 mt-8">
-
-    <!-- PARTNER -->
-    <div id="partner" class="group bg-gray-50 rounded-3xl p-10 border border-gray-100
-                hover:shadow-xl hover:-translate-y-2 transition-all duration-500">
-
-      <div class="w-14 h-14 rounded-2xl bg-black text-white 
-                  flex items-center justify-center mb-8 transition group-hover:rotate-6">
-        <i data-lucide="handshake"></i>
-      </div>
-
-      <h3 class="text-2xl font-semibold mb-4">
-        Partner With Us
-      </h3>
-
-      <p class="text-gray-600 leading-relaxed mb-8">
-        Integrate secure gift card validation into your retail
-        infrastructure and grow with us.
-      </p>
-
-      <a href="#contact"
-         class="inline-flex items-center gap-2 font-medium text-black hover:gap-4 transition-all">
-        Become a Partner →
-      </a>
-
-    </div>
-
-    <!-- ABOUT -->
-    <div id="about" class="group bg-white rounded-3xl p-10 border border-gray-100 shadow-sm
-                hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-
-      <div class="w-14 h-14 rounded-2xl bg-black text-white 
-                  flex items-center justify-center mb-8 transition group-hover:scale-110">
-        <i data-lucide="building-2"></i>
-      </div>
-
-      <h3 class="text-2xl font-semibold mb-4">
-        About Us
-      </h3>
-
-      <p class="text-gray-600 leading-relaxed mb-8">
-        We are building a secure and scalable physical gift card
-        ecosystem powered by structured in-store validation.
-      </p>
-
-      <span class="text-sm text-gray-400">
-        Secure • Verified • Scalable
-      </span>
-
-    </div>
-
+  
+  <span class="mt-3 text-xs font-medium text-gray-700">
+  Enter Code
+  </span>
+  
   </div>
-</section>
-<section id="contact" class="bg-gray-50 pb-24 pt-16 relative">
-
-  <!-- Inner Container Controls Width -->
-  <div class="max-w-6xl mx-auto px-6">
+  
+  
+  <!-- STEP 2 -->
+  <div class="relative flex flex-col items-center z-10">
+  
+  <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
+  
+  <i data-lucide="credit-card" class="w-5 h-5"></i>
+  
+  </div>
+  
+  <span class="mt-3 text-xs text-gray-500">
+  Make Payment
+  </span>
+  
+  </div>
+  
+  
+  <!-- STEP 3 -->
+  <div class="relative flex flex-col items-center z-10">
+  
+  <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
+  
+  <i data-lucide="check-circle" class="w-5 h-5"></i>
+  
+  </div>
+  
+  <span class="mt-3 text-xs text-gray-500">
+  Confirmation
+  </span>
+  
+  </div>
+  
+  </div>
+  
+  
+  <!-- FORM -->
+  <div class="space-y-6">
+  
+  <div class="space-y-2">
+  
+  <label class="text-sm font-medium text-gray-700">
+  Purchase Code
+  </label>
+  
+  <input
+  type="text"
+  placeholder="Enter purchase code"
+  inputmode="numeric"
+  pattern="[0-9]{9}"
+  maxlength="9"
+  minlength="9"
+  oninput="this.value = this.value.replace(/[^0-9]/g,'').slice(0,9)"
+  class="w-full px-6 py-4 rounded-2xl border border-gray-200 bg-gray-50
+text-center tracking-[0.35em] font-medium text-lg
+focus:outline-none focus:ring-2 focus:ring-black transition"
+/>
+  
+  </div>
+  
+  
+  <button
+  class="w-full py-4 rounded-2xl bg-black text-white font-medium tracking-wide hover:bg-gray-800 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+  >
+  
+  <i data-lucide="arrow-right"></i>
+  
+  Continue to Payment
+  
+  </button>
+  
+  </div>
+  
+  </div>
+  
+  
+  <!-- CHECK BALANCE PANEL -->
+  <div class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10 space-y-8">
+  
+  <!-- HEADER -->
+  
+  <div class="space-y-3">
+  
+  <div class="flex items-center gap-3">
+  
+  <i data-lucide="wallet" class="w-6 h-6 text-black"></i>
+  
+  <h2 class="text-2xl font-semibold text-gray-900">
+  Check Gift Card Balance
+  </h2>
+  
+  </div>
+  
+  <p class="text-sm text-gray-500">
+  Enter your gift card code to instantly view the available balance.
+  </p>
+  
+  </div>
+  
+  
+  <!-- FORM -->
+  
+  <div class="space-y-6">
+  
+  <div class="space-y-2">
+  
+  <label class="text-sm font-medium text-gray-700">
+  Gift Card Code
+  </label>
+  
+  <input
+  type="text"
+  placeholder="Enter gift card code"
+  class="w-full px-6 py-4 rounded-2xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black transition"
+  />
+  
+  </div>
+  
+  
+  <button
+  class="w-full py-4 rounded-2xl bg-gray-900 text-white font-medium tracking-wide hover:bg-black transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+  >
+  
+  <i data-lucide="search"></i>
+  
+  Check Balance
+  
+  </button>
+  
+  </div>
+  
+  
+  </div>
+  
+  </div>
+  
+  </main>
+  <section class="max-w-6xl mx-auto px-6 py-28">
 
     <!-- Heading -->
     <div class="text-center mb-20">
-      <h2 class="text-4xl md:text-4xl font-semibold tracking-tight">
-        Contact Us
+    
+    <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900">
+    Platform Capabilities
+    </h2>
+    
+    <p class="text-gray-500 mt-5 max-w-xl mx-auto">
+    A secure infrastructure enabling verified physical gift card
+    purchases, activation, and retail integrations.
+    </p>
+    
+    </div>
+    
+    
+    <!-- PRIMARY ACTIONS -->
+    <div class="grid md:grid-cols-2 gap-8">
+    
+    <!-- BUY CARD -->
+    
+    <div class="group bg-white rounded-3xl p-10 border border-gray-200
+    shadow-sm hover:shadow-xl transition-all duration-300">
+    
+    <div class="w-12 h-12 rounded-xl bg-black text-white flex items-center justify-center mb-8">
+    
+    <i data-lucide="credit-card"></i>
+    
+    </div>
+    
+    <h3 class="text-xl font-semibold text-gray-900 mb-3">
+    Buy Gift Cards
+    </h3>
+    
+    <p class="text-gray-600 leading-relaxed mb-8">
+    Purchase verified physical gift cards through trusted retail
+    partners with secure activation and balance validation.
+    </p>
+    
+    <a href="#buy"
+    class="inline-flex items-center gap-2 text-sm font-medium text-black">
+    
+    Start Purchase
+    
+    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    
+    </a>
+    
+    </div>
+    
+    
+    <!-- REDEEM -->
+    
+    <div id="redeem"
+    class="group bg-black text-white rounded-3xl p-10
+    hover:-translate-y-1 transition-all duration-300">
+    
+    <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-8">
+    
+    <i data-lucide="wallet"></i>
+    
+    </div>
+    
+    <h3 class="text-xl font-semibold mb-3">
+    Redeem Gift Cards
+    </h3>
+    
+    <p class="text-white/70 leading-relaxed mb-8">
+    Validate card balances and redeem value seamlessly through
+    our secure processing network.
+    </p>
+    
+    <span class="text-sm text-white/50">
+    Available via partner stores
+    </span>
+    
+    </div>
+    
+    </div>
+    
+    
+    <!-- SECONDARY -->
+    <div class="grid md:grid-cols-2 gap-8 mt-10">
+    
+    <!-- PARTNER -->
+    
+    <div id="partner"
+    class="group bg-gray-50 rounded-3xl p-10 border border-gray-200
+    hover:shadow-lg transition-all duration-300">
+    
+    <div class="w-12 h-12 rounded-xl bg-black text-white
+    flex items-center justify-center mb-8">
+    
+    <i data-lucide="handshake"></i>
+    
+    </div>
+    
+    <h3 class="text-xl font-semibold text-gray-900 mb-3">
+    Retail Partnerships
+    </h3>
+    
+    <p class="text-gray-600 leading-relaxed mb-8">
+    Integrate our secure validation infrastructure into your store
+    to support trusted gift card transactions.
+    </p>
+    
+    <a href="#contact"
+    class="inline-flex items-center gap-2 text-sm font-medium text-black">
+    
+    Become a Partner
+    
+    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    
+    </a>
+    
+    </div>
+    
+    
+    <!-- ABOUT -->
+    
+    <div id="about"
+    class="group bg-white rounded-3xl p-10 border border-gray-200
+    hover:shadow-xl transition-all duration-300">
+    
+    <div class="w-12 h-12 rounded-xl bg-black text-white
+    flex items-center justify-center mb-8">
+    
+    <i data-lucide="building-2"></i>
+    
+    </div>
+    
+    <h3 class="text-xl font-semibold text-gray-900 mb-3">
+    About The Platform
+    </h3>
+    
+    <p class="text-gray-600 leading-relaxed mb-8">
+    We are building a structured ecosystem for secure physical
+    gift card issuance, activation, and retail redemption.
+    </p>
+    
+    <span class="text-sm text-gray-400">
+    Secure • Verified • Scalable
+    </span>
+    
+    </div>
+    
+    </div>
+    
+    </section>
+    <section id="contact" class="bg-gray-50 pb-24 pt-20 relative">
+
+      <div class="max-w-6xl mx-auto px-6">
+      
+      <!-- Heading -->
+      <div class="text-center mb-20">
+      
+      <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900">
+      Contact Our Team
       </h2>
-      <p class="text-gray-500 mt-4 max-w-xl mx-auto">
-        Have questions about gift card validation or partnerships?
-        Send us a message and our team will respond promptly.
+      
+      <p class="text-gray-500 mt-5 max-w-xl mx-auto">
+      Questions about card activation, balance validation,
+      or retail partnerships? Our team is here to help.
       </p>
-    </div>
-
-    <!-- Grid Layout -->
-    <div class="grid md:grid-cols-2 gap-12 items-start">
-
-      <!-- Left Info Card -->
-      <div class="bg-black text-white rounded-3xl p-10 shadow-2xl space-y-8">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
-            <i data-lucide="mail"></i>
-          </div>
-          <div>
-            <h4 class="font-semibold text-lg">Email</h4>
-            <p class="text-white/60">support@giftcardecosystem.com</p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
-            <i data-lucide="phone"></i>
-          </div>
-          <div>
-            <h4 class="font-semibold text-lg">Phone</h4>
-            <p class="text-white/60">+234 800 000 0000</p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
-            <i data-lucide="map-pin"></i>
-          </div>
-          <div>
-            <h4 class="font-semibold text-lg">Location</h4>
-            <p class="text-white/60">Lagos, Nigeria</p>
-          </div>
-        </div>
-
+      
       </div>
-
-      <!-- Contact Form -->
-      <form class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 space-y-8">
-        <!-- Name -->
-        <div>
-          <label class="text-sm font-medium text-gray-600">Full Name</label>
-          <div class="mt-2 relative">
-            <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-            <input type="text"
-              class="w-full pl-12 pr-4 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10 outline-none transition"
-              placeholder="Enter your full name">
-          </div>
-        </div>
-
-        <!-- Email -->
-        <div>
-          <label class="text-sm font-medium text-gray-600">Email Address</label>
-          <div class="mt-2 relative">
-            <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-            <input type="email"
-              class="w-full pl-12 pr-4 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10 outline-none transition"
-              placeholder="Enter your email address">
-          </div>
-        </div>
-
-        <!-- Message -->
-        <div>
-          <label class="text-sm font-medium text-gray-600">Message</label>
-          <div class="mt-2 relative">
-            <i data-lucide="message-square" class="absolute left-4 top-6 text-gray-400 w-5 h-5"></i>
-            <textarea rows="5"
-              class="w-full pl-12 pr-4 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10 outline-none transition resize-none"
-              placeholder="Type your message here..."></textarea>
-          </div>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit"
-          class="w-full bg-black text-white py-4 rounded-2xl font-medium
-                 hover:bg-gray-900 transition-all duration-300
-                 hover:shadow-2xl hover:-translate-y-1">
-          Send Message
-        </button>
+      
+      
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+      
+      <!-- CONTACT INFO -->
+      <div class="bg-black text-white rounded-3xl p-10 shadow-2xl space-y-10">
+      
+      <div>
+      <h3 class="text-xl font-semibold mb-2">
+      Support Channels
+      </h3>
+      
+      <p class="text-white/60 text-sm">
+      Reach out through any of the channels below and our
+      team will respond as quickly as possible.
+      </p>
+      </div>
+      
+      
+      <div class="space-y-8">
+      
+      <div class="flex items-start gap-4">
+      
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+      <i data-lucide="mail"></i>
+      </div>
+      
+      <div>
+      <h4 class="font-medium">Email</h4>
+      <p class="text-white/60 text-sm">
+      support@giftcardecosystem.com
+      </p>
+      </div>
+      
+      </div>
+      
+      
+      <div class="flex items-start gap-4">
+      
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+      <i data-lucide="phone"></i>
+      </div>
+      
+      <div>
+      <h4 class="font-medium">Phone</h4>
+      <p class="text-white/60 text-sm">
+      +234 800 000 0000
+      </p>
+      </div>
+      
+      </div>
+      
+      
+      <div class="flex items-start gap-4">
+      
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+      <i data-lucide="map-pin"></i>
+      </div>
+      
+      <div>
+      <h4 class="font-medium">Location</h4>
+      <p class="text-white/60 text-sm">
+      Lagos, Nigeria
+      </p>
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      
+      <!-- FORM -->
+      <form class="bg-white rounded-3xl p-10 shadow-lg border border-gray-200 space-y-8">
+      
+      <div>
+      
+      <label class="text-sm font-medium text-gray-700">
+      Full Name
+      </label>
+      
+      <div class="mt-2 relative">
+      
+      <i data-lucide="user"
+      class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+      
+      <input
+      type="text"
+      class="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50 border border-gray-200
+      focus:border-black focus:ring-2 focus:ring-black/10 outline-none transition"
+      placeholder="Enter your full name"
+      />
+      
+      </div>
+      
+      </div>
+      
+      
+      <div>
+      
+      <label class="text-sm font-medium text-gray-700">
+      Email Address
+      </label>
+      
+      <div class="mt-2 relative">
+      
+      <i data-lucide="mail"
+      class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+      
+      <input
+      type="email"
+      class="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50 border border-gray-200
+      focus:border-black focus:ring-2 focus:ring-black/10 outline-none transition"
+      placeholder="Enter your email address"
+      />
+      
+      </div>
+      
+      </div>
+      
+      
+      <div>
+      
+      <label class="text-sm font-medium text-gray-700">
+      Message
+      </label>
+      
+      <div class="mt-2 relative">
+      
+      <i data-lucide="message-square"
+      class="absolute left-4 top-5 text-gray-400 w-5 h-5"></i>
+      
+      <textarea rows="5"
+      class="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50 border border-gray-200
+      focus:border-black focus:ring-2 focus:ring-black/10 outline-none transition resize-none"
+      placeholder="Type your message here..."></textarea>
+      
+      </div>
+      
+      </div>
+      
+      
+      <button
+      type="submit"
+      class="w-full bg-black text-white py-4 rounded-xl font-medium
+      hover:bg-gray-900 transition">
+      
+      Send Message
+      
+      </button>
+      
       </form>
-
-    </div>
-
-  </div>
-
-</section>
+      
+      </div>
+      
+      </div>
+      
+      </section>
   <section class="bg-black text-white py-16">
 
     <div class="max-w-7xl mx-auto px-6">
