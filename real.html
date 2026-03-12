@@ -211,119 +211,334 @@ html {
 
   <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
   
-  <!-- ACTIVATE CARD PANEL -->
-  <div class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10 space-y-10">
-  
+  <!-- TOAST CONTAINER -->
+<div id="toastContainer" class="fixed top-6 right-6 space-y-3 z-50"></div>
+
+<!-- ACTIVATE CARD PANEL -->
+<div id="activatePanel" class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10 space-y-10">
+
   <!-- HEADER -->
   <div class="space-y-3">
-  <div class="flex items-center gap-3">
-  
-  <i data-lucide="key-round" class="w-6 h-6 text-black"></i>
-  
-  <h2 class="text-2xl font-semibold text-gray-900">
-  Activate Gift Card
-  </h2>
-  
+    <div class="flex items-center gap-3">
+      <i data-lucide="key-round" class="w-6 h-6 text-black"></i>
+      <h2 class="text-2xl font-semibold text-gray-900">Activate Gift Card</h2>
+    </div>
+    <p class="text-sm text-gray-500">
+      Enter your purchase code to activate the card and assign it to the recipient.
+    </p>
   </div>
-  
-  <p class="text-sm text-gray-500">
-  Enter your purchase code to activate the card and assign it to the recipient.
-  </p>
-  </div>
-  
-  
+
   <!-- STEPPER -->
-  <div class="flex justify-between items-center relative">
-  
-  <div class="absolute top-6 left-0 w-full h-0.5 bg-gray-200"></div>
-  
-  <!-- STEP 1 -->
-  <div class="relative flex flex-col items-center z-10">
-  <div class="w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg">
-  
-  <i data-lucide="key-round" class="w-5 h-5"></i>
-  
+  <div class="flex justify-between items-center relative mb-6">
+    <div class="absolute top-6 left-0 w-full h-0.5 bg-gray-200"></div>
+
+    <div class="relative flex flex-col items-center z-10 step" data-step="1">
+      <div class="w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg">
+        <i data-lucide="key-round" class="w-5 h-5"></i>
+      </div>
+      <span class="mt-3 text-xs font-medium text-gray-700">Enter Code</span>
+    </div>
+
+    <div class="relative flex flex-col items-center z-10 step" data-step="2">
+      <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
+        <i data-lucide="credit-card" class="w-5 h-5"></i>
+      </div>
+      <span class="mt-3 text-xs text-gray-500">Make Payment</span>
+    </div>
+
+    <div class="relative flex flex-col items-center z-10 step" data-step="3">
+      <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+      </div>
+      <span class="mt-3 text-xs text-gray-500">Confirmation</span>
+    </div>
+
   </div>
-  
-  <span class="mt-3 text-xs font-medium text-gray-700">
-  Enter Code
-  </span>
-  
-  </div>
-  
-  
-  <!-- STEP 2 -->
-  <div class="relative flex flex-col items-center z-10">
-  
-  <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-  
-  <i data-lucide="credit-card" class="w-5 h-5"></i>
-  
-  </div>
-  
-  <span class="mt-3 text-xs text-gray-500">
-  Make Payment
-  </span>
-  
-  </div>
-  
-  
-  <!-- STEP 3 -->
-  <div class="relative flex flex-col items-center z-10">
-  
-  <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-  
-  <i data-lucide="check-circle" class="w-5 h-5"></i>
-  
-  </div>
-  
-  <span class="mt-3 text-xs text-gray-500">
-  Confirmation
-  </span>
-  
-  </div>
-  
-  </div>
-  
-  
+
   <!-- FORM -->
-  <div class="space-y-6">
-  
-  <div class="space-y-2">
-  
-  <label class="text-sm font-medium text-gray-700">
-  Purchase Code
-  </label>
-  
-  <input
-  type="text"
-  placeholder="Enter purchase code"
-  inputmode="numeric"
-  pattern="[0-9]{9}"
-  maxlength="9"
-  minlength="9"
-  oninput="this.value = this.value.replace(/[^0-9]/g,'').slice(0,9)"
-  class="w-full px-6 py-4 rounded-2xl border border-gray-200 bg-gray-50
-text-center tracking-[0.35em] font-medium text-lg
-focus:outline-none focus:ring-2 focus:ring-black transition"
-/>
-  
+  <div class="space-y-6" id="stepContent">
+
+    <div class="space-y-2">
+
+      <label class="text-sm font-medium text-gray-700">
+        Purchase Code
+      </label>
+
+      <input
+      id="purchaseCode"
+      type="text"
+      placeholder="XXXX-XXXX-XXXX"
+      maxlength="12"
+      oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)"
+      class="w-full px-6 py-4 rounded-2xl border border-gray-200 bg-gray-50 text-center tracking-[0.35em] font-medium text-lg focus:outline-none focus:ring-2 focus:ring-black transition"
+      />
+
+      <button
+      id="continueBtn"
+      class="w-full py-4 rounded-2xl bg-black text-white font-medium tracking-wide hover:bg-gray-800 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+      >
+      <i data-lucide="arrow-right"></i>
+      Continue to Payment
+      </button>
+
+    </div>
+
   </div>
-  
-  
-  <button
-  class="w-full py-4 rounded-2xl bg-black text-white font-medium tracking-wide hover:bg-gray-800 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-  >
-  
-  <i data-lucide="arrow-right"></i>
-  
-  Continue to Payment
-  
-  </button>
-  
-  </div>
-  
-  </div>
+
+</div>
+
+<style>
+.toast{
+background:#111;
+color:#fff;
+padding:14px 18px;
+border-radius:12px;
+font-size:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+animation:toastIn .25s ease;
+}
+
+.toast.success{background:#16a34a;}
+.toast.error{background:#dc2626;}
+
+@keyframes toastIn{
+from{opacity:0;transform:translateX(30px)}
+to{opacity:1;transform:translateX(0)}
+}
+</style>
+
+<script>
+
+// DEMO CARDS (12 CHAR CODES)
+
+const demoCards = [
+{
+purchaseCode: "A7F9K3L2X8Q1",
+brand: "Chicken Republic",
+value: 10000,
+status: "active"
+},
+{
+purchaseCode: "Z4P1M8T6W9Y2",
+brand: "Domino's Pizza",
+value: 5000,
+status: "inactive"
+}
+];
+
+let currentCard = null;
+
+let attempts = 0;
+let lockedUntil = null;
+
+const continueBtn = document.getElementById("continueBtn");
+const purchaseInput = document.getElementById("purchaseCode");
+const stepContent = document.getElementById("stepContent");
+const steps = document.querySelectorAll(".step");
+
+
+// TOAST
+
+function showToast(msg,type="info"){
+
+const toast=document.createElement("div");
+toast.className=`toast ${type}`;
+toast.innerText=msg;
+
+document.getElementById("toastContainer").appendChild(toast);
+
+setTimeout(()=>toast.remove(),4000);
+
+}
+
+
+// GET USER IP
+
+async function getIP(){
+
+try{
+const res=await fetch("https://api.ipify.org?format=json");
+const data=await res.json();
+return data.ip;
+}catch{
+return "unknown";
+}
+
+}
+
+
+// STEPPER
+
+function updateStepper(step){
+
+steps.forEach((s,i)=>{
+
+if(i+1===step){
+
+s.children[0].classList.remove("bg-gray-200","text-gray-600");
+s.children[0].classList.add("bg-black","text-white");
+
+}
+
+else if(i+1<step){
+
+s.children[0].classList.remove("bg-gray-200","text-gray-600");
+s.children[0].classList.add("bg-green-500","text-white");
+
+}
+
+else{
+
+s.children[0].classList.remove("bg-black","text-white","bg-green-500");
+s.children[0].classList.add("bg-gray-200","text-gray-600");
+
+}
+
+});
+
+}
+
+
+// VERIFY CODE
+
+continueBtn.addEventListener("click", async ()=>{
+
+if(lockedUntil && Date.now() < lockedUntil){
+
+const mins=Math.ceil((lockedUntil-Date.now())/60000);
+showToast(`Too many attempts. Try again in ${mins} minutes.`,"error");
+return;
+
+}
+
+const code=purchaseInput.value;
+
+if(code.length!==12){
+
+showToast("Enter a valid 12 character purchase code","error");
+return;
+
+}
+
+const ip=await getIP();
+console.log("Attempt from IP:",ip);
+
+
+const card = demoCards.find(c => c.purchaseCode === code);
+
+// CARD DOES NOT EXIST
+if(!card){
+
+  attempts++;
+
+  const left = 3 - attempts;
+
+  if(left > 0){
+
+    showToast(`Invalid code. ${left} attempt(s) left.`, "error");
+
+  }else{
+
+    lockedUntil = Date.now() + 30 * 60 * 1000;
+
+    showToast("Too many attempts. Locked for 30 minutes.", "error");
+
+  }
+
+  return;
+}
+
+
+// CARD EXISTS BUT ALREADY ACTIVE
+if(card.status === "active"){
+
+  showToast("This gift card has already been activated.", "error");
+
+  return;
+
+}
+
+
+// SUCCESS
+attempts = 0;
+
+currentCard = card;
+
+card.status = "pending_payment";
+
+showToast("Code verified. Continue to payment.", "success");
+currentCard.status = "active";
+
+// PAYMENT STEP
+
+updateStepper(2);
+
+stepContent.innerHTML=`
+
+<div class="space-y-4 flex flex-col items-center">
+
+<p class="text-gray-700 font-medium">Gift Card: <strong>${card.brand}</strong></p>
+
+<p class="text-gray-700 font-medium">Amount: ₦${card.value.toLocaleString()}</p>
+
+<p class="text-gray-500">Total to Pay: ₦${(card.value+500).toLocaleString()} (Gift card + ₦500 fee)</p>
+
+<button id="payBtn"
+class="w-2/3 py-4 rounded-2xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-lg">
+Pay Now
+</button>
+
+</div>
+
+`;
+
+
+// PAYMENT
+
+document.getElementById("payBtn").addEventListener("click",()=>{
+
+const btn=document.getElementById("payBtn");
+
+btn.innerHTML="Processing...";
+btn.disabled=true;
+
+setTimeout(()=>{
+
+updateStepper(3);
+
+showToast("Payment successful","success");
+
+stepContent.innerHTML=`
+
+<div class="space-y-4 text-center">
+
+<i data-lucide="check-circle" class="w-16 h-16 mx-auto text-green-500"></i>
+
+<p class="text-lg font-semibold">Payment Successful!</p>
+
+<p class="text-gray-700">
+Gift Card <strong>${currentCard.brand}</strong> activated.
+</p>
+
+<p class="text-gray-500">
+You can now gift this card to the recipient.
+</p>
+
+<p class="text-gray-700 font-medium">
+Card Value: ₦${currentCard.value.toLocaleString()}
+</p>
+
+</div>
+
+`;
+
+},1500);
+
+});
+
+});
+
+</script>
   
   
   <!-- CHECK BALANCE PANEL -->
