@@ -309,236 +309,280 @@ to{opacity:1;transform:translateX(0)}
 
 <script>
 
-// DEMO CARDS (12 CHAR CODES)
-
-const demoCards = [
-{
-purchaseCode: "A7F9K3L2X8Q1",
-brand: "Chicken Republic",
-value: 10000,
-status: "active"
-},
-{
-purchaseCode: "Z4P1M8T6W9Y2",
-brand: "Domino's Pizza",
-value: 5000,
-status: "inactive"
-}
-];
-
-let currentCard = null;
-
-let attempts = 0;
-let lockedUntil = null;
-
-const continueBtn = document.getElementById("continueBtn");
-const purchaseInput = document.getElementById("purchaseCode");
-const stepContent = document.getElementById("stepContent");
-const steps = document.querySelectorAll(".step");
-
-
-// TOAST
-
-function showToast(msg,type="info"){
-
-const toast=document.createElement("div");
-toast.className=`toast ${type}`;
-toast.innerText=msg;
-
-document.getElementById("toastContainer").appendChild(toast);
-
-setTimeout(()=>toast.remove(),4000);
-
-}
-
-
-// GET USER IP
-
-async function getIP(){
-
-try{
-const res=await fetch("https://api.ipify.org?format=json");
-const data=await res.json();
-return data.ip;
-}catch{
-return "unknown";
-}
-
-}
-
-
-// STEPPER
-
-function updateStepper(step){
-
-steps.forEach((s,i)=>{
-
-if(i+1===step){
-
-s.children[0].classList.remove("bg-gray-200","text-gray-600");
-s.children[0].classList.add("bg-black","text-white");
-
-}
-
-else if(i+1<step){
-
-s.children[0].classList.remove("bg-gray-200","text-gray-600");
-s.children[0].classList.add("bg-green-500","text-white");
-
-}
-
-else{
-
-s.children[0].classList.remove("bg-black","text-white","bg-green-500");
-s.children[0].classList.add("bg-gray-200","text-gray-600");
-
-}
-
-});
-
-}
-
-
-// VERIFY CODE
-
-continueBtn.addEventListener("click", async ()=>{
-
-if(lockedUntil && Date.now() < lockedUntil){
-
-const mins=Math.ceil((lockedUntil-Date.now())/60000);
-showToast(`Too many attempts. Try again in ${mins} minutes.`,"error");
-return;
-
-}
-
-const code=purchaseInput.value;
-
-if(code.length!==12){
-
-showToast("Enter a valid 12 character purchase code","error");
-return;
-
-}
-
-const ip=await getIP();
-console.log("Attempt from IP:",ip);
-
-
-const card = demoCards.find(c => c.purchaseCode === code);
-
-// CARD DOES NOT EXIST
-if(!card){
-
-  attempts++;
-
-  const left = 3 - attempts;
-
-  if(left > 0){
-
-    showToast(`Invalid code. ${left} attempt(s) left.`, "error");
-
-  }else{
-
-    lockedUntil = Date.now() + 30 * 60 * 1000;
-
-    showToast("Too many attempts. Locked for 30 minutes.", "error");
-
+  // DEMO CARDS (12 CHAR CODES)
+  
+  const demoCards = [
+  {
+  purchaseCode: "A7F9K3L2X8Q1",
+  brand: "Chicken Republic",
+  value: 10000,
+  status: "active"
+  },
+  {
+  purchaseCode: "Z4P1M8T6W9Y2",
+  brand: "Domino's Pizza",
+  value: 5000,
+  status: "inactive"
   }
-
+  ];
+  
+  let currentCard = null;
+  
+  let attempts = 0;
+  let lockedUntil = localStorage.getItem("cardLockUntil") 
+  ? parseInt(localStorage.getItem("cardLockUntil"))
+  : null;
+  
+  const continueBtn = document.getElementById("continueBtn");
+  const purchaseInput = document.getElementById("purchaseCode");
+  const stepContent = document.getElementById("stepContent");
+  const steps = document.querySelectorAll(".step");
+  
+  
+  // TOAST
+  
+  function showToast(msg,type="info"){
+  
+  const toast=document.createElement("div");
+  toast.className=`toast ${type}`;
+  toast.innerText=msg;
+  
+  document.getElementById("toastContainer").appendChild(toast);
+  
+  setTimeout(()=>toast.remove(),4000);
+  
+  }
+  
+  
+  // STEPPER
+  
+  function updateStepper(step){
+  
+  steps.forEach((s,i)=>{
+  
+  if(i+1===step){
+  
+  s.children[0].classList.remove("bg-gray-200","text-gray-600");
+  s.children[0].classList.add("bg-black","text-white");
+  
+  }
+  
+  else if(i+1<step){
+  
+  s.children[0].classList.remove("bg-gray-200","text-gray-600");
+  s.children[0].classList.add("bg-green-500","text-white");
+  
+  }
+  
+  else{
+  
+  s.children[0].classList.remove("bg-black","text-white","bg-green-500");
+  s.children[0].classList.add("bg-gray-200","text-gray-600");
+  
+  }
+  
+  });
+  
+  }
+  
+  
+  // LOCK TIMER DISPLAY
+  
+  function startLockTimer(){
+  
+  const interval=setInterval(()=>{
+  
+  if(!lockedUntil) return clearInterval(interval);
+  
+  const diff=lockedUntil-Date.now();
+  
+  if(diff<=0){
+  
+  localStorage.removeItem("cardLockUntil");
+  lockedUntil=null;
+  attempts=0;
+  
+  showToast("You can now try again.","success");
+  
+  clearInterval(interval);
+  
   return;
-}
-
-
-// CARD EXISTS BUT ALREADY ACTIVE
-if(card.status === "active"){
-
-  showToast("This gift card has already been activated.", "error");
-
+  
+  }
+  
+  const mins=Math.floor(diff/60000);
+  const secs=Math.floor((diff%60000)/1000);
+  
+  showToast(`Too many attempts. Try again in ${mins}:${secs.toString().padStart(2,'0')}`,"error");
+  
+  },10000);
+  
+  }
+  
+  
+  // VERIFY CODE
+  
+  continueBtn.addEventListener("click", ()=>{
+  
+  
+  // CHECK LOCK
+  
+  if(lockedUntil && Date.now()<lockedUntil){
+  
+  const diff=lockedUntil-Date.now();
+  
+  const mins=Math.floor(diff/60000);
+  const secs=Math.floor((diff%60000)/1000);
+  
+  showToast(`Too many attempts. Try again in ${mins}:${secs.toString().padStart(2,'0')}`,"error");
+  
   return;
-
-}
-
-
-// SUCCESS
-attempts = 0;
-
-currentCard = card;
-
-card.status = "pending_payment";
-
-showToast("Code verified. Continue to payment.", "success");
-currentCard.status = "active";
-
-// PAYMENT STEP
-
-updateStepper(2);
-
-stepContent.innerHTML=`
-
-<div class="space-y-4 flex flex-col items-center">
-
-<p class="text-gray-700 font-medium">Gift Card: <strong>${card.brand}</strong></p>
-
-<p class="text-gray-700 font-medium">Amount: ₦${card.value.toLocaleString()}</p>
-
-<p class="text-gray-500">Total to Pay: ₦${(card.value+500).toLocaleString()} (Gift card + ₦500 fee)</p>
-
-<button id="payBtn"
-class="w-2/3 py-4 rounded-2xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-lg">
-Pay Now
-</button>
-
-</div>
-
-`;
-
-
-// PAYMENT
-
-document.getElementById("payBtn").addEventListener("click",()=>{
-
-const btn=document.getElementById("payBtn");
-
-btn.innerHTML="Processing...";
-btn.disabled=true;
-
-setTimeout(()=>{
-
-updateStepper(3);
-
-showToast("Payment successful","success");
-
-stepContent.innerHTML=`
-
-<div class="space-y-4 text-center">
-
-<i data-lucide="check-circle" class="w-16 h-16 mx-auto text-green-500"></i>
-
-<p class="text-lg font-semibold">Payment Successful!</p>
-
-<p class="text-gray-700">
-Gift Card <strong>${currentCard.brand}</strong> activated.
-</p>
-
-<p class="text-gray-500">
-You can now gift this card to the recipient.
-</p>
-
-<p class="text-gray-700 font-medium">
-Card Value: ₦${currentCard.value.toLocaleString()}
-</p>
-
-</div>
-
-`;
-
-},1500);
-
-});
-
-});
-
-</script>
+  
+  }
+  
+  
+  const code=purchaseInput.value.trim().toUpperCase();
+  
+  if(code.length!==12){
+  
+  showToast("Enter a valid 12 character purchase code","error");
+  return;
+  
+  }
+  
+  
+  // CARD LOOKUP
+  
+  const card = demoCards.find(c => c.purchaseCode === code);
+  
+  
+  // INVALID CARD
+  
+  if(!card){
+  
+  attempts++;
+  
+  purchaseInput.value = ""; // CLEAR INPUT
+  
+  const left=3-attempts;
+  
+  if(left>0){
+  
+  showToast(`Invalid code. ${left} attempt(s) left.`,"error");
+  
+  }else{
+  
+  lockedUntil=Date.now()+30*60*1000;
+  
+  localStorage.setItem("cardLockUntil",lockedUntil);
+  
+  showToast("Too many attempts. Try again in 30 minutes.","error");
+  
+  startLockTimer();
+  
+  }
+  
+  return;
+  
+  }
+  
+  
+  // ALREADY ACTIVE
+  
+  if(card.status==="active"){
+  
+  purchaseInput.value = ""; // CLEAR INPUT
+  
+  showToast("This gift card has already been activated.","error");
+  
+  return;
+  
+  }
+  
+  
+  // SUCCESS
+  
+  attempts=0;
+  
+  currentCard=card;
+  
+  card.status="pending_payment";
+  
+  showToast("Code verified. Continue to payment.","success");
+  
+  
+  // PAYMENT STEP
+  
+  updateStepper(2);
+  
+  stepContent.innerHTML=`
+  
+  <div class="space-y-4 flex flex-col items-center">
+  
+  <p class="text-gray-700 font-medium">Gift Card: <strong>${card.brand}</strong></p>
+  
+  <p class="text-gray-700 font-medium">Amount: ₦${card.value.toLocaleString()}</p>
+  
+  <p class="text-gray-500">Total to Pay: ₦${(card.value+500).toLocaleString()} (Gift card + ₦500 fee)</p>
+  
+  <button id="payBtn"
+  class="w-2/3 py-4 rounded-2xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-lg">
+  Pay Now
+  </button>
+  
+  </div>
+  
+  `;
+  
+  
+  // PAYMENT
+  
+  document.getElementById("payBtn").addEventListener("click",()=>{
+  
+  const btn=document.getElementById("payBtn");
+  
+  btn.innerHTML="Processing...";
+  btn.disabled=true;
+  
+  setTimeout(()=>{
+  
+  currentCard.status="active";
+  
+  updateStepper(3);
+  
+  showToast("Payment successful","success");
+  
+  stepContent.innerHTML=`
+  
+  <div class="space-y-4 text-center">
+  
+  <i data-lucide="check-circle" class="w-16 h-16 mx-auto text-green-500"></i>
+  
+  <p class="text-lg font-semibold">Payment Successful!</p>
+  
+  <p class="text-gray-700">
+  Gift Card <strong>${currentCard.brand}</strong> activated.
+  </p>
+  
+  <p class="text-gray-500">
+  You can now gift this card to the recipient.
+  </p>
+  
+  <p class="text-gray-700 font-medium">
+  Card Value: ₦${currentCard.value.toLocaleString()}
+  </p>
+  
+  </div>
+  
+  `;
+  
+  },1500);
+  
+  });
+  
+  });
+  
+  </script>
   
   
   <!-- CHECK BALANCE PANEL -->
