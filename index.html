@@ -82,7 +82,7 @@
   
           <div>
             <p class="text-sm text-gray-400">Today</p>
-            <p class="text-base font-medium text-white mt-1">March 1, 2026</p>
+            <p class="text-base font-medium text-white mt-1">April 1, 2026</p>
           </div>
   
         </div>
@@ -223,35 +223,192 @@
 <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md px-4">
 
   <div class="bg-white border border-gray-200 shadow-lg rounded-2xl px-6 py-3 flex justify-between items-center">
+ <!-- Dashboard -->
+ <div id="nav-dashboard" class="flex flex-col items-center text-red-600 cursor-pointer">
+    <i data-lucide="home" class="w-5 h-5"></i>
+    <span class="text-xs mt-1 font-medium">Dashboard</span>
+  </div>
 
-    <!-- Dashboard -->
-    <div class="flex flex-col items-center text-red-600">
-      <i data-lucide="home" class="w-5 h-5"></i>
-      <span class="text-xs mt-1 font-medium">Dashboard</span>
-    </div>
-
-    <!-- Redeem -->
-    <div class="flex flex-col items-center text-gray-400">
-      <i data-lucide="ticket" class="w-5 h-5"></i>
-      <span class="text-xs mt-1">Redeem</span>
-    </div>
+   <!-- Redeem -->
+<div id="nav-redeem" class="flex flex-col items-center text-gray-400 cursor-pointer">
+    <i data-lucide="ticket" class="w-5 h-5"></i>
+    <span class="text-xs mt-1">Redeem</span>
+  </div>
 
     <!-- Activate -->
-    <div class="flex flex-col items-center text-gray-400">
-      <i data-lucide="zap" class="w-5 h-5"></i>
-      <span class="text-xs mt-1">Activate</span>
-    </div>
+    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer">
+        <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+        <span class="text-xs mt-1">Sales</span>
+      </div>
 
     <!-- Profile -->
-    <div class="flex flex-col items-center text-gray-400">
-      <i data-lucide="user" class="w-5 h-5"></i>
-      <span class="text-xs mt-1">Profile</span>
-    </div>
+    <div id="nav-profile" class="flex flex-col items-center text-gray-400 cursor-pointer">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-xs mt-1">Profile</span>
+      </div>
 
   </div>
 
 </div>
+<!-- REDEEM PAGE -->
+<div id="redeemPage" class="hidden max-w-6xl mx-auto px-6 pb-24">
 
+    <!-- HEADER -->
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 flex items-center gap-3 mb-6">
+  
+      <div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+        <i data-lucide="ticket"></i>
+      </div>
+  
+      <h2 class="text-lg font-semibold text-gray-900">Redeem</h2>
+  
+    </div>
+  
+    <!-- TABS -->
+    <div class="flex justify-between items-center border-b border-gray-200 mb-4">
+  
+      <button id="tab-sold" class="pb-2 text-sm font-medium text-red-600 border-b-2 border-red-600">
+        Cards Sold
+      </button>
+  
+      <button id="tab-redeemed" class="pb-2 text-sm text-gray-400">
+        Cards Redeemed
+      </button>
+  
+    </div>
+  
+    <!-- LIST CONTAINER -->
+    <div id="redeemList" class="space-y-3">
+  
+      <!-- CONTENT WILL BE INJECTED HERE -->
+  
+    </div>
+  
+  </div>
+  <!-- SALES PAGE -->
+<div id="salesPage" class="hidden max-w-6xl mx-auto px-6 pb-24">
+
+    <!-- HEADER -->
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 flex items-center gap-3 mb-6">
+  
+      <div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+        <i data-lucide="bar-chart-3"></i>
+      </div>
+  
+      <h2 class="text-lg font-semibold text-gray-900">Sales</h2>
+  
+    </div>
+  
+    <!-- FILTERS -->
+    <div class="flex gap-3 mb-5 overflow-x-auto pb-1">
+  
+      <button class="filter-btn active-filter px-4 py-2 text-xs rounded-lg bg-red-600 text-white">Today</button>
+  
+      <button class="filter-btn px-4 py-2 text-xs rounded-lg bg-gray-100 text-gray-600">This Week</button>
+  
+      <button class="filter-btn px-4 py-2 text-xs rounded-lg bg-gray-100 text-gray-600">This Month</button>
+  
+      <button class="filter-btn px-4 py-2 text-xs rounded-lg bg-gray-100 text-gray-600">All Sales</button>
+  
+    </div>
+  
+    <!-- SALES LIST -->
+    <div id="salesList" class="space-y-3">
+  
+      <!-- JS WILL FILL -->
+  
+    </div>
+  
+  </div>
+  <!-- PROFILE PAGE -->
+<div id="profilePage" class="hidden max-w-6xl mx-auto px-6 pb-24">
+
+    <!-- HEADER -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 flex items-center gap-4 mb-6">
+  
+      <!-- ICON -->
+      <div class="w-14 h-14 bg-red-50 text-red-600 flex items-center justify-center rounded-2xl text-xl">
+        <i data-lucide="store"></i>
+      </div>
+  
+      <!-- BUSINESS NAME -->
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Kandie Place</h2>
+        <p class="text-sm text-gray-500">Retail Store</p>
+      </div>
+  
+    </div>
+  
+    <!-- BUSINESS INFO -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-5">
+  
+      <h3 class="text-sm font-semibold text-gray-800 mb-4">Business Information</h3>
+  
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+  
+        <div>
+          <p class="text-gray-500">Industry</p>
+          <p class="font-medium text-gray-900 mt-1">Retail & Gift Cards</p>
+        </div>
+  
+        <div>
+          <p class="text-gray-500">Location</p>
+          <p class="font-medium text-gray-900 mt-1">Lagos, Nigeria</p>
+        </div>
+  
+        <div>
+          <p class="text-gray-500">Date Joined</p>
+          <p class="font-medium text-gray-900 mt-1">Jan 12, 2026</p>
+        </div>
+  
+        <div>
+          <p class="text-gray-500">Business ID</p>
+          <p class="font-medium text-gray-900 mt-1">BUS-93842</p>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <!-- CONTACT INFO -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-5">
+  
+      <h3 class="text-sm font-semibold text-gray-800 mb-4">Contact Details</h3>
+  
+      <div class="space-y-4 text-sm">
+  
+        <div class="flex justify-between">
+          <span class="text-gray-500">Email</span>
+          <span class="font-medium text-gray-900">kandie@email.com</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="text-gray-500">Phone</span>
+          <span class="font-medium text-gray-900">+234 801 234 5678</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="text-gray-500">Address</span>
+          <span class="font-medium text-gray-900 text-right">12 Admiralty Way, Lekki</span>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <!-- EXTRA / META -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-5">
+  
+      <h3 class="text-sm font-semibold text-gray-800 mb-4">Account</h3>
+  
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Status</span>
+        <span class="text-green-600 font-medium">Active</span>
+      </div>
+  
+    </div>
+  
+  </div>
 <!-- INIT ICONS -->
 <script>
   lucide.createIcons();
@@ -277,5 +434,285 @@
       }
     });
   </script>
+  <script>
+  const redeemPage = document.getElementById("redeemPage");
+  const dashboard = document.querySelector(".max-w-6xl"); // main dashboard wrapper
+  const salesPage = document.getElementById("salesPage");
+  const profilePage = document.getElementById("profilePage"); // <-- add this
+
+  const navRedeem = document.getElementById("nav-redeem");
+  const navDashboard = document.getElementById("nav-dashboard");
+  const navSales = document.getElementById("nav-sales");
+  const navProfile = document.getElementById("nav-profile"); // <-- add this
+
+  const tabSold = document.getElementById("tab-sold");
+  const tabRedeemed = document.getElementById("tab-redeemed");
+
+  const list = document.getElementById("redeemList");
+
+  // -----------------------------
+  // SWITCH TO REDEEM PAGE
+  // -----------------------------
+  navRedeem.addEventListener("click", () => {
+    dashboard.style.display = "none";
+    redeemPage.classList.remove("hidden");
+    salesPage.classList.add("hidden");
+    profilePage.classList.add("hidden"); // <-- hide profile
+
+    navRedeem.classList.add("text-red-600");
+    navRedeem.classList.remove("text-gray-400");
+
+    navSales.classList.remove("text-red-600");
+    navSales.classList.add("text-gray-400");
+
+    navDashboard.classList.remove("text-red-600");
+    navDashboard.classList.add("text-gray-400");
+
+    navProfile.classList.remove("text-red-600"); // <-- reset profile nav
+    navProfile.classList.add("text-gray-400");
+
+    loadSold();
+  });
+
+  // -----------------------------
+  // SWITCH TO DASHBOARD
+  // -----------------------------
+  navDashboard.addEventListener("click", () => {
+    dashboard.style.display = "block";
+    redeemPage.classList.add("hidden");
+    salesPage.classList.add("hidden");
+    profilePage.classList.add("hidden"); // <-- hide profile
+
+    navDashboard.classList.add("text-red-600");
+    navDashboard.classList.remove("text-gray-400");
+
+    navSales.classList.remove("text-red-600");
+    navSales.classList.add("text-gray-400");
+
+    navRedeem.classList.remove("text-red-600");
+    navRedeem.classList.add("text-gray-400");
+
+    navProfile.classList.remove("text-red-600"); // <-- reset profile nav
+    navProfile.classList.add("text-gray-400");
+  });
+
+   // -----------------------------
+  // SWITCH TO PROFILE PAGE
+  // -----------------------------
+  navProfile.addEventListener("click", () => {
+    dashboard.style.display = "none";
+    redeemPage.classList.add("hidden");
+    salesPage.classList.add("hidden");
+    profilePage.classList.remove("hidden");
+
+    navProfile.classList.add("text-red-600");
+    navProfile.classList.remove("text-gray-400");
+
+    navDashboard.classList.remove("text-red-600");
+    navDashboard.classList.add("text-gray-400");
+
+    navRedeem.classList.remove("text-red-600");
+    navRedeem.classList.add("text-gray-400");
+
+    navSales.classList.remove("text-red-600");
+    navSales.classList.add("text-gray-400");
+  });
+
+
+  // -----------------------------
+ // SWITCH TO SALES
+  // -----------------------------
+  navSales.addEventListener("click", () => {
+    dashboard.style.display = "none";
+    redeemPage.classList.add("hidden");
+    salesPage.classList.remove("hidden");
+    profilePage.classList.add("hidden");
+
+    navSales.classList.add("text-red-600");
+    navSales.classList.remove("text-gray-400");
+
+    navDashboard.classList.remove("text-red-600");
+    navDashboard.classList.add("text-gray-400");
+
+    navRedeem.classList.remove("text-red-600");
+    navRedeem.classList.add("text-gray-400");
+
+    navProfile.classList.remove("text-red-600");
+    navProfile.classList.add("text-gray-400");
+
+    loadSales("today"); // ✅ call correct function
+  });
+
+ 
+  
+    // LOAD SOLD CARDS
+    function loadSold() {
+      list.innerHTML = "";
+  
+      for (let i = 0; i < 10; i++) {
+        list.innerHTML += `
+          <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+            <div>
+              <p class="text-xs text-gray-500">Purchase Code</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">SOLD${i}</p>
+            </div>
+  
+            <div class="text-right">
+              <p class="text-xs text-gray-500">Amount</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">₦10,000</p>
+            </div>
+  
+            <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
+              Redeem
+            </button>
+          </div>
+        `;
+      }
+    }
+  
+    // LOAD REDEEMED CARDS
+    function loadRedeemed() {
+      list.innerHTML = "";
+  
+      for (let i = 0; i < 10; i++) {
+        list.innerHTML += `
+          <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+            <div>
+              <p class="text-xs text-gray-500">Purchase Code</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">USED${i}</p>
+            </div>
+  
+            <div class="text-right">
+              <p class="text-xs text-gray-500">Balance</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">₦2,000</p>
+            </div>
+  
+            <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-900 text-white">
+              Deduct
+            </button>
+          </div>
+        `;
+      }
+    }
+  
+    // TAB SWITCH
+    tabSold.addEventListener("click", () => {
+      tabSold.classList.add("text-red-600", "border-red-600", "border-b-2");
+      tabSold.classList.remove("text-gray-400");
+  
+      tabRedeemed.classList.remove("text-red-600", "border-red-600", "border-b-2");
+      tabRedeemed.classList.add("text-gray-400");
+  
+      loadSold();
+    });
+  
+    tabRedeemed.addEventListener("click", () => {
+      tabRedeemed.classList.add("text-red-600", "border-red-600", "border-b-2");
+      tabRedeemed.classList.remove("text-gray-400");
+  
+      tabSold.classList.remove("text-red-600", "border-red-600", "border-b-2");
+      tabSold.classList.add("text-gray-400");
+  
+      loadRedeemed();
+    });
+  </script>
+  <script>
+    const navSales = document.getElementById("nav-sales");
+    const salesPage = document.getElementById("salesPage");
+  
+    const filters = document.querySelectorAll(".filter-btn");
+    const salesList = document.getElementById("salesList");
+  
+    // NAVIGATION TO SALES
+    navSales.addEventListener("click", () => {
+      dashboard.style.display = "none";
+      redeemPage.classList.add("hidden");
+      salesPage.classList.remove("hidden");
+  
+      // nav state
+      document.querySelectorAll('[id^="nav-"]').forEach(n => {
+        n.classList.remove("text-red-600");
+        n.classList.add("text-gray-400");
+      });
+  
+      navSales.classList.add("text-red-600");
+  
+      loadSales("today");
+    });
+  
+    // FILTER CLICK
+    filters.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+  
+        filters.forEach(b => {
+          b.classList.remove("bg-red-600", "text-white");
+          b.classList.add("bg-gray-100", "text-gray-600");
+        });
+  
+        btn.classList.add("bg-red-600", "text-white");
+  
+        const types = ["today", "week", "month", "all"];
+        loadSales(types[index]);
+  
+      });
+    });
+  
+
+
+  // -----------------------------
+  // LOAD SALES DATA
+  // -----------------------------
+  function loadSales(type) {
+    if (!salesList) return; // safety check
+    salesList.innerHTML = "";
+
+    for (let i = 0; i < 12; i++) {
+      salesList.innerHTML += `
+        <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+
+          <!-- LEFT -->
+          <div>
+            <p class="text-xs text-gray-500">Purchase Code</p>
+            <p class="text-sm font-semibold text-gray-900 mt-1">SALE${i}</p>
+            <p class="text-xs text-gray-400 mt-2">${getTime()}</p>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Amount</p>
+            <p class="text-sm font-semibold text-gray-900 mt-1">₦15,000</p>
+          </div>
+
+        </div>
+      `;
+    }
+  }
+
+  // -----------------------------
+  // TIME GENERATOR
+  // -----------------------------
+  function getTime() {
+    const now = new Date();
+    return now.toLocaleString();
+  }
+
+  // -----------------------------
+  // FILTER BUTTONS
+  // -----------------------------
+  filters.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      filters.forEach(b => {
+        b.classList.remove("bg-red-600", "text-white");
+        b.classList.add("bg-gray-100", "text-gray-600");
+      });
+
+      btn.classList.add("bg-red-600", "text-white");
+
+      const types = ["today", "week", "month", "all"];
+      loadSales(types[index]);
+    });
+  });
+</script>
+
 </body>
 </html>
