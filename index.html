@@ -24,6 +24,22 @@
   .heading-font {
     font-family: 'Space Grotesk', sans-serif;
   }
+ 
+  /* Hide scrollbar for Chrome, Safari, Edge */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar for IE & old Edge */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+  }
+
 </style>
 </head>
 
@@ -66,71 +82,120 @@
   </div>
 
 <!-- DARK FINTECH CARD -->
-<div class="mb-24">
+<div class="mb-24 overflow-x-auto no-scrollbar md:overflow-visible">
 
-    <div class="bg-[#0F0F10] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden">
-  
-      <!-- TOP ROW -->
+  <!-- FLEX SCROLL ON MOBILE / GRID ON DESKTOP -->
+  <div class="flex gap-4 px-4 md:px-0 md:grid md:grid-cols-2">
+
+    <!-- CARD 1 (SALES) -->
+    <div class="bg-[#0F0F10] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
+                min-w-[85%] md:min-w-0">
+
+      <!-- TOP -->
       <div class="flex items-start justify-between mb-10">
-  
-        <!-- LEFT -->
+
         <div class="flex items-start gap-3">
-  
           <div class="w-10 h-10 bg-white/10 flex items-center justify-center rounded-xl">
             <i data-lucide="calendar" class="w-5 h-5 text-white"></i>
           </div>
-  
+
           <div>
             <p class="text-sm text-gray-400">Today</p>
             <p class="text-base font-medium text-white mt-1">April 1, 2026</p>
           </div>
-  
         </div>
-  
-        <!-- RIGHT (HIDE/REVEAL) -->
+
         <button id="toggleBtn"
           class="text-xs px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-gray-300">
           Hide
         </button>
-  
+
       </div>
-  
-      <!-- BOTTOM ROW -->
+
+      <!-- BOTTOM -->
       <div class="flex justify-between items-end">
-  
-        <!-- LEFT SIDE -->
+
         <div>
           <p class="text-sm text-gray-400">Gifts Sold</p>
           <h2 id="giftsValue" class="text-2xl md:text-3xl font-semibold mt-1">120</h2>
         </div>
-  
-        <!-- RIGHT SIDE -->
+
         <div class="text-right">
           <p class="text-sm text-gray-400">Amount</p>
           <h2 id="amountValue" class="text-2xl md:text-3xl font-semibold mt-1">₦245,000</h2>
         </div>
-  
+
       </div>
-  
+
     </div>
-  
+
+
+    <!-- CARD 2 (INVENTORY 🔥 DIFFERENT COLOR) -->
+    <div class="bg-gradient-to-br from-[#1A1F2E] to-[#111827] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
+                min-w-[85%] md:min-w-0 border border-white/5">
+
+      <!-- TOP -->
+      <div class="flex items-start gap-3 mb-10">
+
+        <div class="w-10 h-10 bg-white/10 flex items-center justify-center rounded-xl">
+          <i data-lucide="package" class="w-5 h-5 text-white"></i>
+        </div>
+
+        <div>
+          <p class="text-sm text-gray-400">Inventory</p>
+          <p class="text-base font-medium text-white mt-1">Gift Card Stock</p>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="flex justify-between items-end">
+
+        <div>
+          <p class="text-sm text-gray-400">Available Cards</p>
+          <h2 class="text-2xl md:text-3xl font-semibold mt-1">48</h2>
+        </div>
+
+        <div class="text-right">
+          <p class="text-sm text-gray-400">Total Value</p>
+          <h2 class="text-2xl md:text-3xl font-semibold mt-1">₦120,000</h2>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+</div>
+
 <!-- STORE CARDS SECTION -->
 <div style="margin-top: -45px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[55vh] md:h-[60vh]">
+  <div class="flex items-center justify-between px-6 pt-5 pb-3">
 
-    <!-- HEADER -->
-    <div class="flex items-center justify-between px-6 pt-5 pb-3">
+    <h2 class="text-sm font-semibold text-gray-800">Cards In Store</h2>
   
-      <h2 class="text-sm font-semibold text-gray-800">Cards In Store</h2>
+    <!-- SEARCH AREA -->
+    <div class="flex items-center gap-2">
   
-      <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
+      <!-- INPUT (HIDDEN INITIALLY) -->
+      <input 
+        id="searchInput"
+        type="text"
+        placeholder="Search purchase code..."
+        class="hidden px-3 py-2 text-sm border rounded-lg outline-none focus:ring-2 focus:ring-red-500"
+      />
+  
+      <!-- SEARCH BUTTON -->
+      <div id="searchBtn" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
         <i data-lucide="search" class="w-4 h-4 text-gray-600"></i>
       </div>
   
     </div>
   
+  </div>
+  
     <!-- LIST -->
-    <div class="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
+    <div id="cardList" class="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
   
       <!-- CARD ITEM -->
       <!-- Repeat this block -->
@@ -219,33 +284,43 @@
   </div>
 </div>
 
-<!-- BOTTOM NAV (FLOATING APP STYLE BUT DESKTOP FRIENDLY) -->
-<div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md px-4">
+<!-- NAVIGATION -->
+<div class="
+  fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md px-4
 
-  <div class="bg-white border border-gray-200 shadow-lg rounded-2xl px-6 py-3 flex justify-between items-center">
- <!-- Dashboard -->
- <div id="nav-dashboard" class="flex flex-col items-center text-red-600 cursor-pointer">
-    <i data-lucide="home" class="w-5 h-5"></i>
-    <span class="text-xs mt-1 font-medium">Dashboard</span>
-  </div>
+  md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 md:w-auto md:max-w-none md:px-0
+">
 
-   <!-- Redeem -->
-<div id="nav-redeem" class="flex flex-col items-center text-gray-400 cursor-pointer">
-    <i data-lucide="ticket" class="w-5 h-5"></i>
-    <span class="text-xs mt-1">Redeem</span>
-  </div>
+  <div class="
+    bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
+    flex justify-between items-center
 
-    <!-- Activate -->
-    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer">
-        <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-        <span class="text-xs mt-1">Sales</span>
-      </div>
+    md:flex-col md:items-center md:gap-5 md:px-2 md:py-3
+  ">
+
+    <!-- Dashboard -->
+    <div id="nav-dashboard" class="flex flex-col items-center text-red-600 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 font-medium">Dashboard</span>
+    </div>
+
+    <!-- Redeem -->
+    <div id="nav-redeem" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="ticket" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Redeem</span>
+    </div>
+
+    <!-- Sales -->
+    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Sales</span>
+    </div>
 
     <!-- Profile -->
-    <div id="nav-profile" class="flex flex-col items-center text-gray-400 cursor-pointer">
-        <i data-lucide="user" class="w-5 h-5"></i>
-        <span class="text-xs mt-1">Profile</span>
-      </div>
+    <div id="nav-profile" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Profile</span>
+    </div>
 
   </div>
 
@@ -540,7 +615,7 @@
     navProfile.classList.remove("text-red-600");
     navProfile.classList.add("text-gray-400");
 
-    loadSales("today"); // ✅ call correct function
+    loadSales(type); // ✅ call correct function
   });
 
  
@@ -713,6 +788,76 @@
     });
   });
 </script>
+<script>
+  const searchBtn = document.getElementById("searchBtn");
+  const searchInput = document.getElementById("searchInput");
+  const cards = document.querySelectorAll("#cardList .bg-gray-50");
 
+  // -----------------------------
+  // TOGGLE SEARCH BAR
+  // -----------------------------
+  searchBtn.addEventListener("click", () => {
+    searchInput.classList.toggle("hidden");
+    searchInput.focus();
+
+    // If closing search → reset everything
+    if (searchInput.classList.contains("hidden")) {
+      resetCards();
+      searchInput.value = "";
+    }
+  });
+
+  // -----------------------------
+  // LIVE SEARCH
+  // -----------------------------
+  searchInput.addEventListener("input", () => {
+    const value = searchInput.value.toLowerCase().trim();
+    let found = false;
+
+    cards.forEach(card => {
+      const code = card.querySelector("p.text-sm").innerText.toLowerCase();
+
+      if (code.includes(value)) {
+        card.style.display = "flex";
+        found = true;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    handleEmptyState(found);
+  });
+
+  // -----------------------------
+  // RESET CARDS
+  // -----------------------------
+  function resetCards() {
+    cards.forEach(card => {
+      card.style.display = "flex";
+    });
+
+    const empty = document.getElementById("noResult");
+    if (empty) empty.remove();
+  }
+
+  // -----------------------------
+  // EMPTY STATE
+  // -----------------------------
+  function handleEmptyState(found) {
+    let empty = document.getElementById("noResult");
+
+    if (!found) {
+      if (!empty) {
+        empty = document.createElement("div");
+        empty.id = "noResult";
+        empty.className = "text-center text-gray-400 mt-10 text-sm";
+        empty.innerText = "No card found 😕";
+        document.getElementById("cardList").appendChild(empty);
+      }
+    } else {
+      if (empty) empty.remove();
+    }
+  }
+</script>
 </body>
 </html>
