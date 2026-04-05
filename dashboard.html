@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Modern Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f7f7f8;
+    zoom: 0.9;
+  }
+
+  .heading-font {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+ 
+  /* Hide scrollbar for Chrome, Safari, Edge */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar for IE & old Edge */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+  }
+  @media (max-width: 1190px) {
+  #giftWidget1,
+  #giftWidget2 {
+    display: none !important;
+  }
+}
+
+/* DEFAULT: mobile (bottom nav) */
+.custom-nav {
+  bottom: 0.25rem;
+  top: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 28rem;
+  padding: 0 1rem;
+}
+
+.custom-nav-inner {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* DESKTOP: sidebar only above 1025px */
+@media (min-width: 1200px) {
+  .custom-nav {
+    top: 50%;
+    left: 1rem;
+    bottom: 1;
+    transform: translateY(-50%);
+    width: auto;
+    max-width: none;
+    padding: 0;
+  }
+
+  .custom-nav-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+}
+/* MOBILE / TABLET: show 2 cards + scroll */
+.cards-wrapper {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.cards-wrapper > div {
+  min-width: 50%; /* shows 2 cards */
+}
+
+/* DESKTOP: 3 cards grid (NO SCROLL) */
+@media (min-width: 950px) {
+  .cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: visible;
+  }
+
+  .cards-wrapper > div {
+    min-width: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MAIN WRAPPER (DESKTOP FEEL) -->
+<div class="max-w-6xl mx-auto px-6 py-6 min-h-0">
+
+  <!-- TOP BAR -->
+  <div class="flex items-center justify-between mb-8">
+
+    <!-- LEFT -->
+    <div class="flex items-center gap-4">
+
+      <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+        <i data-lucide="store"></i>
+      </div>
+
+      <div>
+        <p id="greetingText" class="text-sm text-gray-500">Good evening</p>
+        <h1 class="heading-font text-lg font-semibold text-gray-900">Kandie Place</h1>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="flex items-center gap-4">
+
+      <div class="w-11 h-11 bg-white shadow-sm border border-gray-200 flex items-center justify-center rounded-xl cursor-pointer hover:shadow-md transition">
+        <i data-lucide="shopping-cart" class="w-5 h-5 text-gray-700"></i>
+      </div>
+
+      <div class="px-4 py-2 border border-red-200 rounded-xl bg-white shadow-sm">
+        <p class="text-xs text-gray-500">Order Cards</p>
+        <p id="storeCountText" class="text-sm font-semibold text-gray-900">
+          In-store 0
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="mb-24 overflow-x-auto no-scrollbar md:overflow-visible">
+
+    <!-- FLEX SCROLL ON MOBILE / GRID ON DESKTOP -->
+    <div class="flex gap-4 md:px-0 md:grid md:grid-cols-3">
+  
+      <!-- ===================== -->
+      <!-- CARD 1 (TODAY SALES) -->
+      <!-- ===================== -->
+      <div class="bg-[#0F0F10] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
+                  min-w-[100%] md:min-w-0">
+  
+        <div class="flex items-start justify-between mb-10">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 bg-white/10 flex items-center justify-center rounded-xl">
+              <i data-lucide="calendar" class="w-5 h-5 text-white"></i>
+            </div>
+  
+            <div>
+              <p class="text-sm text-gray-400">Today</p>
+              <p id="todayDate" class="text-base font-medium text-white mt-1"></p>
+            </div>
+          </div>
+  
+          <button id="toggleBtn"
+            class="text-xs px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-gray-300">
+            Hide
+          </button>
+        </div>
+  
+        <div class="flex justify-between items-end">
+          <div>
+            <p class="text-sm text-gray-400">Gifts Sold</p>
+            <h2 id="giftsValue" class="text-2xl md:text-3xl font-semibold mt-1">0</h2>
+          </div>
+  
+          <div class="text-right">
+            <p class="text-sm text-gray-400">Amount</p>
+            <h2 id="amountValue" class="text-2xl md:text-3xl font-semibold mt-1">₦0</h2>
+          </div>
+        </div>
+      </div>
+  
+  <!-- CARD 2 (FINANCE - WHITE VERSION) -->
+<div class="bg-white text-gray-900 rounded-3xl p-6 md:p-8 relative overflow-hidden 
+min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
+
+<!-- TOP -->
+<div class="flex items-start gap-3 mb-10">
+
+<div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+<i data-lucide="package" class="w-5 h-5"></i>
+</div>
+
+<div>
+<p class="text-sm text-gray-500">Finance</p>
+<p class="text-base font-semibold text-gray-900 mt-1">Gift Card Revenue</p>
+</div>
+
+</div>
+
+<!-- BOTTOM -->
+<div class="flex justify-between items-end">
+
+<div>
+<p class="text-sm text-gray-500">Total Invested</p>
+<h2 id="totalInvested" class="text-2xl md:text-3xl font-bold mt-1 text-gray-900">₦5000</h2>
+</div>
+
+<div class="text-right">
+<p class="text-sm text-gray-500">Total Profit</p>
+<h2 id="totalProfit" class="text-2xl md:text-3xl font-bold mt-1 text-gray-900">₦0</h2>
+<p id="profitStatus" class="text-xs mt-2 text-gray-400"></p>
+</div>
+
+</div>
+
+</div>
+      <!-- ===================== -->
+      <!-- CARD 3 (TOTAL SALES 🔥 BRIGHT) -->
+      <!-- ===================== -->
+      <div class="bg-gradient-to-br from-[#1A1F2E] to-[#111827] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
+                  min-w-[98%] md:min-w-0 shadow-xl">
+  
+        <!-- glow effect -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+  
+        <!-- TOP -->
+        <div class="flex items-start gap-3 mb-10">
+  
+          <div class="w-10 h-10 bg-white/20 flex items-center justify-center rounded-xl">
+            <i data-lucide="trending-up" class="w-5 h-5 text-white"></i>
+          </div>
+  
+          <div>
+            <p class="text-sm text-white/80">Total Sales</p>
+            <p class="text-base font-medium text-white mt-1">Since Joined</p>
+          </div>
+  
+        </div>
+  
+        <!-- BOTTOM -->
+        <div class="flex justify-between items-end">
+  
+          <div>
+            <p class="text-sm text-white/80">Total Revenue</p>
+            <h2 id="totalSalesAmount" class="text-3xl md:text-4xl font-bold mt-1">₦120,000</h2>
+          </div>
+  
+          <div class="text-right">
+            <p class="text-sm text-white/80">Duration</p>
+            <h2 id="businessDuration" class="text-lg font-semibold mt-1">3 Months</h2>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+  
+    
+  
+    </div>
+  </div>
+<!-- STORE CARDS SECTION -->
+<div style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[55vh] md:h-[60vh]">
+  <div class="flex items-center justify-between px-6 pt-5 pb-3">
+
+    <h2 class="text-sm font-semibold text-gray-800">Cards In Store</h2>
+  
+    <!-- SEARCH AREA -->
+    <div class="flex items-center gap-2">
+  
+      <!-- INPUT (HIDDEN INITIALLY) -->
+      <input  
+      id="searchInput"
+      type="text"
+      placeholder="Search purchase code..."
+      class="hidden px-3 py-2 text-base border rounded-lg outline-none focus:ring-2 focus:ring-red-500 w-full"
+    />
+  
+      <!-- SEARCH BUTTON -->
+      <div id="searchBtn" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
+        <i data-lucide="search" class="w-4 h-4 text-gray-600"></i>
+      </div>
+  
+    </div>
+  
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-6 px-4 flex-1 min-h-0">
+
+    <!-- ===================== -->
+    <!-- LEFT: CARD LIST -->
+    <!-- ===================== -->
+    <div class="flex-1 flex flex-col min-h-0">
+  
+      <!-- SCROLL AREA -->
+      <div id="cardList" class="flex-1 overflow-y-auto pb-4 space-y-3">
+  
+        <!-- CARD ITEM -->
+        <div class="bg-gray-50 rounded-xl px-4 py-4 flex items-center justify-between hover:bg-gray-100 transition">
+          <div>
+            <p class="text-xs text-gray-500">Purchase Code</p>
+            <p class="text-sm font-semibold text-gray-900 mt-1">A7F9K3L2X8Q1</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Amount</p>
+            <p class="text-sm font-semibold text-gray-900 mt-1">₦10,000</p>
+          </div>
+          <button class="ml-4 px-4 py-2 text-xs font-medium rounded-lg bg-red-600 text-white">
+            Sell
+          </button>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <!-- ===================== -->
+    <!-- RIGHT: CHART -->
+    <!-- ===================== -->
+    <div class="flex-1 min-h-0  bg-white rounded-xl p-4 shadow-lg">
+      <canvas id="salesChart" class="w-full h-64 "></canvas>
+    </div>
+  
+  </div>
+  
+
+<!-- NAVIGATION -->
+<div class="fixed z-50 custom-nav">
+
+  <div class="bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
+              flex items-center custom-nav-inner">
+
+    <!-- Dashboard -->
+    <div id="nav-dashboard" class="flex flex-col items-center text-red-600 cursor-pointer transition">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 font-medium">Dashboard</span>
+    </div>
+
+    <!-- Redeem -->
+    <div id="nav-redeem" class="flex flex-col items-center text-gray-400 cursor-pointer transition">
+      <i data-lucide="ticket" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Redeem</span>
+    </div>
+
+    <!-- Sales -->
+    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer transition">
+      <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Sales</span>
+    </div>
+
+    <!-- Profile -->
+    <div id="nav-profile" class="flex flex-col items-center text-gray-400 cursor-pointer transition">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Profile</span>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SELL CONFIRMATION MODAL -->
+<div id="sellModal" class="fixed inset-0 bg-black/40 flex items-center justify-center hidden">
+  <div class="bg-white rounded-2xl p-6 w-96">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Confirm Sale</h2>
+    <p class="text-sm text-gray-600 mb-2">Are you sure you want to sell this card?</p>
+    <p class="text-xs text-red-600 mb-6">This action cannot be undone!</p>
+    
+    <div class="flex justify-end gap-3">
+      <button id="cancelSell" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">Cancel</button>
+      <button id="confirmSell" class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- First Widget (Red-Pink Gradient) -->
+<div id="giftWidget1"
+  class="hidden md:block fixed top-1/2 right-4 -translate-y-1/2 z-50 cursor-grab active:cursor-grabbing">
+
+  <div class="w-24 h-60 rounded-2xl p-4 text-white shadow-2xl relative overflow-hidden
+              bg-gradient-to-b from-red-500 via-pink-500 to-purple-600 flex flex-col items-center justify-between">
+
+    <!-- Glow -->
+    <div class="absolute -top-10 -left-10 w-32 h-32 bg-white/20 blur-3xl rounded-full"></div>
+
+    <!-- TOP -->
+    <div class="flex flex-col items-center text-center relative z-10 space-y-1">
+      <span class="text-xs opacity-80">Moma</span>
+      <span class="text-sm font-semibold">₦10,000</span>
+    </div>
+
+    <!-- CENTER -->
+    <div class="flex flex-col items-center relative z-10 space-y-1">
+      <h2 class="text-lg font-bold tracking-wide">KANDIE</h2>
+      <p class="text-xs opacity-80">Premium Store</p>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="flex flex-col items-center text-[10px] opacity-80 relative z-10 space-y-1">
+      <span>•••• 4832</span>
+      <span>12/28</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Second Widget (Dark Gradient) -->
+<div id="giftWidget2"
+  class="hidden md:block fixed bottom-4 left-4 z-50 cursor-grab active:cursor-grabbing">
+
+  <div class="w-24 h-60 rounded-2xl p-4 text-white shadow-2xl relative overflow-hidden
+              bg-gradient-to-b from-[#1A1F2E] to-[#111827] flex flex-col items-center justify-between">
+
+    <!-- Glow -->
+    <div class="absolute -top-10 -left-10 w-32 h-32 bg-white/20 blur-3xl rounded-full"></div>
+
+    <!-- TOP -->
+    <div class="flex flex-col items-center text-center relative z-10 space-y-1">
+      <span class="text-xs opacity-80">Gift Card</span>
+      <span class="text-sm font-semibold">₦10,000</span>
+    </div>
+
+    <!-- CENTER -->
+    <div class="flex flex-col items-center relative z-10 space-y-1">
+      <h2 class="text-lg font-bold tracking-wide">KANDIE</h2>
+      <p class="text-xs opacity-80">Premium Store</p>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="flex flex-col items-center text-[10px] opacity-80 relative z-10 space-y-1">
+      <span>•••• 4832</span>
+      <span>12/28</span>
+    </div>
+
+  </div>
+</div>
+<!-- INIT ICONS -->
+<script>
+  lucide.createIcons();
+</script>
+<script>
+const toggleBtn = document.getElementById("toggleBtn");
+const giftsValue = document.getElementById("giftsValue");
+const amountValue = document.getElementById("amountValue");
+
+let hidden = false;
+
+toggleBtn.addEventListener("click", () => {
+  hidden = !hidden;
+
+  if (hidden) {
+    // HIDE VALUES
+    giftsValue.textContent = "•••";
+    amountValue.textContent = "••••••";
+    toggleBtn.textContent = "Reveal";
+  } else {
+    // SHOW REAL DATA (DYNAMIC)
+    updateDashboardTotals();
+    toggleBtn.textContent = "Hide";
+  }
+});
+
+function setTodayDate() {
+  const el = document.getElementById("todayDate");
+  const today = new Date();
+
+  el.textContent = today.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+setTodayDate();
+
+</script>
+ <script>
+// ==============================
+// NAVIGATION (WORKS EVERYWHERE)
+// ==============================
+const navRedeem = document.getElementById("nav-redeem");
+const navDashboard = document.getElementById("nav-dashboard");
+const navSales = document.getElementById("nav-sales");
+const navProfile = document.getElementById("nav-profile");
+
+navRedeem?.addEventListener("click", () => {
+  window.location.href = "redeem.html";
+});
+
+navDashboard?.addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+});
+
+navSales?.addEventListener("click", () => {
+  window.location.href = "sales.html";
+});
+
+navProfile?.addEventListener("click", () => {
+  window.location.href = "profile.html";
+});
+
+// ==============================
+// ACTIVE NAV STATE
+// ==============================
+const currentPage = window.location.pathname;
+
+if (currentPage.includes("index.html")) {
+  navDashboard?.classList.add("text-red-600");
+}
+
+
+// ==============================
+// OPTIONAL: SALES DATA
+// ==============================
+function saveSalesData() {
+  let sales = [];
+
+  for (let i = 0; i < 7; i++) {
+    sales.push({
+      day: `Day ${i + 1}`,
+      amount: Math.floor(Math.random() * 20000)
+    });
+  }
+
+  localStorage.setItem("salesData", JSON.stringify(sales));
+}
+
+// ==============================
+// INIT DASHBOARD
+// ==============================
+window.addEventListener("DOMContentLoaded", () => {
+  saveSoldCards();
+  saveSalesData();
+});
+ </script>
+  <script>
+    const navSales = document.getElementById("nav-sales");
+    const salesPage = document.getElementById("salesPage");
+  
+    const filters = document.querySelectorAll(".filter-btn");
+    const salesList = document.getElementById("salesList");
+  
+    // NAVIGATION TO SALES
+    navSales.addEventListener("click", () => {
+      dashboard.style.display = "none";
+      redeemPage.classList.add("hidden");
+      salesPage.classList.remove("hidden");
+  
+      // nav state
+      document.querySelectorAll('[id^="nav-"]').forEach(n => {
+        n.classList.remove("text-red-600");
+        n.classList.add("text-gray-400");
+      });
+  
+      navSales.classList.add("text-red-600");
+  
+      loadSales("today");
+    });
+  
+    // FILTER CLICK
+    filters.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+  
+        filters.forEach(b => {
+          b.classList.remove("bg-red-600", "text-white");
+          b.classList.add("bg-gray-100", "text-gray-600");
+        });
+  
+        btn.classList.add("bg-red-600", "text-white");
+  
+        const types = ["today", "week", "month", "all"];
+        loadSales(types[index]);
+  
+      });
+    });
+  
+
+
+  // -----------------------------
+  // LOAD SALES DATA
+  // -----------------------------
+  function loadSales(type) {
+    if (!salesList) return; // safety check
+    salesList.innerHTML = "";
+
+    for (let i = 0; i < 12; i++) {
+      salesList.innerHTML += `
+        <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+
+          <!-- LEFT -->
+          <div>
+            <p class="text-xs text-gray-500">Purchase Code</p>
+            <p class="text-sm font-semibold text-gray-900 mt-1">SALE${i}</p>
+            <p class="text-xs text-gray-400 mt-2">${getTime()}</p>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Amount</p>
+            <p class="text-sm font-semibold text-gray-900 mt-1">₦15,000</p>
+          </div>
+
+        </div>
+      `;
+    }
+  }
+
+  // -----------------------------
+  // TIME GENERATOR
+  // -----------------------------
+  function getTime() {
+    const now = new Date();
+    return now.toLocaleString();
+  }
+
+  // -----------------------------
+  // FILTER BUTTONS
+  // -----------------------------
+  filters.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      filters.forEach(b => {
+        b.classList.remove("bg-red-600", "text-white");
+        b.classList.add("bg-gray-100", "text-gray-600");
+      });
+
+      btn.classList.add("bg-red-600", "text-white");
+
+      const types = ["today", "week", "month", "all"];
+      loadSales(types[index]);
+    });
+  });
+</script>
+<script>
+ const searchBtn = document.getElementById("searchBtn");
+const searchInput = document.getElementById("searchInput");
+
+// 🔥 NEW FUNCTION
+function getCards() {
+  return document.querySelectorAll("#cardList .bg-gray-50");
+}
+
+// TOGGLE SEARCH
+searchBtn.addEventListener("click", () => {
+  searchInput.classList.toggle("hidden");
+  searchInput.focus();
+
+  if (searchInput.classList.contains("hidden")) {
+    resetCards();
+    searchInput.value = "";
+  }
+});
+
+// LIVE SEARCH
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase().trim();
+  let found = false;
+
+  const cards = getCards(); // 🔥 FIX
+
+  cards.forEach(card => {
+    const code = card.querySelector("p.text-sm").innerText.toLowerCase();
+
+    if (code.includes(value)) {
+      card.style.display = "flex";
+      found = true;
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  handleEmptyState(found);
+});
+
+// RESET
+function resetCards() {
+  const cards = getCards(); // 🔥 FIX
+
+  cards.forEach(card => {
+    card.style.display = "flex";
+  });
+
+  const empty = document.getElementById("noResult");
+  if (empty) empty.remove();
+}
+
+// EMPTY STATE
+function handleEmptyState(found) {
+  let empty = document.getElementById("noResult");
+
+  if (!found) {
+    if (!empty) {
+      empty = document.createElement("div");
+      empty.id = "noResult";
+      empty.className = "text-center text-gray-400 mt-10 text-sm";
+      empty.innerText = "No card found 😕";
+      document.getElementById("cardList").appendChild(empty);
+    }
+  } else {
+    if (empty) empty.remove();
+  }
+}
+</script>
+<script>
+
+let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
+let cardToSell = null; // TRACK CURRENT CARD SELECTED FOR SALE
+
+// 1️⃣ Store cards array
+const storeCardsData = [
+  { purchaseCode: "A7F9K3L2X8Q1", amount: 10000 },
+  { purchaseCode: "B8H2K9P4X1Q3", amount: 5000 },
+  { purchaseCode: "A7F9K3L2X8Q1", amount: 10000 },
+  { purchaseCode: "C4K1J2P3L9M8", amount: 500 },
+
+];
+
+// 2️⃣ Function to render cards dynamically
+function renderStoreCards() {
+  const cardList = document.getElementById("cardList");
+  cardList.innerHTML = ""; // Clear any existing cards
+
+  storeCardsData.forEach(card => {
+    const cardDiv = document.createElement("div");
+    cardDiv.className = "bg-gray-50 rounded-xl px-4 py-4 flex items-center justify-between hover:bg-gray-100 transition";
+
+    cardDiv.innerHTML = `
+      <!-- LEFT -->
+      <div>
+        <p class="text-xs text-gray-500">Purchase Code</p>
+        <p class="text-sm font-semibold text-gray-900 mt-1">${card.purchaseCode}</p>
+      </div>
+
+      <!-- MIDDLE -->
+      <div class="text-right">
+        <p class="text-xs text-gray-500">Amount</p>
+        <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount.toLocaleString()}</p>
+      </div>
+
+      <!-- RIGHT BUTTON -->
+      <button class="ml-4 px-4 py-2 text-xs font-medium rounded-lg bg-red-600 text-white">
+        Sell
+      </button>
+    `;
+
+    cardList.appendChild(cardDiv);
+  });
+  checkIfStoreEmpty();
+  updateStoreCount();
+}
+function checkIfStoreEmpty() {
+  const cardList = document.getElementById("cardList");
+  const cards = document.querySelectorAll("#cardList .bg-gray-50");
+
+  // remove old empty state
+  const existing = document.getElementById("noStoreCards");
+  if (existing) existing.remove();
+
+  if (cards.length === 0) {
+    const empty = document.createElement("div");
+    empty.id = "noStoreCards";
+    empty.className = "flex flex-col items-center justify-center mt-16 text-center";
+
+    empty.innerHTML = `
+      <p class="text-gray-400 text-sm mb-4">No cards in store 😕</p>
+
+      <button class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm">
+        Buy Gift Cards
+      </button>
+    `;
+
+    cardList.appendChild(empty);
+  }
+}
+// OPEN MODAL FUNCTION
+function openSellModal(card) {
+  cardToSell = card;
+  document.getElementById("sellModal").classList.remove("hidden");
+}
+
+// CLOSE MODAL FUNCTION
+function closeSellModal() {
+  cardToSell = null;
+  document.getElementById("sellModal").classList.add("hidden");
+}
+
+// UPDATE DASHBOARD TOTALS
+function updateDashboardTotals() {
+  const giftsValue = document.getElementById("giftsValue");
+  const amountValue = document.getElementById("amountValue");
+
+  giftsValue.textContent = soldCards.length;
+  const totalAmount = soldCards.reduce((sum, card) => sum + card.amount, 0);
+  amountValue.textContent = `₦${totalAmount.toLocaleString()}`;
+}
+
+// INITIALIZE STORE CARDS
+function initStoreCards() {
+  const storeCards = document.querySelectorAll("#cardList > div");
+
+  storeCards.forEach(card => {
+    const sellBtn = card.querySelector("button");
+    const purchaseCode = card.querySelector("p:nth-child(2)").textContent;
+    const amountText = card.querySelector(".text-right p:nth-child(2)").textContent;
+    const amount = parseInt(amountText.replace(/₦|,/g, ""));
+
+    sellBtn.addEventListener("click", () => {
+      openSellModal({ element: card, purchaseCode, amount });
+    });
+  });
+}
+
+// CONFIRM SALE BUTTON
+document.getElementById("confirmSell").addEventListener("click", () => {
+  if (!cardToSell) return;
+
+  // push card in a format redeem.html expects
+  const soldCard = {
+    code: cardToSell.purchaseCode, // 👈 must be `code`
+    amount: cardToSell.amount
+  };
+
+  soldCards.push(soldCard);
+
+  // save to localStorage
+  localStorage.setItem("soldCards", JSON.stringify(soldCards));
+
+  // remove from store UI
+  cardToSell.element.remove();
+  closeSellModal();
+  checkIfStoreEmpty();
+  updateStoreCount();
+  updateDashboardTotals();
+});
+
+// CANCEL BUTTON
+document.getElementById("cancelSell").addEventListener("click", closeSellModal);
+
+// LOAD SOLD CARDS INTO REDEEM PAGE
+function loadSold() {
+  const list = document.getElementById("redeemList");
+  list.innerHTML = "";
+
+  soldCards.forEach(card => {
+    list.innerHTML += `
+      <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+        <div>
+          <p class="text-xs text-gray-500">Purchase Code</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">${card.purchaseCode}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xs text-gray-500">Amount</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount.toLocaleString()}</p>
+        </div>
+
+        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
+          Redeem
+        </button>
+      </div>
+    `;
+  });
+}
+function updateGreeting() {
+  const greetingEl = document.getElementById("greetingText");
+  const hour = new Date().getHours();
+
+  let greeting = "";
+
+  if (hour < 12) {
+    greeting = "Good morning";
+  } else if (hour < 18) {
+    greeting = "Good afternoon";
+  } else {
+    greeting = "Good evening";
+  }
+
+  greetingEl.textContent = greeting;
+}
+function updateStoreCount() {
+  const cards = document.querySelectorAll("#cardList .bg-gray-50");
+  const countText = document.getElementById("storeCountText");
+
+  countText.textContent = `In-store ${cards.length}`;
+}
+// 🔹 INITIALIZE
+updateGreeting();
+renderStoreCards();
+initStoreCards();
+updateDashboardTotals();
+checkIfStoreEmpty();
+document.addEventListener("DOMContentLoaded", updateStoreCount);
+</script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+  
+    const salesChart = new Chart(ctx, {
+      type: 'line', // stock market style
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Sales',
+          data: [12000, 15000, 13000, 17000, 16000, 19000, 18000], // demo values
+          borderColor: '#EF4444', // red for your theme
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          tension: 0.4, // smooth curves
+          fill: true,
+          pointRadius: 5,
+          pointHoverRadius: 7
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            grid: {
+              color: '#f0f0f0'
+            },
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  </script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+  
+    const salesChart = new Chart(ctx, {
+      type: 'line', // stock market style
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Sales',
+          data: [12000, 15000, 13000, 17000, 16000, 19000, 18000], // demo values
+          borderColor: '#EF4444', // red for your theme
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          tension: 0.4, // smooth curves
+          fill: true,
+          pointRadius: 5,
+          pointHoverRadius: 7
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            grid: {
+              color: '#f0f0f0'
+            },
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  </script>
+<script>
+  const widget = document.getElementById("giftWidget");
+
+let isDragging = false;
+let offsetX, offsetY;
+
+widget.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - widget.getBoundingClientRect().left;
+  offsetY = e.clientY - widget.getBoundingClientRect().top;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+
+  widget.style.left = (e.clientX - offsetX) + "px";
+  widget.style.top = (e.clientY - offsetY) + "px";
+  widget.style.right = "auto"; // remove fixed right
+  widget.style.transform = "none"; // remove center transform
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>profile</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Modern Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f7f7f8;
+  }
+
+  .heading-font {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+ 
+  /* Hide scrollbar for Chrome, Safari, Edge */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar for IE & old Edge */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- MAIN WRAPPER (DESKTOP FEEL) -->
+<div class="max-w-6xl mx-auto px-6 py-6 min-h-0">
+
+<!-- NAVIGATION -->
+<div class="
+  fixed bottom-1 left-1/2 -translate-x-1/2 w-full max-w-md px-4
+
+  md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 md:w-auto md:max-w-none md:px-0
+">
+
+  <div class="
+    bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
+    flex justify-between items-center 
+
+    md:flex-col md:items-center md:gap-5 md:px-2 md:py-3
+  ">
+
+    <!-- Dashboard -->
+    <div id="nav-dashboard" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 font-medium">Dashboard</span>
+    </div>
+
+    <!-- Redeem -->
+    <div id="nav-redeem" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="ticket" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 ">Redeem</span>
+    </div>
+
+    <!-- Sales -->
+    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Sales</span>
+    </div>
+
+    <!-- Profile -->
+    <div id="nav-profile" class="flex flex-col items-center text-red-600 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 font-medium">Profile</span>
+    </div>
+
+  </div>
+
+</div>
+ <!-- PROFILE PAGE -->
+ <div id="profilePage" class=" max-w-6xl mx-auto px-6 pb-24">
+
+    <!-- HEADER -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 flex items-center gap-4 mb-6">
+  
+      <!-- ICON -->
+      <div class="w-14 h-14 bg-red-50 text-red-600 flex items-center justify-center rounded-2xl text-xl">
+        <i data-lucide="store"></i>
+      </div>
+  
+      <!-- BUSINESS NAME -->
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Kandie Place</h2>
+        <p class="text-sm text-gray-500">Retail Store</p>
+      </div>
+  
+    </div>
+  
+    <!-- BUSINESS INFO -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-5">
+  
+      <h3 class="text-sm font-semibold text-gray-800 mb-4">Business Information</h3>
+  
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+  
+        <div>
+          <p class="text-gray-500">Industry</p>
+          <p class="font-medium text-gray-900 mt-1">Retail & Gift Cards</p>
+        </div>
+  
+        <div>
+          <p class="text-gray-500">Location</p>
+          <p class="font-medium text-gray-900 mt-1">Lagos, Nigeria</p>
+        </div>
+  
+        <div>
+          <p class="text-gray-500">Date Joined</p>
+          <p class="font-medium text-gray-900 mt-1">Jan 12, 2026</p>
+        </div>
+  
+        <div>
+          <p class="text-gray-500">Business ID</p>
+          <p class="font-medium text-gray-900 mt-1">BUS-93842</p>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <!-- CONTACT INFO -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-5">
+  
+      <h3 class="text-sm font-semibold text-gray-800 mb-4">Contact Details</h3>
+  
+      <div class="space-y-4 text-sm">
+  
+        <div class="flex justify-between">
+          <span class="text-gray-500">Email</span>
+          <span class="font-medium text-gray-900">kandie@email.com</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="text-gray-500">Phone</span>
+          <span class="font-medium text-gray-900">+234 801 234 5678</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="text-gray-500">Address</span>
+          <span class="font-medium text-gray-900 text-right">12 Admiralty Way, Lekki</span>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <!-- EXTRA / META -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-5">
+  
+      <h3 class="text-sm font-semibold text-gray-800 mb-4">Account</h3>
+  
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Status</span>
+        <span class="text-green-600 font-medium">Active</span>
+      </div>
+  
+    </div>
+  
+  </div>
+  
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+<script>
+    const navRedeem = document.getElementById("nav-redeem");
+const navDashboard = document.getElementById("nav-dashboard");
+const navSales = document.getElementById("nav-sales");
+const navProfile = document.getElementById("nav-profile");
+
+navRedeem?.addEventListener("click", () => {
+  window.location.href = "redeem.html";
+});
+
+navDashboard?.addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+});
+
+navSales?.addEventListener("click", () => {
+  window.location.href = "sales.html";
+});
+
+navProfile?.addEventListener("click", () => {
+  window.location.href = "profile.html";
+});
+</script>
+</body>
+</html>

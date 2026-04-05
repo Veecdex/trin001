@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redeem</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Modern Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f7f7f8;
+  }
+
+  .heading-font {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+ 
+  /* Hide scrollbar for Chrome, Safari, Edge */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar for IE & old Edge */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- MAIN WRAPPER (DESKTOP FEEL) -->
+<div class="max-w-6xl mx-auto px-6 py-6 min-h-0">
+
+<!-- NAVIGATION -->
+<div class="
+  fixed bottom-1 left-1/2 -translate-x-1/2 w-full max-w-md px-4
+
+  md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 md:w-auto md:max-w-none md:px-0
+">
+
+  <div class="
+    bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
+    flex justify-between items-center 
+
+    md:flex-col md:items-center md:gap-5 md:px-2 md:py-3
+  ">
+
+    <!-- Dashboard -->
+    <div id="nav-dashboard" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 font-medium">Dashboard</span>
+    </div>
+
+    <!-- Redeem -->
+    <div id="nav-redeem" class="flex flex-col items-center text-red-600 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="ticket" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1 font-medium">Redeem</span>
+    </div>
+
+    <!-- Sales -->
+    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Sales</span>
+    </div>
+
+    <!-- Profile -->
+    <div id="nav-profile" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span class="text-[10px] mt-1">Profile</span>
+    </div>
+
+  </div>
+
+</div>
+<!-- REDEEM PAGE -->
+<div id="redeemPage" class=" max-w-6xl mx-auto px-6 pb-14">
+
+    <!-- HEADER -->
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 flex items-center gap-3 mb-6 ">
+  
+      <div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+        <i data-lucide="ticket"></i>
+      </div>
+              
+      <h2 class="text-lg font-semibold text-gray-900">Redeem</h2>
+  
+    </div>
+  
+    <!-- TABS -->
+    <div class="flex justify-between items-center border-b border-gray-200 mb-4">
+  
+      <button id="tab-sold" class="pb-2 text-sm font-medium text-red-600 border-b-2 border-red-600">
+        Cards Sold
+      </button>
+  
+      <button id="tab-redeemed" class="pb-2 text-sm text-gray-400">
+        Cards Redeemed
+      </button>
+  
+    </div>
+  
+    <!-- LIST CONTAINER -->
+    <div id="redeemList" class="space-y-3">
+  
+      <!-- CONTENT WILL BE INJECTED HERE -->
+  
+    </div>
+ 
+  
+  </div>
+
+  <script>
+
+    lucide.createIcons();
+  </script>
+<script>
+  // ==============================
+// NAVIGATION
+// ==============================
+const navRedeem = document.getElementById("nav-redeem");
+const navDashboard = document.getElementById("nav-dashboard");
+const navSales = document.getElementById("nav-sales");
+const navProfile = document.getElementById("nav-profile");
+
+navRedeem?.addEventListener("click", () => {
+  window.location.href = "redeem.html";
+});
+
+navDashboard?.addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+});
+
+navSales?.addEventListener("click", () => {
+  window.location.href = "sales.html";
+});
+
+navProfile?.addEventListener("click", () => {
+  window.location.href = "profile.html";
+});
+
+// ==============================
+// ACTIVE NAV
+// ==============================
+const currentPage = window.location.pathname;
+
+if (currentPage.includes("redeem.html")) {
+  navRedeem?.classList.add("text-red-600");
+}
+
+// ==============================
+// ELEMENTS
+// ==============================
+const tabSold = document.getElementById("tab-sold");
+const tabRedeemed = document.getElementById("tab-redeemed");
+const list = document.getElementById("redeemList");
+
+// ==============================
+// LOAD SOLD CARDS (FROM DASHBOARD)
+// ==============================
+function loadSold() {
+  list.innerHTML = "";
+
+  const soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
+
+  if (soldCards.length === 0) {
+    list.innerHTML = `<p class="text-gray-400 text-sm">No sold cards found</p>`;
+    return;
+  }
+
+  soldCards.forEach(card => {
+    list.innerHTML += `
+      <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+        <div>
+          <p class="text-xs text-gray-500">Purchase Code</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xs text-gray-500">Amount</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount}</p>
+        </div>
+
+        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
+          Redeem
+        </button>
+      </div>
+    `;
+  });
+}
+
+// ==============================
+// LOAD REDEEMED
+// ==============================
+function loadRedeemed() {
+  list.innerHTML = "";
+
+  const redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+
+  if (redeemed.length === 0) {
+    list.innerHTML = `<p class="text-gray-400 text-sm">No redeemed cards</p>`;
+    return;
+  }
+
+  redeemed.forEach(card => {
+    list.innerHTML += `
+      <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+        <div>
+          <p class="text-xs text-gray-500">Purchase Code</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xs text-gray-500">Balance</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.balance}</p>
+        </div>
+
+        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-900 text-white">
+          Deduct
+        </button>
+      </div>
+    `;
+  });
+}
+
+// ==============================
+// HANDLE REDEEM CLICK
+// ==============================
+list.addEventListener("click", (e) => {
+  if (e.target.textContent === "Redeem") {
+    const cardCode = e.target.closest("div").querySelector("p:nth-child(2)").textContent;
+
+    let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
+    let redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+
+    const card = soldCards.find(c => c.code === cardCode);
+
+    if (card) {
+      // remove from sold
+      soldCards = soldCards.filter(c => c.code !== cardCode);
+
+      // add to redeemed
+      redeemed.push({
+        code: card.code,
+        balance: 2000
+      });
+
+      localStorage.setItem("soldCards", JSON.stringify(soldCards));
+      localStorage.setItem("redeemedCards", JSON.stringify(redeemed));
+
+      loadSold(); // refresh
+    }
+  }
+});
+
+// ==============================
+// TAB SWITCHING
+// ==============================
+tabSold.addEventListener("click", () => {
+  tabSold.classList.add("text-red-600", "border-b-2", "border-red-600");
+  tabRedeemed.classList.remove("text-red-600", "border-b-2", "border-red-600");
+
+  loadSold();
+});
+
+tabRedeemed.addEventListener("click", () => {
+  tabRedeemed.classList.add("text-red-600", "border-b-2", "border-red-600");
+  tabSold.classList.remove("text-red-600", "border-b-2", "border-red-600");
+
+  loadRedeemed();
+});
+
+// ==============================
+// INIT
+// ==============================
+window.addEventListener("DOMContentLoaded", () => {
+  loadSold(); // default tab
+});
+</script>
+</body>
+</html>
