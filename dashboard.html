@@ -137,7 +137,7 @@
       </div>
 
       <div class="px-4 py-2 border border-red-200 rounded-xl bg-white shadow-sm">
-        <p class="text-xs text-gray-500">Order Cards</p>
+        <p class="text-xs text-gray-500">Gift Cards</p>
         <p id="storeCountText" class="text-sm font-semibold text-gray-900">
           In-store 0
         </p>
@@ -273,7 +273,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 <div style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[55vh] md:h-[60vh]">
   <div class="flex items-center justify-between px-6 pt-5 pb-3">
 
-    <h2 class="text-sm font-semibold text-gray-800">Cards In Store</h2>
+    <h2 class="text-sm font-semibold text-gray-800">Gifts In Store</h2>
   
     <!-- SEARCH AREA -->
     <div class="flex items-center gap-2">
@@ -367,12 +367,22 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
   </div>
 
 </div>
-
+<!-- SUCCESS MODAL -->
+<div id="sellSuccessModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white w-[90%] max-w-sm rounded-2xl p-6 shadow-xl flex flex-col items-center">
+    <div class="w-16 h-16 bg-green-100 text-green-600 flex items-center justify-center rounded-full mb-4">
+      <i data-lucide="check" class="w-8 h-8"></i>
+    </div>
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">Sale Successful!</h3>
+    <p class="text-sm text-gray-500 text-center mb-4">Your gift card has been sold successfully.</p>
+    <button id="closeSellSuccess" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Close</button>
+  </div>
+</div>
 <!-- SELL CONFIRMATION MODAL -->
 <div id="sellModal" class="fixed inset-0 bg-black/40 flex items-center justify-center hidden">
   <div class="bg-white rounded-2xl p-6 w-96">
     <h2 class="text-lg font-semibold text-gray-900 mb-4">Confirm Sale</h2>
-    <p class="text-sm text-gray-600 mb-2">Are you sure you want to sell this card?</p>
+    <p class="text-sm text-gray-600 mb-2">Are you sure you want to sell this gift card?</p>
     <p class="text-xs text-red-600 mb-6">This action cannot be undone!</p>
     
     <div class="flex justify-end gap-3">
@@ -681,7 +691,7 @@ searchInput.addEventListener("input", () => {
 
 // RESET
 function resetCards() {
-  const cards = getCards(); // 🔥 FIX
+  const cards = getCards(); 
 
   cards.forEach(card => {
     card.style.display = "flex";
@@ -709,17 +719,51 @@ function handleEmptyState(found) {
 }
 </script>
 <script>
-
 let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
 let cardToSell = null; // TRACK CURRENT CARD SELECTED FOR SALE
 
 // 1️⃣ Store cards array
 const storeCardsData = [
-  { purchaseCode: "A7F9K3L2X8Q1", amount: 10000 },
-  { purchaseCode: "B8H2K9P4X1Q3", amount: 5000 },
-  { purchaseCode: "A7F9K3L2X8Q1", amount: 10000 },
-  { purchaseCode: "C4K1J2P3L9M8", amount: 500 },
-
+  {
+    purchaseCode: "A7F9K3L2X8Q1",
+    giftCode: "GFT-9X2KLM",
+    amount: 3000,
+    status: "active",
+    soldAt: null,
+    expiresAt: null
+  },
+  {
+    purchaseCode: "B8H2K9P4X1Q3",
+    giftCode: "GFT-7PLM2Q",
+    amount: 5000,
+    status: "inactive",
+    soldAt: null,
+    expiresAt: null
+  },
+  {
+    purchaseCode: "A7F9K3L2X8Q1",
+    giftCode: "GFT-4ZX9TR",
+    amount: 7000,
+    status: "inactive",
+    soldAt: null,
+    expiresAt: null
+  },
+  {
+    purchaseCode: "C4K1J2P3L9M8",
+    giftCode: "GFT-1AB9XZ",
+    amount: 500,
+    status: "inactive",
+    soldAt: null,
+    expiresAt: null
+  },
+  {
+    purchaseCode: "C4K1J2P3L9M8",
+    giftCode: "GFT-8QW2PL",
+    amount: 9900,
+    status: "inactive",
+    soldAt: null,
+    expiresAt: null
+  }
 ];
 
 // 2️⃣ Function to render cards dynamically
@@ -728,30 +772,37 @@ function renderStoreCards() {
   cardList.innerHTML = ""; // Clear any existing cards
 
   storeCardsData.forEach(card => {
-    const cardDiv = document.createElement("div");
-    cardDiv.className = "bg-gray-50 rounded-xl px-4 py-4 flex items-center justify-between hover:bg-gray-100 transition";
+  const cardDiv = document.createElement("div");
+  cardDiv.className = "bg-gray-50 rounded-xl px-4 py-4 flex items-center justify-between hover:bg-gray-100 transition";
 
-    cardDiv.innerHTML = `
-      <!-- LEFT -->
-      <div>
-        <p class="text-xs text-gray-500">Purchase Code</p>
-        <p class="text-sm font-semibold text-gray-900 mt-1">${card.purchaseCode}</p>
-      </div>
+  cardDiv.innerHTML = `
+    <div>
+      <p class="text-xs text-gray-500">Purchase Code</p>
+      <p class="text-sm font-semibold text-gray-900 mt-1">${card.purchaseCode}</p>
+    </div>
 
-      <!-- MIDDLE -->
-      <div class="text-right">
-        <p class="text-xs text-gray-500">Amount</p>
-        <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount.toLocaleString()}</p>
-      </div>
+    <div class="text-right">
+      <p class="text-xs text-gray-500">Amount</p>
+      <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount.toLocaleString()}</p>
+    </div>
 
-      <!-- RIGHT BUTTON -->
-      <button class="ml-4 px-4 py-2 text-xs font-medium rounded-lg bg-red-600 text-white">
-        Sell
-      </button>
-    `;
+    <button class="ml-4 px-4 py-2 text-xs font-medium rounded-lg bg-red-600 text-white">
+      Sell
+    </button>
+  `;
 
-    cardList.appendChild(cardDiv);
+  // ✅ 👉 ADD THIS PART RIGHT HERE
+  const sellBtn = cardDiv.querySelector("button");
+
+  sellBtn.addEventListener("click", () => {
+    openSellModal({
+      ...card,        // full card data (VERY IMPORTANT)
+      element: cardDiv
+    });
   });
+
+  cardList.appendChild(cardDiv);
+});
   checkIfStoreEmpty();
   updateStoreCount();
 }
@@ -801,37 +852,24 @@ function updateDashboardTotals() {
   amountValue.textContent = `₦${totalAmount.toLocaleString()}`;
 }
 
-// INITIALIZE STORE CARDS
-function initStoreCards() {
-  const storeCards = document.querySelectorAll("#cardList > div");
-
-  storeCards.forEach(card => {
-    const sellBtn = card.querySelector("button");
-    const purchaseCode = card.querySelector("p:nth-child(2)").textContent;
-    const amountText = card.querySelector(".text-right p:nth-child(2)").textContent;
-    const amount = parseInt(amountText.replace(/₦|,/g, ""));
-
-    sellBtn.addEventListener("click", () => {
-      openSellModal({ element: card, purchaseCode, amount });
-    });
-  });
-}
 
 // CONFIRM SALE BUTTON
-document.getElementById("confirmSell").addEventListener("click", () => {
+confirmSell.addEventListener("click", () => {
   if (!cardToSell) return;
 
-  // push card in a format redeem.html expects
-  const soldCard = {
-    code: cardToSell.purchaseCode, // 👈 must be `code`
-    amount: cardToSell.amount
-  };
+  // ✅ Get existing sold cards
+  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
 
-  soldCards.push(soldCard);
+  // ✅ Update card details before selling
+  cardToSell.status = "active"; // now available for redeem
+  cardToSell.soldAt = Date.now();
+  cardToSell.expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
 
-  // save to localStorage
+  // ✅ ADD CARD TO soldCards (THIS WAS MISSING)
+  soldCards.push(cardToSell);
+
+  // ✅ Save to localStorage
   localStorage.setItem("soldCards", JSON.stringify(soldCards));
-
   // remove from store UI
   cardToSell.element.remove();
   closeSellModal();
@@ -1018,6 +1056,57 @@ document.addEventListener("mousemove", (e) => {
 document.addEventListener("mouseup", () => {
   isDragging = false;
 });
+
+</script>
+<script>
+  const sellModal = document.getElementById("sellModal");
+const confirmSell = document.getElementById("confirmSell");
+const cancelSell = document.getElementById("cancelSell");
+const sellSuccessModal = document.getElementById("sellSuccessModal");
+const closeSellSuccess = document.getElementById("closeSellSuccess");
+
+// Cancel button hides modal
+cancelSell.addEventListener("click", () => {
+  sellModal.classList.add("hidden");
+});
+
+// Confirm button
+confirmSell.addEventListener("click", () => {
+  // 👇 Put your existing sale logic here:
+  // Example: remove card from dashboard, update localStorage, etc.
+
+  // Hide confirmation modal
+  sellModal.classList.add("hidden");
+
+  // Show success modal
+  sellSuccessModal.classList.remove("hidden");
+  sellSuccessModal.classList.add("flex");
+
+  // Optional: auto-close after 2 seconds
+  setTimeout(() => {
+    sellSuccessModal.classList.add("hidden");
+  }, 2000);
+});
+
+// Close success modal manually
+closeSellSuccess.addEventListener("click", () => {
+  sellSuccessModal.classList.add("hidden");
+});
+
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

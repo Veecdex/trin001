@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -19,6 +19,7 @@
   body {
     font-family: 'Inter', sans-serif;
     background: #f7f7f8;
+    zoom: 0.9;
   }
 
   .heading-font {
@@ -107,7 +108,7 @@
     <div class="flex justify-between items-center border-b border-gray-200 mb-4">
   
       <button id="tab-sold" class="pb-2 text-sm font-medium text-red-600 border-b-2 border-red-600">
-        Cards Sold
+        Cards Unredeemed
       </button>
   
       <button id="tab-redeemed" class="pb-2 text-sm text-gray-400">
@@ -126,11 +127,68 @@
   
   </div>
 
+<!-- REDEEM MODAL -->
+<div id="redeemModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white w-[90%] max-w-sm rounded-2xl p-5 shadow-xl relative">
+
+    <!-- INPUT FORM -->
+    <div id="redeemForm">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-red-50 text-red-600 flex items-center justify-center rounded-lg">
+          <i data-lucide="ticket"></i>
+        </div>
+        <h3 class="font-semibold text-gray-900">Redeem Gift Card</h3>
+      </div>
+
+      <div class="space-y-3">
+        <input id="giftCodeInput" type="text" placeholder="Gift Code"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+        <input id="amountInput" type="number" placeholder="Enter Amount"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+      </div>
+
+      <div class="flex justify-end gap-2 mt-5">
+        <button id="closeModal" class="px-4 py-2 text-sm text-gray-500">Cancel</button>
+        <button id="confirmRedeem" class="px-4 py-2 text-sm bg-red-600 text-white rounded-lg">
+          Redeem
+        </button>
+      </div>
+
+      <p id="errorText" class="text-xs text-red-500 mt-2 hidden"></p>
+    </div>
+
+    <!-- PRELOADER -->
+    <div id="redeemLoader" class="hidden flex flex-col items-center justify-center text-red-600">
+      <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-3 animate-spin"></div>
+      <p class="text-sm font-medium">Processing...</p>
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+    <div id="redeemSuccess" class="hidden flex flex-col items-center justify-center text-green-600">
+      <div class="w-16 h-16 flex items-center justify-center rounded-full bg-green-100 mb-3">
+        <i data-lucide="check-circle" class="w-10 h-10"></i>
+      </div>
+      <p class="text-sm font-semibold">Gift Redeemed Successfully!</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Loader CSS -->
+<style>
+.loader {
+  border-top-color: #f87171; /* Tailwind red-500 */
+}
+</style>
   <script>
 
     lucide.createIcons();
   </script>
 <script>
+  // ==============================
+// DEMO DATA (ONLY IF EMPTY)
+// ==============================
+
   // ==============================
 // NAVIGATION
 // ==============================
@@ -177,19 +235,22 @@ const list = document.getElementById("redeemList");
 function loadSold() {
   list.innerHTML = "";
 
-  const soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
+  const cards = JSON.parse(localStorage.getItem("soldCards")) || [];
 
-  if (soldCards.length === 0) {
-    list.innerHTML = `<p class="text-gray-400 text-sm">No sold cards found</p>`;
+  // ONLY ACTIVE (UNREDEEMED)
+  const activeCards = cards.filter(c => c.status === "active");
+
+  if (activeCards.length === 0) {
+    list.innerHTML = `<p class="text-gray-400 text-sm">No active cards</p>`;
     return;
   }
 
-  soldCards.forEach(card => {
+  activeCards.forEach(card => {
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
         <div>
-          <p class="text-xs text-gray-500">Purchase Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
+          <p class="text-xs text-gray-500">Gift Code</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">${card.giftCode}</p>
         </div>
 
         <div class="text-right">
@@ -197,7 +258,7 @@ function loadSold() {
           <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount}</p>
         </div>
 
-        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
+        <button data-code="${card.giftCode}" class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
           Redeem
         </button>
       </div>
@@ -222,7 +283,7 @@ function loadRedeemed() {
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
         <div>
-          <p class="text-xs text-gray-500">Purchase Code</p>
+          <p class="text-xs text-gray-500">Gift Code</p>
           <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
         </div>
 
@@ -238,37 +299,110 @@ function loadRedeemed() {
     `;
   });
 }
+// ==============================
+// SECURITY SYSTEM
+// ==============================
+let attemptsLeft = parseInt(localStorage.getItem("attemptsLeft")) || 3;
+let lockUntil = parseInt(localStorage.getItem("lockUntil")) || 0;
 
+function isLocked() {
+  return Date.now() < lockUntil;
+}
+
+function updateLock() {
+  localStorage.setItem("attemptsLeft", attemptsLeft);
+  localStorage.setItem("lockUntil", lockUntil);
+}
 // ==============================
 // HANDLE REDEEM CLICK
 // ==============================
+// ==============================
+// MODAL LOGIC
+// ==============================
+const modal = document.getElementById("redeemModal");
+const closeModal = document.getElementById("closeModal");
+const confirmRedeem = document.getElementById("confirmRedeem");
+const giftInput = document.getElementById("giftCodeInput");
+const amountInput = document.getElementById("amountInput");
+
+let selectedCardCode = null;
+
 list.addEventListener("click", (e) => {
-  if (e.target.textContent === "Redeem") {
-    const cardCode = e.target.closest("div").querySelector("p:nth-child(2)").textContent;
+  const btn = e.target.closest("button");
 
-    let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
-    let redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+  if (btn && btn.dataset.code) {
+    selectedCardCode = btn.dataset.code;
 
-    const card = soldCards.find(c => c.code === cardCode);
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
 
-    if (card) {
-      // remove from sold
-      soldCards = soldCards.filter(c => c.code !== cardCode);
-
-      // add to redeemed
-      redeemed.push({
-        code: card.code,
-        balance: 2000
-      });
-
-      localStorage.setItem("soldCards", JSON.stringify(soldCards));
-      localStorage.setItem("redeemedCards", JSON.stringify(redeemed));
-
-      loadSold(); // refresh
-    }
+    giftInput.value = "";
+    amountInput.value = "";
   }
 });
 
+// CLOSE MODAL
+closeModal.addEventListener("click", () => {
+  modal.classList.add("hidden");
+});
+
+// CONFIRM REDEEM
+confirmRedeem.addEventListener("click", () => {
+  errorText.classList.add("hidden");
+
+  const enteredCode = giftInput.value.trim();
+  const amountUsed = parseInt(amountInput.value);
+
+  if (!enteredCode || !amountUsed) {
+    errorText.textContent = "All fields are required";
+    errorText.classList.remove("hidden");
+    return;
+  }
+
+  const cards = JSON.parse(localStorage.getItem("soldCards")) || [];
+  const redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+
+  const cardIndex = cards.findIndex(c => c.giftCode === enteredCode && c.status === "active");
+
+  if (cardIndex === -1 || amountUsed > cards[cardIndex].amount) {
+    errorText.textContent = "Invalid code or amount too high";
+    errorText.classList.remove("hidden");
+    return;
+  }
+
+  // ✅ Show loader
+  document.getElementById("redeemForm").classList.add("hidden");
+  const loader = document.getElementById("redeemLoader");
+  const success = document.getElementById("redeemSuccess");
+  loader.classList.remove("hidden");
+
+  // Simulate processing delay
+  setTimeout(() => {
+    loader.classList.add("hidden");
+    success.classList.remove("hidden");
+
+    // Update localStorage
+    const card = cards[cardIndex];
+    card.status = "redeemed";
+    card.balance = card.amount - amountUsed;
+    redeemed.push({ code: card.giftCode, balance: card.balance });
+
+    localStorage.setItem("soldCards", JSON.stringify(cards));
+    localStorage.setItem("redeemedCards", JSON.stringify(redeemed));
+
+    // Refresh sold/redeemed lists
+    loadSold();
+    loadRedeemed();
+
+    // Auto-close modal after 2s
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      document.getElementById("redeemForm").classList.remove("hidden");
+      success.classList.add("hidden");
+    }, 2000);
+
+  }, 1200); // 1.2s preloader
+});
 // ==============================
 // TAB SWITCHING
 // ==============================
