@@ -856,20 +856,27 @@ function updateDashboardTotals() {
 confirmSell.addEventListener("click", () => {
   if (!cardToSell) return;
 
-  // ✅ Get existing sold cards
   let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
 
-  // ✅ Update card details before selling
-  cardToSell.status = "active"; // now available for redeem
+  cardToSell.status = "active";
   cardToSell.soldAt = Date.now();
   cardToSell.expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
 
-  // ✅ ADD CARD TO soldCards (THIS WAS MISSING)
   soldCards.push(cardToSell);
-
-  // ✅ Save to localStorage
   localStorage.setItem("soldCards", JSON.stringify(soldCards));
-  // remove from store UI
+
+  // ✅ ADD THIS PART (SALES RECORD)
+  let sales = JSON.parse(localStorage.getItem("sales")) || [];
+
+  sales.push({
+    amount: cardToSell.amount,
+    date: new Date().toISOString(),
+    ref: "TXN-" + Math.floor(100000 + Math.random() * 900000)
+  });
+
+  localStorage.setItem("sales", JSON.stringify(sales));
+
+  // UI updates
   cardToSell.element.remove();
   closeSellModal();
   checkIfStoreEmpty();

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>profile</title>
+<title>Sales</title>
 
 <!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -19,6 +19,7 @@
   body {
     font-family: 'Inter', sans-serif;
     background: #f7f7f8;
+    zoom: 0.9;
   }
 
   .heading-font {
@@ -39,7 +40,40 @@
   .no-scrollbar {
     -ms-overflow-style: none;
   }
+/* DEFAULT: mobile (bottom nav) */
+.custom-nav {
+  bottom: 0.25rem;
+  top: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 28rem;
+  padding: 0 1rem;
+}
 
+.custom-nav-inner {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* DESKTOP: sidebar only above 1025px */
+@media (min-width: 1200px) {
+  .custom-nav {
+    top: 50%;
+    left: 1rem;
+    bottom: 1;
+    transform: translateY(-50%);
+    width: auto;
+    max-width: none;
+    padding: 0;
+  }
+
+  .custom-nav-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+}
 </style>
 </head>
 
@@ -49,18 +83,10 @@
 <div class="max-w-6xl mx-auto min-h-0">
 
 <!-- NAVIGATION -->
-<div class="
-  fixed bottom-1 left-1/2 -translate-x-1/2 w-full max-w-md px-4
+<div class="fixed z-50 custom-nav">
 
-  md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 md:w-auto md:max-w-none md:px-0
-">
-
-  <div class="
-    bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
-    flex justify-between items-center 
-
-    md:flex-col md:items-center md:gap-5 md:px-2 md:py-3
-  ">
+  <div class="bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
+              flex items-center custom-nav-inner">
 
     <!-- Dashboard -->
     <div id="nav-dashboard" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
@@ -153,6 +179,100 @@ navSales?.addEventListener("click", () => {
 
 navProfile?.addEventListener("click", () => {
   window.location.href = "profile.html";
+});
+const salesList = document.getElementById("salesList");
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString() + " • " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function loadSales(filter = "today") {
+  const salesList = document.getElementById("salesList");
+  if (!salesList) return;
+
+  const sales = JSON.parse(localStorage.getItem("sales")) || [];
+  const now = new Date();
+
+  const filtered = sales.filter(sale => {
+    const d = new Date(sale.date);
+
+    if (filter === "today") {
+      return d.toDateString() === now.toDateString();
+    }
+
+    if (filter === "week") {
+      const weekAgo = new Date();
+      weekAgo.setDate(now.getDate() - 7);
+      return d >= weekAgo;
+    }
+
+    if (filter === "month") {
+      return d.getMonth() === now.getMonth() &&
+             d.getFullYear() === now.getFullYear();
+    }
+
+    return true;
+  });
+
+  renderSales(filtered.reverse());
+}
+function renderSales(data) {
+  const salesList = document.getElementById("salesList");
+  salesList.innerHTML = "";
+
+  if (data.length === 0) {
+    salesList.innerHTML = `<p class="text-gray-400 text-sm">No sales yet</p>`;
+    return;
+  }
+
+  data.forEach(sale => {
+    salesList.innerHTML += `
+      <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex justify-between items-center">
+
+        <div class="flex items-start gap-3">
+          <div class="w-3 h-3 mt-2 rounded-full bg-green-500"></div>
+
+          <div>
+            <p class="text-sm font-semibold text-gray-900">₦${sale.amount.toLocaleString()}</p>
+            <p class="text-xs text-gray-500 mt-1">${formatDate(sale.date)}</p>
+            <p class="text-[10px] text-gray-400 mt-1">${sale.ref}</p>
+          </div>
+        </div>
+
+        <span class="text-[10px] px-2 py-1 rounded-full bg-green-100 text-green-600">
+          Completed
+        </span>
+
+      </div>
+    `;
+  });
+}
+const filterBtns = document.querySelectorAll(".filter-btn");
+
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    
+    // UI ACTIVE STATE
+    filterBtns.forEach(b => {
+      b.classList.remove("bg-red-600", "text-white");
+      b.classList.add("bg-gray-100", "text-gray-600");
+    });
+
+    btn.classList.add("bg-red-600", "text-white");
+    btn.classList.remove("bg-gray-100", "text-gray-600");
+
+    const text = btn.textContent;
+
+    if (text.includes("Today")) loadSales("today");
+    else if (text.includes("Week")) loadSales("week");
+    else if (text.includes("Month")) loadSales("month");
+    else loadSales("all");
+
+  });
+});
+window.addEventListener("DOMContentLoaded", () => {
+  loadSales("today");
 });
 </script>
 </body>
