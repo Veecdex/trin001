@@ -72,7 +72,7 @@
     <!-- Redeem -->
     <div id="nav-redeem" class="flex flex-col items-center text-red-600 cursor-pointer md:hover:opacity-80 transition">
       <i data-lucide="ticket" class="w-5 h-5"></i>
-      <span class="text-[10px] mt-1 font-medium">Redeem</span>
+      <span class="text-[10px] mt-1 font-medium">Redeem </span>
     </div>
 
     <!-- Sales -->
@@ -94,16 +94,25 @@
 <div id="redeemPage" class=" max-w-6xl mx-auto px-6 pb-14">
 
     <!-- HEADER -->
-    <div class="bg-white rounded-2xl p-5 border border-gray-100 flex items-center gap-3 mb-6 ">
-  
-      <div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
-        <i data-lucide="ticket"></i>
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 flex items-center justify-between mb-2">
+
+      <!-- LEFT -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+          <i data-lucide="ticket"></i>
+        </div>
+        <h2 class="text-lg font-semibold text-gray-900">Redeem Gifts</h2>
       </div>
-              
-      <h2 class="text-lg font-semibold text-gray-900">Redeem</h2>
-  
+    
+      <!-- RIGHT (SEARCH ICON) -->
+      <button id="openSearch" class="p-2 rounded-lg hover:bg-gray-100">
+        <i data-lucide="search" class="w-5 h-5 text-gray-600"></i>
+      </button>
+    
     </div>
-  
+    <p class="text-xs text-gray-500 mb-4">
+      Redeem and manage customer gift cards instantly.
+    </p>
     <!-- TABS -->
     <div class="flex justify-between items-center border-b border-gray-200 mb-4">
   
@@ -116,7 +125,14 @@
       </button>
   
     </div>
-  
+    <div id="searchBar" class="hidden mb-4">
+      <input 
+        id="searchInput"
+        type="text" 
+        placeholder="Search gift code..."
+        class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+      >
+    </div>
     <!-- LIST CONTAINER -->
     <div id="redeemList" class="space-y-3">
   
@@ -171,6 +187,37 @@
       <p class="text-sm font-semibold">Gift Redeemed Successfully!</p>
     </div>
 
+  </div>
+</div>
+<div id="deductModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white w-[90%] max-w-sm rounded-2xl p-5 shadow-xl">
+
+    <h3 class="font-semibold text-gray-900 mb-3">Deduct Balance</h3>
+    <p class="text-xs text-gray-500 mb-2">
+      Available Balance: <span id="deductBalance" class="font-semibold text-gray-900"></span>
+    </p>
+    <input 
+      id="deductAmount"
+      type="number"
+      placeholder="Enter amount"
+      class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+    >
+
+    <p id="deductError" class="text-xs text-red-500 mt-2 hidden"></p>
+
+    <div class="flex justify-end gap-2 mt-5">
+      <button id="closeDeduct" class="px-4 py-2 text-sm text-gray-500">Cancel</button>
+      <button id="confirmDeduct" class="px-4 py-2 text-sm bg-gray-900 text-white rounded-lg">
+        Deduct
+      </button>
+    </div>
+<!-- SUCCESS MESSAGE -->
+<div id="deductSuccess" class="hidden flex flex-col items-center justify-center text-green-600 mt-4">
+  <div class="w-14 h-14 flex items-center justify-center rounded-full bg-green-100 mb-2">
+    <i data-lucide="check-circle" class="w-8 h-8"></i>
+  </div>
+  <p class="text-sm font-semibold">Deduction Successful</p>
+</div>
   </div>
 </div>
 
@@ -396,10 +443,18 @@ confirmRedeem.addEventListener("click", () => {
 
     // Auto-close modal after 2s
     setTimeout(() => {
-      modal.classList.add("hidden");
-      document.getElementById("redeemForm").classList.remove("hidden");
-      success.classList.add("hidden");
-    }, 2000);
+  modal.classList.add("hidden");
+  document.getElementById("redeemForm").classList.remove("hidden");
+  success.classList.add("hidden");
+
+  // ✅ SWITCH TO REDEEMED TAB UI
+  tabRedeemed.classList.add("text-red-600", "border-b-2", "border-red-600");
+  tabSold.classList.remove("text-red-600", "border-b-2", "border-red-600");
+
+  // ✅ LOAD REDEEMED VIEW ONLY
+  loadRedeemed();
+
+}, 2000);
 
   }, 1200); // 1.2s preloader
 });
@@ -425,6 +480,221 @@ tabRedeemed.addEventListener("click", () => {
 // ==============================
 window.addEventListener("DOMContentLoaded", () => {
   loadSold(); // default tab
+});
+
+const openSearch = document.getElementById("openSearch");
+const searchBar = document.getElementById("searchBar");
+const searchInput = document.getElementById("searchInput");
+
+let currentTab = "sold"; // track active tab
+let selectedRedeemedCode = null;
+// TOGGLE SEARCH BAR
+openSearch.addEventListener("click", () => {
+  searchBar.classList.toggle("hidden");
+  searchInput.focus();
+});
+
+// TRACK ACTIVE TAB
+tabSold.addEventListener("click", () => {
+  currentTab = "sold";
+});
+
+tabRedeemed.addEventListener("click", () => {
+  currentTab = "redeemed";
+});
+
+// LIVE SEARCH
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+
+  if (currentTab === "sold") {
+    searchSold(value);
+  } else {
+    searchRedeemed(value);
+  }
+});
+function searchSold(query) {
+  const cards = JSON.parse(localStorage.getItem("soldCards")) || [];
+
+  const filtered = cards.filter(c => 
+    c.status === "active" &&
+    c.giftCode.toLowerCase().includes(query)
+  );
+
+  renderFilteredSold(filtered);
+}
+
+function renderFilteredSold(cards) {
+  list.innerHTML = "";
+
+  if (cards.length === 0) {
+    list.innerHTML = `<p class="text-gray-400 text-sm">No matching cards</p>`;
+    return;
+  }
+
+  cards.forEach(card => {
+    list.innerHTML += `
+      <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+        <div>
+          <p class="text-xs text-gray-500">Gift Code</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">${card.giftCode}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xs text-gray-500">Amount</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount}</p>
+        </div>
+
+        <button data-code="${card.giftCode}" class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
+          Redeem
+        </button>
+      </div>
+    `;
+  });
+}
+function searchRedeemed(query) {
+  const redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+
+  const filtered = redeemed.filter(c => 
+    c.code.toLowerCase().includes(query)
+  );
+
+  renderFilteredRedeemed(filtered);
+}
+
+function renderFilteredRedeemed(cards) {
+  list.innerHTML = "";
+
+  if (cards.length === 0) {
+    list.innerHTML = `<p class="text-gray-400 text-sm">No matching cards</p>`;
+    return;
+  }
+
+  cards.forEach(card => {
+    list.innerHTML += `
+      <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+        <div>
+          <p class="text-xs text-gray-500">Gift Code</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xs text-gray-500">Balance</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.balance}</p>
+        </div>
+
+        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-900 text-white">
+          Deduct
+        </button>
+      </div>
+    `;
+  });
+}
+list.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+
+  // REDEEM BUTTON
+  if (btn && btn.dataset.code) {
+    selectedCardCode = btn.dataset.code;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+    giftInput.value = "";
+    amountInput.value = "";
+  }
+
+  // ✅ DEDUCT BUTTON
+  if (btn && !btn.dataset.code && btn.textContent.includes("Deduct")) {
+  const cardCode = btn.closest("div").querySelector("p.text-sm").textContent;
+
+  selectedRedeemedCode = cardCode;
+
+  let redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+  const card = redeemed.find(c => c.code === cardCode);
+
+  // ✅ Show balance in modal
+  document.getElementById("deductBalance").textContent = "₦" + card.balance;
+
+  deductModal.classList.remove("hidden");
+  deductModal.classList.add("flex");
+
+  deductAmountInput.value = "";
+  deductError.classList.add("hidden");
+}
+});
+const deductModal = document.getElementById("deductModal");
+const confirmDeduct = document.getElementById("confirmDeduct");
+const closeDeduct = document.getElementById("closeDeduct");
+const deductAmountInput = document.getElementById("deductAmount");
+const deductError = document.getElementById("deductError");
+
+// CLOSE
+closeDeduct.addEventListener("click", () => {
+  deductModal.classList.add("hidden");
+});
+
+// CONFIRM
+confirmDeduct.addEventListener("click", () => {
+  deductError.classList.add("hidden");
+
+  const amount = parseInt(deductAmountInput.value);
+
+  if (!amount || amount <= 0) {
+    deductError.textContent = "Enter a valid amount";
+    deductError.classList.remove("hidden");
+    return;
+  }
+
+  let redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
+  const index = redeemed.findIndex(c => c.code === selectedRedeemedCode);
+
+  if (index === -1) return;
+
+  const currentBalance = redeemed[index].balance;
+
+  if (amount > currentBalance) {
+    deductError.textContent = `Cannot deduct more than ₦${currentBalance}`;
+    deductError.classList.remove("hidden");
+    return;
+  }
+
+  // ✅ SHOW LOADER STYLE (reuse idea)
+  confirmDeduct.textContent = "Processing...";
+  confirmDeduct.disabled = true;
+
+  setTimeout(() => {
+    // ✅ Deduct
+    redeemed[index].balance -= amount;
+
+    if (redeemed[index].balance === 0) {
+      redeemed.splice(index, 1);
+    }
+
+    localStorage.setItem("redeemedCards", JSON.stringify(redeemed));
+
+    // ✅ SHOW SUCCESS UI
+    document.getElementById("deductSuccess").classList.remove("hidden");
+
+    // Hide input area
+    deductAmountInput.classList.add("hidden");
+
+    // Refresh list
+    loadRedeemed();
+
+    setTimeout(() => {
+      deductModal.classList.add("hidden");
+
+      // Reset UI
+      document.getElementById("deductSuccess").classList.add("hidden");
+      deductAmountInput.classList.remove("hidden");
+      confirmDeduct.textContent = "Deduct";
+      confirmDeduct.disabled = false;
+      deductAmountInput.value = "";
+
+    }, 1800);
+
+  }, 800);
 });
 </script>
 </body>
