@@ -9,11 +9,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+
       background: #f9fafb;
     }
     .brand {
@@ -30,7 +30,7 @@
   <!-- ===================================== -->
   <!-- HERO SECTION -->
   <!-- ===================================== -->
-  <div class="relative lg:w-1/2 w-full h-[40vh] lg:h-full text-white flex items-center">
+  <div class="relative lg:w-1/2 w-full h-[55vh] lg:h-full text-white flex items-center">
 
     <!-- Background Image -->
     <img
@@ -40,19 +40,40 @@
     >
 
     <!-- Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-red-600/60"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-red-600/70"></div>
 
     <!-- Content -->
     <div class="relative z-10 px-6 lg:px-12">
-      <h1 class="brand text-3xl lg:text-4xl font-bold mb-4">
-        M<span class="text-red-500">o</span>ma
+      <!-- Stylish Logo -->
+      <h1 class="brand text-3xl lg:text-4xl font-extrabold mb-6">
+        Mo<span class="text-red-500">ma</span>
       </h1>
+
+      <!-- Headline -->
       <h2 class="text-2xl lg:text-4xl font-bold mb-4 leading-tight">
-        Powering Modern Business Payments
+        Empower Your Store with Branded Gift Cards
       </h2>
+
+      <!-- Description -->
       <p class="text-gray-200 text-sm lg:text-base max-w-md">
-        Manage gift cards, track revenue, and scale your business with a secure fintech platform built for modern entrepreneurs.
+        Moma helps businesses design, print, and sell their own branded gift cards—unlocking new revenue streams and strengthening customer loyalty.
       </p>
+
+      <!-- Supporting Points -->
+      <ul class="mt-6 space-y-3 text-white/90 text-sm">
+        <li class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-white rounded-full"></span>
+          Create beautifully branded gift cards.
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-white rounded-full"></span>
+          Sell and manage cards from a unified dashboard.
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-white rounded-full"></span>
+          Track redemptions and grow customer loyalty.
+        </li>
+      </ul>
     </div>
   </div>
 
@@ -66,7 +87,7 @@
       <!-- Logo for Mobile -->
       <div class="lg:hidden text-center mb-6">
         <h1 class="brand text-2xl font-bold">
-          M<span class="text-red-500">o</span>ma
+          Mo<span class="text-red-500">ma</span>
         </h1>
       </div>
 
@@ -94,13 +115,15 @@
             <input type="text" id="businessName" required
               placeholder="e.g. Kandie Place"
               class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 outline-none">
+            <p class="text-xs text-gray-400 mt-1">This name will appear on your branded gift cards.</p>
           </div>
 
           <div>
             <label class="text-sm font-medium text-gray-700">Business Email</label>
             <input type="email" id="businessEmail" required
-              placeholder="e.g. hello@moma.com"
+              placeholder="e.g. hello@kandieplace.com"
               class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 outline-none">
+            <p class="text-xs text-gray-400 mt-1">We'll use this email for important notifications.</p>
           </div>
         </div>
 
@@ -113,6 +136,7 @@
             <input type="text" id="location" required
               placeholder="e.g. Cotonou, Benin"
               class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 outline-none">
+            <p class="text-xs text-gray-400 mt-1">City and country where your business operates.</p>
           </div>
 
           <div>
@@ -123,11 +147,12 @@
               <option>Retail</option>
               <option>Food & Restaurant</option>
               <option>Fashion</option>
+              <option>Supermarket</option>
               <option>Technology</option>
-              <option>Finance</option>
               <option>Health & Beauty</option>
               <option>Other</option>
             </select>
+            <p class="text-xs text-gray-400 mt-1">Choose the category that best describes your business.</p>
           </div>
 
           <div>
@@ -135,6 +160,7 @@
             <textarea id="address" rows="3" required
               placeholder="e.g. 12 Avenue Jean-Paul II, Cotonou"
               class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 outline-none"></textarea>
+            <p class="text-xs text-gray-400 mt-1">This helps customers locate your store.</p>
           </div>
         </div>
 
@@ -146,9 +172,10 @@
             <input type="checkbox" id="terms" required class="mt-1 accent-red-600">
             <label for="terms" class="text-sm text-gray-600">
               I agree to the
-              <a href="#" class="text-red-600 font-medium hover:underline">Terms of Service</a>
+              <a href="#" class="text-red-600 font-medium hover:underline">Terms of Service</a>,
+              <a href="#" class="text-red-600 font-medium hover:underline">Privacy Policy</a>,
               and
-              <a href="#" class="text-red-600 font-medium hover:underline">Privacy Policy</a>.
+              <a href="#" class="text-red-600 font-medium hover:underline">Contact Support</a>.
             </label>
           </div>
         </div>
@@ -168,10 +195,26 @@
       </form>
 
       <!-- FOOTER -->
-      <p class="text-xs text-center text-gray-400 mt-6">
-        © 2026 Moma. All rights reserved.
-      </p>
+      <footer class="mt-8 border-t pt-4 text-center text-xs text-gray-500">
+        <div class="flex justify-center gap-4 mb-2">
+          <a href="#" class="hover:text-red-600">Contact</a>
+          <a href="#" class="hover:text-red-600">Support</a>
+          <a href="#" class="hover:text-red-600">Help Center</a>
+        </div>
+        <p>© <span id="year"></span> Moma. All rights reserved.</p>
+      </footer>
     </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div id="successModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-2xl p-6 w-80 text-center shadow-xl">
+    <div class="w-16 h-16 mx-auto mb-4 bg-green-100 text-green-600 flex items-center justify-center rounded-full">
+      ✓
+    </div>
+    <h3 class="text-lg font-semibold text-gray-900">Welcome to Moma!</h3>
+    <p class="text-sm text-gray-500 mt-2">Your business has been successfully onboarded.</p>
   </div>
 </div>
 
@@ -181,6 +224,7 @@
   const nextBtn = document.getElementById("nextBtn");
   const prevBtn = document.getElementById("prevBtn");
   const progressBar = document.getElementById("progressBar");
+  const successModal = document.getElementById("successModal");
 
   let currentStep = 0;
 
@@ -190,13 +234,7 @@
     });
 
     prevBtn.classList.toggle("hidden", index === 0);
-
-    if (index === steps.length - 1) {
-      nextBtn.textContent = "Create Account";
-    } else {
-      nextBtn.textContent = "Next";
-    }
-
+    nextBtn.textContent = index === steps.length - 1 ? "Create Account" : "Next";
     progressBar.style.width = `${((index + 1) / steps.length) * 100}%`;
   }
 
@@ -214,7 +252,6 @@
       currentStep++;
       showStep(currentStep);
     } else {
-      // Save data
       const data = {
         businessName: document.getElementById("businessName").value,
         email: document.getElementById("businessEmail").value,
@@ -225,7 +262,14 @@
       };
 
       localStorage.setItem("momaBusinessProfile", JSON.stringify(data));
-      window.location.href = "dashboard.html";
+
+      // Show success modal
+      successModal.classList.remove("hidden");
+      successModal.classList.add("flex");
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 2000);
     }
   });
 
@@ -236,7 +280,8 @@
     }
   });
 
-  // Initialize
+  document.getElementById("year").textContent = new Date().getFullYear();
+
   showStep(currentStep);
 </script>
 

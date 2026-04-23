@@ -322,7 +322,14 @@ function loadSold() {
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
         <div>
           <p class="text-xs text-gray-500">Gift Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">${card.giftCode}</p>
+          <div class="flex items-center gap-2 mt-1">
+  <p class="text-sm font-semibold text-gray-900">${card.giftCode}</p>
+
+  <button onclick="copyCode('${card.giftCode}')" 
+    class="text-gray-400 hover:text-gray-700">
+    <i data-lucide="copy" class="w-4 h-4"></i>
+  </button>
+</div>
         </div>
 
         <div class="text-right">
@@ -336,6 +343,7 @@ function loadSold() {
       </div>
     `;
   });
+  lucide.createIcons();
 }
 
 // ==============================
@@ -434,13 +442,29 @@ confirmRedeem.addEventListener("click", () => {
   const cards = JSON.parse(localStorage.getItem("soldCards")) || [];
   const redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
 
-  const cardIndex = cards.findIndex(c => c.giftCode === enteredCode && c.status === "active");
+  const cardIndex = cards.findIndex(c => 
+  c.giftCode === selectedCardCode && 
+  c.status === "active"
+);
 
-  if (cardIndex === -1 || amountUsed > cards[cardIndex].amount) {
-    errorText.textContent = "Invalid code or amount too high";
-    errorText.classList.remove("hidden");
-    return;
-  }
+// ❌ If user typed wrong code
+if (enteredCode !== selectedCardCode) {
+  errorText.textContent = "Gift code does not match selected card";
+  errorText.classList.remove("hidden");
+  return;
+}
+
+if (cardIndex === -1) {
+  errorText.textContent = "Card not found or already redeemed";
+  errorText.classList.remove("hidden");
+  return;
+}
+
+if (amountUsed > cards[cardIndex].amount) {
+  errorText.textContent = "Amount exceeds card value";
+  errorText.classList.remove("hidden");
+  return;
+}
 
   // ✅ Show loader
   document.getElementById("redeemForm").classList.add("hidden");
@@ -547,6 +571,7 @@ function searchSold(query) {
   );
 
   renderFilteredSold(filtered);
+  
 }
 
 function renderFilteredSold(cards) {
@@ -560,9 +585,18 @@ function renderFilteredSold(cards) {
   cards.forEach(card => {
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+        
         <div>
           <p class="text-xs text-gray-500">Gift Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">${card.giftCode}</p>
+
+          <div class="flex items-center gap-2 mt-1">
+            <p class="text-sm font-semibold text-gray-900">${card.giftCode}</p>
+
+            <button onclick="copyCode('${card.giftCode}')"
+              class="text-gray-400 hover:text-gray-700">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+          </div>
         </div>
 
         <div class="text-right">
@@ -576,6 +610,8 @@ function renderFilteredSold(cards) {
       </div>
     `;
   });
+
+  lucide.createIcons();
 }
 function searchRedeemed(query) {
   const redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
@@ -598,10 +634,7 @@ function renderFilteredRedeemed(cards) {
   cards.forEach(card => {
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
-        <div>
-          <p class="text-xs text-gray-500">Gift Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
-        </div>
+        <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
 
         <div class="text-right">
           <p class="text-xs text-gray-500">Balance</p>
@@ -614,6 +647,8 @@ function renderFilteredRedeemed(cards) {
       </div>
     `;
   });
+
+  lucide.createIcons();
 }
 list.addEventListener("click", (e) => {
   const btn = e.target.closest("button");
@@ -625,8 +660,8 @@ list.addEventListener("click", (e) => {
     modal.classList.remove("hidden");
     modal.classList.add("flex");
 
-    giftInput.value = "";
-    amountInput.value = "";
+    giftInput.value = selectedCardCode;
+    giftInput.readOnly = true;
   }
 
   // ✅ DEDUCT BUTTON
@@ -721,6 +756,13 @@ confirmDeduct.addEventListener("click", () => {
 
   }, 800);
 });
+function copyCode(code) {
+  navigator.clipboard.writeText(code);
+
+  // Optional feedback
+  alert("Code copied!");
+}
+
 </script>
 </body>
 </html>

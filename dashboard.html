@@ -46,6 +46,20 @@
     display: none !important;
   }
 }
+@media (max-width: 750px) {
+
+/* target ALL cards instead of ID */
+.mb-24 .rounded-3xl {
+  box-shadow: none !important;
+}
+
+/* specifically kill Tailwind shadows */
+.shadow-sm,
+.shadow-xl {
+  box-shadow: none !important;
+}
+
+}
 
 /* DEFAULT: mobile (bottom nav) */
 .custom-nav {
@@ -104,6 +118,91 @@
     min-width: 0;
   }
 }
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 1.5s infinite;
+}
+/* =========================
+   SOFT SAAS DASHBOARD POLISH
+   (SAFE ADD-ON ONLY)
+   ========================= */
+
+/* Global depth improvement (does not affect layout) */
+.bg-white {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Card surfaces (gray cards in store list) */
+#cardList .bg-gray-50 {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+  transition: all 0.2s ease;
+}
+
+#cardList .bg-gray-50:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+#gocards{
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+#tocards{
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+#locards{
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+/* Top stat cards depth */
+.rounded-3xl {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+/* Dark gradient card enhancement */
+.bg-gradient-to-br.from-\[\#1A1F2E\] {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* Chart container breathing depth */
+canvas {
+  filter: drop-shadow(0px 6px 10px rgba(0,0,0,0.15));
+}
+
+/* Search + small UI elements polish */
+input, .rounded-lg, .rounded-xl {
+  transition: all 0.2s ease;
+}
+
+/* Buttons subtle lift */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+
+
+/* Navigation bar enhancement */
+.custom-nav .bg-white {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  backdrop-filter: blur(10px);
+}
+
+/* Empty state card polish */
+#noStoreCards > div {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Hover feel consistency */
+*:hover {
+  transition-duration: 0.2s;
+}
 </style>
 </head>
 
@@ -132,9 +231,26 @@
     <!-- RIGHT -->
     <div class="flex items-center gap-4">
 
-      <div class="w-11 h-11 bg-white shadow-sm border border-gray-200 flex items-center justify-center rounded-xl cursor-pointer hover:shadow-md transition">
-        <i data-lucide="shopping-cart" class="w-5 h-5 text-gray-700"></i>
-      </div>
+      <div class="group flex items-center gap-3 bg-white shadow-sm border border-gray-200 
+      px-3 py-2 rounded-xl cursor-pointer hover:shadow-md transition">
+
+<!-- ICON -->
+<div class="w-11 h-11 flex items-center justify-center rounded-xl bg-red-50 relative">
+<i data-lucide="shopping-cart" 
+ class="w-5 h-5 text-red-600 animate-bounce-slow"></i>
+</div>
+
+<!-- TEXT (HIDDEN ON MOBILE) -->
+<div class="hidden lg:flex flex-col leading-tight">
+<p class="text-sm font-semibold text-gray-900">
+Order Gift Cards
+</p>
+<p class="text-xs text-gray-500">
+Stock your store & start selling
+</p>
+</div>
+
+</div>
 
       <div class="px-4 py-2 border border-red-200 rounded-xl bg-white shadow-sm">
         <p class="text-xs text-gray-500">Gift Cards</p>
@@ -147,15 +263,15 @@
 
   </div>
 
-  <div class="mb-24 overflow-x-auto no-scrollbar md:overflow-visible">
+  <div class="mb-24 overflow-x-auto no-scrollbar md:overflow-visible ">
 
     <!-- FLEX SCROLL ON MOBILE / GRID ON DESKTOP -->
-    <div class="flex gap-4 md:px-0 md:grid md:grid-cols-3">
+    <div  class="flex gap-4 md:px-0 md:grid md:grid-cols-3">
   
       <!-- ===================== -->
       <!-- CARD 1 (TODAY SALES) -->
       <!-- ===================== -->
-      <div class="bg-[#0F0F10] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
+      <div id="gocards" class="bg-[#0F0F10] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
                   min-w-[100%] md:min-w-0">
   
         <div class="flex items-start justify-between mb-10">
@@ -190,7 +306,7 @@
       </div>
   
   <!-- CARD 2 (FINANCE - WHITE VERSION) -->
-<div class="bg-white text-gray-900 rounded-3xl p-6 md:p-8 relative overflow-hidden 
+<div id="gocards" class="bg-white text-gray-900 rounded-3xl p-6 md:p-8 relative overflow-hidden 
 min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 
 <!-- TOP -->
@@ -270,7 +386,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
     </div>
   </div>
 <!-- STORE CARDS SECTION -->
-<div style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[55vh] md:h-[60vh]">
+<div style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[105vh] md:h-[60vh]">
   <div class="flex items-center justify-between px-6 pt-5 pb-3">
 
     <h2 class="text-sm font-semibold text-gray-800">Gifts In Store</h2>
@@ -327,11 +443,13 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
     <!-- ===================== -->
     <!-- RIGHT: CHART -->
     <!-- ===================== -->
-    <div class="flex-1 min-h-0  bg-white rounded-xl p-4 shadow-lg">
-      <canvas id="salesChart" class="w-full h-64 "></canvas>
-    </div>
-  
-  </div>
+    <div class="w-full  lg:w-1/2 xl:w-3/5 h-[220px] sm:h-[160px] lg:h-full mb-16
+    bg-gradient-to-br from-[#1A1F2E] to-[#111827] 
+    rounded-2xl p-4 shadow-lg">
+
+<canvas id="salesChart" class="w-full h-full"></canvas>
+
+</div>
   
 
 <!-- NAVIGATION -->
@@ -408,7 +526,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
     </div>
 
     <!-- CENTER -->
-    <div class="flex flex-col items-center relative z-10 space-y-1">
+    <div  class="flex flex-col items-center relative z-10 space-y-1">
       <h2 class="text-lg font-bold tracking-wide">KANDIE</h2>
       <p class="text-xs opacity-80">Premium Store</p>
     </div>
@@ -819,15 +937,39 @@ function checkIfStoreEmpty() {
     empty.className = "flex flex-col items-center justify-center mt-16 text-center";
 
     empty.innerHTML = `
-      <p class="text-gray-400 text-sm mb-4">No cards in store 😕</p>
+  <div  class="bg-white border border-gray-100 shadow-sm rounded-2xl p-2 max-w-sm w-full mb-14">
 
-      <button class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm">
-        Buy Gift Cards
-      </button>
-    `;
+    <!-- ICON -->
+    <div class="w-14 h-14 flex items-center justify-center rounded-full bg-red-50 text-red-600 mb-54">
+      <i data-lucide="credit-card" class="w-6 h-6"></i>
+    </div>
+
+    <!-- TITLE -->
+    <h3 class="text-base font-semibold text-gray-900 mb-1">
+      No cards in store
+    </h3>
+
+    <!-- DESCRIPTION -->
+    <p class="text-sm text-gray-500 mb-5 leading-relaxed">
+      You don’t have any gift cards available yet. Order branded cards and start offering them to your customers.
+    </p>
+
+    <!-- CTA -->
+    <button class="w-full px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700 transition">
+      Order Gift Cards
+    </button>
+
+    <!-- OPTIONAL SUPPORT -->
+    <p class="text-xs text-gray-400 mt-3">
+      Need help? <span class="text-red-600 cursor-pointer">Contact support</span>
+    </p>
+
+  </div>
+`;
 
     cardList.appendChild(empty);
   }
+  lucide.createIcons();
 }
 // OPEN MODAL FUNCTION
 function openSellModal(card) {
@@ -944,100 +1086,93 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
 </script>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
     const ctx = document.getElementById('salesChart').getContext('2d');
-  
+    
+    // gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, "rgba(239, 68, 68, 0.35)");
+    gradient.addColorStop(1, "rgba(239, 68, 68, 0.02)");
+    
     const salesChart = new Chart(ctx, {
-      type: 'line', // stock market style
+      type: 'line',
       data: {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         datasets: [{
-          label: 'Sales',
-          data: [12000, 15000, 13000, 17000, 16000, 19000, 18000], // demo values
-          borderColor: '#EF4444', // red for your theme
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
-          tension: 0.4, // smooth curves
+          data: [12000, 15000, 13000, 17000, 16000, 19000, 18000],
+    
+          borderColor: '#EF4444',
+          borderWidth: 2,
+          tension: 0.45,
           fill: true,
-          pointRadius: 5,
-          pointHoverRadius: 7
+          backgroundColor: gradient,
+    
+          // 👇 IMPORTANT FOR HOVER
+          pointRadius: 0,
+          pointHitRadius: 20,   // 🔥 makes hover easier
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: '#EF4444',
+          pointHoverBorderWidth: 2,
         }]
       },
+    
       options: {
         responsive: true,
         maintainAspectRatio: false,
+    
+        interaction: {
+          mode: 'nearest',   // 🔥 fixes hover detection
+          intersect: false
+        },
+    
         plugins: {
-          legend: {
-            display: false
-          },
+          legend: { display: false },
+    
           tooltip: {
-            mode: 'index',
-            intersect: false
+            enabled: true,
+            backgroundColor: "#111827",
+            borderColor: "#374151",
+            borderWidth: 1,
+            titleColor: "#fff",
+            bodyColor: "#e5e7eb",
+            padding: 10,
+            displayColors: false,
+            intersect: false,
+    
+            callbacks: {
+              label: function(context) {
+                return "₦" + context.raw.toLocaleString();
+              }
+            }
           }
         },
+    
         scales: {
           x: {
+            ticks: {
+              color: "#9CA3AF"
+            },
             grid: {
               display: false
             }
           },
+    
           y: {
-            grid: {
-              color: '#f0f0f0'
+            ticks: {
+              color: "#6B7280",
+              callback: (value) => "₦" + value/1000 + "k"
             },
-            beginAtZero: false
-          }
-        }
-      }
-    });
-  </script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const ctx = document.getElementById('salesChart').getContext('2d');
-  
-    const salesChart = new Chart(ctx, {
-      type: 'line', // stock market style
-      data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        datasets: [{
-          label: 'Sales',
-          data: [12000, 15000, 13000, 17000, 16000, 19000, 18000], // demo values
-          borderColor: '#EF4444', // red for your theme
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
-          tension: 0.4, // smooth curves
-          fill: true,
-          pointRadius: 5,
-          pointHoverRadius: 7
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false
-          }
-        },
-        scales: {
-          x: {
             grid: {
-              display: false
+              color: "rgba(255,255,255,0.05)",
+              drawBorder: false
             }
-          },
-          y: {
-            grid: {
-              color: '#f0f0f0'
-            },
-            beginAtZero: false
           }
         }
       }
     });
-  </script>
+    </script>
 <script>
   const widget = document.getElementById("giftWidget");
 
