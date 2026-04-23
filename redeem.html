@@ -24,7 +24,7 @@
   @media (max-width: 750px) {
 
 html {
-  font-size: 12px; /* 👈 scales EVERYTHING proportionally */
+  font-size: 14px; /* 👈 scales EVERYTHING proportionally */
 }
 
 .max-w-6xl {
@@ -84,6 +84,15 @@ html {
     align-items: center;
     gap: 1.25rem;
   }
+}
+@media (max-width: 750px) {
+
+input,
+textarea,
+select {
+  font-size: 16px !important; /* 👈 prevents shrink + iOS zoom issues */
+}
+
 }
 </style>
 </head>
