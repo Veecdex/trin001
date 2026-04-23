@@ -14,12 +14,21 @@
 
 <!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
-
+<script>
+  // If not coming from preloader, redirect to it
+  if (!sessionStorage.getItem("loadedFromPreloader")) {
+    sessionStorage.setItem("redirectAfterLoad", "dashboard.html");
+    window.location.href = "preloader.html";
+  } else {
+    // Reset so refresh triggers preloader again
+    sessionStorage.removeItem("loadedFromPreloader");
+  }
+</script>
 <style>
   body {
     font-family: 'Inter', sans-serif;
     background: #fbfbfb;
-    zoom: 0.9;
+    zoom: 0.85;
   }
 
   .heading-font {
@@ -40,13 +49,13 @@
   .no-scrollbar {
     -ms-overflow-style: none;
   }
-  @media (max-width: 1190px) {
+  @media (max-width: 1070px) {
   #giftWidget1,
   #giftWidget2 {
     display: none !important;
   }
 }
-@media (max-width: 750px) {
+@media (max-width: 1190px) {
 
 html {
   font-size: 14px ; /* 👈 scales EVERYTHING proportionally */
@@ -448,7 +457,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
   
           <div>
             <p class="text-sm text-white/80">Total Revenue</p>
-            <h2 id="totalSalesAmount" class="text-3xl md:text-4xl font-bold mt-1">₦120,000</h2>
+            <h2 id="totalSalesAmount" class="text-3xl md:text-4xl font-bold mt-1">₦0</h2>
           </div>
   
           <div class="text-right">
@@ -1038,17 +1047,70 @@ function closeSellModal() {
   document.getElementById("sellModal").classList.add("hidden");
 }
 
-// UPDATE DASHBOARD TOTALS
 function updateDashboardTotals() {
   const giftsValue = document.getElementById("giftsValue");
   const amountValue = document.getElementById("amountValue");
 
-  giftsValue.textContent = soldCards.length;
-  const totalAmount = soldCards.reduce((sum, card) => sum + card.amount, 0);
+  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
+
+  const today = new Date();
+  const todayStr = today.toDateString();
+
+  // 🔥 filter ONLY today's sales
+  const todaySales = soldCards.filter(card => {
+    if (!card.soldAt) return false;
+    return new Date(card.soldAt).toDateString() === todayStr;
+  });
+
+  // count
+  giftsValue.textContent = todaySales.length;
+
+  // sum
+  const totalAmount = todaySales.reduce((sum, card) => sum + card.amount, 0);
   amountValue.textContent = `₦${totalAmount.toLocaleString()}`;
 }
 
+if (!localStorage.getItem("joinedAt")) {
+  localStorage.setItem("joinedAt", Date.now());
+}
+function updateBusinessDuration() {
+  const el = document.getElementById("businessDuration");
+  const joinedAt = localStorage.getItem("joinedAt");
 
+  if (!joinedAt) return;
+
+  const start = new Date(parseInt(joinedAt));
+  const now = new Date();
+
+  const diffMs = now - start;
+
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const weeks = Math.floor(days / 7);
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  let text = "";
+
+  if (years > 0) text = `${years} Year${years > 1 ? "s" : ""}`;
+  else if (months > 0) text = `${months} Month${months > 1 ? "s" : ""}`;
+  else if (weeks > 0) text = `${weeks} Week${weeks > 1 ? "s" : ""}`;
+  else text = `${days} Day${days !== 1 ? "s" : ""}`;
+
+  el.textContent = text;
+}
+updateBusinessDuration();
+setInterval(updateBusinessDuration, 60000); // update every minute
+function updateTotalRevenue() {
+  const el = document.getElementById("totalSalesAmount");
+
+  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
+
+  const total = soldCards.reduce((sum, card) => sum + card.amount, 0);
+
+  el.textContent = `₦${total.toLocaleString()}`;
+}
+updateTotalRevenue();
+setInterval(updateTotalRevenue, 2000);
 // CONFIRM SALE BUTTON
 confirmSell.addEventListener("click", () => {
   if (!cardToSell) return;
@@ -1150,12 +1212,39 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
     gradient.addColorStop(0, "rgba(239, 68, 68, 0.35)");
     gradient.addColorStop(1, "rgba(239, 68, 68, 0.02)");
     
+    /* =========================
+       🔥 GET REAL SALES DATA
+       ========================= */
+    function getWeeklySalesData() {
+      let sales = JSON.parse(localStorage.getItem("sales")) || [];
+    
+      const labels = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      const totals = [0,0,0,0,0,0,0];
+    
+      sales.forEach(sale => {
+        if (!sale.date || !sale.amount) return;
+    
+        const d = new Date(sale.date);
+        const day = d.getDay(); // 0-6
+    
+        totals[day] += sale.amount;
+      });
+    
+      return { labels, totals };
+    }
+    
+    // 🔥 initial data
+    const initialData = getWeeklySalesData();
+    
+    /* =========================
+       🚀 CREATE CHART
+       ========================= */
     const salesChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels: initialData.labels,
         datasets: [{
-          data: [12000, 15000, 13000, 17000, 16000, 19000, 18000],
+          data: initialData.totals,
     
           borderColor: '#EF4444',
           borderWidth: 2,
@@ -1163,9 +1252,8 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
           fill: true,
           backgroundColor: gradient,
     
-          // 👇 IMPORTANT FOR HOVER
           pointRadius: 0,
-          pointHitRadius: 20,   // 🔥 makes hover easier
+          pointHitRadius: 20,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: '#fff',
           pointHoverBorderColor: '#EF4444',
@@ -1178,7 +1266,7 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
         maintainAspectRatio: false,
     
         interaction: {
-          mode: 'nearest',   // 🔥 fixes hover detection
+          mode: 'nearest',
           intersect: false
         },
     
@@ -1194,7 +1282,6 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
             bodyColor: "#e5e7eb",
             padding: 10,
             displayColors: false,
-            intersect: false,
     
             callbacks: {
               label: function(context) {
@@ -1206,12 +1293,8 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
     
         scales: {
           x: {
-            ticks: {
-              color: "#9CA3AF"
-            },
-            grid: {
-              display: false
-            }
+            ticks: { color: "#9CA3AF" },
+            grid: { display: false }
           },
     
           y: {
@@ -1227,6 +1310,21 @@ document.addEventListener("DOMContentLoaded", updateStoreCount);
         }
       }
     });
+    
+    /* =========================
+       🔄 LIVE UPDATE
+       ========================= */
+    function updateChartLive() {
+      const newData = getWeeklySalesData();
+    
+      salesChart.data.labels = newData.labels;
+      salesChart.data.datasets[0].data = newData.totals;
+    
+      salesChart.update();
+    }
+    
+    // 🔥 auto refresh every 2 seconds
+    setInterval(updateChartLive, 2000);
     </script>
 <script>
   const widget = document.getElementById("giftWidget");
@@ -1288,7 +1386,10 @@ confirmSell.addEventListener("click", () => {
 closeSellSuccess.addEventListener("click", () => {
   sellSuccessModal.classList.add("hidden");
 });
-
+// 🔥 AUTO REFRESH EVERY 2 SECONDS
+setInterval(() => {
+  updateDashboardTotals();
+}, 2000);
 </script>
 </body>
 </html>

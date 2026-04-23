@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Loading...</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    body {
+      background: #fbfbfb;
+      font-family: sans-serif;
+      zoom: 0.85;
+    }
+    
+    /* =========================
+       SHIMMER EFFECT
+       ========================= */
+    @keyframes shimmer {
+      0% { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    
+    .skeleton {
+      background: linear-gradient(
+        90deg,
+        #f0f0f0 25%,
+        #e4e4e4 37%,
+        #f0f0f0 63%
+      );
+      background-size: 400% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: 12px;
+    }
+    
+    /* =========================
+       REMOVE SCROLLBAR (MOBILE)
+       ========================= */
+    @media (max-width: 900px) {
+      body::-webkit-scrollbar,
+      .overflow-x-auto::-webkit-scrollbar {
+        display: none;
+      }
+    
+      body {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+    
+    /* =========================
+       NAVIGATION DEFAULT (MOBILE)
+       ========================= */
+    .custom-nav {
+      position: fixed;
+      bottom: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 28rem;
+      padding: 0 1rem;
+    }
+    
+    .custom-nav-inner {
+      display: flex;
+      flex-direction: row; /* horizontal */
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* =========================
+       NAVIGATION DESKTOP (SIDEBAR)
+       ========================= */
+    @media (min-width: 1200px) {
+    
+      .custom-nav {
+        top: 50%;
+        left: 1rem;
+        bottom: auto;
+        transform: translateY(-50%);
+        width: auto;
+        padding: 0;
+      }
+    
+      .custom-nav-inner {
+        flex-direction: column; /* vertical */
+        align-items: center;
+        gap: 1.5rem;
+        width: fit-content;
+      }
+    
+    }
+    
+    /* =========================
+       CLEAN SCROLL FOR CARDS
+       ========================= */
+    .flex::-webkit-scrollbar {
+      display: none;
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="max-w-6xl mx-auto px-6 py-6">
+
+  <!-- TOP BAR -->
+  <div class="flex justify-between items-center mb-8">
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 skeleton"></div>
+      <div class="space-y-2">
+        <div class="w-32 h-3 skeleton"></div>
+        <div class="w-24 h-4 skeleton"></div>
+      </div>
+    </div>
+
+    <div class="flex gap-4">
+      <div class="w-32 h-10 skeleton rounded-xl"></div>
+      <div class="w-24 h-10 skeleton rounded-xl"></div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="flex gap-4 overflow-x-auto mb-8">
+    <div class="min-w-full md:min-w-0 flex-1 h-36 skeleton"></div>
+    <div class="min-w-full md:min-w-0 flex-1 h-36 skeleton"></div>
+    <div class="min-w-full md:min-w-0 flex-1 h-36 skeleton"></div>
+  </div>
+
+  <!-- STORE + CHART -->
+  <div class="bg-white rounded-3xl p-4 border flex flex-col lg:flex-row gap-4">
+
+    <!-- LIST -->
+    <div class="flex-1 space-y-3">
+      <div class="h-12 skeleton"></div>
+      <div class="h-12 skeleton"></div>
+      <div class="h-12 skeleton"></div>
+      <div class="h-12 skeleton"></div>
+    </div>
+
+    <!-- CHART -->
+    <div class="w-full lg:w-1/2 h-48 skeleton"></div>
+  </div>
+
+</div>
+
+<!-- NAV -->
+<div class="fixed custom-nav z-50">
+    <div class="bg-white rounded-2xl p-3 custom-nav-inner">
+    <div class="w-10 h-10 skeleton"></div>
+    <div class="w-10 h-10 skeleton"></div>
+    <div class="w-10 h-10 skeleton"></div>
+    <div class="w-10 h-10 skeleton"></div>
+  </div>
+</div>
+
+<!-- FLOATING WIDGETS -->
+<div class="hidden md:block fixed right-4 top-1/2 -translate-y-1/2 w-20 h-52 skeleton"></div>
+<div class="hidden md:block fixed left-4 bottom-4 w-20 h-52 skeleton"></div>
+
+<!-- REDIRECT SCRIPT -->
+<script>
+    setTimeout(() => {
+      sessionStorage.setItem("loadedFromPreloader", "true");
+  
+      const nextPage = sessionStorage.getItem("redirectAfterLoad") || "dashboard.html";
+      window.location.href = nextPage;
+    }, 2500);
+  </script>
+
+</body>
+</html>
