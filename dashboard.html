@@ -18,7 +18,7 @@
 <style>
   body {
     font-family: 'Inter', sans-serif;
-    background: #f7f7f8;
+    background: #fbfbfb;
     zoom: 0.9;
   }
 
@@ -95,6 +95,7 @@
     gap: 1.25rem;
   }
 }
+
 /* MOBILE / TABLET: show 2 cards + scroll */
 .cards-wrapper {
   display: flex;
@@ -203,6 +204,64 @@ button:hover {
 *:hover {
   transition-duration: 0.2s;
 }
+@media (min-width: 900px) {
+
+#cardList::-webkit-scrollbar {
+  width: 6px;
+}
+
+#cardList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#cardList::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+#cardList:hover::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.6);
+}
+
+}
+/* =========================
+   GLOBAL PAGE SCROLLBAR
+   ========================= */
+   @media (min-width: 900px) {
+
+/* width */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* track */
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* thumb */
+body::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+/* hover */
+body:hover::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.6);
+}
+}
+#giftWidget1 img,
+#giftWidget2 img {
+  transition: transform 0.3s ease;
+}
+
+#giftWidget1:hover img,
+#giftWidget2:hover img {
+  transform: scale(1.05);
+}
+
 </style>
 </head>
 
@@ -386,7 +445,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
     </div>
   </div>
 <!-- STORE CARDS SECTION -->
-<div style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[105vh] md:h-[60vh]">
+<div id="cardik" style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[105vh] md:h-[60vh]">
   <div class="flex items-center justify-between px-6 pt-5 pb-3">
 
     <h2 class="text-sm font-semibold text-gray-800">Gifts In Store</h2>
@@ -513,62 +572,37 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 <div id="giftWidget1"
   class="hidden md:block fixed top-1/2 right-4 -translate-y-1/2 z-50 cursor-grab active:cursor-grabbing">
 
-  <div class="w-24 h-60 rounded-2xl p-4 text-white shadow-2xl relative overflow-hidden
-              bg-gradient-to-b from-red-500 via-pink-500 to-purple-600 flex flex-col items-center justify-between">
+  <div class="w-24 h-60 rounded-2xl shadow-2xl relative overflow-hidden">
 
-    <!-- Glow -->
-    <div class="absolute -top-10 -left-10 w-32 h-32 bg-white/20 blur-3xl rounded-full"></div>
+    <!-- IMAGE -->
+    <img 
+      src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=400"
+      alt="gift card"
+      class="w-full h-full object-cover rounded-2xl"
+    />
 
-    <!-- TOP -->
-    <div class="flex flex-col items-center text-center relative z-10 space-y-1">
-      <span class="text-xs opacity-80">Moma</span>
-      <span class="text-sm font-semibold">₦10,000</span>
-    </div>
-
-    <!-- CENTER -->
-    <div  class="flex flex-col items-center relative z-10 space-y-1">
-      <h2 class="text-lg font-bold tracking-wide">KANDIE</h2>
-      <p class="text-xs opacity-80">Premium Store</p>
-    </div>
-
-    <!-- BOTTOM -->
-    <div class="flex flex-col items-center text-[10px] opacity-80 relative z-10 space-y-1">
-      <span>•••• 4832</span>
-      <span>12/28</span>
-    </div>
+    <!-- Optional dark overlay (keeps premium feel) -->
+    <div class="absolute inset-0 bg-black/10"></div>
 
   </div>
 </div>
-
-<!-- Second Widget (Dark Gradient) -->
 <div id="giftWidget2"
   class="hidden md:block fixed bottom-4 left-4 z-50 cursor-grab active:cursor-grabbing">
 
-  <div class="w-24 h-60 rounded-2xl p-4 text-white shadow-2xl relative overflow-hidden
-              bg-gradient-to-b from-[#1A1F2E] to-[#111827] flex flex-col items-center justify-between">
+  <div class="w-24 h-60 rounded-2xl shadow-2xl relative overflow-hidden">
 
-    <!-- Glow -->
-    <div class="absolute -top-10 -left-10 w-32 h-32 bg-white/20 blur-3xl rounded-full"></div>
+    <!-- IMAGE -->
+    <img 
+      src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=400"
+      alt="business"
+      class="w-full h-full object-cover rounded-2xl"
+    />
 
-    <!-- TOP -->
-    <div class="flex flex-col items-center text-center relative z-10 space-y-1">
-      <span class="text-xs opacity-80">Gift Card</span>
-      <span class="text-sm font-semibold">₦10,000</span>
-    </div>
-
-    <!-- CENTER -->
-    <div class="flex flex-col items-center relative z-10 space-y-1">
-      <h2 class="text-lg font-bold tracking-wide">KANDIE</h2>
-      <p class="text-xs opacity-80">Premium Store</p>
-    </div>
-
-    <!-- BOTTOM -->
-    <div class="flex flex-col items-center text-[10px] opacity-80 relative z-10 space-y-1">
-      <span>•••• 4832</span>
-      <span>12/28</span>
-    </div>
+    <!-- Optional overlay -->
+    <div class="absolute inset-0 bg-black/20"></div>
 
   </div>
+</div>
 <!-- INIT ICONS -->
 <script>
   lucide.createIcons();
