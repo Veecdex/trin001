@@ -2,148 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Moma | Business Onboarding</title>
-
-  <!-- Tailwind CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moma | Business Onboarding & Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts -->
-
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body {
+    body { background: #f9fafb; font-family: 'Nunito Sans', sans-serif;  }
+    .brand { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
+    @media (min-width: 1190px) {
 
-      background: #f9fafb;
-    }
-    .brand {
-      font-family: 'Space Grotesk', sans-serif;
-      letter-spacing: -0.5px;
-    }
+html {
+  font-size: 14px ; /* 👈 scales EVERYTHING proportionally */
+  
+}
+
+.max-w-6xl {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+}
+@media (max-width: 760px) {
+
+html {
+  font-size: 14px ; /* 👈 scales EVERYTHING proportionally */
+  
+}
+
+.max-w-6xl {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+}
   </style>
 </head>
 <body>
 
-<!-- MAIN WRAPPER -->
 <div class="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row">
-
-  <!-- ===================================== -->
-  <!-- HERO SECTION -->
-  <!-- ===================================== -->
+  <!-- Hero Section -->
   <div class="relative lg:w-1/2 w-full h-[55vh] lg:h-full text-white flex items-center">
-
-    <!-- Background Image -->
-    <img
-      src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b"
-      alt="Business"
-      class="absolute inset-0 w-full h-full object-cover"
-    >
-
-    <!-- Overlay -->
+    <img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b" alt="Business" class="absolute inset-0 w-full h-full object-cover">
     <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-red-600/70"></div>
 
-    <!-- Content -->
     <div class="relative z-10 px-6 lg:px-12">
-      <!-- Stylish Logo -->
-      <h1 class="brand text-3xl lg:text-4xl font-extrabold mb-6">
-        Mo<span class="text-red-500">ma</span>
-      </h1>
-
-      <!-- Headline -->
-      <h2 class="text-2xl lg:text-4xl font-bold mb-4 leading-tight">
-        Empower Your Store with Branded Gift Cards
-      </h2>
-
-      <!-- Description -->
+      <h1 class="brand text-3xl lg:text-4xl font-extrabold mb-6">Mo<span class="text-red-500">ma</span></h1>
+      <h2 class="text-2xl lg:text-4xl font-bold mb-4 leading-tight">Empower Your Store with Branded Gift Cards</h2>
       <p class="text-gray-200 text-sm lg:text-base max-w-md">
-        Moma helps businesses design, print, and sell their own branded gift cards—unlocking new revenue streams and strengthening customer loyalty.
+        Moma helps businesses design, print, and sell their own branded gift cards.
       </p>
-
-      <!-- Supporting Points -->
-      <ul class="mt-6 space-y-3 text-white/90 text-sm">
-        <li class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-white rounded-full"></span>
-          Create beautifully branded gift cards.
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-white rounded-full"></span>
-          Sell and manage cards from a unified dashboard.
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-white rounded-full"></span>
-          Track redemptions and grow customer loyalty.
-        </li>
-      </ul>
     </div>
   </div>
 
-  <!-- ===================================== -->
-  <!-- FORM SECTION -->
-  <!-- ===================================== -->
-  <div class="lg:w-1/2 w-full flex items-center justify-center bg-white px-6 py-6 lg:py-0 overflow-y-auto lg:overflow-hidden">
-
+  <!-- Auth Section -->
+  <div class="lg:w-1/2 w-full flex items-center justify-center bg-white px-6 py-6 overflow-y-auto">
     <div class="w-full max-w-md">
 
-      <!-- Logo for Mobile -->
-      <div class="lg:hidden text-center mb-6">
-        <h1 class="brand text-2xl font-bold">
-          Mo<span class="text-red-500">ma</span>
-        </h1>
+      <div style="margin-top: 15px;" class="text-center mb-6">
+        <h1 class="brand text-2xl font-bold">Mo<span class="text-red-500">ma</span></h1>
+        <p class="text-gray-500 mt-2">Create your account or sign in</p>
       </div>
 
-      <!-- Progress Bar -->
-      <div class="mb-6">
-        <div class="flex justify-between text-xs text-gray-500 mb-2">
-          <span>Business Info</span>
-          <span>Location</span>
-          <span>Confirmation</span>
-        </div>
-        <div class="w-full bg-gray-200 h-2 rounded-full">
-          <div id="progressBar" class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: 33%;"></div>
-        </div>
+      <!-- Toggle -->
+      <div class="flex bg-gray-100 rounded-xl p-1 mb-6">
+        <button id="showSignup" class="flex-1 py-2 rounded-lg bg-red-600 text-white">Sign Up</button>
+        <button id="showLogin" class="flex-1 py-2 rounded-lg text-gray-700">Login</button>
       </div>
 
-      <!-- FORM -->
-      <form id="onboardingForm" class="space-y-4">
-
-        <!-- STEP 1 -->
-        <div class="step">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Business Information</h2>
-
-          <div>
-            <label class="text-sm font-medium text-gray-700">Business Name</label>
-            <input type="text" id="businessName" required
-              placeholder="e.g. Kandie Place"
-              class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-red-500 outline-none">
-            <p class="text-xs text-gray-400 mt-1">This name will appear on your branded gift cards.</p>
+      <!-- Signup Form -->
+      <div id="signupSection">
+        <div class="mb-6">
+          <div class="flex justify-between text-xs text-gray-500 mb-2">
+            <span>Business Info</span>
+            <span>Location</span>
+            <span>Confirmation</span>
           </div>
-
-          <div>
-            <label class="text-sm font-medium text-gray-700">Business Email</label>
-            <input type="email" id="businessEmail" required
-              placeholder="e.g. hello@kandieplace.com"
-              class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-red-500 outline-none">
-            <p class="text-xs text-gray-400 mt-1">We'll use this email for important notifications.</p>
+          <div class="w-full bg-gray-200 h-2 rounded-full">
+            <div id="progressBar" class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: 33%"></div>
           </div>
         </div>
 
-        <!-- STEP 2 -->
-        <div class="step hidden">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Location & Industry</h2>
+        <form id="onboardingForm" class="space-y-4">
+          <div class="step">
+            <h2 class="text-xl font-semibold mb-4">Business Information</h2>
 
-          <div>
-            <label class="text-sm font-medium text-gray-700">Business Location</label>
-            <input type="text" id="location" required
-              placeholder="e.g. Cotonou, Benin"
-              class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-red-500 outline-none">
-            <p class="text-xs text-gray-400 mt-1">City and country where your business operates.</p>
+            <input type="text" id="businessName" required placeholder="Business Name"
+              class="w-full border rounded-xl px-4 py-3 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
+
+            <input type="email" id="businessEmail" required placeholder="Business Email"
+              class="w-full border rounded-xl px-4 py-3 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
+
+            <div class="relative">
+              <input type="password" id="signupPassword" required minlength="8" placeholder="Create Password"
+                class="w-full border rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-red-500 outline-none">
+              <button type="button" id="toggleSignupPassword" class="absolute inset-y-0 right-0 px-4 text-gray-500 hover:text-red-600"><i class="fa-regular fa-eye"></i></button>
+            </div>
+
+            <div class="bg-gray-50 border rounded-xl p-4 mt-4 mb-2">
+              <p class="text-sm font-semibold text-gray-700 mb-3">Password must contain:</p>
+              <ul class="space-y-2 text-sm">
+                <li id="lengthRule" class="text-gray-500">• At least 8 characters</li>
+                <li id="uppercaseRule" class="text-gray-500">• One uppercase letter</li>
+                <li id="lowercaseRule" class="text-gray-500">• One lowercase letter</li>
+                <li id="numberRule" class="text-gray-500">• One number</li>
+                <li id="specialRule" class="text-gray-500">• One special character</li>
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <label class="text-sm font-medium text-gray-700">Industry</label>
-            <select id="industry" required
-              class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-red-500 outline-none">
-              <option value="">Select your industry</option>
+          <div class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Location & Industry</h2>
+
+            <input type="text" id="location" required placeholder="Business Location"
+              class="w-full border rounded-xl px-4 py-3 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
+
+            <select id="industry" required class="w-full border rounded-xl px-4 py-3 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
+              <option value="">Select Industry</option>
               <option>Retail</option>
               <option>Food & Restaurant</option>
               <option>Fashion</option>
@@ -152,96 +127,107 @@
               <option>Health & Beauty</option>
               <option>Other</option>
             </select>
-            <p class="text-xs text-gray-400 mt-1">Choose the category that best describes your business.</p>
+
+            <textarea id="address" rows="3" required placeholder="Store Address"
+              class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"></textarea>
           </div>
 
-          <div>
-            <label class="text-sm font-medium text-gray-700">Store Address</label>
-            <textarea id="address" rows="3" required
-              placeholder="e.g. 12 Avenue Jean-Paul II, Cotonou"
-              class="mt-1 w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:ring-2 focus:ring-red-500 outline-none"></textarea>
-            <p class="text-xs text-gray-400 mt-1">This helps customers locate your store.</p>
-          </div>
-        </div>
-
-        <!-- STEP 3 -->
-        <div class="step hidden">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Terms & Confirmation</h2>
-
-          <div class="flex items-start gap-3">
-            <input type="checkbox" id="terms" required class="mt-1 accent-red-600">
-            <label for="terms" class="text-sm text-gray-600">
-              I agree to the
-              <a href="#" class="text-red-600 font-medium hover:underline">Terms of Service</a>,
-              <a href="#" class="text-red-600 font-medium hover:underline">Privacy Policy</a>,
-              and
-              <a href="#" class="text-red-600 font-medium hover:underline">Contact Support</a>.
+          <div class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Terms & Confirmation</h2>
+            <label class="flex items-start gap-3">
+              <input type="checkbox" id="terms" required class="mt-1 accent-red-600">
+              <span class="text-sm text-gray-600">I agree to the Terms of Service and Privacy Policy.</span>
             </label>
           </div>
-        </div>
 
-        <!-- NAVIGATION BUTTONS -->
-        <div class="flex justify-between pt-4">
-          <button type="button" id="prevBtn"
-            class="px-4 py-2 text-sm bg-gray-200 text-gray-700 rounded-lg hidden">
-            Back
+          <div class="flex justify-between pt-4">
+            <button type="button" id="prevBtn" class="px-4 py-2 bg-gray-200 rounded-lg hidden">Back</button>
+            <button type="button" id="nextBtn" class="ml-auto px-6 py-2 bg-red-600 text-white rounded-lg">Next</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Login Form -->
+      <div id="loginSection" class="hidden">
+        <form id="loginForm" class="space-y-4">
+          <h2 class="text-xl font-semibold mb-4">Welcome Back</h2>
+
+          <input type="email" id="loginEmail" required placeholder="Business Email"
+            class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
+
+          <div class="relative">
+            <input type="password" id="loginPassword" required placeholder="Password"
+              class="w-full border rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-red-500 outline-none">
+            <button type="button" id="toggleLoginPassword" class="absolute inset-y-0 right-0 px-4 text-gray-500 hover:text-red-600"><i class="fa-regular fa-eye"></i></button>
+          </div>
+
+          <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-xl font-semibold">
+            Login
           </button>
+        </form>
+      </div>
 
-          <button type="button" id="nextBtn"
-            class="ml-auto px-6 py-2 text-sm bg-red-600 text-white rounded-lg">
-            Next
-          </button>
-        </div>
-      </form>
-
-      <!-- FOOTER -->
-      <footer class="mt-8 border-t pt-4 text-center text-xs text-gray-500">
-        <div class="flex justify-center gap-4 mb-2">
-          <a href="#" class="hover:text-red-600">Contact</a>
-          <a href="#" class="hover:text-red-600">Support</a>
-          <a href="#" class="hover:text-red-600">Help Center</a>
-        </div>
-        <p>© <span id="year"></span> Moma. All rights reserved.</p>
-      </footer>
+      <p id="message" class="mt-4 text-sm text-center"></p>
     </div>
   </div>
 </div>
 
-<!-- SUCCESS MODAL -->
-<div id="successModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-  <div class="bg-white rounded-2xl p-6 w-80 text-center shadow-xl">
-    <div class="w-16 h-16 mx-auto mb-4 bg-green-100 text-green-600 flex items-center justify-center rounded-full">
-      ✓
-    </div>
-    <h3 class="text-lg font-semibold text-gray-900">Welcome to Moma!</h3>
-    <p class="text-sm text-gray-500 mt-2">Your business has been successfully onboarded.</p>
-  </div>
-</div>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    serverTimestamp
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-<!-- SCRIPT -->
-<script>
-  const steps = document.querySelectorAll(".step");
-  const nextBtn = document.getElementById("nextBtn");
-  const prevBtn = document.getElementById("prevBtn");
-  const progressBar = document.getElementById("progressBar");
-  const successModal = document.getElementById("successModal");
+  const firebaseConfig = {
+    apiKey: 'YOUR_API_KEY',
+    authDomain: 'YOUR_PROJECT.firebaseapp.com',
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_PROJECT.appspot.com',
+    messagingSenderId: 'YOUR_SENDER_ID',
+    appId: 'YOUR_APP_ID'
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const steps = document.querySelectorAll('.step');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const progressBar = document.getElementById('progressBar');
+  const message = document.getElementById('message');
 
   let currentStep = 0;
 
-  function showStep(index) {
-    steps.forEach((step, i) => {
-      step.classList.toggle("hidden", i !== index);
-    });
+  function generateBusinessId() {
+    return 'MOMA-' + Date.now().toString().slice(-8) + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+  }
 
-    prevBtn.classList.toggle("hidden", index === 0);
-    nextBtn.textContent = index === steps.length - 1 ? "Create Account" : "Next";
+  function showStep(index) {
+    steps.forEach((step, i) => step.classList.toggle('hidden', i !== index));
+    prevBtn.classList.toggle('hidden', index === 0);
+    nextBtn.textContent = index === steps.length - 1 ? 'Create Account' : 'Next';
     progressBar.style.width = `${((index + 1) / steps.length) * 100}%`;
   }
 
-  nextBtn.addEventListener("click", () => {
-    const currentInputs = steps[currentStep].querySelectorAll("input, select, textarea");
+  function showMessage(text, type = 'error') {
+    message.textContent = text;
+    message.className = `mt-4 text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+  }
 
-    for (let input of currentInputs) {
+  nextBtn.addEventListener('click', async () => {
+    const currentInputs = steps[currentStep].querySelectorAll('input, select, textarea');
+
+    for (const input of currentInputs) {
       if (!input.checkValidity()) {
         input.reportValidity();
         return;
@@ -251,39 +237,167 @@
     if (currentStep < steps.length - 1) {
       currentStep++;
       showStep(currentStep);
-    } else {
-      const data = {
-        businessName: document.getElementById("businessName").value,
-        email: document.getElementById("businessEmail").value,
-        location: document.getElementById("location").value,
-        industry: document.getElementById("industry").value,
-        address: document.getElementById("address").value,
-        createdAt: new Date().toISOString()
+      return;
+    }
+
+    try {
+      const businessName = document.getElementById('businessName').value.trim();
+      const businessEmail = document.getElementById('businessEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const businessLocation = document.getElementById('location').value.trim();
+      const businessAddress = document.getElementById('address').value.trim();
+      const businessIndustry = document.getElementById('industry').value;
+
+      const userCredential = await createUserWithEmailAndPassword(auth, businessEmail, password);
+      const user = userCredential.user;
+
+      const businessData = {
+        businessName,
+        businessEmail,
+        businessId: generateBusinessId(),
+        businessLocation,
+        businessAddress,
+        businessIndustry
       };
 
-      localStorage.setItem("momaBusinessProfile", JSON.stringify(data));
+      await setDoc(doc(db, 'businesses', user.uid), businessData);
 
-      // Show success modal
-      successModal.classList.remove("hidden");
-      successModal.classList.add("flex");
-
+      showMessage('Account created successfully. Redirecting...', 'success');
       setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 2000);
+        window.location.href = 'dashboard.html';
+      }, 1500);
+
+    } catch (error) {
+      showMessage(getFriendlyError(error), 'error');
     }
   });
 
-  prevBtn.addEventListener("click", () => {
+  prevBtn.addEventListener('click', () => {
     if (currentStep > 0) {
       currentStep--;
       showStep(currentStep);
     }
   });
 
-  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  showStep(currentStep);
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      const businessSnap = await getDoc(doc(db, 'businesses', user.uid));
+
+      if (businessSnap.exists()) {
+        const businessData = businessSnap.data();
+        localStorage.setItem('businessData', JSON.stringify(businessData));
+
+        showMessage('Login successful. Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      } else {
+        showMessage('Business profile not found.');
+      }
+    } catch (error) {
+      showMessage(getFriendlyError(error), 'error');
+    }
+  });
+
+  const signupSection = document.getElementById('signupSection');
+  const loginSection = document.getElementById('loginSection');
+  const showSignup = document.getElementById('showSignup');
+  const showLogin = document.getElementById('showLogin');
+
+  showSignup.addEventListener('click', () => {
+    signupSection.classList.remove('hidden');
+    loginSection.classList.add('hidden');
+    showSignup.className = 'flex-1 py-2 rounded-lg bg-red-600 text-white';
+    showLogin.className = 'flex-1 py-2 rounded-lg text-gray-700';
+  });
+
+  showLogin.addEventListener('click', () => {
+    signupSection.classList.add('hidden');
+    loginSection.classList.remove('hidden');
+    showLogin.className = 'flex-1 py-2 rounded-lg bg-red-600 text-white';
+    showSignup.className = 'flex-1 py-2 rounded-lg text-gray-700';
+  });
+
+  function togglePassword(inputId, buttonId) {
+    const input = document.getElementById(inputId);
+    const button = document.getElementById(buttonId);
+
+    button.addEventListener('click', () => {
+      input.type = input.type === 'password' ? 'text' : 'password';
+      button.innerHTML = input.type === 'password'
+        ? '<i class="fa-regular fa-eye"></i>'
+        : '<i class="fa-regular fa-eye-slash"></i>';
+    });
+  }
+
+  togglePassword('signupPassword', 'toggleSignupPassword');
+  togglePassword('loginPassword', 'toggleLoginPassword');
+
+  const passwordInput = document.getElementById('signupPassword');
+  const rules = {
+    lengthRule: /.{8,}/,
+    uppercaseRule: /[A-Z]/,
+    lowercaseRule: /[a-z]/,
+    numberRule: /\d/,
+    specialRule: /[^A-Za-z0-9]/
+  };
+
+  passwordInput.addEventListener('input', () => {
+    const value = passwordInput.value;
+
+    Object.entries(rules).forEach(([id, regex]) => {
+      const element = document.getElementById(id);
+      const cleanText = element.textContent.replace(/^[•✓]\s/, '');
+
+      if (regex.test(value)) {
+        element.className = 'text-green-600';
+        element.textContent = '✓ ' + cleanText;
+      } else {
+        element.className = 'text-gray-500';
+        element.textContent = '• ' + cleanText;
+      }
+    });
+  });
+
+  function getFriendlyError(error) {
+  const code = error?.code || '';
+
+  switch (code) {
+    case 'auth/email-already-in-use':
+      return 'This email is already registered.';
+    case 'auth-invalid-email':
+      return 'Please enter a valid email address.';
+    case 'auth/weak-password':
+      return 'Password is too weak. Use a stronger password.';
+    case 'auth/user-not-found':
+      return 'No account found with this email.';
+    case 'auth/wrong-password':
+      return 'Incorrect password. Try again.';
+    case 'auth/too-many-requests':
+      return 'Too many attempts. Try again later.';
+    case 'auth/network-request-failed':
+      return 'Network error. Check your connection.';
+    default:
+      return 'Something went wrong. Please try again.';
+  }
+}
+
+showStep(0);
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
