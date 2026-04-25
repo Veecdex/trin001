@@ -39,7 +39,93 @@ html {
   </style>
 </head>
 <body>
+<!-- =========================================
+     OFFLINE BANNER + READ-ONLY MODE
+========================================= -->
+<div id="offlineBanner" class="fixed top-0 left-0 right-0 z-50 hidden">
+  <div class="bg-amber-50 border-b border-amber-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-3">
+      
+      <!-- Offline Wi-Fi Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="w-5 h-5 text-amber-600 flex-shrink-0"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round">
+        
+        <!-- Wi-Fi waves -->
+        <path d="M2.5 8.5a16 16 0 0119 0" />
+        <path d="M5.5 11.5a11.5 11.5 0 0113 0" />
+        <path d="M8.8 14.8a6.5 6.5 0 016.4 0" />
+        <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
+        
+        <!-- Cross mark -->
+        <path d="M18.5 5.5l4 4" />
+        <path d="M22.5 5.5l-4 4" />
+      </svg>
 
+      <p class="text-sm font-medium text-amber-800">
+        You're offline. Please check your network.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const offlineBanner = document.getElementById('offlineBanner');
+
+  function setReadOnlyMode(isOffline) {
+    document.querySelectorAll('input, textarea, select, button').forEach(el => {
+      if (isOffline) {
+        el.dataset.wasDisabled = el.disabled;
+        el.disabled = true;
+      } else {
+        if (el.dataset.wasDisabled !== 'true') {
+          el.disabled = false;
+        }
+      }
+    });
+
+    document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+      if (isOffline) {
+        el.dataset.wasContentEditable = 'true';
+        el.contentEditable = 'false';
+      } else if (el.dataset.wasContentEditable === 'true') {
+        el.contentEditable = 'true';
+      }
+    });
+
+    document.body.classList.toggle('offline-mode', isOffline);
+  }
+
+  function updateConnectionStatus() {
+    const isOffline = !navigator.onLine;
+
+    offlineBanner.classList.toggle('hidden', !isOffline);
+    setReadOnlyMode(isOffline);
+  }
+
+  window.addEventListener('online', updateConnectionStatus);
+  window.addEventListener('offline', updateConnectionStatus);
+
+  updateConnectionStatus();
+</script>
+
+<style>
+  body.offline-mode button:not(:disabled) {
+    pointer-events: none;
+  }
+
+  body.offline-mode input,
+  body.offline-mode textarea,
+  body.offline-mode select {
+    background-color: #f9fafb;
+    cursor: not-allowed;
+  }
+</style>
 <div class="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row">
   <!-- Hero Section -->
   <div class="relative lg:w-1/2 w-full h-[55vh] lg:h-full text-white flex items-center">
