@@ -383,6 +383,83 @@ select {
     cursor: not-allowed;
   }
 </style>
+<!-- =========================================
+     MOMA MINIMAL BRAND STRIP
+     Full Width | Lightweight | Premium
+========================================= -->
+<div id="momaBrandBanner" class="sticky top-0 z-40 w-full mb-2">
+  <div class="bg-white/95 backdrop-blur-xl border-b border-gray-200/80 shadow-sm">
+    <div class="w-full px-4 md:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between gap-4">
+
+        <!-- LEFT: BRAND -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 text-white flex items-center justify-center shadow-md">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+
+          <div>
+            <h1 class="heading-font text-lg font-bold text-gray-900 tracking-tight">MOMA</h1>
+            <p class="text-[11px] text-gray-500 -mt-0.5 hidden sm:block">Business Growth Platform</p>
+          </div>
+        </div>
+
+        <!-- CENTER: FEATURES -->
+        <div class="hidden md:flex items-center gap-6 lg:gap-8">
+          <div class="flex items-center gap-2 text-gray-600">
+            <div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center">
+              <i data-lucide="shopping-bag" class="w-4 h-4 text-red-600"></i>
+            </div>
+            <span class="text-sm font-medium">Sell</span>
+          </div>
+
+          <div class="flex items-center gap-2 text-gray-600">
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center">
+              <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-600"></i>
+            </div>
+            <span class="text-sm font-medium">Redeem</span>
+          </div>
+
+          <div class="flex items-center gap-2 text-gray-600">
+            <div class="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center">
+              <i data-lucide="coins" class="w-4 h-4 text-amber-600"></i>
+            </div>
+            <span class="text-sm font-medium">Earn</span>
+          </div>
+        </div>
+
+        <!-- MOBILE CENTER ICONS -->
+        <div class="flex md:hidden items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center">
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-red-600"></i>
+          </div>
+          <div class="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+          <div class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center">
+            <i data-lucide="coins" class="w-4 h-4 text-amber-600"></i>
+          </div>
+        </div>
+
+        <!-- RIGHT: ILLUSTRATION -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <p class="hidden xl:block text-sm text-gray-500 font-medium">
+            Sell, redeem & earn with MOMA
+          </p>
+
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-slate-100 to-gray-200 flex items-center justify-center">
+            <i data-lucide="smartphone" class="w-5 h-5 text-gray-700"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
 <!-- MAIN WRAPPER (DESKTOP FEEL) -->
 <div class="max-w-6xl mx-auto px-6 py-6 min-h-0">
 
@@ -406,7 +483,7 @@ select {
     <!-- RIGHT -->
     <div class="flex items-center gap-4">
 
-      <div class="group flex items-center gap-3 bg-white shadow-sm border border-gray-200 
+      <div onclick="openStore()" class="group flex items-center gap-3 bg-white shadow-sm border border-gray-200 
       px-3 py-2 rounded-xl cursor-pointer hover:shadow-md transition">
 
 <!-- ICON -->
@@ -480,37 +557,57 @@ Stock your store & start selling
         </div>
       </div>
   
-  <!-- CARD 2 (FINANCE - WHITE VERSION) -->
-<div id="gocards" class="bg-white text-gray-900 rounded-3xl p-6 md:p-8 relative overflow-hidden 
+  <!-- CARD 2 (BUSINESS WALLET - STRUCTURE FIXED ALIGNMENT) -->
+<div id="gocards" class="bg-white text-gray-900 rounded-3xl p-5 md:p-6 relative overflow-hidden 
 min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 
 <!-- TOP -->
-<div class="flex items-start gap-3 mb-10">
+<div class="flex items-start justify-between mb-6">
 
-<div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
-<i data-lucide="package" class="w-5 h-5"></i>
+  <div class="flex items-center gap-3">
+
+    <div class="w-9 h-9 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
+      <i data-lucide="wallet" class="w-4 h-4"></i>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Business Wallet</p>
+      <p class="text-base font-semibold text-gray-900 mt-0.5">Account Balance</p>
+    </div>
+
+  </div>
+
+  <button onclick="openTransactions()" 
+    class="text-sm text-gray-500 hover:text-red-500 transition">
+    Transactions
+  </button>
+
 </div>
 
-<div>
-<p class="text-sm text-gray-500">Finance</p>
-<p class="text-base font-semibold text-gray-900 mt-1">Gift Card Revenue</p>
-</div>
 
-</div>
 
-<!-- BOTTOM -->
-<div class="flex justify-between items-end">
+<div class="flex justify-between items-end mt-12">
 
-<div>
-<p class="text-sm text-gray-500">Total Invested</p>
-<h2 id="totalInvested" class="text-2xl md:text-3xl font-bold mt-1 text-gray-900">₦5000</h2>
-</div>
+  <!-- LEFT -->
+  <div class="flex flex-col gap-1">
+    <p class="text-xs text-gray-500">Available Balance</p>
 
-<div class="text-right">
-<p class="text-sm text-gray-500">Total Profit</p>
-<h2 id="totalProfit" class="text-2xl md:text-3xl font-bold mt-1 text-gray-900">₦0</h2>
-<p id="profitStatus" class="text-xs mt-2 text-gray-400"></p>
-</div>
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-none">
+      ₦250,000
+    </h2>
+  </div>
+
+
+  <!-- RIGHT -->
+  <div class="flex flex-col items-end gap-2">
+
+
+    <button style="font-weight: bold; background-color: rgb(31, 32, 34); color: white;" class=" bg-white text-xs px-4 py-2 rounded-lg flex items-center gap-2">
+      <i data-lucide="plus" class="w-4 h-4"></i>
+      Fund Wallet
+    </button>
+
+  </div>
 
 </div>
 
@@ -716,6 +813,150 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 
     <!-- Optional overlay -->
     <div class="absolute inset-0 bg-black/20"></div>
+
+  </div>
+</div>
+<!-- STORE OVERLAY -->
+<div id="storeModal"
+class="fixed inset-0 bg-black/40 hidden z-50">
+
+  <!-- SHEET -->
+  <div id="storeSheet"
+  class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-4 md:p-6
+  transform translate-y-full transition-transform duration-300">
+
+    
+  
+<!-- HEADER -->
+<div class="flex items-center justify-between mb-2">
+
+  <!-- BACK -->
+  <button onclick="closeStore()" class="text-gray-600">
+    <i data-lucide="x"></i>
+  </button>
+
+  <!-- TITLE -->
+  <div class="font-bold text-xl">
+    Moma Store
+  </div>
+
+  <!-- CART -->
+  <button class="relative text-gray-700">
+    <i data-lucide="shopping-cart"></i>
+    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">
+      1
+    </span>
+  </button>
+
+</div>
+
+
+
+<!-- UNDERLINE -->
+<div class="border-b border-gray-200 mb-4"></div>
+
+
+
+<!-- DESCRIPTION -->
+<p class="text-base text-gray-600 text-center mb-5 leading-relaxed">
+  Buy branded gift cards for your business and start selling instantly on Moma.
+</p>
+
+
+
+<!-- CART SECTION -->
+<div class="mb-6">
+
+  <div class="flex items-center justify-between mb-2">
+    <p class="font-semibold text-lg">Cart</p>
+    <span class="text-sm text-gray-500">Items added</span>
+  </div>
+
+  <div id="cartItems" class="bg-gray-50 rounded-xl p-4 text-center">
+
+    <!-- EMPTY STATE -->
+    <p class="text-gray-500 text-sm">
+      Oops… your cart is empty right now 🛒
+    </p>
+
+    <p class="text-xs text-gray-400 mt-1">
+      Add gift cards to start your order
+    </p>
+
+  </div>
+
+</div>
+
+
+
+    <!-- DESCRIPTION -->
+    <p class="text-sm text-gray-500 mb-5 text-center">
+      Buy branded gift cards for your business and start selling instantly on Moma.
+    </p>
+
+
+
+    <!-- PRODUCTS GRID -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+      
+      <!-- CARD -->
+      <div class="border rounded-xl p-3 hover:shadow-md transition">
+
+        <p class="font-semibold text-sm">₦5,000 Gift Card</p>
+        <p class="text-xs text-gray-500">Order Price ₦125</p>
+
+        <div class="flex gap-2 mt-3">
+
+          <button class="flex-1 bg-gray-100 text-xs py-1 rounded-lg">
+            Details
+          </button>
+
+          <button class="flex-1 bg-red-500 text-white text-xs py-1 rounded-lg">
+            Add
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="border rounded-xl p-3 hover:shadow-md transition">
+        <p class="font-semibold text-sm">₦10,000 Gift Card</p>
+        <p class="text-xs text-gray-500">Order Price ₦250</p>
+
+        <div class="flex gap-2 mt-3">
+          <button class="flex-1 bg-gray-100 text-xs py-1 rounded-lg">Details</button>
+          <button class="flex-1 bg-red-500 text-white text-xs py-1 rounded-lg">Add</button>
+        </div>
+      </div>
+
+
+
+      <div class="border rounded-xl p-3 hover:shadow-md transition">
+        <p class="font-semibold text-sm">₦20,000 Gift Card</p>
+        <p class="text-xs text-gray-500">Order Price ₦500</p>
+
+        <div class="flex gap-2 mt-3">
+          <button class="flex-1 bg-gray-100 text-xs py-1 rounded-lg">Details</button>
+          <button class="flex-1 bg-red-500 text-white text-xs py-1 rounded-lg">Add</button>
+        </div>
+      </div>
+
+
+
+      <div class="border rounded-xl p-3 hover:shadow-md transition">
+        <p class="font-semibold text-sm">₦50,000 Gift Card</p>
+        <p class="text-xs text-gray-500">Order Price ₦1,200</p>
+
+        <div class="flex gap-2 mt-3">
+          <button class="flex-1 bg-gray-100 text-xs py-1 rounded-lg">Details</button>
+          <button class="flex-1 bg-red-500 text-white text-xs py-1 rounded-lg">Add</button>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 </div>
@@ -1477,5 +1718,28 @@ setInterval(() => {
   updateDashboardTotals();
 }, 2000);
 </script>
+<script>
+  function openStore() {
+    const modal = document.getElementById("storeModal");
+    const sheet = document.getElementById("storeSheet");
+  
+    modal.classList.remove("hidden");
+  
+    setTimeout(() => {
+      sheet.classList.remove("translate-y-full");
+    }, 10);
+  }
+  
+  function closeStore() {
+    const modal = document.getElementById("storeModal");
+    const sheet = document.getElementById("storeSheet");
+  
+    sheet.classList.add("translate-y-full");
+  
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 250);
+  }
+  </script>
 </body>
 </html>
