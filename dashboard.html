@@ -401,41 +401,45 @@ select {
      Full Width | Lightweight | Premium
 ========================================= -->
 <div id="momaBrandBanner" class="sticky top-0 z-40 w-full mb-2">
-  <div class="bg-white/95 backdrop-blur-xl border-b border-gray-200/80 shadow-sm">
+  <div class="bg-slate-900/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl shadow-black/20">
     <div class="w-full px-4 md:px-6 lg:px-8">
       <div class="h-16 flex items-center justify-between gap-4">
 
         <!-- LEFT: BRAND -->
         <div class="flex items-center gap-3 flex-shrink-0">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 text-white flex items-center justify-center shadow-md">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 text-white flex items-center justify-center shadow-lg shadow-red-500/20">
             <i data-lucide="sparkles" class="w-5 h-5"></i>
           </div>
 
           <div>
-            <h1 class="brand text-2xl font-bold">Mo<span class="text-red-500">ma</span></h1>
-            <p class="text-[11px] text-gray-500 -mt-0.5 hidden sm:block">Gift Card Platform</p>
+            <h1 class="brand text-2xl font-bold text-white">
+              Mo<span class="text-red-400">ma</span>
+            </h1>
+            <p class="text-[11px] text-slate-400 -mt-0.5 hidden sm:block">
+              Gift Card Platform
+            </p>
           </div>
         </div>
 
         <!-- CENTER: FEATURES -->
         <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <div class="flex items-center gap-2 text-gray-600">
-            <div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center">
-              <i data-lucide="shopping-bag" class="w-4 h-4 text-red-600"></i>
+          <div class="flex items-center gap-2 text-slate-300">
+            <div class="w-8 h-8 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
+              <i data-lucide="shopping-bag" class="w-4 h-4 text-red-400"></i>
             </div>
             <span class="text-sm font-medium">Sell</span>
           </div>
 
-          <div class="flex items-center gap-2 text-gray-600">
-            <div class="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center">
-              <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-600"></i>
+          <div class="flex items-center gap-2 text-slate-300">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
+              <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-400"></i>
             </div>
             <span class="text-sm font-medium">Redeem</span>
           </div>
 
-          <div class="flex items-center gap-2 text-gray-600">
-            <div class="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center">
-              <i data-lucide="coins" class="w-4 h-4 text-amber-600"></i>
+          <div class="flex items-center gap-2 text-slate-300">
+            <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
+              <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
             </div>
             <span class="text-sm font-medium">Earn</span>
           </div>
@@ -443,25 +447,25 @@ select {
 
         <!-- MOBILE CENTER ICONS -->
         <div class="flex md:hidden items-center gap-2">
-          <div class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center">
-            <i data-lucide="shopping-bag" class="w-4 h-4 text-red-600"></i>
+          <div class="w-9 h-9 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-red-400"></i>
           </div>
-          <div class="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-600"></i>
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
+            <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-400"></i>
           </div>
-          <div class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center">
-            <i data-lucide="coins" class="w-4 h-4 text-amber-600"></i>
+          <div class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
+            <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
           </div>
         </div>
 
         <!-- RIGHT: ILLUSTRATION -->
         <div class="flex items-center gap-3 flex-shrink-0">
-          <p class="hidden xl:block text-sm text-gray-500 font-medium">
+          <p class="hidden xl:block text-sm text-slate-400 font-medium">
             Sell, redeem & earn with MOMA
           </p>
 
-          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-slate-100 to-gray-200 flex items-center justify-center">
-            <i data-lucide="smartphone" class="w-5 h-5 text-gray-700"></i>
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-slate-700/80 to-slate-800/90 border border-white/10 flex items-center justify-center shadow-inner">
+            <i data-lucide="smartphone" class="w-5 h-5 text-slate-200"></i>
           </div>
         </div>
 
@@ -1018,139 +1022,244 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 </div>
 
 <script>
-const products = [
-  { id: 1, value: 2000, orderPrice: 50 },
-  { id: 2, value: 5000, orderPrice: 125 },
-  { id: 3, value: 10000, orderPrice: 250 },
-  { id: 4, value: 15000, orderPrice: 375 },
-  { id: 5, value: 20000, orderPrice: 500 },
-  { id: 6, value: 50000, orderPrice: 1200 }
-];
-
-let cart = {};
-
-function formatCurrency(amount) {
-  return '₦' + amount.toLocaleString();
-}
-
-function showLoader() {
-  const loader = document.getElementById('storeLoader');
-  loader.classList.remove('hidden');
-  setTimeout(() => loader.classList.add('hidden'), 4);
-}
-
-function renderProducts() {
-  const grid = document.getElementById('productsGrid');
-  grid.innerHTML = products.map(product => `
-    <div class="border rounded-2xl p-4 hover:shadow-md transition bg-white">
-      <p class="font-semibold text-sm">${formatCurrency(product.value)} Gift Card</p>
-      <p class="text-xs text-gray-500 mt-1">Order Price ${formatCurrency(product.orderPrice)}</p>
-
-      <div class="flex gap-2 mt-4">
-        <button class="flex-1 bg-gray-100 text-xs py-2 rounded-lg">Details</button>
-        <button onclick="addToCart(${product.id})" class="flex-1 bg-red-500 text-white text-xs py-2 rounded-lg">Add</button>
+  const products = [
+    {
+      id: 1,
+      value: 2000,
+      orderPrice: 50,
+      purchaseCode: 'MOMA-••••-••••',
+      giftCode: 'GC-••••-••••',
+      description: 'Perfect for quick rewards, customer appreciation, and small promotional campaigns.'
+    },
+    {
+      id: 2,
+      value: 5000,
+      orderPrice: 125,
+      purchaseCode: 'MOMA-••••-••••',
+      giftCode: 'GC-••••-••••',
+      description: 'A versatile option for giveaways, staff incentives, and premium customer rewards.'
+    },
+    {
+      id: 3,
+      value: 10000,
+      orderPrice: 250,
+      purchaseCode: 'MOMA-••••-••••',
+      giftCode: 'GC-••••-••••',
+      description: 'Ideal for high-value rewards, loyalty programs, and exclusive promotions.'
+    },
+    {
+      id: 4,
+      value: 15000,
+      orderPrice: 375,
+      purchaseCode: 'MOMA-••••-••••',
+      giftCode: 'GC-••••-••••',
+      description: 'Designed for premium gifting experiences and executive appreciation rewards.'
+    },
+    {
+      id: 5,
+      value: 20000,
+      orderPrice: 500,
+      purchaseCode: 'MOMA-••••-••••',
+      giftCode: 'GC-••••-••••',
+      description: 'An excellent choice for major campaigns, VIP rewards, and strategic incentives.'
+    },
+    {
+      id: 6,
+      value: 50000,
+      orderPrice: 1200,
+      purchaseCode: 'MOMA-••••-••••',
+      giftCode: 'GC-••••-••••',
+      description: 'Our flagship gift card for luxury rewards, enterprise gifting, and elite campaigns.'
+    }
+  ];
+  
+  let cart = {};
+  
+  function formatCurrency(amount) {
+    return '₦' + amount.toLocaleString();
+  }
+  
+  function showLoader() {
+    const loader = document.getElementById('storeLoader');
+    loader.classList.remove('hidden');
+    setTimeout(() => loader.classList.add('hidden'), 400);
+  }
+  
+  function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = products.map(product => `
+      <div class="border rounded-2xl p-4 hover:shadow-md transition bg-white">
+        <p class="font-semibold text-sm">${formatCurrency(product.value)} Gift Card</p>
+        <p class="text-xs text-gray-500 mt-1">Order Price ${formatCurrency(product.orderPrice)}</p>
+  
+        <div class="flex gap-2 mt-4">
+          <button onclick="showProductDetails(${product.id})" class="flex-1 bg-gray-100 text-xs py-2 rounded-lg hover:bg-gray-200 transition">Details</button>
+          <button onclick="addToCart(${product.id})" class="flex-1 bg-red-500 text-white text-xs py-2 rounded-lg hover:bg-red-600 transition">Add</button>
+        </div>
       </div>
-    </div>
-  `).join('');
-}
-
-function addToCart(productId) {
-  showLoader();
-  cart[productId] = (cart[productId] || 0) + 1;
-  renderCart();
-}
-
-function updateQuantity(productId, change) {
-  showLoader();
-  if (!cart[productId]) return;
-
-  cart[productId] += change;
-
-  if (cart[productId] <= 0) {
+    `).join('');
+  }
+  
+  function showProductDetails(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+  
+    const modal = document.getElementById('giftCardModal');
+    const content = document.getElementById('giftCardModalContent');
+  
+    content.innerHTML = `
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-600 via-red-500 to-red-700 text-white p-6 shadow-2xl">
+        <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full translate-y-12 -translate-x-10"></div>
+  
+        <div class="relative z-10">
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <p class="text-white/80 text-xs uppercase tracking-[0.25em]">MOMA Gift Card</p>
+              <h3 class="text-2xl font-bold mt-2">${formatCurrency(product.value)}</h3>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+              <i data-lucide="gift" class="w-6 h-6"></i>
+            </div>
+          </div>
+  
+          <p class="text-sm text-white/90 leading-relaxed mb-6">${product.description}</p>
+  
+          <div class="space-y-4">
+            <div class="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20">
+              <p class="text-xs text-white/70 mb-1">Purchase Code</p>
+              <p class="font-mono text-sm tracking-wider">${product.purchaseCode}</p>
+            </div>
+  
+            <div class="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20">
+              <p class="text-xs text-white/70 mb-1">Gift Code</p>
+              <p class="font-mono text-sm tracking-wider">${product.giftCode}</p>
+            </div>
+          </div>
+  
+          <div class="mt-6 flex items-center justify-between text-sm">
+            <span class="text-white/80">Order Price</span>
+            <span class="font-bold text-lg">${formatCurrency(product.orderPrice)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  
+    modal.classList.remove('hidden');
+    lucide.createIcons();
+  }
+  
+  function closeProductDetails() {
+    document.getElementById('giftCardModal').classList.add('hidden');
+  }
+  
+  function addToCart(productId) {
+    showLoader();
+    cart[productId] = (cart[productId] || 0) + 1;
+    renderCart();
+  }
+  
+  function updateQuantity(productId, change) {
+    showLoader();
+    if (!cart[productId]) return;
+  
+    cart[productId] += change;
+  
+    if (cart[productId] <= 0) {
+      delete cart[productId];
+    }
+  
+    renderCart();
+  }
+  
+  function removeFromCart(productId) {
+    showLoader();
     delete cart[productId];
+    renderCart();
   }
-
-  renderCart();
-}
-
-function removeFromCart(productId) {
-  showLoader();
-  delete cart[productId];
-  renderCart();
-}
-
-function renderCart() {
-  const cartItems = document.getElementById('cartItems');
-  const emptyCart = document.getElementById('emptyCart');
-
-  const items = Object.entries(cart);
-
-  if (items.length === 0) {
-    cartItems.innerHTML = `
-      <div id="emptyCart" class="text-center py-4">
-        <p class="text-gray-500 text-sm">Oops… your cart is empty right now 🛒</p>
-        <p class="text-xs text-gray-400 mt-1">Add gift cards to start your order</p>
-      </div>`;
-  } else {
-    cartItems.innerHTML = items.map(([id, qty]) => {
-      const product = products.find(p => p.id == id);
-      const total = product.orderPrice * qty;
-
-      return `
-        <div class="flex items-center justify-between bg-white rounded-xl p-3 border">
-          <div>
-            <p class="font-medium text-sm">${formatCurrency(product.value)} Gift Card</p>
-            <p class="text-xs text-gray-500">${formatCurrency(product.orderPrice)} each</p>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <button onclick="updateQuantity(${id}, -1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-              <i data-lucide="minus" class="w-4 h-4"></i>
-            </button>
-
-            <span class="w-6 text-center text-sm font-semibold">${qty}</span>
-
-            <button onclick="updateQuantity(${id}, 1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
-
-            <button onclick="removeFromCart(${id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <div class="text-sm font-semibold ml-3">${formatCurrency(total)}</div>
+  
+  function renderCart() {
+    const cartItems = document.getElementById('cartItems');
+    const items = Object.entries(cart);
+  
+    if (items.length === 0) {
+      cartItems.innerHTML = `
+        <div class="text-center py-4">
+          <p class="text-gray-500 text-sm">Oops… your cart is empty right now 🛒</p>
+          <p class="text-xs text-gray-400 mt-1">Add gift cards to start your order</p>
         </div>`;
-    }).join('');
+    } else {
+      cartItems.innerHTML = items.map(([id, qty]) => {
+        const product = products.find(p => p.id == id);
+        const total = product.orderPrice * qty;
+  
+        return `
+          <div class="flex items-center justify-between bg-white rounded-xl p-3 border">
+            <div>
+              <p class="font-medium text-sm">${formatCurrency(product.value)} Gift Card</p>
+              <p class="text-xs text-gray-500">${formatCurrency(product.orderPrice)} each</p>
+            </div>
+  
+            <div class="flex items-center gap-2">
+              <button onclick="updateQuantity(${id}, -1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+  
+              <span class="w-6 text-center text-sm font-semibold">${qty}</span>
+  
+              <button onclick="updateQuantity(${id}, 1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
+  
+              <button onclick="removeFromCart(${id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+  
+            <div class="text-sm font-semibold ml-3">${formatCurrency(total)}</div>
+          </div>`;
+      }).join('');
+    }
+  
+    updateSummary();
+    lucide.createIcons();
   }
-
-  updateSummary();
-  lucide.createIcons();
-}
-
-function updateSummary() {
-  let totalItems = 0;
-  let totalAmount = 0;
-
-  Object.entries(cart).forEach(([id, qty]) => {
-    const product = products.find(p => p.id == id);
-    totalItems += qty;
-    totalAmount += product.orderPrice * qty;
-  });
-
-  document.getElementById('cartCount').textContent = totalItems;
-  document.getElementById('cartItemLabel').textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
-  document.getElementById('cartSubtotal').textContent = formatCurrency(totalAmount);
-  document.getElementById('cartTotal').textContent = formatCurrency(totalAmount);
-
-  const payButton = document.getElementById('payButton');
-  payButton.textContent = `Pay ${formatCurrency(totalAmount)}`;
-  payButton.disabled = totalItems === 0;
-}
-
-renderProducts();
-renderCart();
-</script>
+  
+  function updateSummary() {
+    let totalItems = 0;
+    let totalAmount = 0;
+  
+    Object.entries(cart).forEach(([id, qty]) => {
+      const product = products.find(p => p.id == id);
+      totalItems += qty;
+      totalAmount += product.orderPrice * qty;
+    });
+  
+    document.getElementById('cartCount').textContent = totalItems;
+    document.getElementById('cartItemLabel').textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
+    document.getElementById('cartSubtotal').textContent = formatCurrency(totalAmount);
+    document.getElementById('cartTotal').textContent = formatCurrency(totalAmount);
+  
+    const payButton = document.getElementById('payButton');
+    payButton.textContent = `Pay ${formatCurrency(totalAmount)}`;
+    payButton.disabled = totalItems === 0;
+  }
+  
+  renderProducts();
+  renderCart();
+  </script>
+  
+  <!-- Gift Card Details Modal -->
+  <div id="giftCardModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <div id="giftCardModalContent"></div>
+  
+      <button onclick="closeProductDetails()" class="w-full mt-4 bg-white text-gray-800 py-3 rounded-2xl font-medium hover:bg-gray-100 transition">
+        Close
+      </button>
+    </div>
+  </div>
+  
 
 <!-- INIT ICONS -->
 <script>
