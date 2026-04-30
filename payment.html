@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fund Wallet | MOMA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-30 border-b border-white/10 bg-slate-950/90 backdrop-blur-xl">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="dashboard.html" class="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          Back to Dashboard
+        </a>
+        <div class="text-lg font-bold tracking-wide">MOMA</div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+        <div class="grid lg:grid-cols-5 gap-8 items-start">
+          <!-- Payment Form -->
+          <section class="lg:col-span-3">
+            <div class="mb-6">
+              <p class="text-sm text-rose-400 font-medium mb-2">Wallet Funding</p>
+              <h1 class="text-2xl md:text-3xl font-bold mb-3">Add funds to your business wallet</h1>
+              <p class="text-slate-400 text-sm leading-relaxed max-w-xl">
+                Securely fund your MOMA wallet to purchase gift cards, manage transactions, and scale your business operations with ease.
+              </p>
+            </div>
+
+            <form id="paymentForm" class="space-y-5">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-slate-300 mb-2">Business Name</label>
+                  <input id="businessName" type="text" readonly value="MOMA Business"
+                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-300 focus:outline-none" />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-slate-300 mb-2">Business Email</label>
+                  <input id="businessEmail" type="email" readonly value="business@example.com"
+                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-300 focus:outline-none" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">Amount (NGN)</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">₦</span>
+                  <input id="amount" type="number" min="5000" placeholder="Minimum amount: 5,000"
+                    class="w-full pl-9 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500" required />
+                </div>
+                <p class="mt-2 text-xs text-slate-500">Minimum funding amount is ₦5,000.</p>
+              </div>
+
+              <button type="submit"
+                class="w-full bg-rose-600 hover:bg-rose-500 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-lg shadow-rose-600/20">
+                Pay Securely
+              </button>
+            </form>
+          </section>
+
+          <!-- Summary -->
+          <aside class="lg:col-span-2">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 sticky top-24">
+              <h2 class="text-lg font-semibold mb-5">Payment Summary</h2>
+
+              <div class="space-y-4 text-sm">
+                <div class="flex justify-between text-slate-400">
+                  <span>Funding Type</span>
+                  <span class="text-white">Wallet Top-Up</span>
+                </div>
+                <div class="flex justify-between text-slate-400">
+                  <span>Processing</span>
+                  <span class="text-emerald-400">Instant</span>
+                </div>
+                <div class="flex justify-between text-slate-400">
+                  <span>Provider</span>
+                  <span class="text-white">Paystack</span>
+                </div>
+              </div>
+
+              <div class="my-5 border-t border-white/10"></div>
+
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400 mt-0.5"></i>
+                <div>
+                  <p class="text-sm font-medium text-white">Secure Payment</p>
+                  <p class="text-xs text-slate-400 mt-1">Powered by Paystack with encrypted transaction processing.</p>
+                </div>
+              </div>
+
+              <div class="mt-4 flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+                <i data-lucide="clock-3" class="w-5 h-5 text-amber-400 mt-0.5"></i>
+                <p class="text-xs text-slate-400">
+                  Once payment is successful, your wallet balance will be credited within 24 hours.
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+<!-- SUCCESS MODAL -->
+<div id="successModal" class="fixed inset-0 hidden z-50 bg-black/70 backdrop-blur-md flex items-center justify-center">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl p-8 w-[90%] max-w-md text-center shadow-2xl">
+  
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center">
+          <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400"></i>
+        </div>
+      </div>
+  
+      <h2 class="text-xl font-bold mb-2">Thank You!</h2>
+      <p class="text-sm text-slate-400 mb-6">
+        Your payment was successful and your wallet will be credited.
+      </p>
+  
+      <button id="goHistoryBtn"
+        class="w-full bg-rose-600 hover:bg-rose-500 py-3 rounded-xl font-semibold transition">
+        View Transaction History
+      </button>
+    </div>
+  </div>
+  <script>
+    lucide.createIcons();
+
+    const paystackPublicKey = 'pk_test_0be3adc5c8e87c12499b8e221d12b05d65e4086e';
+
+    document.getElementById('paymentForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const amount = parseFloat(document.getElementById('amount').value);
+      const email = document.getElementById('businessEmail').value;
+      const name = document.getElementById('businessName').value;
+
+      if (amount < 5000) {
+        alert('Minimum funding amount is ₦5,000.');
+        return;
+      }
+
+      const handler = PaystackPop.setup({
+        key: paystackPublicKey,
+        email: email,
+        amount: amount * 100,
+        currency: 'NGN',
+        metadata: {
+          custom_fields: [
+            {
+              display_name: 'Business Name',
+              variable_name: 'business_name',
+              value: name
+            }
+          ]
+        },
+        callback: function(response) {
+
+const amount = parseFloat(document.getElementById('amount').value);
+const email = document.getElementById('businessEmail').value;
+const name = document.getElementById('businessName').value;
+
+const transaction = {
+  reference: response.reference,
+  amount: amount,
+  email: email,
+  name: name,
+  date: new Date().toLocaleDateString(),
+  time: new Date().toLocaleTimeString()
+};
+
+// get old history
+let history = JSON.parse(localStorage.getItem('moma_history')) || [];
+
+// add new transaction
+history.unshift(transaction);
+
+// save back
+localStorage.setItem('moma_history', JSON.stringify(history));
+
+// show modal instantly
+document.getElementById('successModal').classList.remove('hidden');
+
+// button redirect
+document.getElementById('goHistoryBtn').onclick = () => {
+  window.location.href = 'history.html';
+};
+},
+        onClose: function() {
+          console.log('Payment window closed.');
+        }
+      });
+
+      handler.openIframe();
+    });
+  </script>
+</body>
+</html>

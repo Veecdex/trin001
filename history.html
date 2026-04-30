@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transaction History | MOMA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+<header class="p-4 border-b border-white/10 flex justify-between items-center">
+  <h1 class="text-lg font-bold">Transaction History</h1>
+  <a href="dashboard.html" class="text-sm text-slate-400 hover:text-white">Back</a>
+</header>
+
+<main class="p-4 max-w-4xl mx-auto">
+
+  <div id="historyList" class="space-y-4 mt-6"></div>
+
+</main>
+
+<script>
+lucide.createIcons();
+
+const history = JSON.parse(localStorage.getItem('moma_history')) || [];
+const container = document.getElementById('historyList');
+
+if (history.length === 0) {
+  container.innerHTML = `
+    <div class="text-center text-slate-500 mt-10">
+      No transactions yet.
+    </div>
+  `;
+} else {
+  history.forEach(tx => {
+    container.innerHTML += `
+      <div class="bg-white/5 border border-white/10 rounded-xl p-4">
+        <div class="flex justify-between mb-2">
+          <span class="text-emerald-400 font-semibold">+₦${tx.amount}</span>
+          <span class="text-xs text-slate-400">${tx.date} ${tx.time}</span>
+        </div>
+
+        <div class="text-sm text-slate-300 space-y-1">
+          <p><b>Name:</b> ${tx.name}</p>
+          <p><b>Email:</b> ${tx.email}</p>
+          <p><b>Ref:</b> ${tx.reference}</p>
+        </div>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
