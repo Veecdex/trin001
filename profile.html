@@ -180,37 +180,56 @@ html {
 <!-- MAIN WRAPPER (DESKTOP FEEL) -->
 <div class="max-w-6xl mx-auto min-h-0">
 <!-- NAVIGATION -->
-<div class="fixed z-50 custom-nav">
+<div class="fixed bottom-4 left-0 right-0 z-50 flex justify-center
+            min-[1100px]:left-3 min-[1100px]:right-auto
+            min-[1100px]:top-1/2 min-[1100px]:-translate-y-1/2
+            min-[1100px]:bottom-auto">
 
-  <div class="bg-white border border-gray-200 shadow-md rounded-2xl px-4 py-3 
-              flex items-center custom-nav-inner">
+  <!-- NAV CONTAINER -->
+  <div class="bg-white border border-gray-200 shadow-xl rounded-3xl px-5 py-3
+              flex items-center gap-6
+              min-[1100px]:flex-col min-[1200px]:gap-5
+              min-[1100px]:px-2 min-[1200px]:py-4
+              min-[1100px]:w-[72px]">
 
-    <!-- Dashboard -->
-    <div id="nav-dashboard" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
-      <i data-lucide="home" class="w-5 h-5"></i>
-      <span class="text-[10px] mt-1 font-medium">Dashboard</span>
+    <!-- DASHBOARD -->
+    <div onclick="window.location.href='dashboard.html'" class="flex flex-col items-center text-gray-600 cursor-pointer transition">
+      <i data-lucide="home" class="w-6 h-6 stroke-[2.5]"></i>
+      <span class="text-[11px] mt-1 font-semibold min-[1100px]:hidden">Dashboard</span>
     </div>
 
-    <!-- Redeem -->
-    <div id="nav-redeem" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
-      <i data-lucide="ticket" class="w-5 h-5"></i>
-      <span class="text-[10px] mt-1 ">Redeem</span>
+    <!-- SALES -->
+    <div onclick="window.location.href='sales.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
+      <i data-lucide="bar-chart-3" class="w-6 h-6 stroke-[2.5]"></i>
+      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Sales</span>
     </div>
 
-    <!-- Sales -->
-    <div id="nav-sales" class="flex flex-col items-center text-gray-400 cursor-pointer md:hover:opacity-80 transition">
-      <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-      <span class="text-[10px] mt-1">Sales</span>
+    <!-- PLUS BUTTON -->
+    <div onclick="window.location.href='payment.html'" class="flex flex-col items-center justify-center -mt-8 cursor-pointer
+                min-[1100px]:mt-0">
+
+      <div class="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-pink-500 
+                  shadow-lg flex items-center justify-center text-white">
+
+        <i data-lucide="plus" class="w-7 h-7 stroke-[3]"></i>
+      </div>
+
+      <span class="text-[11px] mt-1 font-semibold text-gray-700 min-[1100px]:hidden">Add</span>
     </div>
 
-    <!-- Profile -->
-    <div id="nav-profile" class="flex flex-col items-center text-red-600 cursor-pointer md:hover:opacity-80 transition">
-      <i data-lucide="user" class="w-5 h-5"></i>
-      <span class="text-[10px] mt-1 font-medium">Profile</span>
+    <!-- REDEEM -->
+    <div onclick="window.location.href='redeem.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
+      <i data-lucide="ticket" class="w-6 h-6 stroke-[2.5]"></i>
+      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Redeem</span>
+    </div>
+
+    <!-- PROFILE -->
+    <div  class="flex flex-col items-center text-red-600 hover:text-black cursor-pointer transition">
+      <i data-lucide="user" class="w-6 h-6 stroke-[2.5]"></i>
+      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Profile</span>
     </div>
 
   </div>
-
 </div>
  <!-- PROFILE PAGE -->
  <div id="profilePage" class=" max-w-6xl mx-auto px-6 pb-24">
