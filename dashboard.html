@@ -1001,35 +1001,62 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
   }
   
   document.getElementById('payButton').addEventListener('click', function () {
-    const total = Number(document.getElementById('cartTotal').textContent.replace(/[^0-9]/g, '')) || 0;
-  
-    if (total <= 0) return;
-  
-    checkWalletSufficiency(total);
-  
-    if (walletAmount < total) return;
-  
-    walletAmount -= total;
-    updateWalletUI();
-  
-    const order = {
-      id: generateOrderId(),
-      date: new Date().toLocaleString(),
-      amount: total,
-      items: JSON.parse(localStorage.getItem('momaCart')) || [],
-      status: 'Processing',
-      delivery: 'Virtual gift cards will be delivered to your business email within 24 hours.'
-    };
-  
-    const orders = JSON.parse(localStorage.getItem('momaOrders')) || [];
-    orders.unshift(order);
-    localStorage.setItem('momaOrders', JSON.stringify(orders));
-    localStorage.setItem('latestMomaOrder', JSON.stringify(order));
-  
-    localStorage.removeItem('momaCart');
-  
-    window.location.href = 'order.html';
-  });
+  const total = Number(document.getElementById('cartTotal').textContent.replace(/[^0-9]/g, '')) || 0;
+
+  if (total <= 0) return;
+
+  checkWalletSufficiency(total);
+
+  if (walletAmount < total) return;
+
+  // ✅ Deduct wallet
+  walletAmount -= total;
+  updateWalletUI();
+
+  // ✅ GET CART SAFELY
+  let rawCart = localStorage.getItem('momaCart');
+
+  try {
+    rawCart = rawCart ? JSON.parse(rawCart) : {};
+  } catch (e) {
+    rawCart = {};
+  }
+
+ // ✅ CONVERT CART → UNIQUE ITEMS ARRAY
+const items = [];
+
+Object.entries(rawCart).forEach(([id, qty]) => {
+  for (let i = 0; i < qty; i++) {
+    items.push({
+      id: Number(id),
+      instanceId: 'GC-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5)
+    });
+  }
+});
+
+  // ✅ CREATE ORDER
+  const order = {
+    id: generateOrderId(),
+    date: new Date().toLocaleString(),
+    amount: total,
+    items: items, // 🔥 THIS IS THE FIX
+    status: 'Processing',
+    delivery: 'Virtual gift cards will be delivered to your business email within 24 hours.'
+  };
+
+  // ✅ SAVE ORDER
+  const orders = JSON.parse(localStorage.getItem('momaOrders')) || [];
+  orders.unshift(order);
+
+  localStorage.setItem('momaOrders', JSON.stringify(orders));
+  localStorage.setItem('latestMomaOrder', JSON.stringify(order));
+
+  // ✅ CLEAR CART
+  localStorage.removeItem('momaCart');
+
+  // ✅ REDIRECT
+  window.location.href = 'order.html';
+});
   
   window.addEventListener('load', updateWalletUI);
   </script>
@@ -1216,52 +1243,54 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
   }
   
   function renderCart() {
-    const cartItems = document.getElementById('cartItems');
-    const items = Object.entries(cart);
-  
-    if (items.length === 0) {
-      cartItems.innerHTML = `
-        <div class="text-center py-4">
-          <p class="text-gray-500 text-sm">Oops… your cart is empty right now 🛒</p>
-          <p class="text-xs text-gray-400 mt-1">Add gift cards to start your order</p>
+  // 🔥 SAVE CART EVERY TIME IT CHANGES
+  localStorage.setItem('momaCart', JSON.stringify(cart));
+
+  const cartItems = document.getElementById('cartItems');
+  const items = Object.entries(cart);
+
+  if (items.length === 0) {
+    cartItems.innerHTML = `
+      <div class="text-center py-4">
+        <p class="text-gray-500 text-sm">Oops… your cart is empty right now 🛒</p>
+        <p class="text-xs text-gray-400 mt-1">Add gift cards to start your order</p>
+      </div>`;
+  } else {
+    cartItems.innerHTML = items.map(([id, qty]) => {
+      const product = products.find(p => p.id == id);
+      const total = product.orderPrice * qty;
+
+      return `
+        <div class="flex items-center justify-between bg-white rounded-xl p-3 border">
+          <div>
+            <p class="font-medium text-sm">${formatCurrency(product.value)} Gift Card</p>
+            <p class="text-xs text-gray-500">${formatCurrency(product.orderPrice)} each</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="updateQuantity(${id}, -1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <i data-lucide="minus" class="w-4 h-4"></i>
+            </button>
+
+            <span class="w-6 text-center text-sm font-semibold">${qty}</span>
+
+            <button onclick="updateQuantity(${id}, 1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+
+            <button onclick="removeFromCart(${id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="text-sm font-semibold ml-3">${formatCurrency(total)}</div>
         </div>`;
-    } else {
-      cartItems.innerHTML = items.map(([id, qty]) => {
-        const product = products.find(p => p.id == id);
-        const total = product.orderPrice * qty;
-  
-        return `
-          <div class="flex items-center justify-between bg-white rounded-xl p-3 border">
-            <div>
-              <p class="font-medium text-sm">${formatCurrency(product.value)} Gift Card</p>
-              <p class="text-xs text-gray-500">${formatCurrency(product.orderPrice)} each</p>
-            </div>
-  
-            <div class="flex items-center gap-2">
-              <button onclick="updateQuantity(${id}, -1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-                <i data-lucide="minus" class="w-4 h-4"></i>
-              </button>
-  
-              <span class="w-6 text-center text-sm font-semibold">${qty}</span>
-  
-              <button onclick="updateQuantity(${id}, 1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-                <i data-lucide="plus" class="w-4 h-4"></i>
-              </button>
-  
-              <button onclick="removeFromCart(${id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
-            </div>
-  
-            <div class="text-sm font-semibold ml-3">${formatCurrency(total)}</div>
-          </div>`;
-      }).join('');
-    }
-  
-    updateSummary();
-    lucide.createIcons();
+    }).join('');
   }
-  
+
+  updateSummary();
+  lucide.createIcons();
+}
   function updateSummary() {
     let totalItems = 0;
     let totalAmount = 0;
