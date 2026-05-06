@@ -31,7 +31,7 @@ html {
 <div class="max-w-5xl mx-auto p-4 md:p-8">
   <div class="mb-8">
     <div class="flex items-center gap-4 mb-4">
-      <button onclick="history.back()" class="w-11 h-11 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm hover:shadow-md transition">
+      <button onclick="window.location.href='dashboard.html'" class="w-11 h-11 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm hover:shadow-md transition">
         <i data-lucide="arrow-left"></i>
       </button>
       <div>
@@ -87,15 +87,10 @@ html {
 
     <!-- ACTIONS -->
     <div id="pdfActions" class="hidden flex gap-3 mt-4">
-      <a id="whatsappBtn" target="_blank"
-         class="flex-1 text-center bg-green-500 text-white py-2 rounded-xl text-sm">
-         WhatsApp
-      </a>
-
-      <a id="emailBtn"
-         class="flex-1 text-center bg-blue-500 text-white py-2 rounded-xl text-sm">
-         Email
-      </a>
+      <button onclick="sharePdfFile()"
+      class="flex-1 bg-green-500 text-white py-2 rounded-xl text-sm">
+      Share
+    </button>
     </div>
 
   </div>
@@ -344,12 +339,7 @@ html {
     actions.classList.remove("hidden");
   };
 
-  // UPDATE SHARE LINKS
-  document.getElementById("whatsappBtn").href =
-    `https://wa.me/?text=Here is your gift card: ${currentPdfUrl}`;
-
-  document.getElementById("emailBtn").href =
-    `mailto:?subject=Your Gift Card&body=${currentPdfUrl}`;
+  
 }
 
 </script>
@@ -371,6 +361,31 @@ document.getElementById("pdfPreviewBox").onclick = (e) => {
     e.currentTarget.classList.add("hidden");
   }
 };
+async function sharePdfFile() {
+  if (!currentPdfUrl) return;
+
+  try {
+    const response = await fetch(currentPdfUrl);
+    const blob = await response.blob();
+
+    const file = new File([blob], "MOMA-GiftCard.pdf", {
+      type: "application/pdf"
+    });
+
+    if (navigator.share && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: "MOMA Gift Card",
+        text: "Here is your gift card",
+        files: [file]
+      });
+    } else {
+      alert("Sharing not supported on this device. Please download instead.");
+    }
+
+  } catch (err) {
+    console.error("Share failed:", err);
+  }
+}
 </script>
 </body>
 </html>
