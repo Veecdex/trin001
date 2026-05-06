@@ -169,119 +169,107 @@ html {
     format: [85.6, 53.98]
   });
 
-  // 🔥 BUSINESS DATA (later from Firebase)
+  // 🔥 BUSINESS (NEUTRALIZED)
   const business = {
-    name: "Moma Restaurant",
-    industry: "restaurant",
+    name: "Kandie Store",
     address: "12 Allen Avenue, Lagos",
+    logo: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=200" // neutral unsplash
   };
 
   const value = `${product.value.toLocaleString()} NGN`;
 
-  // 🎨 COLORS BASED ON INDUSTRY
-  let bg = [30, 30, 30];
-  let accent = [255, 99, 71];
-
-  if (business.industry === "restaurant") {
-    bg = [92, 35, 12];     // deep brown
-    accent = [255, 140, 0]; // orange
-  }
-
   // =========================
-  // 🎴 FRONT CARD
+  // 🎴 FRONT (PREMIUM MINIMAL)
   // =========================
 
-  // Background
-  doc.setFillColor(...bg);
-  doc.roundedRect(0, 0, 85.6, 53.98, 4, 4, "F");
+  // 🎨 Soft dark background
+  doc.setFillColor(18, 18, 18);
+  doc.rect(0, 0, 85.6, 53.98, "F");
 
-  // Accent Glow Shape (top right)
-  doc.setFillColor(...accent);
-  doc.circle(72, 12, 9, "F");
+  // 🔥 subtle border
+  doc.setDrawColor(60, 60, 60);
+  doc.setLineWidth(0.3);
+  doc.rect(2, 2, 81.6, 49.98);
 
-  // BUSINESS NAME
-  doc.setTextColor(255, 255, 255);
+  // 🔥 logo (clean square)
+  try {
+    doc.addImage(business.logo, "JPEG", 6, 6, 12, 12);
+  } catch (e) {}
+
+  // 🔥 brand name
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(9);
-  doc.text(business.name.toUpperCase(), 6, 8);
-
-  // GIFT LABEL
-  doc.setFontSize(7);
-  doc.setTextColor(230, 230, 230);
-  doc.text("GIFT CARD", 6, 13);
-
-  // VALUE (MAIN FOCUS)
-  doc.setFontSize(22);
+  doc.setFontSize(10);
   doc.setTextColor(255, 255, 255);
-  doc.text(value, 6, 28);
+  doc.text(business.name, 20, 10);
 
-  // TAGLINE
+  // 🔥 label
+  doc.setFontSize(6);
+  doc.setTextColor(150, 150, 150);
+  doc.text("GIFT CARD", 20, 14);
+
+  // 🔥 MAIN VALUE (centerpiece)
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(24);
+  doc.setTextColor(255, 255, 255);
+  doc.text(value, 6, 32);
+
+  // 🔥 subtle divider line
+  doc.setDrawColor(80, 80, 80);
+  doc.line(6, 36, 80, 36);
+
+  // 🔥 tagline (very subtle)
   doc.setFontSize(7);
-  doc.setTextColor(255, 210, 180);
-  doc.text(" Enjoy premium meals & experiences", 6, 36);
+  doc.setTextColor(120, 120, 120);
+  doc.text("Redeem for products or services", 6, 42);
 
-  // SUBTEXT
+  // 🔥 micro footer
   doc.setFontSize(6);
-  doc.setTextColor(200, 200, 200);
-  doc.text("Valid for curated dining & special menus", 6, 41);
-
-  // FOOTER
-  doc.setFontSize(6);
-  doc.setTextColor(180, 180, 180);
+  doc.setTextColor(90, 90, 90);
   doc.text("Powered by MOMA", 6, 50);
 
+  // 🔥 accent dot (minimal identity)
+  doc.setFillColor(255, 255, 255);
+  doc.circle(80, 8, 1.2, "F");
+
   // =========================
-  // 🔁 BACK CARD
+  // 🔁 BACK (CLEAN INFO LAYOUT)
   // =========================
+
   doc.addPage();
 
-  // Background
-  doc.setFillColor(18, 18, 18);
-  doc.roundedRect(0, 0, 85.6, 53.98, 4, 4, "F");
+  // background
+  doc.setFillColor(245, 245, 245);
+  doc.rect(0, 0, 85.6, 53.98, "F");
 
-  // STRIP DESIGN
-  doc.setFillColor(40, 40, 40);
+  // 🔥 top strip
+  doc.setFillColor(20, 20, 20);
   doc.rect(0, 0, 85.6, 10, "F");
 
-  // TITLE
   doc.setFontSize(8);
   doc.setTextColor(255, 255, 255);
-  doc.text("Gift Card Details", 6, 7);
+  doc.text("Gift Card", 6, 6.5);
 
-  // CODE LABEL
-  doc.setFontSize(6);
-  doc.setTextColor(200, 200, 200);
-  doc.text("Gift Code", 6, 16);
+  // 🔥 code box
+  doc.setDrawColor(200, 200, 200);
+  doc.rect(6, 18, 73, 12);
 
-  // CODE VALUE
-  doc.setFontSize(11);
-  doc.setTextColor(255, 200, 0);
-  doc.setFont("courier", "bold"); // 🔥 looks like real code
-  doc.text(item.instanceId, 6, 21);
+  doc.setFont("courier", "bold");
+  doc.setFontSize(10);
+  doc.setTextColor(30, 30, 30);
+  doc.text(item.instanceId, 8, 26);
 
-  // RESET FONT
+  // 🔥 instructions
   doc.setFont("helvetica", "normal");
-
-  // INSTRUCTIONS
   doc.setFontSize(6);
-  doc.setTextColor(220, 220, 220);
+  doc.setTextColor(80, 80, 80);
 
-  doc.text("To redeem:", 6, 30);
-  doc.text(`Visit: ${business.address}`, 6, 34);
-  doc.text("Present at the counter", 6, 38);
+  doc.text("Redeem at:", 6, 36);
+  doc.text(business.address, 6, 40);
+  doc.text("Present this card at checkout", 6, 44);
 
-  // EXPIRY
-  doc.setTextColor(255, 120, 120);
-  doc.text("Expires 30 days after purchase", 6, 43);
-
-  // WARNING
-  doc.setTextColor(180, 180, 180);
-  doc.text("This is a virtual gift card. Redeem at store location", 6, 47);
-
-  // BRAND FOOTER
-  doc.setFontSize(7);
-  doc.setTextColor(255, 255, 255);
-  doc.text("MOMA Gift Card Company", 6, 52);
+  // 🔥 expiry (clean warning tone)
+  doc.setTextColor(120, 120, 120);
+  doc.text("Valid for 30 days", 6, 48);
 
   // EXPORT
   const blob = doc.output("blob");
@@ -474,13 +462,21 @@ async function sharePdfFile() {
     const response = await fetch(currentPdfUrl);
     const blob = await response.blob();
 
-    const file = new File([blob], "MOMA-GiftCard.pdf", {
+    // 🔥 GET BUSINESS NAME (same as PDF function)
+    const businessName = "Kandie Store"; // ⚠️ keep this in sync or make dynamic later
+
+    // 🔥 CLEAN FILE NAME (remove weird chars)
+    const safeName = businessName.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+
+    const fileName = `${safeName}_gift_card.pdf`;
+
+    const file = new File([blob], fileName, {
       type: "application/pdf"
     });
 
     if (navigator.share && navigator.canShare({ files: [file] })) {
       await navigator.share({
-        title: "MOMA Gift Card",
+        title: `${businessName} Gift Card`,
         text: "Here is your gift card",
         files: [file]
       });
