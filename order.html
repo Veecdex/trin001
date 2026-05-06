@@ -162,24 +162,130 @@ html {
   }
   function generateGiftCardPDF(item, product, order) {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
 
-  doc.setFontSize(18);
-  doc.text("MOMA GIFT CARD CONFIRMATION", 20, 20);
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: [85.6, 53.98]
+  });
 
+  // 🔥 BUSINESS DATA (later from Firebase)
+  const business = {
+    name: "Moma Restaurant",
+    industry: "restaurant",
+    address: "12 Allen Avenue, Lagos",
+  };
+
+  const value = `${product.value.toLocaleString()} NGN`;
+
+  // 🎨 COLORS BASED ON INDUSTRY
+  let bg = [30, 30, 30];
+  let accent = [255, 99, 71];
+
+  if (business.industry === "restaurant") {
+    bg = [92, 35, 12];     // deep brown
+    accent = [255, 140, 0]; // orange
+  }
+
+  // =========================
+  // 🎴 FRONT CARD
+  // =========================
+
+  // Background
+  doc.setFillColor(...bg);
+  doc.roundedRect(0, 0, 85.6, 53.98, 4, 4, "F");
+
+  // Accent Glow Shape (top right)
+  doc.setFillColor(...accent);
+  doc.circle(72, 12, 9, "F");
+
+  // BUSINESS NAME
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9);
+  doc.text(business.name.toUpperCase(), 6, 8);
+
+  // GIFT LABEL
+  doc.setFontSize(7);
+  doc.setTextColor(230, 230, 230);
+  doc.text("GIFT CARD", 6, 13);
+
+  // VALUE (MAIN FOCUS)
+  doc.setFontSize(22);
+  doc.setTextColor(255, 255, 255);
+  doc.text(value, 6, 28);
+
+  // TAGLINE
+  doc.setFontSize(7);
+  doc.setTextColor(255, 210, 180);
+  doc.text(" Enjoy premium meals & experiences", 6, 36);
+
+  // SUBTEXT
+  doc.setFontSize(6);
+  doc.setTextColor(200, 200, 200);
+  doc.text("Valid for curated dining & special menus", 6, 41);
+
+  // FOOTER
+  doc.setFontSize(6);
+  doc.setTextColor(180, 180, 180);
+  doc.text("Powered by MOMA", 6, 50);
+
+  // =========================
+  // 🔁 BACK CARD
+  // =========================
+  doc.addPage();
+
+  // Background
+  doc.setFillColor(18, 18, 18);
+  doc.roundedRect(0, 0, 85.6, 53.98, 4, 4, "F");
+
+  // STRIP DESIGN
+  doc.setFillColor(40, 40, 40);
+  doc.rect(0, 0, 85.6, 10, "F");
+
+  // TITLE
+  doc.setFontSize(8);
+  doc.setTextColor(255, 255, 255);
+  doc.text("Gift Card Details", 6, 7);
+
+  // CODE LABEL
+  doc.setFontSize(6);
+  doc.setTextColor(200, 200, 200);
+  doc.text("Gift Code", 6, 16);
+
+  // CODE VALUE
   doc.setFontSize(11);
-  doc.text(`Order ID: ${order.id}`, 20, 35);
-  doc.text(`Card Code: ${item.instanceId}`, 20, 45);
-  doc.text(`Card Value: ₦${product.value.toLocaleString()}`, 20, 55);
+  doc.setTextColor(255, 200, 0);
+  doc.setFont("courier", "bold"); // 🔥 looks like real code
+  doc.text(item.instanceId, 6, 21);
 
-  doc.setFontSize(12);
-  doc.text("Thank you for your purchase.", 20, 75);
+  // RESET FONT
+  doc.setFont("helvetica", "normal");
 
-  // 👉 CREATE BLOB URL INSTEAD OF DOWNLOAD
-  const pdfBlob = doc.output("blob");
-  const pdfUrl = URL.createObjectURL(pdfBlob);
+  // INSTRUCTIONS
+  doc.setFontSize(6);
+  doc.setTextColor(220, 220, 220);
 
-  return pdfUrl;
+  doc.text("To redeem:", 6, 30);
+  doc.text(`Visit: ${business.address}`, 6, 34);
+  doc.text("Present at the counter", 6, 38);
+
+  // EXPIRY
+  doc.setTextColor(255, 120, 120);
+  doc.text("Expires 30 days after purchase", 6, 43);
+
+  // WARNING
+  doc.setTextColor(180, 180, 180);
+  doc.text("This is a virtual gift card. Redeem at store location", 6, 47);
+
+  // BRAND FOOTER
+  doc.setFontSize(7);
+  doc.setTextColor(255, 255, 255);
+  doc.text("MOMA Gift Card Company", 6, 52);
+
+  // EXPORT
+  const blob = doc.output("blob");
+  return URL.createObjectURL(blob);
 }
   function showOrder(orderId) {
   const order = savedOrders.find(item => item.id === orderId);
