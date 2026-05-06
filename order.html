@@ -70,8 +70,38 @@ html {
     </div>
   </div>
 </div>
+<div id="pdfPreviewBox" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
+  <div class="bg-white w-[92%] max-w-xl rounded-3xl p-5">
+
+    <h3 class="text-lg font-bold mb-3">Gift Card Preview</h3>
+
+    <!-- LOADER -->
+    <div id="pdfLoader" class="py-10 text-center">
+      <div class="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p class="text-sm text-gray-500 mt-3">Preparing your gift card...</p>
+    </div>
+
+    <!-- PDF -->
+    <iframe id="pdfFrame" class="hidden w-full h-[450px] rounded-2xl border"></iframe>
+
+    <!-- ACTIONS -->
+    <div id="pdfActions" class="hidden flex gap-3 mt-4">
+      <a id="whatsappBtn" target="_blank"
+         class="flex-1 text-center bg-green-500 text-white py-2 rounded-xl text-sm">
+         WhatsApp
+      </a>
+
+      <a id="emailBtn"
+         class="flex-1 text-center bg-blue-500 text-white py-2 rounded-xl text-sm">
+         Email
+      </a>
+    </div>
+
+  </div>
+</div>
 <script>
+  let currentPdfUrl = null;
   const latestOrder = JSON.parse(localStorage.getItem('latestMomaOrder'));
   const savedOrders = JSON.parse(localStorage.getItem('momaOrders')) || [];
 
@@ -139,57 +169,22 @@ html {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  // HEADER
   doc.setFontSize(18);
   doc.text("MOMA GIFT CARD CONFIRMATION", 20, 20);
 
-  // BODY
   doc.setFontSize(11);
   doc.text(`Order ID: ${order.id}`, 20, 35);
   doc.text(`Card Code: ${item.instanceId}`, 20, 45);
   doc.text(`Card Value: ₦${product.value.toLocaleString()}`, 20, 55);
 
-  // MESSAGE
   doc.setFontSize(12);
   doc.text("Thank you for your purchase.", 20, 75);
 
-  doc.setFontSize(10);
-  doc.text(
-    "This document serves as a confirmation of your gift card purchase.",
-    20,
-    85
-  );
+  // 👉 CREATE BLOB URL INSTEAD OF DOWNLOAD
+  const pdfBlob = doc.output("blob");
+  const pdfUrl = URL.createObjectURL(pdfBlob);
 
-  doc.text(
-    "The official gift card file associated with this purchase will be",
-    20,
-    92
-  );
-
-  doc.text(
-    "generated and made available shortly.",
-    20,
-    99
-  );
-
-  doc.text(
-    "Please retain this document for your records.",
-    20,
-    110
-  );
-
-  doc.text(
-    "For support or inquiries, contact the Moma team.",
-    20,
-    120
-  );
-
-  // FOOTER
-  doc.setFontSize(9);
-  doc.text("© Moma Gift Infrastructure", 20, 140);
-
-  // DOWNLOAD
-  doc.save(`Moma-GiftCard-${item.instanceId}.pdf`);
+  return pdfUrl;
 }
   function showOrder(orderId) {
   const order = savedOrders.find(item => item.id === orderId);
@@ -229,29 +224,13 @@ html {
               ₦${product.orderPrice.toLocaleString()}
             </p>
 
-            <div class="flex gap-2 justify-end">
 
               <button onclick="handleDownload('${order.id}', '${item.instanceId}', ${item.id})"
   class="px-3 py-1 text-xs bg-red-500 text-white rounded-lg">
-  Download
+  Preview
 </button>
-
-              <!-- WHATSAPP -->
-              <a href="https://wa.me/?text=Here is your gift card: ${giftCardLink}"
-                 target="_blank"
-                 class="px-3 py-1 text-xs bg-green-500 text-white rounded-lg">
-                 WhatsApp
-              </a>
-
-              <!-- EMAIL -->
-              <a href="mailto:?subject=Your Gift Card&body=Download here: ${giftCardLink}"
-                 class="px-3 py-1 text-xs bg-blue-500 text-white rounded-lg">
-                 Email
-              </a>
-
-            </div>
-          </div>
-
+          
+</div>
         </div>
       `;
     }).join('')
@@ -322,6 +301,7 @@ html {
   if (!order) return;
 
   const item = order.items.find(i => i.instanceId === instanceId);
+
   const product = [
     { id: 1, value: 2000, orderPrice: 50 },
     { id: 2, value: 5000, orderPrice: 125 },
@@ -331,16 +311,66 @@ html {
     { id: 6, value: 50000, orderPrice: 1200 }
   ].find(p => p.id == productId);
 
-  // ✅ IF REAL URL EXISTS → USE IT
-  if (item.giftCardUrl) {
-    window.open(item.giftCardUrl, '_blank');
-    return;
+  const modal = document.getElementById("pdfPreviewBox");
+  const frame = document.getElementById("pdfFrame");
+  const loader = document.getElementById("pdfLoader");
+  const actions = document.getElementById("pdfActions");
+
+  // OPEN MODAL
+  modal.classList.remove("hidden");
+
+  // RESET STATE
+  loader.style.display = "block";
+  frame.classList.add("hidden");
+  actions.classList.add("hidden");
+  frame.src = "";
+
+  // 🔥 CLEAN OLD PDF (VERY IMPORTANT)
+  if (currentPdfUrl) {
+    URL.revokeObjectURL(currentPdfUrl);
+    currentPdfUrl = null;
   }
 
-  // ✅ ELSE GENERATE TEMP PDF
-  generateGiftCardPDF(item, product, order);
-}
-</script>
+  // GENERATE NEW PDF
+  currentPdfUrl = generateGiftCardPDF(item, product, order);
 
+  // LOAD INTO FRAME
+  frame.src = currentPdfUrl;
+
+  // WAIT FOR LOAD
+  frame.onload = () => {
+    loader.style.display = "none";
+    frame.classList.remove("hidden");
+    actions.classList.remove("hidden");
+  };
+
+  // UPDATE SHARE LINKS
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/?text=Here is your gift card: ${currentPdfUrl}`;
+
+  document.getElementById("emailBtn").href =
+    `mailto:?subject=Your Gift Card&body=${currentPdfUrl}`;
+}
+
+</script>
+<script>
+document.getElementById("pdfPreviewBox").onclick = (e) => {
+  if (e.target.id === "pdfPreviewBox") {
+
+    const frame = document.getElementById("pdfFrame");
+
+    // 🔥 FULL RESET WHEN CLOSING
+    frame.src = "about:blank";
+    frame.classList.add("hidden");
+
+    if (currentPdfUrl) {
+      URL.revokeObjectURL(currentPdfUrl);
+      currentPdfUrl = null;
+    }
+
+    e.currentTarget.classList.add("hidden");
+  }
+};
+</script>
 </body>
 </html>
