@@ -162,7 +162,7 @@ html {
   }
   function generateGiftCardPDF(item, product, order) {
   const { jsPDF } = window.jspdf;
-
+  const momaLogoBase64 = "https://i.ibb.co/vCVCmDd9/Moma-Logo.png";
   const doc = new jsPDF({
     orientation: "landscape",
     unit: "mm",
@@ -244,10 +244,23 @@ console.log(e);
   doc.setTextColor(120, 120, 120);
   doc.text("Redeem for products or services", 6, 42);
 
-  // 🔥 micro footer
-  doc.setFontSize(6);
-  doc.setTextColor(90, 90, 90);
-  doc.text("Powered by MOMA", 6, 50);
+
+// 🔥 LARGE MOMA LOGO (BOTTOM RIGHT)
+
+try {
+
+doc.addImage(
+  momaLogoBase64,
+  "PNG",
+  58,   // x
+  38,   // y
+  24,   // width
+  17    // height
+);
+
+} catch (e) {
+console.log(e);
+}
 
   // 🔥 accent dot (minimal identity)
   doc.setFillColor(255, 255, 255);
