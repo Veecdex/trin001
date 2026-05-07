@@ -1093,9 +1093,7 @@ localStorage.setItem("momaStoreCards", JSON.stringify(existingCards));
     message.textContent = "You do not have enough funds to complete this purchase.";
 
     actionBtn.classList.remove('hidden');
-    actionBtn.onclick = () => {
-      alert("Redirect to funding flow later.");
-    };
+  
 
     document.getElementById('paymentResult').classList.remove('hidden');
   }
@@ -1106,9 +1104,31 @@ const confirmBtn = document.getElementById("confirmSell");
 function closeResult() {
   document.getElementById('paymentResult').classList.add('hidden');
 }
-  function generateOrderId() {
-    return 'MOMA-' + Date.now().toString().slice(-8);
-  }
+function generateOrderId(businessName = "Kandie Store") {
+
+// CLEAN BUSINESS NAME
+// "Kandie Place" => "KANDIEPLACE"
+const cleanName = businessName
+  .replace(/[^a-zA-Z0-9]/g, '')
+  .toUpperCase();
+
+// GET FIRST + LAST LETTER
+// "KANDIEPLACE" => "KE"
+const shortName =
+  cleanName.length > 1
+    ? cleanName[0] + cleanName[cleanName.length - 1]
+    : cleanName;
+
+// TIME PART
+const timestamp = Date.now().toString(36).toUpperCase();
+
+// RANDOM PARTS
+const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+
+// FINAL ID
+return `${shortName}-${timestamp}-${random}`;
+}
   
   function checkWalletSufficiency(total) {
     const status = document.getElementById('walletStatus');
@@ -1200,7 +1220,7 @@ function closeResult() {
   <div class="bg-white w-[90%] max-w-md rounded-2xl p-6 shadow-xl text-center">
     <p id="paymentMessage" class="text-sm text-gray-600 mb-4"></p>
 
-    <button id="paymentActionBtn" class="hidden w-full py-2 rounded-lg bg-red-500 text-white">
+    <button onclick="window.location.href='payment.html'" id="paymentActionBtn" class="hidden w-full py-2 rounded-lg bg-red-500 text-white">
       Fund Wallet
     </button>
 
