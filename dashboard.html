@@ -417,54 +417,45 @@ select {
         
         </div>
 
-        <!-- CENTER: FEATURES -->
-        <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <div class="flex items-center gap-2 text-slate-300">
-            <div class="w-8 h-8 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
-              <i data-lucide="shopping-bag" class="w-4 h-4 text-red-400"></i>
-            </div>
-            <span class="text-sm font-medium">Sell</span>
-          </div>
+         <!-- RIGHT: FEATURES -->
+<div class="hidden md:flex items-center gap-8 lg:gap-10 ml-auto pr-6 lg:pr-10">
 
-          <div class="flex items-center gap-2 text-slate-300">
-            <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
-              <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-400"></i>
-            </div>
-            <span class="text-sm font-medium">Redeem</span>
-          </div>
+  <div class="flex items-center gap-3 text-slate-300">
+    <div class="w-10 h-10 rounded-2xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
+      <i data-lucide="shopping-bag" class="w-5 h-5 text-red-400"></i>
+    </div>
+    <span class="text-base lg:text-lg font-semibold">Sell</span>
+  </div>
 
-          <div class="flex items-center gap-2 text-slate-300">
-            <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
-              <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
-            </div>
-            <span class="text-sm font-medium">Earn</span>
-          </div>
-        </div>
+  <div class="flex items-center gap-3 text-slate-300">
+    <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
+      <i data-lucide="ticket-check" class="w-5 h-5 text-emerald-400"></i>
+    </div>
+    <span class="text-base lg:text-lg font-semibold">Redeem</span>
+  </div>
 
-        <!-- MOBILE CENTER ICONS -->
-        <div class="flex md:hidden items-center gap-2">
+  <div class="flex items-center gap-3 text-slate-300">
+    <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
+      <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i>
+    </div>
+    <span class="text-base lg:text-lg font-semibold">Earn</span>
+  </div>
+
+</div>
+
+        <div class="flex md:hidden items-center justify-end gap-2 ml-auto">
           <div class="w-9 h-9 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
             <i data-lucide="shopping-bag" class="w-4 h-4 text-red-400"></i>
           </div>
+        
           <div class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
             <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-400"></i>
           </div>
+        
           <div class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
             <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
           </div>
         </div>
-
-        <!-- RIGHT: ILLUSTRATION -->
-        <div class="flex items-center gap-3 flex-shrink-0">
-          <p class="hidden xl:block text-sm text-slate-400 font-medium">
-            Sell, redeem & earn with MOMA
-          </p>
-
-          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-slate-700/90 to-slate-900 border border-white/10 flex items-center justify-center shadow-inner">
-            <i data-lucide="smartphone" class="w-5 h-5 text-slate-200"></i>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -473,7 +464,7 @@ select {
 <script>
   lucide.createIcons();
 </script>
-<!-- MAIN WRAPPER (DESKTOP FEEL) -->
+<!-- MAIN WRAPPER  -->
 <div style="margin-top: -12px;" class="max-w-6xl mx-auto px-6 py-6 min-h-0 ">
 
   <!-- TOP BAR -->
@@ -876,7 +867,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
     <i data-lucide="x"></i>
   </button>
 
-  <h2 class="font-bold text-xl">Moma Store</h2>
+  <h2 class="font-bold text-xl">MoMA Store</h2>
 
   <!-- Right Actions -->
   <div class="flex items-center gap-3">
@@ -946,7 +937,7 @@ min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
 <div class="mt-3 space-y-2">
   <div class="flex items-center justify-between text-sm">
     <span class="text-gray-500">Wallet Balance</span>
-    <span id="walletBalancePreview" class="font-semibold text-gray-900">₦250,000</span>
+    <span id="walletBalancePreview" class="font-semibold text-gray-900">₦0</span>
   </div>
 
   <div id="walletStatus"
@@ -2241,7 +2232,7 @@ setInterval(() => {
       modal.classList.add("hidden");
     }, 250);
   }
-  let walletBalance = 250000;
+  let walletBalance = Number(localStorage.getItem('momaWalletBalance')) || 0;
 let walletVisible = true;
 
 function formatCurrency(amount) {
