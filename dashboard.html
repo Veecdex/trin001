@@ -474,7 +474,11 @@ select {
     <div class="flex items-center gap-4">
 
       <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
-        <i data-lucide="store"></i>
+        <img 
+        src="cake.jpg"
+        alt="business"
+        class="w-full h-full object-cover rounded-2xl"
+      />
       </div>
 
       <div>
@@ -1829,10 +1833,12 @@ function sellCard(giftCode) {
 
   const card = cards[index];
 
-  // ✅ ADD TO SOLD CARDS
-  card.status = "sold";
-  card.soldAt = new Date().toLocaleString();
-  soldCards.push(card);
+  soldCards.push({
+  giftCode: card.giftCode,
+  amount: card.amount,
+  status: "active",
+  createdAt: Date.now()
+});
 
   // ✅ REMOVE FROM STORE COMPLETELY
   cards.splice(index, 1);
@@ -1968,19 +1974,28 @@ document.getElementById("cancelSell").addEventListener("click", closeSellModal);
 // LOAD SOLD CARDS INTO REDEEM PAGE
 function loadSold() {
   const list = document.getElementById("redeemList");
+  
   list.innerHTML = "";
 
   soldCards.forEach(card => {
+
+
+    const redeemAmount = card.amount * 0.97;
+
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
         <div>
           <p class="text-xs text-gray-500">Purchase Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">${card.purchaseCode}</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">
+            ${card.purchaseCode}
+          </p>
         </div>
 
         <div class="text-right">
           <p class="text-xs text-gray-500">Amount</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount.toLocaleString()}</p>
+          <p class="text-sm font-semibold text-gray-900 mt-1">
+            ₦${redeemAmount.toLocaleString()}
+          </p>
         </div>
 
         <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
