@@ -434,40 +434,108 @@ function loadSold() {
 
   const cards = JSON.parse(localStorage.getItem("soldCards")) || [];
 
-  // ONLY ACTIVE (UNREDEEMED)
+  const EXPIRY_TIME = 30 * 24 * 60 * 60 * 1000;
+
   const activeCards = cards.filter(c => c.status === "active");
 
   if (activeCards.length === 0) {
-    list.innerHTML = `<p class="text-gray-400 text-sm">No active cards</p>`;
+    list.innerHTML = `
+      <p class="text-gray-400 text-sm">
+        No active cards
+      </p>
+    `;
     return;
   }
 
   activeCards.forEach(card => {
+
+if (!card.createdAt) {
+  card.createdAt = Date.now();
+}
+const createdAt = card.createdAt;
+
+localStorage.setItem("soldCards", JSON.stringify(cards));
+
+const timePassed = Date.now() - createdAt;
+
+const isExpired = timePassed >= EXPIRY_TIME;
+
+const remainingMs = EXPIRY_TIME - timePassed;
+
+const remainingDays = Math.max(
+  0,
+  Math.ceil(remainingMs / (1000 * 60 * 60 * 24))
+);
+
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
-        <div>
-          <p class="text-xs text-gray-500">Gift Code</p>
-          <div class="flex items-center gap-2 mt-1">
-  <p class="text-sm font-semibold text-gray-900">${card.giftCode}</p>
 
-  <button onclick="copyCode('${card.giftCode}')" 
-    class="text-gray-400 hover:text-gray-700">
-    <i data-lucide="copy" class="w-4 h-4"></i>
-  </button>
-</div>
+        <div>
+          <p class="text-xs text-gray-500">
+            Gift Code
+          </p>
+
+          <div class="flex items-center gap-2 mt-1">
+            <p class="text-sm font-semibold text-gray-900">
+              ${card.giftCode || card.purchaseCode}
+            </p>
+
+            <button
+              onclick="copyCode('${card.giftCode || card.purchaseCode}')"
+              class="text-gray-400 hover:text-gray-700">
+
+              <i data-lucide="copy" class="w-4 h-4"></i>
+
+            </button>
+          </div>
+
+          <p class="text-[11px] mt-1 ${
+            isExpired
+              ? "text-red-500"
+              : "text-gray-400"
+          }">
+
+            ${
+              isExpired
+                ? "Expired"
+                : `${remainingDays} day(s) remaining`
+            }
+
+          </p>
         </div>
 
         <div class="text-right">
-          <p class="text-xs text-gray-500">Amount</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount}</p>
+          <p class="text-xs text-gray-500">
+            Amount
+          </p>
+
+          <p class="text-sm font-semibold text-gray-900 mt-1">
+            ₦${(card.amount * 0.97).toLocaleString()}
+          </p>
         </div>
 
-        <button data-code="${card.giftCode}" class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
-          Redeem
-        </button>
+        ${
+          isExpired
+            ? `
+              <button
+                disabled
+                class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed">
+                Expired
+              </button>
+            `
+            : `
+              <button
+                data-code="${card.giftCode || card.purchaseCode}"
+                class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
+                Redeem
+              </button>
+            `
+        }
+
       </div>
     `;
   });
+
   lucide.createIcons();
 }
 
@@ -479,30 +547,68 @@ function loadRedeemed() {
 
   const redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
 
+  const EXPIRY_TIME = 30 * 24 * 60 * 60 * 1000;
+
   if (redeemed.length === 0) {
     list.innerHTML = `<p class="text-gray-400 text-sm">No redeemed cards</p>`;
     return;
   }
 
   redeemed.forEach(card => {
+
+    const isExpired =
+      Date.now() - card.createdAt >= EXPIRY_TIME;
+
     list.innerHTML += `
       <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+
         <div>
           <p class="text-xs text-gray-500">Gift Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">${card.code}</p>
+
+          <p class="text-sm font-semibold text-gray-900 mt-1">
+            ${card.code}
+          </p>
+
+          <p class="text-[11px] mt-1 ${
+            isExpired ? 'text-red-500' : 'text-gray-400'
+          }">
+            ${
+              isExpired
+                ? 'Expired'
+                : 'Active'
+            }
+          </p>
         </div>
 
         <div class="text-right">
           <p class="text-xs text-gray-500">Balance</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.balance}</p>
+
+          <p class="text-sm font-semibold text-gray-900 mt-1">
+            ₦${card.balance}
+          </p>
         </div>
 
-        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-900 text-white">
-          Deduct
-        </button>
+        ${
+          isExpired
+            ? `
+              <button
+                disabled
+                class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed">
+                Expired
+              </button>
+            `
+            : `
+              <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-900 text-white">
+                Deduct
+              </button>
+            `
+        }
+
       </div>
     `;
   });
+
+  lucide.createIcons();
 }
 // ==============================
 // SECURITY SYSTEM
@@ -585,7 +691,9 @@ if (cardIndex === -1) {
   return;
 }
 
-if (amountUsed > cards[cardIndex].amount) {
+const actualCardAmount = Math.floor(cards[cardIndex].amount * 0.97);
+
+if (amountUsed > actualCardAmount) {
   errorText.textContent = "Amount exceeds card value";
   errorText.classList.remove("hidden");
   return;
@@ -605,8 +713,12 @@ if (amountUsed > cards[cardIndex].amount) {
     // Update localStorage
     const card = cards[cardIndex];
     card.status = "redeemed";
-    card.balance = card.amount - amountUsed;
-    redeemed.push({ code: card.giftCode, balance: card.balance });
+    card.balance = actualCardAmount - amountUsed;
+    redeemed.push({
+  code: card.giftCode,
+  balance: card.balance,
+  createdAt: card.createdAt
+});
 
     localStorage.setItem("soldCards", JSON.stringify(cards));
     localStorage.setItem("redeemedCards", JSON.stringify(redeemed));
@@ -763,7 +875,9 @@ function renderFilteredRedeemed(cards) {
 
         <div class="text-right">
           <p class="text-xs text-gray-500">Balance</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.balance}</p>
+        <p class="text-sm font-semibold text-gray-900 mt-1">
+  ₦${Number(card.balance).toLocaleString()}
+</p>
         </div>
 
         <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-gray-900 text-white">
@@ -790,22 +904,34 @@ list.addEventListener("click", (e) => {
   }
 
   // ✅ DEDUCT BUTTON
-  if (btn && !btn.dataset.code && btn.textContent.includes("Deduct")) {
-  const cardCode = btn.closest("div").querySelector("p.text-sm").textContent;
+ // ✅ DEDUCT BUTTON
+if (btn && !btn.dataset.code && btn.textContent.includes("Deduct")) {
 
-  selectedRedeemedCode = cardCode;
+// get the whole card container
+const cardContainer = btn.closest(".bg-gray-50");
 
-  let redeemed = JSON.parse(localStorage.getItem("redeemedCards")) || [];
-  const card = redeemed.find(c => c.code === cardCode);
+// get code safely
+const cardCode =
+  cardContainer.querySelector("p.text-sm.font-semibold").textContent.trim();
 
-  // ✅ Show balance in modal
-  document.getElementById("deductBalance").textContent = "₦" + card.balance;
+selectedRedeemedCode = cardCode;
 
-  deductModal.classList.remove("hidden");
-  deductModal.classList.add("flex");
+let redeemed =
+  JSON.parse(localStorage.getItem("redeemedCards")) || [];
 
-  deductAmountInput.value = "";
-  deductError.classList.add("hidden");
+const card = redeemed.find(c => c.code === cardCode);
+
+if (!card) return;
+
+// ✅ Show balance
+document.getElementById("deductBalance").textContent =
+  "₦" + Number(card.balance).toLocaleString();
+
+deductModal.classList.remove("hidden");
+deductModal.classList.add("flex");
+
+deductAmountInput.value = "";
+deductError.classList.add("hidden");
 }
 });
 const deductModal = document.getElementById("deductModal");
