@@ -283,7 +283,32 @@ textarea {
               >
             </div>
           </div>
+<!-- Password -->
+<div>
+  <label class="text-sm font-semibold text-gray-700 block mb-2">
+    Password
+  </label>
 
+  <div class="relative">
+    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+    <input
+      type="password"
+      id="signupPassword"
+      required
+      placeholder="Create secure password"
+      class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-12 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
+    >
+
+    <button
+      type="button"
+      id="toggleSignupPassword"
+      class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+    >
+      <i class="fa-regular fa-eye"></i>
+    </button>
+  </div>
+</div>
           <!-- Signup Button -->
           <button
             type="submit"
@@ -356,7 +381,32 @@ textarea {
               >
             </div>
           </div>
+<!-- Password -->
+<div>
+  <label class="text-sm font-semibold text-gray-700 block mb-2">
+    Password
+  </label>
 
+  <div class="relative">
+    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+    <input
+      type="password"
+      id="loginPassword"
+      required
+      placeholder="Enter password"
+      class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-12 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
+    >
+
+    <button
+      type="button"
+      id="toggleLoginPassword"
+      class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+    >
+      <i class="fa-regular fa-eye"></i>
+    </button>
+  </div>
+</div>
           <button
             type="submit"
             class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-300 shadow-lg shadow-red-600/20"
@@ -388,410 +438,614 @@ textarea {
   </div>
 </div>
 
-<!-- =========================================
-     FIREBASE AUTH LOGIC
-========================================= -->
-
 <script type="module">
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  sendSignInLinkToEmail,
-  isSignInWithEmailLink,
-  signInWithEmailLink
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  serverTimestamp
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-
-
-/* =========================================
-   FIREBASE CONFIG
-========================================= */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDjdRUHLzliZ7HDnpCjbHv9FIthB0ghiCk",
-  authDomain: "trindtbqrp42v5.firebaseapp.com",
-  projectId: "trindtbqrp42v5",
-  storageBucket: "trindtbqrp42v5.firebasestorage.app",
-  messagingSenderId: "610496387089",
-  appId: "1:610496387089:web:3945ae85206d17714b79b0",
-  measurementId: "G-PCBC806LVX"
-};
-
-
-/* =========================================
-   INIT
-========================================= */
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-const provider = new GoogleAuthProvider();
-
-
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const signupForm = document.getElementById('signupForm');
-
-const loginForm = document.getElementById('loginForm');
-
-const showSignup = document.getElementById('showSignup');
-
-const showLogin = document.getElementById('showLogin');
-
-const signupSection = document.getElementById('signupSection');
-
-const loginSection = document.getElementById('loginSection');
-
-
-/* =========================================
-   TOGGLE
-========================================= */
-
-showSignup.addEventListener('click', () => {
-
-  signupSection.classList.remove('hidden');
-
-  loginSection.classList.add('hidden');
-
-  showSignup.className =
-    'flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300';
-
-  showLogin.className =
-    'flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300';
-});
-
-
-showLogin.addEventListener('click', () => {
-
-  loginSection.classList.remove('hidden');
-
-  signupSection.classList.add('hidden');
-
-  showLogin.className =
-    'flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300';
-
-  showSignup.className =
-    'flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300';
-});
-
-
-/* =========================================
-   EMAIL LINK AUTH
-========================================= */
-
-const actionCodeSettings = {
-
-  url: window.location.origin + '/business-details.html',
-
-  handleCodeInApp: true
-};
-
-
-/* =========================================
-   SIGNUP EMAIL LINK
-========================================= */
-
-signupForm.addEventListener('submit', async (e) => {
-
-  e.preventDefault();
-
-  const businessName =
-    document.getElementById('businessName').value.trim();
-
-  const businessEmail =
-    document.getElementById('businessEmail').value.trim();
-
+  import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  
+  import {
+  
+    getAuth,
+  
+    createUserWithEmailAndPassword,
+  
+    signInWithEmailAndPassword,
+  
+    sendEmailVerification,
+  
+    GoogleAuthProvider,
+  
+    signInWithPopup,
+  
+    onAuthStateChanged,
+  
+    setPersistence,
+  
+    browserLocalPersistence
+  
+  }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  
+  import {
+  
+    getFirestore,
+  
+    doc,
+  
+    setDoc,
+  
+    getDoc,
+  
+    serverTimestamp
+  
+  }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  
+  
+  
+  /* =========================================
+     FIREBASE CONFIG
+  ========================================= */
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyDjdRUHLzliZ7HDnpCjbHv9FIthB0ghiCk",
+    authDomain: "trindtbqrp42v5.firebaseapp.com",
+    projectId: "trindtbqrp42v5",
+    storageBucket: "trindtbqrp42v5.firebasestorage.app",
+    messagingSenderId: "610496387089",
+    appId: "1:610496387089:web:3945ae85206d17714b79b0",
+    measurementId: "G-PCBC806LVX"
+  };
+  
+  
+  
+  /* =========================================
+     INIT
+  ========================================= */
+  
+  const app = initializeApp(firebaseConfig);
+  
+  const auth = getAuth(app);
+  
+  const db = getFirestore(app);
+  
+  const provider = new GoogleAuthProvider();
+  
+  auth.useDeviceLanguage();
+  
+  await setPersistence(
+    auth,
+    browserLocalPersistence
+  );
+  
+  
+  
+  /* =========================================
+     ELEMENTS
+  ========================================= */
+  
+  const signupForm =
+  document.getElementById("signupForm");
+  
+  const loginForm =
+  document.getElementById("loginForm");
+  
   const signupBtn =
-    document.getElementById('signupBtn');
-
-  try {
-
-    signupBtn.disabled = true;
-
-    signupBtn.innerHTML = `
-      <div class="flex items-center justify-center gap-2">
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        Sending Secure Link...
-      </div>
-    `;
-
-    await sendSignInLinkToEmail(
-      auth,
-      businessEmail,
-      actionCodeSettings
-    );
-
-    localStorage.setItem(
-      'pendingBusinessEmail',
-      businessEmail
-    );
-
-    localStorage.setItem(
-      'pendingBusinessName',
-      businessName
-    );
-
-    document.body.insertAdjacentHTML('beforeend', `
-
-      <div id="emailModal"
-      class="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
-
-        <div class="w-full max-w-md bg-white rounded-[2rem] p-7 shadow-2xl text-center animate-[fadeIn_.35s_ease]">
-
+  document.getElementById("signupBtn");
+  
+  const loginBtn =
+  loginForm.querySelector("button[type='submit']");
+  
+  
+  
+  /* =========================================
+     PASSWORD TOGGLE
+  ========================================= */
+  
+  function setupPasswordToggle(
+    inputId,
+    buttonId
+  ) {
+  
+    const input =
+    document.getElementById(inputId);
+  
+    const button =
+    document.getElementById(buttonId);
+  
+    button.addEventListener("click", () => {
+  
+      const isPassword =
+      input.type === "password";
+  
+      input.type =
+      isPassword ? "text" : "password";
+  
+      button.innerHTML = isPassword
+  
+      ? `<i class="fa-regular fa-eye-slash"></i>`
+  
+      : `<i class="fa-regular fa-eye"></i>`;
+  
+    });
+  
+  }
+  
+  setupPasswordToggle(
+    "signupPassword",
+    "toggleSignupPassword"
+  );
+  
+  setupPasswordToggle(
+    "loginPassword",
+    "toggleLoginPassword"
+  );
+  
+  
+  
+  /* =========================================
+     LOADING STATE
+  ========================================= */
+  
+  function setLoading(
+    button,
+    loading,
+    text
+  ) {
+  
+    if(loading) {
+  
+      button.disabled = true;
+  
+      button.dataset.original =
+      button.innerHTML;
+  
+      button.innerHTML = `
+  
+        <div class="flex items-center justify-center gap-2">
+  
+          <i class="fa-solid fa-spinner fa-spin"></i>
+  
+          ${text}
+  
+        </div>
+  
+      `;
+  
+    }
+  
+    else {
+  
+      button.disabled = false;
+  
+      button.innerHTML =
+      button.dataset.original;
+  
+    }
+  
+  }
+  
+  
+  
+  /* =========================================
+     SHOW VERIFY SCREEN
+  ========================================= */
+  
+  function showVerificationScreen(email) {
+  
+    document.body.insertAdjacentHTML(
+  
+      "beforeend",
+  
+      `
+  
+      <div
+      id="verifyModal"
+      class="fixed inset-0 z-[999999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
+  
+        <div class="w-full max-w-md bg-white rounded-[2rem] p-7 text-center">
+  
           <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
-
+  
             <i class="fa-regular fa-envelope text-4xl text-red-600"></i>
-
+  
           </div>
-
+  
           <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
             Verify Your Email
           </h2>
-
+  
           <p class="text-gray-500 leading-relaxed text-sm mb-6">
-            We just sent a secure confirmation link to
-            <span class="font-bold text-gray-900">
-              ${businessEmail}
-            </span>
-
+  
+            We sent a verification link to:
+  
             <br><br>
-
-            Open your email and click the link to continue setting up your business account.
+  
+            <span class="font-bold text-gray-900">
+              ${email}
+            </span>
+  
+            <br><br>
+  
+            Waiting for verification...
+  
           </p>
-
-          <button
-            onclick="document.getElementById('emailModal').remove()"
-            class="w-full h-12 rounded-2xl bg-red-600 text-white font-bold"
-          >
-            Okay
-          </button>
-
+  
+          <div class="flex items-center justify-center gap-2 text-red-600 font-semibold">
+  
+            <i class="fa-solid fa-spinner fa-spin"></i>
+  
+            Checking verification...
+  
+          </div>
+  
         </div>
-
+  
       </div>
-    `);
-
-  } catch (error) {
-
-    alert(error.message);
-
-  } finally {
-
-    signupBtn.disabled = false;
-
-    signupBtn.innerHTML = `Continue Securely`;
+  
+      `
+    );
+  
   }
-});
-
-
-/* =========================================
-   LOGIN EMAIL LINK
-========================================= */
-
-loginForm.addEventListener('submit', async (e) => {
-
-  e.preventDefault();
-
-  const email =
-    document.getElementById('loginEmail').value.trim();
-
-  const submitBtn =
-    loginForm.querySelector('button[type="submit"]');
-
-  try {
-
-    submitBtn.disabled = true;
-
-    submitBtn.innerHTML = `
-      <div class="flex items-center justify-center gap-2">
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        Sending Login Link...
-      </div>
-    `;
-
-    await sendSignInLinkToEmail(
-      auth,
-      email,
-      actionCodeSettings
-    );
-
-    localStorage.setItem(
-      'pendingBusinessEmail',
-      email
-    );
-
-    alert(
-      'Login link sent successfully to your email.'
-    );
-
-  } catch (error) {
-
-    alert(error.message);
-
-  } finally {
-
-    submitBtn.disabled = false;
-
-    submitBtn.innerHTML = `Send Login Link`;
-  }
-});
-
-
-/* =========================================
-   GOOGLE AUTH
-========================================= */
-
-document
-  .getElementById('googleSignup')
-  .addEventListener('click', async () => {
-
+  
+  
+  
+  /* =========================================
+     SIGNUP
+  ========================================= */
+  
+  signupForm.addEventListener(
+  "submit",
+  async (e) => {
+  
+    e.preventDefault();
+  
+    const businessName =
+    document.getElementById(
+      "businessName"
+    ).value.trim();
+  
+    const email =
+    document.getElementById(
+      "businessEmail"
+    ).value.trim();
+  
+    const password =
+    document.getElementById(
+      "signupPassword"
+    ).value;
+  
     try {
-
-      const result =
-        await signInWithPopup(auth, provider);
-
-      const user = result.user;
-
+  
+      setLoading(
+        signupBtn,
+        true,
+        "Creating Account..."
+      );
+  
+      const userCredential =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+  
+      const user =
+      userCredential.user;
+  
       await setDoc(
-        doc(db, 'businesses', user.uid),
+        doc(db, "businesses", user.uid),
         {
+  
           uid: user.uid,
-          businessName: user.displayName || '',
-          businessEmail: user.email,
+  
+          businessName,
+  
+          businessEmail: email,
+  
+          emailVerified: false,
+  
+          onboardingCompleted: false,
+  
           createdAt: serverTimestamp()
+  
         },
         { merge: true }
       );
-
-      window.location.href =
-        'business-details.html';
-
-    } catch (error) {
-
-      alert(error.message);
+  
+      await sendEmailVerification(user);
+  
+      showVerificationScreen(email);
+  
+      const interval =
+      setInterval(async () => {
+  
+        await user.reload();
+  
+        if(user.emailVerified) {
+  
+          clearInterval(interval);
+  
+          await setDoc(
+            doc(db, "businesses", user.uid),
+            {
+              emailVerified: true
+            },
+            { merge: true }
+          );
+  
+          window.location.href =
+          "business-details.html";
+  
+        }
+  
+      }, 3000);
+  
     }
-});
-
-
-document
-  .getElementById('googleLogin')
-  .addEventListener('click', async () => {
-
-    try {
-
-      await signInWithPopup(auth, provider);
-
-      window.location.href =
-        'dashboard.html';
-
-    } catch (error) {
-
+  
+    catch(error) {
+  
+      console.error(error);
+  
       alert(error.message);
+  
     }
-});
-
-
-/* =========================================
-   COMPLETE EMAIL LINK AUTH
-========================================= */
-
-if (
-  isSignInWithEmailLink(
-    auth,
-    window.location.href
-  )
-) {
-
-  let email =
-    localStorage.getItem(
-      'pendingBusinessEmail'
-    );
-
-  if (!email) {
-
-    email = window.prompt(
-      'Confirm your email'
-    );
-  }
-
-  signInWithEmailLink(
-    auth,
-    email,
-    window.location.href
-  )
-  .then(async (result) => {
-
-    const user = result.user;
-
-    const businessName =
-      localStorage.getItem(
-        'pendingBusinessName'
+  
+    finally {
+  
+      setLoading(
+        signupBtn,
+        false
       );
-
-    await setDoc(
-      doc(db, 'businesses', user.uid),
-      {
-        uid: user.uid,
-        businessName,
-        businessEmail: email,
-        emailVerified: true,
-        createdAt: serverTimestamp()
-      },
-      { merge: true }
-    );
-
-    localStorage.removeItem(
-      'pendingBusinessEmail'
-    );
-
-    localStorage.removeItem(
-      'pendingBusinessName'
-    );
-
-    window.location.href =
-      'business-details.html';
-
-  })
-  .catch((error) => {
-
-    console.log(error);
-
-    alert(error.message);
+  
+    }
+  
   });
-}
-
-</script>
-
-<style>
-
-@keyframes fadeIn {
-
-  from {
-    opacity: 0;
-    transform: scale(.96);
+  
+  
+  
+  /* =========================================
+     LOGIN
+  ========================================= */
+  
+  loginForm.addEventListener(
+  "submit",
+  async (e) => {
+  
+    e.preventDefault();
+  
+    const email =
+    document.getElementById(
+      "loginEmail"
+    ).value.trim();
+  
+    const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
+  
+    try {
+  
+      setLoading(
+        loginBtn,
+        true,
+        "Logging In..."
+      );
+  
+      const userCredential =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+  
+      const user =
+      userCredential.user;
+  
+      await user.reload();
+  
+      if(!user.emailVerified) {
+  
+        alert(
+          "Please verify your email first."
+        );
+  
+        return;
+  
+      }
+  
+      const businessRef =
+      doc(db, "businesses", user.uid);
+  
+      const businessSnap =
+      await getDoc(businessRef);
+  
+      if(!businessSnap.exists()) {
+  
+        alert(
+          "Business account not found."
+        );
+  
+        return;
+  
+      }
+  
+      const businessData =
+      businessSnap.data();
+  
+      localStorage.setItem(
+        "businessData",
+        JSON.stringify(businessData)
+      );
+  
+      if(
+        businessData.onboardingCompleted
+      ) {
+  
+        window.location.href =
+        "dashboard.html";
+  
+      }
+  
+      else {
+  
+        window.location.href =
+        "business-details.html";
+  
+      }
+  
+    }
+  
+    catch(error) {
+  
+      console.error(error);
+  
+      alert(error.message);
+  
+    }
+  
+    finally {
+  
+      setLoading(
+        loginBtn,
+        false
+      );
+  
+    }
+  
+  });
+  
+  
+  
+  /* =========================================
+     GOOGLE AUTH
+  ========================================= */
+  
+  async function googleAuth() {
+  
+    try {
+  
+      const result =
+      await signInWithPopup(
+        auth,
+        provider
+      );
+  
+      const user =
+      result.user;
+  
+      const businessRef =
+      doc(db, "businesses", user.uid);
+  
+      const businessSnap =
+      await getDoc(businessRef);
+  
+      if(!businessSnap.exists()) {
+  
+        await setDoc(
+          businessRef,
+          {
+  
+            uid: user.uid,
+  
+            businessName:
+            user.displayName || "",
+  
+            businessEmail:
+            user.email,
+  
+            emailVerified: true,
+  
+            onboardingCompleted: false,
+  
+            createdAt: serverTimestamp()
+  
+          },
+          { merge: true }
+        );
+  
+        window.location.href =
+        "business-details.html";
+  
+      }
+  
+      else {
+  
+        const businessData =
+        businessSnap.data();
+  
+        localStorage.setItem(
+          "businessData",
+          JSON.stringify(businessData)
+        );
+  
+        if(
+          businessData.onboardingCompleted
+        ) {
+  
+          window.location.href =
+          "dashboard.html";
+  
+        }
+  
+        else {
+  
+          window.location.href =
+          "business-details.html";
+  
+        }
+  
+      }
+  
+    }
+  
+    catch(error) {
+  
+      console.error(error);
+  
+      alert(error.message);
+  
+    }
+  
   }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-</style>
+  
+  
+  
+  document
+  .getElementById("googleSignup")
+  .addEventListener(
+    "click",
+    googleAuth
+  );
+  
+  document
+  .getElementById("googleLogin")
+  .addEventListener(
+    "click",
+    googleAuth
+  );
+  
+  
+  
+  /* =========================================
+     SESSION CHECK
+  ========================================= */
+  
+  onAuthStateChanged(
+  auth,
+  (user) => {
+  
+    if(user) {
+  
+      console.log(
+        "Logged in:",
+        user.email
+      );
+  
+    }
+  
+  });
+  
+  </script>
 </body>
 </html>
