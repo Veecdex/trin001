@@ -173,354 +173,625 @@ textarea {
   </div>
 </div>
 
-  <!-- Auth Section -->
-  <div class="lg:w-1/2 w-full flex items-center justify-center bg-white px-6 py-6 overflow-y-auto">
-    <div class="w-full max-w-md">
+ <!-- =========================================
+     RIGHT AUTH SECTION (REPLACE YOUR CURRENT RIGHT SIDE WITH THIS)
+========================================= -->
 
-      <div style="margin-top: 15px;" class="text-center mb-6">
-        <h1 class="brand text-2xl font-bold">Mo<span class="text-red-500">MA</span></h1>
-        <p class="text-gray-500 mt-2">Create your account or sign in</p>
+<!-- Auth Section -->
+<div class="lg:w-1/2 w-full flex items-center justify-center bg-[#fafafa] px-5 py-6 overflow-y-auto relative">
+
+  <!-- subtle background -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-[-120px] right-[-120px] w-[280px] h-[280px] bg-red-100 rounded-full blur-3xl opacity-60"></div>
+    <div class="absolute bottom-[-100px] left-[-100px] w-[240px] h-[240px] bg-black/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-md">
+
+    <!-- Top -->
+    <div class="text-center mb-8">
+
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-bold tracking-wide uppercase mb-5">
+        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+        Business Platform
       </div>
+
+      <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+        Launch Your <br>
+        Business With <span class="text-red-600">Moma</span>
+      </h1>
+
+      <p class="text-gray-500 text-sm lg:text-base mt-4 leading-relaxed max-w-sm mx-auto">
+        Create your business account, verify your email securely,
+        and start selling branded gift cards in minutes.
+      </p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.06)] rounded-[2rem] p-5 lg:p-7">
 
       <!-- Toggle -->
-      <div class="flex bg-gray-100 rounded-xl p-1 mb-6">
-        <button id="showSignup" class="flex-1 py-2 rounded-lg bg-red-600 text-white">Sign Up</button>
-        <button id="showLogin" class="flex-1 py-2 rounded-lg text-gray-700">Login</button>
+      <div class="flex bg-gray-100 rounded-2xl p-1.5 mb-7">
+
+        <button
+          id="showSignup"
+          class="flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300"
+        >
+          Get Started
+        </button>
+
+        <button
+          id="showLogin"
+          class="flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300"
+        >
+          Login
+        </button>
+
       </div>
 
-      <!-- Signup Form -->
+      <!-- =========================
+           SIGNUP SECTION
+      ========================= -->
       <div id="signupSection">
+
         <div class="mb-6">
-          <div class="flex justify-between text-xs text-gray-500 mb-2">
-            <span>Business Info</span>
-            <span>Location</span>
-            <span>Confirmation</span>
-          </div>
-          <div class="w-full bg-gray-200 h-2 rounded-full">
-            <div id="progressBar" class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: 33%"></div>
-          </div>
+          <h2 class="text-2xl font-extrabold text-gray-900 mb-2">
+            Create Business Account
+          </h2>
+
+          <p class="text-sm text-gray-500 leading-relaxed">
+            Use your official business email to securely create your account.
+          </p>
         </div>
 
-        <form id="onboardingForm" class="space-y-4">
-          <div class="step">
-            <h2 class="text-xl font-semibold mb-4">Business Information</h2>
+        <form id="signupForm" class="space-y-4">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <!-- Business Name -->
+          <div>
+            <label class="text-sm font-semibold text-gray-700 block mb-2">
+              Business Name
+            </label>
+
+            <div class="relative">
+              <i class="fa-solid fa-building absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
               <input
                 type="text"
                 id="businessName"
                 required
-                placeholder="Business Name"
-                class="w-full text-base border border-gray-300 rounded-2xl px-4 py-3.5 bg-white/80 backdrop-blur-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all duration-300"
+                placeholder="Enter business name"
+                class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-4 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
               >
-            
+            </div>
+          </div>
+
+          <!-- Business Email -->
+          <div>
+            <label class="text-sm font-semibold text-gray-700 block mb-2">
+              Business Email
+            </label>
+
+            <div class="relative">
+              <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
               <input
                 type="email"
                 id="businessEmail"
                 required
-                placeholder="Business Email"
-                class="w-full text-base border border-gray-300 rounded-2xl px-4 py-3.5 bg-white/80 backdrop-blur-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all duration-300"
+                placeholder="business@example.com"
+                class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-4 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
               >
             </div>
-            <div class="relative">
-              <input type="password" id="signupPassword" required minlength="8" placeholder="Create Password"
-                class="w-full border text-base rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-red-500 outline-none">
-              <button type="button" id="toggleSignupPassword" class="absolute inset-y-0 right-0 px-4 text-gray-500 hover:text-red-600"><i class="fa-regular fa-eye"></i></button>
-            </div>
-
-            <div class="bg-gray-50 border rounded-xl p-4 mt-4 mb-2">
-              <p class="text-sm font-semibold text-gray-700 mb-3">Password must contain:</p>
-              <ul class="space-y-2 text-sm">
-                <li id="lengthRule" class="text-gray-500">• At least 8 characters</li>
-                <li id="uppercaseRule" class="text-gray-500">• One uppercase letter</li>
-                <li id="lowercaseRule" class="text-gray-500">• One lowercase letter</li>
-                <li id="numberRule" class="text-gray-500">• One number</li>
-                <li id="specialRule" class="text-gray-500">• One special character</li>
-              </ul>
-            </div>
           </div>
 
-          <div class="step hidden">
-            <h2 class="text-xl font-semibold mb-4">Location & Industry</h2>
-
-            <input type="text" id="location" required placeholder="Business Location"
-              class="w-full border rounded-xl text-base px-4 py-3 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
-
-            <select id="industry" required class="w-full border rounded-xl px-4 py-3 mb-4 focus:ring-2 focus:ring-red-500 outline-none">
-              <option value="">Select Industry</option>
-              <option>Retail</option>
-              <option>Food & Restaurant</option>
-              <option>Fashion</option>
-              <option>Supermarket</option>
-              <option>Technology</option>
-              <option>Health & Beauty</option>
-              <option>Other</option>
-            </select>
-
-            <textarea id="address" rows="3" required placeholder="Store Address"
-              class="w-full text-base border rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"></textarea>
-          </div>
-
-          <div class="step hidden">
-            <h2 class="text-xl font-semibold mb-4">Terms & Confirmation</h2>
-            <label class="flex items-start gap-3">
-              <input type="checkbox" id="terms" required class="mt-1 accent-red-600">
-              <span class="text-sm text-gray-600">I agree to the Terms of Service and Privacy Policy.</span>
-            </label>
-          </div>
-
-          <div class="flex justify-between pt-4">
-            <button type="button" id="prevBtn" class="px-4 py-2 bg-gray-200 rounded-lg hidden">Back</button>
-            <button type="button" id="nextBtn" class="ml-auto px-6 py-2 bg-red-600 text-white rounded-lg">Next</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Login Form -->
-      <div id="loginSection" class="hidden">
-        <form id="loginForm" class="space-y-4">
-          <h2 class="text-xl font-semibold mb-4">Welcome Back</h2>
-
-          <input type="email" id="loginEmail" required placeholder="Business Email"
-            class="w-full border text-base rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
-
-          <div class="relative">
-            <input type="password" id="loginPassword" required placeholder="Password"
-              class="w-full border text-base rounded-xl px-4 py-3 pr-12 focus:ring-2 focus:ring-red-500 outline-none">
-            <button type="button" id="toggleLoginPassword" class="absolute inset-y-0 right-0 px-4 text-gray-500 hover:text-red-600"><i class="fa-regular fa-eye"></i></button>
-          </div>
-
-          <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-xl font-semibold">
-            Login
+          <!-- Signup Button -->
+          <button
+            type="submit"
+            id="signupBtn"
+            class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-[15px] transition-all duration-300 shadow-lg shadow-red-600/20"
+          >
+            Continue Securely
           </button>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-3 py-2">
+            <div class="flex-1 h-px bg-gray-200"></div>
+            <span class="text-xs font-semibold text-gray-400 uppercase">
+              or continue with
+            </span>
+            <div class="flex-1 h-px bg-gray-200"></div>
+          </div>
+
+          <!-- Google -->
+          <button
+            type="button"
+            id="googleSignup"
+            class="w-full h-14 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 font-semibold text-gray-700 flex items-center justify-center gap-3 transition-all duration-300"
+          >
+
+            <svg class="w-5 h-5" viewBox="0 0 48 48">
+              <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.659 32.657 29.244 36 24 36c-6.627 0-12-5.373-12-12S17.373 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+              <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 16.108 18.961 13 24 13c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+              <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.223 0-9.629-3.327-11.29-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+              <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.058 2.999-3.307 5.38-6.084 6.971l.003-.002 6.19 5.238C33.971 41.091 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+            </svg>
+
+            Continue with Google
+          </button>
+
         </form>
       </div>
 
-      <p id="message" class="mt-4 text-sm text-center"></p>
+      <!-- =========================
+           LOGIN SECTION
+      ========================= -->
+      <div id="loginSection" class="hidden">
+
+        <div class="mb-6">
+          <h2 class="text-2xl font-extrabold text-gray-900 mb-2">
+            Welcome Back
+          </h2>
+
+          <p class="text-sm text-gray-500">
+            Login securely using your business email.
+          </p>
+        </div>
+
+        <form id="loginForm" class="space-y-4">
+
+          <div>
+            <label class="text-sm font-semibold text-gray-700 block mb-2">
+              Business Email
+            </label>
+
+            <div class="relative">
+              <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+              <input
+                type="email"
+                id="loginEmail"
+                required
+                placeholder="business@example.com"
+                class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-4 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
+              >
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-300 shadow-lg shadow-red-600/20"
+          >
+            Send Login Link
+          </button>
+
+          <button
+            type="button"
+            id="googleLogin"
+            class="w-full h-14 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 font-semibold text-gray-700 flex items-center justify-center gap-3 transition-all duration-300"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 48 48">
+              <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.659 32.657 29.244 36 24 36c-6.627 0-12-5.373-12-12S17.373 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+              <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 16.108 18.961 13 24 13c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+              <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.223 0-9.629-3.327-11.29-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+              <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.058 2.999-3.307 5.38-6.084 6.971l.003-.002 6.19 5.238C33.971 41.091 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+            </svg>
+
+            Continue with Google
+          </button>
+
+        </form>
+
+      </div>
+
     </div>
+
   </div>
 </div>
 
+<!-- =========================================
+     FIREBASE AUTH LOGIC
+========================================= -->
+
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    serverTimestamp
-  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-  const firebaseConfig = {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_PROJECT.firebaseapp.com',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT.appspot.com',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    appId: 'YOUR_APP_ID'
-  };
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 
-  const steps = document.querySelectorAll('.step');
-  const nextBtn = document.getElementById('nextBtn');
-  const prevBtn = document.getElementById('prevBtn');
-  const progressBar = document.getElementById('progressBar');
-  const message = document.getElementById('message');
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-  let currentStep = 0;
 
-  function generateBusinessId() {
-    return 'MOMA-' + Date.now().toString().slice(-8) + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDjdRUHLzliZ7HDnpCjbHv9FIthB0ghiCk",
+  authDomain: "trindtbqrp42v5.firebaseapp.com",
+  projectId: "trindtbqrp42v5",
+  storageBucket: "trindtbqrp42v5.firebasestorage.app",
+  messagingSenderId: "610496387089",
+  appId: "1:610496387089:web:3945ae85206d17714b79b0",
+  measurementId: "G-PCBC806LVX"
+};
+
+
+/* =========================================
+   INIT
+========================================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const provider = new GoogleAuthProvider();
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const signupForm = document.getElementById('signupForm');
+
+const loginForm = document.getElementById('loginForm');
+
+const showSignup = document.getElementById('showSignup');
+
+const showLogin = document.getElementById('showLogin');
+
+const signupSection = document.getElementById('signupSection');
+
+const loginSection = document.getElementById('loginSection');
+
+
+/* =========================================
+   TOGGLE
+========================================= */
+
+showSignup.addEventListener('click', () => {
+
+  signupSection.classList.remove('hidden');
+
+  loginSection.classList.add('hidden');
+
+  showSignup.className =
+    'flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300';
+
+  showLogin.className =
+    'flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300';
+});
+
+
+showLogin.addEventListener('click', () => {
+
+  loginSection.classList.remove('hidden');
+
+  signupSection.classList.add('hidden');
+
+  showLogin.className =
+    'flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300';
+
+  showSignup.className =
+    'flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300';
+});
+
+
+/* =========================================
+   EMAIL LINK AUTH
+========================================= */
+
+const actionCodeSettings = {
+
+  url: window.location.origin + '/business-details.html',
+
+  handleCodeInApp: true
+};
+
+
+/* =========================================
+   SIGNUP EMAIL LINK
+========================================= */
+
+signupForm.addEventListener('submit', async (e) => {
+
+  e.preventDefault();
+
+  const businessName =
+    document.getElementById('businessName').value.trim();
+
+  const businessEmail =
+    document.getElementById('businessEmail').value.trim();
+
+  const signupBtn =
+    document.getElementById('signupBtn');
+
+  try {
+
+    signupBtn.disabled = true;
+
+    signupBtn.innerHTML = `
+      <div class="flex items-center justify-center gap-2">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Sending Secure Link...
+      </div>
+    `;
+
+    await sendSignInLinkToEmail(
+      auth,
+      businessEmail,
+      actionCodeSettings
+    );
+
+    localStorage.setItem(
+      'pendingBusinessEmail',
+      businessEmail
+    );
+
+    localStorage.setItem(
+      'pendingBusinessName',
+      businessName
+    );
+
+    document.body.insertAdjacentHTML('beforeend', `
+
+      <div id="emailModal"
+      class="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
+
+        <div class="w-full max-w-md bg-white rounded-[2rem] p-7 shadow-2xl text-center animate-[fadeIn_.35s_ease]">
+
+          <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
+
+            <i class="fa-regular fa-envelope text-4xl text-red-600"></i>
+
+          </div>
+
+          <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
+            Verify Your Email
+          </h2>
+
+          <p class="text-gray-500 leading-relaxed text-sm mb-6">
+            We just sent a secure confirmation link to
+            <span class="font-bold text-gray-900">
+              ${businessEmail}
+            </span>
+
+            <br><br>
+
+            Open your email and click the link to continue setting up your business account.
+          </p>
+
+          <button
+            onclick="document.getElementById('emailModal').remove()"
+            class="w-full h-12 rounded-2xl bg-red-600 text-white font-bold"
+          >
+            Okay
+          </button>
+
+        </div>
+
+      </div>
+    `);
+
+  } catch (error) {
+
+    alert(error.message);
+
+  } finally {
+
+    signupBtn.disabled = false;
+
+    signupBtn.innerHTML = `Continue Securely`;
   }
+});
 
-  function showStep(index) {
-    steps.forEach((step, i) => step.classList.toggle('hidden', i !== index));
-    prevBtn.classList.toggle('hidden', index === 0);
-    nextBtn.textContent = index === steps.length - 1 ? 'Create Account' : 'Next';
-    progressBar.style.width = `${((index + 1) / steps.length) * 100}%`;
+
+/* =========================================
+   LOGIN EMAIL LINK
+========================================= */
+
+loginForm.addEventListener('submit', async (e) => {
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById('loginEmail').value.trim();
+
+  const submitBtn =
+    loginForm.querySelector('button[type="submit"]');
+
+  try {
+
+    submitBtn.disabled = true;
+
+    submitBtn.innerHTML = `
+      <div class="flex items-center justify-center gap-2">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Sending Login Link...
+      </div>
+    `;
+
+    await sendSignInLinkToEmail(
+      auth,
+      email,
+      actionCodeSettings
+    );
+
+    localStorage.setItem(
+      'pendingBusinessEmail',
+      email
+    );
+
+    alert(
+      'Login link sent successfully to your email.'
+    );
+
+  } catch (error) {
+
+    alert(error.message);
+
+  } finally {
+
+    submitBtn.disabled = false;
+
+    submitBtn.innerHTML = `Send Login Link`;
   }
+});
 
-  function showMessage(text, type = 'error') {
-    message.textContent = text;
-    message.className = `mt-4 text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
-  }
 
-  nextBtn.addEventListener('click', async () => {
-    const currentInputs = steps[currentStep].querySelectorAll('input, select, textarea');
+/* =========================================
+   GOOGLE AUTH
+========================================= */
 
-    for (const input of currentInputs) {
-      if (!input.checkValidity()) {
-        input.reportValidity();
-        return;
-      }
-    }
-
-    if (currentStep < steps.length - 1) {
-      currentStep++;
-      showStep(currentStep);
-      return;
-    }
+document
+  .getElementById('googleSignup')
+  .addEventListener('click', async () => {
 
     try {
-      const businessName = document.getElementById('businessName').value.trim();
-      const businessEmail = document.getElementById('businessEmail').value.trim();
-      const password = document.getElementById('signupPassword').value;
-      const businessLocation = document.getElementById('location').value.trim();
-      const businessAddress = document.getElementById('address').value.trim();
-      const businessIndustry = document.getElementById('industry').value;
 
-      const userCredential = await createUserWithEmailAndPassword(auth, businessEmail, password);
-      const user = userCredential.user;
+      const result =
+        await signInWithPopup(auth, provider);
 
-      const businessData = {
+      const user = result.user;
+
+      await setDoc(
+        doc(db, 'businesses', user.uid),
+        {
+          uid: user.uid,
+          businessName: user.displayName || '',
+          businessEmail: user.email,
+          createdAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+
+      window.location.href =
+        'business-details.html';
+
+    } catch (error) {
+
+      alert(error.message);
+    }
+});
+
+
+document
+  .getElementById('googleLogin')
+  .addEventListener('click', async () => {
+
+    try {
+
+      await signInWithPopup(auth, provider);
+
+      window.location.href =
+        'dashboard.html';
+
+    } catch (error) {
+
+      alert(error.message);
+    }
+});
+
+
+/* =========================================
+   COMPLETE EMAIL LINK AUTH
+========================================= */
+
+if (
+  isSignInWithEmailLink(
+    auth,
+    window.location.href
+  )
+) {
+
+  let email =
+    localStorage.getItem(
+      'pendingBusinessEmail'
+    );
+
+  if (!email) {
+
+    email = window.prompt(
+      'Confirm your email'
+    );
+  }
+
+  signInWithEmailLink(
+    auth,
+    email,
+    window.location.href
+  )
+  .then(async (result) => {
+
+    const user = result.user;
+
+    const businessName =
+      localStorage.getItem(
+        'pendingBusinessName'
+      );
+
+    await setDoc(
+      doc(db, 'businesses', user.uid),
+      {
+        uid: user.uid,
         businessName,
-        businessEmail,
-        businessId: generateBusinessId(),
-        businessLocation,
-        businessAddress,
-        businessIndustry
-      };
+        businessEmail: email,
+        emailVerified: true,
+        createdAt: serverTimestamp()
+      },
+      { merge: true }
+    );
 
-      await setDoc(doc(db, 'businesses', user.uid), businessData);
+    localStorage.removeItem(
+      'pendingBusinessEmail'
+    );
 
-      showMessage('Account created successfully. Redirecting...', 'success');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 1500);
+    localStorage.removeItem(
+      'pendingBusinessName'
+    );
 
-    } catch (error) {
-      showMessage(getFriendlyError(error), 'error');
-    }
+    window.location.href =
+      'business-details.html';
+
+  })
+  .catch((error) => {
+
+    console.log(error);
+
+    alert(error.message);
   });
+}
 
-  prevBtn.addEventListener('click', () => {
-    if (currentStep > 0) {
-      currentStep--;
-      showStep(currentStep);
-    }
-  });
+</script>
 
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+<style>
 
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
+@keyframes fadeIn {
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      const businessSnap = await getDoc(doc(db, 'businesses', user.uid));
-
-      if (businessSnap.exists()) {
-        const businessData = businessSnap.data();
-        localStorage.setItem('businessData', JSON.stringify(businessData));
-
-        showMessage('Login successful. Redirecting...', 'success');
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 1000);
-      } else {
-        showMessage('Business profile not found.');
-      }
-    } catch (error) {
-      showMessage(getFriendlyError(error), 'error');
-    }
-  });
-
-  const signupSection = document.getElementById('signupSection');
-  const loginSection = document.getElementById('loginSection');
-  const showSignup = document.getElementById('showSignup');
-  const showLogin = document.getElementById('showLogin');
-
-  showSignup.addEventListener('click', () => {
-    signupSection.classList.remove('hidden');
-    loginSection.classList.add('hidden');
-    showSignup.className = 'flex-1 py-2 rounded-lg bg-red-600 text-white';
-    showLogin.className = 'flex-1 py-2 rounded-lg text-gray-700';
-  });
-
-  showLogin.addEventListener('click', () => {
-    signupSection.classList.add('hidden');
-    loginSection.classList.remove('hidden');
-    showLogin.className = 'flex-1 py-2 rounded-lg bg-red-600 text-white';
-    showSignup.className = 'flex-1 py-2 rounded-lg text-gray-700';
-  });
-
-  function togglePassword(inputId, buttonId) {
-    const input = document.getElementById(inputId);
-    const button = document.getElementById(buttonId);
-
-    button.addEventListener('click', () => {
-      input.type = input.type === 'password' ? 'text' : 'password';
-      button.innerHTML = input.type === 'password'
-        ? '<i class="fa-regular fa-eye"></i>'
-        : '<i class="fa-regular fa-eye-slash"></i>';
-    });
+  from {
+    opacity: 0;
+    transform: scale(.96);
   }
 
-  togglePassword('signupPassword', 'toggleSignupPassword');
-  togglePassword('loginPassword', 'toggleLoginPassword');
-
-  const passwordInput = document.getElementById('signupPassword');
-  const rules = {
-    lengthRule: /.{8,}/,
-    uppercaseRule: /[A-Z]/,
-    lowercaseRule: /[a-z]/,
-    numberRule: /\d/,
-    specialRule: /[^A-Za-z0-9]/
-  };
-
-  passwordInput.addEventListener('input', () => {
-    const value = passwordInput.value;
-
-    Object.entries(rules).forEach(([id, regex]) => {
-      const element = document.getElementById(id);
-      const cleanText = element.textContent.replace(/^[•✓]\s/, '');
-
-      if (regex.test(value)) {
-        element.className = 'text-green-600';
-        element.textContent = '✓ ' + cleanText;
-      } else {
-        element.className = 'text-gray-500';
-        element.textContent = '• ' + cleanText;
-      }
-    });
-  });
-
-  function getFriendlyError(error) {
-  const code = error?.code || '';
-
-  switch (code) {
-    case 'auth/email-already-in-use':
-      return 'This email is already registered.';
-    case 'auth-invalid-email':
-      return 'Please enter a valid email address.';
-    case 'auth/weak-password':
-      return 'Password is too weak. Use a stronger password.';
-    case 'auth/user-not-found':
-      return 'No account found with this email.';
-    case 'auth/wrong-password':
-      return 'Incorrect password. Try again.';
-    case 'auth/too-many-requests':
-      return 'Too many attempts. Try again later.';
-    case 'auth/network-request-failed':
-      return 'Network error. Check your connection.';
-    default:
-      return 'Something went wrong. Please try again.';
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
-showStep(0);
-</script>
-
+</style>
 </body>
 </html>
