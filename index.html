@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -283,32 +282,7 @@ textarea {
               >
             </div>
           </div>
-<!-- Password -->
-<div>
-  <label class="text-sm font-semibold text-gray-700 block mb-2">
-    Password
-  </label>
 
-  <div class="relative">
-    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-
-    <input
-      type="password"
-      id="signupPassword"
-      required
-      placeholder="Create secure password"
-      class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-12 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
-    >
-
-    <button
-      type="button"
-      id="toggleSignupPassword"
-      class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
-    >
-      <i class="fa-regular fa-eye"></i>
-    </button>
-  </div>
-</div>
           <!-- Signup Button -->
           <button
             type="submit"
@@ -381,32 +355,7 @@ textarea {
               >
             </div>
           </div>
-<!-- Password -->
-<div>
-  <label class="text-sm font-semibold text-gray-700 block mb-2">
-    Password
-  </label>
 
-  <div class="relative">
-    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-
-    <input
-      type="password"
-      id="loginPassword"
-      required
-      placeholder="Enter password"
-      class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-12 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
-    >
-
-    <button
-      type="button"
-      id="toggleLoginPassword"
-      class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
-    >
-      <i class="fa-regular fa-eye"></i>
-    </button>
-  </div>
-</div>
           <button
             type="submit"
             class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-300 shadow-lg shadow-red-600/20"
@@ -438,10 +387,18 @@ textarea {
   </div>
 </div>
 
+<!-- =========================================
+     FIREBASE AUTH LOGIC
+========================================= -->
+
+<!-- =========================================
+     REPLACE YOUR ENTIRE <script type="module">
+     WITH THIS FULL WORKING VERSION
+========================================= -->
+
 <script type="module">
 
-  import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
   
   import {
   
@@ -455,16 +412,14 @@ textarea {
   
     GoogleAuthProvider,
   
-    signInWithPopup,
+    signInWithRedirect,
   
-    onAuthStateChanged,
+    getRedirectResult,
   
-    setPersistence,
+    onAuthStateChanged
   
-    browserLocalPersistence
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
   
-  }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   
   import {
   
@@ -478,9 +433,7 @@ textarea {
   
     serverTimestamp
   
-  }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
   
   
   /* =========================================
@@ -498,7 +451,6 @@ textarea {
   };
   
   
-  
   /* =========================================
      INIT
   ========================================= */
@@ -511,237 +463,248 @@ textarea {
   
   const provider = new GoogleAuthProvider();
   
-  auth.useDeviceLanguage();
-  
-  await setPersistence(
-    auth,
-    browserLocalPersistence
-  );
-  
-  
   
   /* =========================================
      ELEMENTS
   ========================================= */
   
   const signupForm =
-  document.getElementById("signupForm");
+    document.getElementById('signupForm');
   
   const loginForm =
-  document.getElementById("loginForm");
+    document.getElementById('loginForm');
   
-  const signupBtn =
-  document.getElementById("signupBtn");
+  const signupSection =
+    document.getElementById('signupSection');
   
-  const loginBtn =
-  loginForm.querySelector("button[type='submit']");
+  const loginSection =
+    document.getElementById('loginSection');
   
+  const showSignup =
+    document.getElementById('showSignup');
+  
+  const showLogin =
+    document.getElementById('showLogin');
+  
+  
+  /* =========================================
+     ADD PASSWORD FIELDS DYNAMICALLY
+  ========================================= */
+  
+  const signupPasswordHTML = `
+  
+  <div>
+  
+  <label class="text-sm font-semibold text-gray-700 block mb-2">
+  Password
+  </label>
+  
+  <div class="relative">
+  
+  <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+  
+  <input
+  type="password"
+  id="signupPassword"
+  required
+  placeholder="Create secure password"
+  class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-14 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
+  />
+  
+  <button
+  type="button"
+  id="toggleSignupPassword"
+  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-600"
+  >
+  <i class="fa-regular fa-eye"></i>
+  </button>
+  
+  </div>
+  
+  </div>
+  
+  `;
+  
+  document
+  .querySelector('#signupForm button[type="submit"]')
+  ?.insertAdjacentHTML('beforebegin', signupPasswordHTML);
+  
+  
+  const loginPasswordHTML = `
+  
+  <div>
+  
+  <label class="text-sm font-semibold text-gray-700 block mb-2">
+  Password
+  </label>
+  
+  <div class="relative">
+  
+  <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+  
+  <input
+  type="password"
+  id="loginPassword"
+  required
+  placeholder="Enter password"
+  class="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50/70 pl-12 pr-14 text-[16px] outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 transition-all duration-300"
+  />
+  
+  <button
+  type="button"
+  id="toggleLoginPassword"
+  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-600"
+  >
+  <i class="fa-regular fa-eye"></i>
+  </button>
+  
+  </div>
+  
+  </div>
+  
+  `;
+  
+  document
+    .querySelector('#loginForm button[type="submit"]')
+    ?.insertAdjacentHTML('beforebegin', loginPasswordHTML);
   
   
   /* =========================================
      PASSWORD TOGGLE
   ========================================= */
   
-  function setupPasswordToggle(
-    inputId,
-    buttonId
-  ) {
+  function setupPasswordToggle(inputId, buttonId) {
   
     const input =
-    document.getElementById(inputId);
+      document.getElementById(inputId);
   
     const button =
-    document.getElementById(buttonId);
+      document.getElementById(buttonId);
   
-    button.addEventListener("click", () => {
+    if (!input || !button) return;
+  
+    button.addEventListener('click', () => {
   
       const isPassword =
-      input.type === "password";
+        input.type === 'password';
   
       input.type =
-      isPassword ? "text" : "password";
-  
-      button.innerHTML = isPassword
-  
-      ? `<i class="fa-regular fa-eye-slash"></i>`
-  
-      : `<i class="fa-regular fa-eye"></i>`;
-  
-    });
-  
-  }
-  
-  setupPasswordToggle(
-    "signupPassword",
-    "toggleSignupPassword"
-  );
-  
-  setupPasswordToggle(
-    "loginPassword",
-    "toggleLoginPassword"
-  );
-  
-  
-  
-  /* =========================================
-     LOADING STATE
-  ========================================= */
-  
-  function setLoading(
-    button,
-    loading,
-    text
-  ) {
-  
-    if(loading) {
-  
-      button.disabled = true;
-  
-      button.dataset.original =
-      button.innerHTML;
-  
-      button.innerHTML = `
-  
-        <div class="flex items-center justify-center gap-2">
-  
-          <i class="fa-solid fa-spinner fa-spin"></i>
-  
-          ${text}
-  
-        </div>
-  
-      `;
-  
-    }
-  
-    else {
-  
-      button.disabled = false;
+        isPassword ? 'text' : 'password';
   
       button.innerHTML =
-      button.dataset.original;
-  
-    }
-  
+        isPassword
+        ? '<i class="fa-regular fa-eye-slash"></i>'
+        : '<i class="fa-regular fa-eye"></i>';
+    });
   }
   
+  setupPasswordToggle(
+    'signupPassword',
+    'toggleSignupPassword'
+  );
+  
+  setupPasswordToggle(
+    'loginPassword',
+    'toggleLoginPassword'
+  );
   
   
   /* =========================================
-     SHOW VERIFY SCREEN
+     TOGGLE LOGIN / SIGNUP
   ========================================= */
   
-  function showVerificationScreen(email) {
+  showSignup.addEventListener('click', () => {
   
-    document.body.insertAdjacentHTML(
+    signupSection.classList.remove('hidden');
   
-      "beforeend",
+    loginSection.classList.add('hidden');
   
-      `
+    showSignup.className =
+    'flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300';
   
-      <div
-      id="verifyModal"
-      class="fixed inset-0 z-[999999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
+    showLogin.className =
+    'flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300';
   
-        <div class="w-full max-w-md bg-white rounded-[2rem] p-7 text-center">
+  });
   
-          <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
   
-            <i class="fa-regular fa-envelope text-4xl text-red-600"></i>
+  showLogin.addEventListener('click', () => {
   
-          </div>
+    loginSection.classList.remove('hidden');
   
-          <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
-            Verify Your Email
-          </h2>
+    signupSection.classList.add('hidden');
   
-          <p class="text-gray-500 leading-relaxed text-sm mb-6">
+    showLogin.className =
+    'flex-1 py-3 rounded-xl bg-red-600 text-white font-semibold transition-all duration-300';
   
-            We sent a verification link to:
+    showSignup.className =
+    'flex-1 py-3 rounded-xl text-gray-600 font-semibold transition-all duration-300';
   
-            <br><br>
-  
-            <span class="font-bold text-gray-900">
-              ${email}
-            </span>
-  
-            <br><br>
-  
-            Waiting for verification...
-  
-          </p>
-  
-          <div class="flex items-center justify-center gap-2 text-red-600 font-semibold">
-  
-            <i class="fa-solid fa-spinner fa-spin"></i>
-  
-            Checking verification...
-  
-          </div>
-  
-        </div>
-  
-      </div>
-  
-      `
-    );
-  
-  }
-  
+  });
   
   
   /* =========================================
      SIGNUP
   ========================================= */
   
-  signupForm.addEventListener(
-  "submit",
-  async (e) => {
+  signupForm.addEventListener('submit', async (e) => {
   
     e.preventDefault();
   
-    const businessName =
-    document.getElementById(
-      "businessName"
-    ).value.trim();
+    const signupBtn =
+      document.getElementById('signupBtn');
   
-    const email =
-    document.getElementById(
-      "businessEmail"
-    ).value.trim();
+    const businessName =
+      document.getElementById('businessName')
+      .value
+      .trim();
+  
+    const businessEmail =
+      document.getElementById('businessEmail')
+      .value
+      .trim();
   
     const password =
-    document.getElementById(
-      "signupPassword"
-    ).value;
+      document.getElementById('signupPassword')
+      .value;
   
     try {
   
-      setLoading(
-        signupBtn,
-        true,
-        "Creating Account..."
-      );
+      signupBtn.disabled = true;
+  
+      signupBtn.innerHTML = `
+  
+        <div class="flex items-center justify-center gap-2">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Creating Account...
+        </div>
+  
+      `;
+  
+  
+      /* CREATE USER */
   
       const userCredential =
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+        await createUserWithEmailAndPassword(
+          auth,
+          businessEmail,
+          password
+        );
   
-      const user =
-      userCredential.user;
+      const user = userCredential.user;
+  
+  
+      /* SAVE TO FIRESTORE */
   
       await setDoc(
-        doc(db, "businesses", user.uid),
+        doc(db, 'businesses', user.uid),
         {
   
           uid: user.uid,
   
           businessName,
   
-          businessEmail: email,
+          businessEmail,
   
           emailVerified: false,
   
@@ -753,297 +716,363 @@ textarea {
         { merge: true }
       );
   
+  
+      /* SEND VERIFICATION EMAIL */
+  
       await sendEmailVerification(user);
   
-      showVerificationScreen(email);
   
-      const interval =
-      setInterval(async () => {
+      /* BEAUTIFUL MODAL */
   
-        await user.reload();
+      document.body.insertAdjacentHTML('beforeend', `
   
-        if(user.emailVerified) {
+        <div
+        id="verifyModal"
+        class="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
   
-          clearInterval(interval);
+          <div class="w-full max-w-md bg-white rounded-[2rem] p-7 shadow-2xl text-center animate-[fadeIn_.35s_ease]">
   
-          await setDoc(
-            doc(db, "businesses", user.uid),
-            {
-              emailVerified: true
-            },
-            { merge: true }
-          );
+            <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
   
-          window.location.href =
-          "business-details.html";
+              <i class="fa-regular fa-envelope text-4xl text-red-600"></i>
   
-        }
+            </div>
   
-      }, 3000);
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
+              Verify Your Email
+            </h2>
   
-    }
+            <p class="text-gray-500 leading-relaxed text-sm mb-6">
   
-    catch(error) {
+              We sent a verification link to:
   
-      console.error(error);
+              <br><br>
+  
+              <span class="font-bold text-gray-900">
+                ${businessEmail}
+              </span>
+  
+              <br><br>
+  
+              Verify your email before continuing.
+  
+            </p>
+  
+            <button
+            id="checkVerificationBtn"
+            class="w-full h-12 rounded-2xl bg-red-600 text-white font-bold">
+  
+              I've Verified My Email
+  
+            </button>
+  
+          </div>
+  
+        </div>
+  
+      `);
+  
+  
+      document
+        .getElementById('checkVerificationBtn')
+        .addEventListener('click', async () => {
+  
+          await user.reload();
+  
+          if (user.emailVerified) {
+  
+            await setDoc(
+              doc(db, 'businesses', user.uid),
+              {
+                emailVerified: true
+              },
+              { merge: true }
+            );
+  
+            window.location.href =
+              'business-details.html';
+  
+          } else {
+  
+            alert(
+              'Your email is not verified yet.'
+            );
+          }
+  
+      });
+  
+    } catch (error) {
+  
+      console.log(error);
   
       alert(error.message);
   
+    } finally {
+  
+      signupBtn.disabled = false;
+  
+      signupBtn.innerHTML =
+        'Continue Securely';
     }
-  
-    finally {
-  
-      setLoading(
-        signupBtn,
-        false
-      );
-  
-    }
-  
   });
-  
   
   
   /* =========================================
      LOGIN
   ========================================= */
   
-  loginForm.addEventListener(
-  "submit",
-  async (e) => {
+  loginForm.addEventListener('submit', async (e) => {
   
     e.preventDefault();
   
+    const submitBtn =
+      loginForm.querySelector('button[type="submit"]');
+  
     const email =
-    document.getElementById(
-      "loginEmail"
-    ).value.trim();
+      document.getElementById('loginEmail')
+      .value
+      .trim();
   
     const password =
-    document.getElementById(
-      "loginPassword"
-    ).value;
+      document.getElementById('loginPassword')
+      .value;
   
     try {
   
-      setLoading(
-        loginBtn,
-        true,
-        "Logging In..."
-      );
+      submitBtn.disabled = true;
+  
+      submitBtn.innerHTML = `
+  
+        <div class="flex items-center justify-center gap-2">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Logging In...
+        </div>
+  
+      `;
+  
   
       const userCredential =
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
   
       const user =
-      userCredential.user;
+        userCredential.user;
+  
+  
+      /* FORCE RELOAD */
   
       await user.reload();
   
-      if(!user.emailVerified) {
+  
+      /* CHECK EMAIL VERIFIED */
+  
+      if (!user.emailVerified) {
   
         alert(
-          "Please verify your email first."
+          'Please verify your email first.'
         );
   
         return;
-  
       }
+  
   
       const businessRef =
-      doc(db, "businesses", user.uid);
+        doc(db, 'businesses', user.uid);
   
       const businessSnap =
-      await getDoc(businessRef);
+        await getDoc(businessRef);
   
-      if(!businessSnap.exists()) {
   
-        alert(
-          "Business account not found."
-        );
+      if (!businessSnap.exists()) {
+  
+        alert('Business account not found.');
   
         return;
-  
       }
   
+  
       const businessData =
-      businessSnap.data();
+        businessSnap.data();
+  
   
       localStorage.setItem(
-        "businessData",
+        'businessData',
         JSON.stringify(businessData)
       );
   
-      if(
+  
+      /* REDIRECT */
+  
+      if (
         businessData.onboardingCompleted
       ) {
   
         window.location.href =
-        "dashboard.html";
+          'dashboard.html';
   
-      }
-  
-      else {
+      } else {
   
         window.location.href =
-        "business-details.html";
-  
+          'business-details.html';
       }
   
-    }
+    } catch (error) {
   
-    catch(error) {
-  
-      console.error(error);
+      console.log(error);
   
       alert(error.message);
   
+    } finally {
+  
+      submitBtn.disabled = false;
+  
+      submitBtn.innerHTML =
+        'Login';
     }
-  
-    finally {
-  
-      setLoading(
-        loginBtn,
-        false
-      );
-  
-    }
-  
   });
   
   
-  
   /* =========================================
-     GOOGLE AUTH
+     GOOGLE SIGNUP
   ========================================= */
   
-  async function googleAuth() {
+  document
+    .getElementById('googleSignup')
+    .addEventListener('click', async () => {
   
-    try {
+      try {
   
-      const result =
-      await signInWithPopup(
-        auth,
-        provider
-      );
+        await signInWithRedirect(
+          auth,
+          provider
+        );
   
-      const user =
-      result.user;
+      } catch (error) {
   
-      const businessRef =
-      doc(db, "businesses", user.uid);
+        console.log(error);
   
-      const businessSnap =
+        alert(error.message);
+      }
+  });
+  
+  
+  /* =========================================
+     GOOGLE LOGIN
+  ========================================= */
+  
+  document
+    .getElementById('googleLogin')
+    .addEventListener('click', async () => {
+  
+      try {
+  
+        await signInWithRedirect(
+          auth,
+          provider
+        );
+  
+      } catch (error) {
+  
+        console.log(error);
+  
+        alert(error.message);
+      }
+  });
+  
+  
+  /* =========================================
+     HANDLE GOOGLE REDIRECT RESULT
+  ========================================= */
+  
+  getRedirectResult(auth)
+  .then(async (result) => {
+  
+    if (!result) return;
+  
+    const user = result.user;
+  
+  
+    const businessRef =
+      doc(db, 'businesses', user.uid);
+  
+    const businessSnap =
       await getDoc(businessRef);
   
-      if(!businessSnap.exists()) {
   
-        await setDoc(
-          businessRef,
-          {
+    if (!businessSnap.exists()) {
   
-            uid: user.uid,
+      await setDoc(
+        businessRef,
+        {
   
-            businessName:
-            user.displayName || "",
+          uid: user.uid,
   
-            businessEmail:
+          businessName:
+            user.displayName || '',
+  
+          businessEmail:
             user.email,
   
-            emailVerified: true,
+          emailVerified: true,
   
-            onboardingCompleted: false,
+          onboardingCompleted: false,
   
-            createdAt: serverTimestamp()
+          createdAt: serverTimestamp()
   
-          },
-          { merge: true }
-        );
+        },
+        { merge: true }
+      );
   
-        window.location.href =
-        "business-details.html";
+      window.location.href =
+        'business-details.html';
   
-      }
+    } else {
   
-      else {
-  
-        const businessData =
+      const businessData =
         businessSnap.data();
   
-        localStorage.setItem(
-          "businessData",
-          JSON.stringify(businessData)
-        );
+      localStorage.setItem(
+        'businessData',
+        JSON.stringify(businessData)
+      );
   
-        if(
-          businessData.onboardingCompleted
-        ) {
+      if (
+        businessData.onboardingCompleted
+      ) {
   
-          window.location.href =
-          "dashboard.html";
+        window.location.href =
+          'dashboard.html';
   
-        }
+      } else {
   
-        else {
-  
-          window.location.href =
-          "business-details.html";
-  
-        }
-  
+        window.location.href =
+          'business-details.html';
       }
-  
     }
   
-    catch(error) {
+  })
+  .catch((error) => {
   
-      console.error(error);
-  
-      alert(error.message);
-  
-    }
-  
-  }
-  
-  
-  
-  document
-  .getElementById("googleSignup")
-  .addEventListener(
-    "click",
-    googleAuth
-  );
-  
-  document
-  .getElementById("googleLogin")
-  .addEventListener(
-    "click",
-    googleAuth
-  );
-  
+    console.log(error);
+  });
   
   
   /* =========================================
-     SESSION CHECK
+     AUTH STATE
   ========================================= */
   
-  onAuthStateChanged(
-  auth,
-  (user) => {
+  onAuthStateChanged(auth, (user) => {
   
-    if(user) {
+    if (user) {
   
       console.log(
-        "Logged in:",
+        'User already signed in:',
         user.email
       );
-  
     }
-  
   });
   
   </script>
