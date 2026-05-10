@@ -388,8 +388,7 @@ textarea {
 </div>
 
 <script>
-const API_BASE =
-  "moma-api.victorpalmtrees001.workers.dev";
+
   const signupForm =
     document.getElementById("signupForm");
   
@@ -429,7 +428,7 @@ const API_BASE =
       `;
   
       const response = await fetch(
-        `${API_BASE}/signup`,
+        "moma-api.victorpalmtrees001.workers.dev/signup",
         {
           method: "POST",
           headers: {
@@ -517,7 +516,7 @@ const API_BASE =
       `;
   
       const response = await fetch(
-        `${API_BASE}/send-login-otp`,
+        "moma-api.victorpalmtrees001.workers.dev/send-login-otp",
         {
           method: "POST",
           headers: {
@@ -585,7 +584,7 @@ const API_BASE =
           try {
   
             const verifyResponse = await fetch(
-              `${API_BASE}/verify-otp`,
+              "moma-api.victorpalmtrees001.workers.dev/verify-otp",
               {
                 method: "POST",
                 headers: {
