@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moma | Business Onboarding & Login</title>
+  <title>Trinfely | Business Onboarding & Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -32,6 +32,19 @@ html {
 .max-w-6xl {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+}
+@keyframes slideIn {
+
+from {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+
+to {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 }
@@ -143,17 +156,17 @@ textarea {
   <div class="relative z-10 flex-1 flex items-center px-6 lg:px-12">
     <div>
       <img 
-      src="images/MomaLogo.png" 
-      alt="MOMA Logo"
+      src="images/TrinfelyLogo.png" 
+      alt="TRINFELY Logo"
       class="w-36 sm:w-44 md:w-52 h-auto object-contain drop-shadow-[0_10px_25px_rgba(239,68,68,0.35)]"
     />
 
-      <h2 class="text-2xl lg:text-4xl font-bold mb-4 leading-tight">
+      <h2 class="text-3xl lg:text-5xl font-bold mb-4 leading-tight">
         Empower Your Store with Branded Gift Cards
       </h2>
 
       <p class="text-gray-200 text-sm lg:text-base max-w-md">
-        Moma helps businesses design, and sell their own branded gift cards, while also providing powerful software to manage inventory, sell, redeem, and track gift card performance—all in one seamless platform.
+        Trinfely helps businesses design, and sell their own branded gift cards, while also providing powerful software to manage inventory, sell, redeem, and track gift card performance—all in one seamless platform.
       </p>
     </div>
   </div>
@@ -161,7 +174,7 @@ textarea {
   <!-- Footer -->
   <div class="relative z-10 px-6 lg:px-12 py-4 border-t border-white/20 bg-black/20 backdrop-blur-sm">
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs lg:text-sm text-gray-300">
-      <p>&copy; 2026 Moma.com All rights reserved.</p>
+      <p>&copy; 2026 Trinfely.com All rights reserved.</p>
 
       <div class="flex flex-wrap items-center justify-center gap-4">
         <a href="#" class="hover:text-white transition-colors duration-300">Terms of Use</a>
@@ -186,25 +199,6 @@ textarea {
   </div>
 
   <div class="relative z-10 w-full max-w-md">
-
-    <!-- Top -->
-    <div class="text-center mb-8">
-
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-bold tracking-wide uppercase mb-5">
-        <span class="w-2 h-2 rounded-full bg-red-500"></span>
-        Business Platform
-      </div>
-
-      <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
-        Launch Your <br>
-        Business With <span class="text-red-600">Moma</span>
-      </h1>
-
-      <p class="text-gray-500 text-sm lg:text-base mt-4 leading-relaxed max-w-sm mx-auto">
-        Create your business account, verify your email securely,
-        and start selling branded gift cards in minutes.
-      </p>
-    </div>
 
     <!-- Card -->
     <div class="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.06)] rounded-[2rem] p-5 lg:p-7">
@@ -282,43 +276,42 @@ textarea {
               >
             </div>
           </div>
+<!-- Terms -->
+<div class="flex items-start gap-3">
 
+  <input
+    type="checkbox"
+    id="termsCheckbox"
+    class="mt-1 w-5 h-5 rounded border-gray-300 text-red-600 focus:ring-red-500"
+  >
+
+  <label
+    for="termsCheckbox"
+    class="text-sm text-gray-500 leading-relaxed"
+  >
+    I agree to the
+    <a href="#"
+       class="text-red-600 font-semibold hover:underline">
+       Terms of Service
+    </a>
+    and
+    <a href="#"
+       class="text-red-600 font-semibold hover:underline">
+       Privacy Policy
+    </a>
+  </label>
+
+</div>
           <!-- Signup Button -->
           <button
             type="submit"
             id="signupBtn"
             class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-[15px] transition-all duration-300 shadow-lg shadow-red-600/20"
           >
-            Continue Securely
+            Continue 
           </button>
 
-          <!-- Divider -->
-          <div class="flex items-center gap-3 py-2">
-            <div class="flex-1 h-px bg-gray-200"></div>
-            <span class="text-xs font-semibold text-gray-400 uppercase">
-              or continue with
-            </span>
-            <div class="flex-1 h-px bg-gray-200"></div>
-          </div>
-
-          <!-- Google -->
-          <button
-            type="button"
-            id="googleSignup"
-            class="w-full h-14 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 font-semibold text-gray-700 flex items-center justify-center gap-3 transition-all duration-300"
-          >
-
-            <svg class="w-5 h-5" viewBox="0 0 48 48">
-              <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.659 32.657 29.244 36 24 36c-6.627 0-12-5.373-12-12S17.373 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
-              <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 16.108 18.961 13 24 13c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
-              <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.223 0-9.629-3.327-11.29-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
-              <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.058 2.999-3.307 5.38-6.084 6.971l.003-.002 6.19 5.238C33.971 41.091 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
-            </svg>
-
-            Continue with Google
-          </button>
-
-        </form>
+                 </form>
       </div>
 
       <!-- =========================
@@ -332,7 +325,7 @@ textarea {
           </h2>
 
           <p class="text-sm text-gray-500">
-            Login securely using your business email.
+            Login using your business email.
           </p>
         </div>
 
@@ -360,24 +353,8 @@ textarea {
             type="submit"
             class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-300 shadow-lg shadow-red-600/20"
           >
-            Send Login Link
+            Get Link
           </button>
-
-          <button
-            type="button"
-            id="googleLogin"
-            class="w-full h-14 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 font-semibold text-gray-700 flex items-center justify-center gap-3 transition-all duration-300"
-          >
-            <svg class="w-5 h-5" viewBox="0 0 48 48">
-              <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.659 32.657 29.244 36 24 36c-6.627 0-12-5.373-12-12S17.373 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
-              <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 16.108 18.961 13 24 13c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
-              <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.223 0-9.629-3.327-11.29-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
-              <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.058 2.999-3.307 5.38-6.084 6.971l.003-.002 6.19 5.238C33.971 41.091 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
-            </svg>
-
-            Continue with Google
-          </button>
-
         </form>
 
       </div>
@@ -387,12 +364,19 @@ textarea {
   </div>
 </div>
 
+
+<!-- =========================================
+     TOAST CONTAINER
+========================================= -->
+<div
+  id="toastContainer"
+  class="fixed top-5 right-5 z-[999999] flex flex-col gap-3"
+></div>
 <script>
 
- <script>
 
 const API_BASE =
-"moma-api.victorpalmtrees001.workers.dev";
+"https://moma-api.victorpalmtrees001.workers.dev";
 
 /* =========================================
    TOGGLE LOGIN / SIGNUP
@@ -459,7 +443,77 @@ showLogin.addEventListener("click", () => {
   );
 
 });
+/* =========================================
+   BEAUTIFUL TOAST NOTIFICATION
+========================================= */
 
+function showToast(message, type = "success") {
+
+const toastContainer =
+  document.getElementById("toastContainer");
+
+const toast = document.createElement("div");
+
+const colors = {
+  success:
+    "bg-white border-green-200",
+  error:
+    "bg-white border-red-200",
+  warning:
+    "bg-white border-yellow-200"
+};
+
+const icons = {
+  success:
+    "fa-circle-check text-green-500",
+  error:
+    "fa-circle-xmark text-red-500",
+  warning:
+    "fa-triangle-exclamation text-yellow-500"
+};
+
+toast.className = `
+  min-w-[300px]
+  max-w-sm
+  rounded-2xl
+  border
+  ${colors[type]}
+  shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+  backdrop-blur-xl
+  px-4
+  py-4
+  flex
+  items-start
+  gap-3
+  animate-[slideIn_.3s_ease]
+`;
+
+toast.innerHTML = `
+  <i class="fa-solid ${icons[type]} text-lg mt-1"></i>
+
+  <div class="flex-1">
+    <p class="text-sm font-semibold text-gray-800 leading-relaxed">
+      ${message}
+    </p>
+  </div>
+`;
+
+toastContainer.appendChild(toast);
+
+setTimeout(() => {
+
+  toast.style.opacity = "0";
+  toast.style.transform = "translateY(-10px)";
+  toast.style.transition =
+    "all .3s ease";
+
+  setTimeout(() => {
+    toast.remove();
+  }, 300);
+
+}, 3500);
+
+}
 /* =========================================
    SIGNUP
 ========================================= */
@@ -488,7 +542,20 @@ signupForm.addEventListener(
       .value
       .trim()
       .toLowerCase();
+      const termsAccepted =
+  document.getElementById(
+    "termsCheckbox"
+  ).checked;
 
+if (!termsAccepted) {
+
+  showToast(
+    "Please accept the Terms & Conditions.",
+    "warning"
+  );
+
+  return;
+}
     try {
 
       signupBtn.disabled = true;
@@ -528,46 +595,121 @@ signupForm.addEventListener(
       }
 
       document.body.insertAdjacentHTML(
-        "beforeend",
-        `
-        <div
-        class="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
+  "beforeend",
+  `
+  <div
+  id="emailModal"
+  class="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
 
-          <div class="w-full max-w-md bg-white rounded-[2rem] p-7 shadow-2xl text-center">
+    <div
+    class="modalContent w-full max-w-md bg-white rounded-[2rem] p-7 shadow-2xl text-center relative">
 
-            <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
-              <i class="fa-regular fa-envelope text-4xl text-red-600"></i>
-            </div>
+      <button
+      id="closeEmailModal"
+      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-all duration-300">
 
-            <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
-              Check Your Email
-            </h2>
+        <i class="fa-solid fa-xmark text-gray-600"></i>
 
-            <p class="text-gray-500 leading-relaxed text-sm mb-6">
-              We sent an activation link to:
-              <br><br>
+      </button>
 
-              <span class="font-bold text-gray-900">
-                ${businessEmail}
-              </span>
-            </p>
+      <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
+        <i class="fa-regular fa-envelope text-4xl text-red-600"></i>
+      </div>
 
-          </div>
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
+        Check Your Email
+      </h2>
 
-        </div>
-        `
-      );
+      <p class="text-gray-500 leading-relaxed text-sm mb-6">
+        We sent an activation link to:
+        <br><br>
 
+        <span class="font-bold text-gray-900">
+          ${businessEmail}
+        </span>
+      </p>
+
+    </div>
+
+  </div>
+  `
+);
+
+const emailModal =
+  document.getElementById("emailModal");
+
+const closeEmailModal =
+  document.getElementById("closeEmailModal");
+
+
+// RESET FUNCTION
+function resetPage() {
+
+  // remove modal
+  emailModal.remove();
+
+  // reset all forms
+  document.querySelectorAll("form")
+    .forEach(form => form.reset());
+
+  // clear custom inputs if needed
+  document
+    .querySelectorAll("input")
+    .forEach(input => {
+      input.value = "";
+    });
+
+  // remove loading buttons
+  document
+    .querySelectorAll("button")
+    .forEach(btn => {
+      btn.disabled = false;
+    });
+
+  // OPTIONAL:
+  // reset checkboxes
+  document
+    .querySelectorAll('input[type="checkbox"]')
+    .forEach(box => {
+      box.checked = false;
+    });
+
+}
+
+
+// CLOSE BUTTON
+closeEmailModal.addEventListener(
+  "click",
+  resetPage
+);
+
+
+// CLICK OUTSIDE MODAL
+emailModal.addEventListener(
+  "click",
+  (e) => {
+
+    if (
+      !e.target.closest(".modalContent")
+    ) {
+      resetPage();
+    }
+
+  }
+);
     } catch (error) {
 
-      alert(error.message);
+      showToast(
+  error.message,
+  "error"
+);
 
     } finally {
 
       signupBtn.disabled = false;
 
       signupBtn.innerHTML =
-        "Continue Securely";
+        "Continue ";
 
     }
 
@@ -730,7 +872,10 @@ loginForm.addEventListener(
 
           } catch (error) {
 
-            alert(error.message);
+            showToast(
+  error.message,
+  "error"
+);
 
           }
 
@@ -738,7 +883,10 @@ loginForm.addEventListener(
 
     } catch (error) {
 
-      alert(error.message);
+      showToast(
+  error.message,
+  "error"
+);
 
     } finally {
 
@@ -752,7 +900,9 @@ loginForm.addEventListener(
 });
 
 </script>
-  </script>
+
 </body>
 </html>
+
+
 

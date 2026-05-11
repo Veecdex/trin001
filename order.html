@@ -6,7 +6,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <title>Moma Orders</title>
+  <title>My Orders</title>
 </head>
 <style>
   body{
@@ -162,7 +162,7 @@ html {
   }
   function generateGiftCardPDF(item, product, order) {
   const { jsPDF } = window.jspdf;
-  const momaLogoBase64 = "https://i.ibb.co/vCVCmDd9/Moma-Logo.png";
+  const momaLogoBase64 = "https://i.ibb.co/B29dhdDG/Trinfely-Logo.png";
   const doc = new jsPDF({
     orientation: "landscape",
     unit: "mm",
@@ -243,9 +243,6 @@ console.log(e);
   doc.setFontSize(7);
   doc.setTextColor(120, 120, 120);
   doc.text("Redeem for products or services", 6, 42);
-
-
-// 🔥 LARGE MOMA LOGO (BOTTOM RIGHT)
 
 try {
 
