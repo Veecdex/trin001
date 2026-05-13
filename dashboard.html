@@ -2271,5 +2271,71 @@ function toggleWalletBalance() {
 }
 
   </script>
+  <script>
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+    
+    const token =
+      params.get("token");
+    
+    // IF TOKEN EXISTS
+    if (token) {
+    
+      fetch(
+        `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+      )
+      .then(res => res.json())
+    
+      .then(data => {
+    
+        // INVALID TOKEN
+        if (!data.success) {
+    
+          alert(
+            "Invalid or expired login link"
+          );
+    
+          window.location.href =
+            "/login.html";
+    
+          return;
+    
+        }
+    
+        // SAVE USER
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.user)
+        );
+    
+        // REMOVE TOKEN FROM URL
+        window.history.replaceState(
+          {},
+          document.title,
+          "/dashboard.html"
+        );
+    
+        console.log(
+          "LOGIN SUCCESS"
+        );
+    
+      })
+    
+      .catch(error => {
+    
+        console.log(error);
+    
+        alert(
+          "Something went wrong"
+        );
+    
+      });
+    
+    }
+    
+    </script>
 </body>
 </html>
