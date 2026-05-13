@@ -594,5 +594,111 @@ document
 
   }
 );
+async function compressImage(
+  file,
+  maxKB
+) {
+
+  return new Promise(
+    (resolve) => {
+
+      const img =
+        new Image();
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+      (event) => {
+
+        img.src =
+          event.target.result;
+
+      };
+
+      img.onload = () => {
+
+        const canvas =
+          document.createElement(
+            "canvas"
+          );
+
+        const ctx =
+          canvas.getContext("2d");
+
+        let width =
+          img.width;
+
+        let height =
+          img.height;
+
+        const maxWidth = 500;
+
+        if (width > maxWidth) {
+
+          height *=
+            maxWidth / width;
+
+          width =
+            maxWidth;
+
+        }
+
+        canvas.width =
+          width;
+
+        canvas.height =
+          height;
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          width,
+          height
+        );
+
+        let quality = 0.9;
+
+        const compress = () => {
+
+          const base64 =
+            canvas.toDataURL(
+              "image/jpeg",
+              quality
+            );
+
+          const sizeKB =
+            Math.round(
+              (base64.length * 3) / 4 / 1024
+            );
+
+          if (
+            sizeKB <= maxKB ||
+            quality <= 0.1
+          ) {
+
+            resolve(base64);
+
+            return;
+
+          }
+
+          quality -= 0.05;
+
+          compress();
+
+        };
+
+        compress();
+
+      };
+
+      reader.readAsDataURL(file);
+
+    }
+  );
+
+}
     </script>
 </html>
