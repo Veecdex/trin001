@@ -394,42 +394,139 @@
     // FORM SUBMIT
     
     document
-    .getElementById(
-      "onboardingForm"
-    )
-    .addEventListener(
-      "submit",
-      (e) => {
-    
-        e.preventDefault();
-    
-        // EXAMPLE ACTION
-    
-        const continueBtn =
-          document.getElementById(
-            "continueBtn"
-          );
-    
-        continueBtn.innerHTML =
-          `
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          Setting Up Dashboard...
-          `;
-    
-        continueBtn.disabled =
-          true;
-    
-        // REDIRECT EXAMPLE
-    
-        setTimeout(() => {
-    
-          window.location.href =
-            "dashboard.html";
-    
-        }, 2000);
-    
+.getElementById("onboardingForm")
+.addEventListener(
+  "submit",
+  async (e) => {
+
+    e.preventDefault();
+
+    const continueBtn =
+      document.getElementById(
+        "continueBtn"
+      );
+
+    continueBtn.innerHTML =
+      `
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      Setting Up Dashboard...
+      `;
+
+    continueBtn.disabled = true;
+
+    try {
+
+      // GET TOKEN
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      const token =
+        params.get("token");
+
+      // VERIFY LOGIN TOKEN
+      const verifyResponse =
+        await fetch(
+          `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+        );
+
+      const verifyData =
+        await verifyResponse.json();
+
+      if (!verifyData.success) {
+
+        alert("Invalid session");
+
+        return;
+
       }
-    );
-    
+
+      const user =
+        verifyData.user;
+
+      // CONVERT IMAGE
+      const file =
+        logoUpload.files[0];
+
+      const reader =
+        new FileReader();
+
+      reader.onload = async function(event){
+
+        const businessLogo =
+          event.target.result;
+
+        // SEND ONBOARDING
+        const response =
+          await fetch(
+            "https://moma-api.victorpalmtrees001.workers.dev/complete-onboarding",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+
+                email: user.email,
+
+                businessLocation:
+                  document.getElementById(
+                    "businessLocation"
+                  ).value,
+
+                businessIndustry:
+                  document.getElementById(
+                    "businessIndustry"
+                  ).value,
+
+                storeAddress:
+                  document.getElementById(
+                    "storeAddress"
+                  ).value,
+
+                businessLogo
+
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+
+          alert(data.message);
+
+          return;
+
+        }
+
+        // SUCCESS
+        window.location.href =
+          `dashboard.html?token=${token}`;
+
+      };
+
+      reader.readAsDataURL(file);
+
+    } catch (error) {
+
+      alert(error.message);
+
+    } finally {
+
+      continueBtn.disabled = false;
+
+      continueBtn.innerHTML =
+        "Continue To Dashboard";
+
+    }
+
+  }
+);
     </script>
 </html>
