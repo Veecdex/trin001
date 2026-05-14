@@ -2282,108 +2282,47 @@ function toggleWalletBalance() {
 }
 
   </script>
-  <script>
+ 
+ <script>
 
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-    
-    const token =
-      params.get("token");
-    
-    // IF TOKEN EXISTS
-    if (token) {
-    
-      fetch(
-        `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
-      )
-      .then(res => res.json())
-    
-      .then(data => {
-    
-        // INVALID TOKEN
-        if (!data.success) {
-    
-          alert(
-            "Invalid or expired login link"
-          );
-    
-          window.location.href =
-            "/login.html";
-    
-          return;
-    
-        }
-    
-        // SAVE USER
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data.user)
-        );
-    
-        // REMOVE TOKEN FROM URL
-        window.history.replaceState(
-          {},
-          document.title,
-          "/dashboard.html"
-        );
-    
-        console.log(
-          "LOGIN SUCCESS"
-        );
-    
-      })
-    
-      .catch(error => {
-    
-        console.log(error);
-    
-        alert(
-          "Something went wrong"
-        );
-    
-      });
-    
-    }
-    
-    </script>
-   <script>
-
-    const savedUser =
-      localStorage.getItem(
-        "trinfely_user"
-      );
-    
-    const savedToken =
-      localStorage.getItem(
-        "trinfely_token"
-      );
-    
-    // NOT LOGGED IN
-    if (!savedUser || !savedToken) {
-    
-      window.location.href =
-        "index.html";
-    
-    }
-    
-    // USER
-    const user =
-      JSON.parse(savedUser);
-    
-    // DISPLAY NAME
-    document.getElementById(
-      "businessName"
-    ).textContent =
-      user.business_name;
-    
-    // DISPLAY LOGO
-    document.getElementById(
-      "businessLogo"
-    ).src =
-      user.business_logo;
-    
-    </script>
+  // =========================
+  // CHECK LOGIN
+  // =========================
+  
+  const savedUser =
+    localStorage.getItem(
+      "trinfely_user"
+    );
+  
+  const savedToken =
+    localStorage.getItem(
+      "trinfely_token"
+    );
+  
+  // NOT LOGGED IN
+  if (!savedUser || !savedToken) {
+  
+    window.location.href =
+      "index.html";
+  
+  }
+  
+  // USER
+  const user =
+    JSON.parse(savedUser);
+  
+  // DISPLAY NAME
+  document.getElementById(
+    "businessName"
+  ).textContent =
+    user.business_name;
+  
+  // DISPLAY LOGO
+  document.getElementById(
+    "businessLogo"
+  ).src =
+    user.business_logo;
+  
+  </script>
 </body>
 </html>
