@@ -473,19 +473,30 @@ select {
     <!-- LEFT -->
     <div class="flex items-center gap-4">
 
-      <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
-        <img 
-        src="cake.jpg"
-        alt="business"
-        class="w-full h-full object-cover rounded-2xl"
-      />
+      <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl overflow-hidden">
+    
+        <img
+          id="businessLogo"
+          src=""
+          alt="business"
+          class="w-full h-full object-cover"
+        />
+    
       </div>
-
+    
       <div>
-        <p id="greetingText" class="text-sm text-gray-500">Good evening</p>
-        <h1 class="heading-font text-lg font-semibold text-gray-900">Kandie Place</h1>
+        <p id="greetingText" class="text-sm text-gray-500">
+          Good evening
+        </p>
+    
+        <h1
+          id="businessName"
+          class="heading-font text-lg font-semibold text-gray-900"
+        >
+          Loading...
+        </h1>
       </div>
-
+    
     </div>
 
     <!-- RIGHT -->
@@ -2337,5 +2348,84 @@ function toggleWalletBalance() {
     }
     
     </script>
+    <script>
+
+      async function loadUserData() {
+      
+        try {
+      
+          // GET TOKEN FROM URL
+          const params =
+            new URLSearchParams(window.location.search);
+      
+          const token =
+            params.get("token");
+      
+          // NO TOKEN
+          if (!token) {
+      
+            window.location.href =
+              "index.html";
+      
+            return;
+      
+          }
+      
+          // VERIFY TOKEN
+          const response =
+            await fetch(
+              `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+            );
+      
+          const data =
+            await response.json();
+      
+          // INVALID TOKEN
+          if (!data.success) {
+      
+            window.location.href =
+              "index.html";
+      
+            return;
+      
+          }
+      
+          // SAVE USER
+          const user =
+            data.user;
+      
+          // DISPLAY BUSINESS NAME
+          document.getElementById(
+            "businessName"
+          ).textContent =
+            user.business_name;
+      
+          // DISPLAY BUSINESS LOGO
+          document.getElementById(
+            "businessLogo"
+          ).src =
+            user.business_logo;
+      
+          // OPTIONAL:
+          // SAVE USER LOCALLY
+          localStorage.setItem(
+            "trinfelyUser",
+            JSON.stringify(user)
+          );
+      
+        } catch (error) {
+      
+          console.log(error);
+      
+          window.location.href =
+            "index.html";
+      
+        }
+      
+      }
+      
+      loadUserData();
+      
+      </script>
 </body>
 </html>
