@@ -2350,116 +2350,39 @@ function toggleWalletBalance() {
     </script>
    <script>
 
-    async function loadUserData() {
+    const savedUser =
+      localStorage.getItem(
+        "trinfely_user"
+      );
     
-      try {
+    const savedToken =
+      localStorage.getItem(
+        "trinfely_token"
+      );
     
-        // =========================
-        // GET TOKEN
-        // =========================
+    // NOT LOGGED IN
+    if (!savedUser || !savedToken) {
     
-        const params =
-          new URLSearchParams(window.location.search);
-    
-        let token =
-          params.get("token");
-    
-        // SAVE TOKEN FIRST TIME
-        if (token) {
-    
-          localStorage.setItem(
-            "trinfely_token",
-            token
-          );
-    
-        }
-    
-        // GET SAVED TOKEN
-        if (!token) {
-    
-          token =
-            localStorage.getItem(
-              "trinfely_token"
-            );
-    
-        }
-    
-        // NO TOKEN
-        if (!token) {
-    
-          window.location.href =
-            "login.html";
-    
-          return;
-    
-        }
-    
-        // =========================
-        // VERIFY TOKEN
-        // =========================
-    
-        const response =
-          await fetch(
-            `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
-          );
-    
-        const data =
-          await response.json();
-    
-        console.log(data);
-    
-        // INVALID TOKEN
-        if (!data.success) {
-    
-          localStorage.removeItem(
-            "trinfely_token"
-          );
-    
-          window.location.href =
-            "login.html";
-    
-          return;
-    
-        }
-    
-        // =========================
-        // USER
-        // =========================
-    
-        const user =
-          data.user;
-    
-        // BUSINESS NAME
-        document.getElementById(
-          "businessName"
-        ).textContent =
-          user.business_name || "Business";
-    
-        // BUSINESS LOGO
-        document.getElementById(
-          "businessLogo"
-        ).src =
-          user.business_logo ||
-          "https://via.placeholder.com/150";
-    
-        // SAVE USER
-        localStorage.setItem(
-          "trinfely_user",
-          JSON.stringify(user)
-        );
-    
-      } catch (error) {
-    
-        console.log(error);
-    
-        window.location.href =
-          "login.html";
-    
-      }
+      window.location.href =
+        "index.html";
     
     }
     
-    loadUserData();
+    // USER
+    const user =
+      JSON.parse(savedUser);
+    
+    // DISPLAY NAME
+    document.getElementById(
+      "businessName"
+    ).textContent =
+      user.business_name;
+    
+    // DISPLAY LOGO
+    document.getElementById(
+      "businessLogo"
+    ).src =
+      user.business_logo;
     
     </script>
 </body>
