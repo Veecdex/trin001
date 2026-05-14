@@ -901,6 +901,32 @@ loginForm.addEventListener(
 
 });
 </script>
+<script>
+  const response =
+  await fetch(
+    `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+  );
 
+const data =
+  await response.json();
+
+if (data.success) {
+
+  localStorage.setItem(
+    "trinfely_token",
+    token
+  );
+
+  localStorage.setItem(
+    "trinfely_user",
+    JSON.stringify(data.user)
+  );
+
+  // REDIRECT
+  window.location.href =
+    "dashboard.html";
+
+}
+</script>
 </body>
 </html>
