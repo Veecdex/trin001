@@ -503,43 +503,71 @@ select {
         
         <script>
 
-          const savedUser =
-            JSON.parse(
-              localStorage.getItem("user")
+          const params =
+            new URLSearchParams(
+              window.location.search
             );
           
-          // NO USER
-          if (!savedUser) {
+          const token =
+            params.get("token");
+          
+          // NO TOKEN
+          if (!token) {
           
             window.location.href =
               "/trin001/index.html";
           
           }
           
-          // USER EMAIL
-          const email =
-            savedUser.email;
-          
-          // FETCH USER DATA
+          // VERIFY TOKEN
           fetch(
-            `https://moma-api.victorpalmtrees001.workers.dev/get-user?email=${email}`
+            `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
           )
           
           .then(res => res.json())
           
           .then(data => {
           
-            // BUSINESS NAME
+            // INVALID TOKEN
+            if (!data.success) {
+          
+              window.location.href =
+                "/trin001/index.html";
+          
+              return;
+          
+            }
+          
+            // DISPLAY BUSINESS NAME
             document.getElementById(
               "businessName"
             ).textContent =
-              data.business_name;
+              data.user.business_name;
           
-            // BUSINESS LOGO
+            // DISPLAY BUSINESS LOGO
             document.getElementById(
               "businessLogo"
             ).src =
-              data.business_logo;
+              data.user.business_logo;
+          
+            // SAVE USER
+            localStorage.setItem(
+              "user",
+              JSON.stringify(data.user)
+            );
+          
+            // SAVE TOKEN
+            localStorage.setItem(
+              "login_token",
+              token
+            );
+          
+            // REMOVE TOKEN FROM URL
+            window.history.replaceState(
+              {},
+              document.title,
+              "/trin001/dashboard.html"
+            );
           
           })
           
@@ -547,9 +575,48 @@ select {
           
             console.log(error);
           
+            window.location.href =
+              "/trin001/index.html";
+          
           });
           
           </script>
+          <script>
+
+            // NO TOKEN IN URL
+            if (!token) {
+            
+              const savedUser =
+                JSON.parse(
+                  localStorage.getItem("user")
+                );
+            
+              // NOT LOGGED IN
+              if (!savedUser) {
+            
+                window.location.href =
+                  "/trin001/index.html";
+            
+              }
+            
+              // DISPLAY SAVED USER
+              else {
+            
+                document.getElementById(
+                  "businessName"
+                ).textContent =
+                  savedUser.business_name;
+            
+                document.getElementById(
+                  "businessLogo"
+                ).src =
+                  savedUser.business_logo;
+            
+              }
+            
+            }
+            
+            </script>
       </div>
     
     </div>
