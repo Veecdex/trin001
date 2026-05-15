@@ -468,41 +468,37 @@ select {
 <div style="margin-top: -12px;" class="max-w-6xl mx-auto px-6 py-6 min-h-0 ">
 
   <!-- TOP BAR -->
-  <div class="flex items-center justify-between mb-8">
+  <div class="flex items-center gap-4">
 
-    <!-- LEFT -->
-    <div class="flex items-center gap-4">
-
-      <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl overflow-hidden">
-    
-        <img
-          id="businessLogo"
-          src=""
-          alt="business"
-          class="w-full h-full object-cover"
-        />
-    
-      </div>
-    
-      <div>
-    
-        <p
-          id="greetingText"
-          class="text-sm text-gray-500"
-        >
-          Good evening
-        </p>
-    
-        <h1
-          id="businessName"
-          class="heading-font text-lg font-semibold text-gray-900"
-        >
-          Loading...
-        </h1>
-    
-      </div>
-    
+    <div class="w-12 h-12 overflow-hidden rounded-xl bg-red-50">
+  
+      <img
+        id="businessLogo"
+        src=""
+        alt="business"
+        class="w-full h-full object-cover"
+      />
+  
     </div>
+  
+    <div>
+  
+      <p
+        class="text-sm text-gray-500"
+      >
+        Good evening
+      </p>
+  
+      <h1
+        id="businessName"
+        class="heading-font text-lg font-semibold text-gray-900"
+      >
+        Loading...
+      </h1>
+  
+    </div>
+  
+  </div>
 
     <!-- RIGHT -->
     <div class="flex items-center gap-4">
@@ -2289,7 +2285,11 @@ function toggleWalletBalance() {
   </script>
   <script>
 
-    async function loadDashboard() {
+    async function startDashboard() {
+    
+      // =========================
+      // GET TOKEN FROM URL
+      // =========================
     
       const params =
         new URLSearchParams(
@@ -2300,7 +2300,7 @@ function toggleWalletBalance() {
         params.get("token");
     
       // =========================
-      // LOGIN WITH TOKEN
+      // IF TOKEN EXISTS
       // =========================
     
       if (token) {
@@ -2315,8 +2315,14 @@ function toggleWalletBalance() {
           const data =
             await response.json();
     
-          // INVALID TOKEN
+          console.log(data);
+    
+          // INVALID LOGIN
           if (!data.success) {
+    
+            alert(
+              "Invalid login"
+            );
     
             window.location.href =
               "index.html";
@@ -2348,8 +2354,9 @@ function toggleWalletBalance() {
     
           console.log(error);
     
-          window.location.href =
-            "index.html";
+          alert(
+            "Login failed"
+          );
     
           return;
     
@@ -2366,7 +2373,7 @@ function toggleWalletBalance() {
           "trinfely_user"
         );
     
-      // NOT LOGGED IN
+      // NO USER
       if (!savedUser) {
     
         window.location.href =
@@ -2376,11 +2383,17 @@ function toggleWalletBalance() {
     
       }
     
-      // USER OBJECT
+      // =========================
+      // USER DATA
+      // =========================
+    
       const user =
         JSON.parse(savedUser);
     
-      console.log(user);
+      console.log(
+        "CURRENT USER:",
+        user
+      );
     
       // =========================
       // DISPLAY BUSINESS NAME
@@ -2389,7 +2402,8 @@ function toggleWalletBalance() {
       document.getElementById(
         "businessName"
       ).textContent =
-        user.business_name || "Business";
+        user.business_name ||
+        "Business";
     
       // =========================
       // DISPLAY BUSINESS LOGO
@@ -2399,11 +2413,11 @@ function toggleWalletBalance() {
         "businessLogo"
       ).src =
         user.business_logo ||
-        "https://placehold.co/100x100";
+        "https://placehold.co/100";
     
     }
     
-    loadDashboard();
+    startDashboard();
     
     </script>
 </body>
