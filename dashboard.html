@@ -501,122 +501,7 @@ select {
         </h1>
        
         
-        <script>
-
-          const params =
-            new URLSearchParams(
-              window.location.search
-            );
-          
-          const token =
-            params.get("token");
-          
-          // NO TOKEN
-          if (!token) {
-          
-            window.location.href =
-              "/trin001/index.html";
-          
-          }
-          
-          // VERIFY TOKEN
-          fetch(
-            `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
-          )
-          
-          .then(res => res.json())
-          
-          .then(data => {
-          
-            // INVALID TOKEN
-            if (!data.success) {
-          
-              window.location.href =
-                "/trin001/index.html";
-          
-              return;
-          
-            }
-          
-            // DISPLAY BUSINESS NAME
-            document.getElementById(
-              "businessName"
-            ).textContent =
-              data.user.business_name;
-          
-            // DISPLAY BUSINESS LOGO
-            document.getElementById(
-              "businessLogo"
-            ).src =
-              data.user.business_logo;
-          
-            // SAVE USER
-            localStorage.setItem(
-              "user",
-              JSON.stringify(data.user)
-            );
-          
-            // SAVE TOKEN
-            localStorage.setItem(
-              "login_token",
-              token
-            );
-          
-            // REMOVE TOKEN FROM URL
-            window.history.replaceState(
-              {},
-              document.title,
-              "/trin001/dashboard.html"
-            );
-          
-          })
-          
-          .catch(error => {
-          
-            console.log(error);
-          
-            window.location.href =
-              "/trin001/index.html";
-          
-          });
-          
-          </script>
-          <script>
-
-            // NO TOKEN IN URL
-            if (!token) {
-            
-              const savedUser =
-                JSON.parse(
-                  localStorage.getItem("user")
-                );
-            
-              // NOT LOGGED IN
-              if (!savedUser) {
-            
-                window.location.href =
-                  "/trin001/index.html";
-            
-              }
-            
-              // DISPLAY SAVED USER
-              else {
-            
-                document.getElementById(
-                  "businessName"
-                ).textContent =
-                  savedUser.business_name;
-            
-                document.getElementById(
-                  "businessLogo"
-                ).src =
-                  savedUser.business_logo;
-            
-              }
-            
-            }
-            
-            </script>
+      
       </div>
     
     </div>
@@ -2403,6 +2288,41 @@ function toggleWalletBalance() {
   lucide.createIcons();
 }
 
+  </script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+
+// fallback storage
+const savedToken = localStorage.getItem("login_token");
+
+const finalToken = token || savedToken;
+
+if (!finalToken) {
+  window.location.href = "/trin001/index.html";
+}
+
+fetch(`https://moma-api.victorpalmtrees001.workers.dev/me?token=${finalToken}`)
+  .then(res => res.json())
+  .then(data => {
+
+    if (!data.success) {
+      window.location.href = "/trin001/index.html";
+      return;
+    }
+
+    // SAVE SESSION
+    localStorage.setItem("login_token", finalToken);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    // DISPLAY DATA
+    document.getElementById("businessName").textContent = data.user.business_name;
+    document.getElementById("businessLogo").src = data.user.business_logo;
+
+    // clean URL
+    window.history.replaceState({}, "", "/trin001/dashboard.html");
+
+  });
   </script>
 </body>
 </html>
