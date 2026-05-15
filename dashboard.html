@@ -2285,43 +2285,122 @@ function toggleWalletBalance() {
  
  <script>
 
-  // =========================
-  // CHECK LOGIN
-  // =========================
+  async function initDashboard() {
   
-  const savedUser =
-    localStorage.getItem(
-      "trinfely_user"
-    );
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
   
-  const savedToken =
-    localStorage.getItem(
-      "trinfely_token"
-    );
+    const token =
+      params.get("token");
   
-  // NOT LOGGED IN
-  if (!savedUser || !savedToken) {
+    // =====================================
+    // TOKEN LOGIN
+    // =====================================
   
-    window.location.href =
-      "index.html";
+    if (token) {
+  
+      try {
+  
+        const response =
+          await fetch(
+            `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+          );
+  
+        const data =
+          await response.json();
+  
+        // INVALID TOKEN
+        if (!data.success) {
+  
+          window.location.href =
+            "index.html";
+  
+          return;
+  
+        }
+  
+        // SAVE TOKEN
+        localStorage.setItem(
+          "trinfely_token",
+          token
+        );
+  
+        // SAVE USER
+        localStorage.setItem(
+          "trinfely_user",
+          JSON.stringify(data.user)
+        );
+  
+        // REMOVE TOKEN FROM URL
+        window.history.replaceState(
+          {},
+          document.title,
+          "/dashboard.html"
+        );
+  
+      } catch (error) {
+  
+        console.log(error);
+  
+        window.location.href =
+          "index.html";
+  
+        return;
+  
+      }
+  
+    }
+  
+    // =====================================
+    // CHECK AUTH
+    // =====================================
+  
+    const savedUser =
+      localStorage.getItem(
+        "trinfely_user"
+      );
+  
+    const savedToken =
+      localStorage.getItem(
+        "trinfely_token"
+      );
+  
+    if (!savedUser || !savedToken) {
+  
+      window.location.href =
+        "index.html";
+  
+      return;
+  
+    }
+  
+    // =====================================
+    // USER DATA
+    // =====================================
+  
+    const user =
+      JSON.parse(savedUser);
+  
+    console.log(user);
+  
+    // BUSINESS NAME
+    document.getElementById(
+      "businessName"
+    ).textContent =
+      user.business_name || "Business";
+  
+    // BUSINESS LOGO
+    document.getElementById(
+      "businessLogo"
+    ).src =
+      user.business_logo ||
+      "https://placehold.co/100x100";
   
   }
   
-  // USER
-  const user =
-    JSON.parse(savedUser);
-  
-  // DISPLAY NAME
-  document.getElementById(
-    "businessName"
-  ).textContent =
-    user.business_name;
-  
-  // DISPLAY LOGO
-  document.getElementById(
-    "businessLogo"
-  ).src =
-    user.business_logo;
+  initDashboard();
   
   </script>
 </body>
