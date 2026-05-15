@@ -901,24 +901,19 @@ loginForm.addEventListener(
 
 });
 </script>
-<script type="module">
+<script>
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
+  async function authenticate() {
   
-  const token =
-    params.get("token");
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
   
-  if (!token) {
+    const token =
+      params.get("token");
   
-    window.location.href =
-      "index.html";
-  
-  }
-  
-  try {
+    if (!token) return;
   
     const response =
       await fetch(
@@ -928,37 +923,34 @@ loginForm.addEventListener(
     const data =
       await response.json();
   
-    if (data.success) {
-  
-      localStorage.setItem(
-        "trinfely_token",
-        token
-      );
-  
-      localStorage.setItem(
-        "trinfely_user",
-        JSON.stringify(data.user)
-      );
-  
-      // REDIRECT
-      window.location.href =
-        "dashboard.html";
-  
-    } else {
+    if (!data.success) {
   
       window.location.href =
         "index.html";
   
+      return;
+  
     }
   
-  } catch (error) {
+    // SAVE USER
+    localStorage.setItem(
+      "trinfely_user",
+      JSON.stringify(data.user)
+    );
   
-    console.log(error);
+    // SAVE TOKEN
+    localStorage.setItem(
+      "trinfely_token",
+      token
+    );
   
+    // GO DASHBOARD
     window.location.href =
-      "index.html";
+      "dashboard.html";
   
   }
+  
+  authenticate();
   
   </script>
 </body>
