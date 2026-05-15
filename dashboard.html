@@ -468,37 +468,41 @@ select {
 <div style="margin-top: -12px;" class="max-w-6xl mx-auto px-6 py-6 min-h-0 ">
 
   <!-- TOP BAR -->
-  <div class="flex items-center gap-4">
+  <div class="flex items-center justify-between mb-8">
 
-    <div class="w-12 h-12 overflow-hidden rounded-xl bg-red-50">
-  
-      <img
-        id="businessLogo"
-        src=""
-        alt="business"
-        class="w-full h-full object-cover"
-      />
-  
+    <!-- LEFT -->
+    <div class="flex items-center gap-4">
+
+      <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl overflow-hidden">
+    
+        <img
+          id="businessLogo"
+          src=""
+          alt="business"
+          class="w-full h-full object-cover"
+        />
+    
+      </div>
+    
+      <div>
+    
+        <p
+          id="greetingText"
+          class="text-sm text-gray-500"
+        >
+          Good evening
+        </p>
+    
+        <h1
+          id="businessName"
+          class="heading-font text-lg font-semibold text-gray-900"
+        >
+          Loading...
+        </h1>
+    
+      </div>
+    
     </div>
-  
-    <div>
-  
-      <p
-        class="text-sm text-gray-500"
-      >
-        Good evening
-      </p>
-  
-      <h1
-        id="businessName"
-        class="heading-font text-lg font-semibold text-gray-900"
-      >
-        Loading...
-      </h1>
-  
-    </div>
-  
-  </div>
 
     <!-- RIGHT -->
     <div class="flex items-center gap-4">
@@ -2283,142 +2287,106 @@ function toggleWalletBalance() {
 }
 
   </script>
-  <script>
+<script>
 
-    async function startDashboard() {
-    
-      // =========================
-      // GET TOKEN FROM URL
-      // =========================
-    
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-    
-      const token =
-        params.get("token");
-    
-      // =========================
-      // IF TOKEN EXISTS
-      // =========================
-    
-      if (token) {
-    
-        try {
-    
-          const response =
-            await fetch(
-              `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
-            );
-    
-          const data =
-            await response.json();
-    
-          console.log(data);
-    
-          // INVALID LOGIN
-          if (!data.success) {
-    
-            alert(
-              "Invalid login"
-            );
-    
-            window.location.href =
-              "index.html";
-    
-            return;
-    
-          }
-    
-          // SAVE USER
-          localStorage.setItem(
-            "trinfely_user",
-            JSON.stringify(data.user)
-          );
-    
-          // SAVE TOKEN
-          localStorage.setItem(
-            "trinfely_token",
-            token
-          );
-    
-          // REMOVE TOKEN FROM URL
-          window.history.replaceState(
-            {},
-            document.title,
-            "/dashboard.html"
-          );
-    
-        } catch (error) {
-    
-          console.log(error);
-    
-          alert(
-            "Login failed"
-          );
-    
-          return;
-    
-        }
-    
-      }
-    
-      // =========================
-      // GET SAVED USER
-      // =========================
-    
-      const savedUser =
-        localStorage.getItem(
-          "trinfely_user"
-        );
-    
-      // NO USER
-      if (!savedUser) {
-    
-        window.location.href =
-          "index.html";
-    
-        return;
-    
-      }
-    
-      // =========================
-      // USER DATA
-      // =========================
-    
-      const user =
-        JSON.parse(savedUser);
-    
-      console.log(
-        "CURRENT USER:",
-        user
+  async function startDashboard() {
+  
+    const params =
+      new URLSearchParams(
+        window.location.search
       );
-    
-      // =========================
-      // DISPLAY BUSINESS NAME
-      // =========================
-    
-      document.getElementById(
-        "businessName"
-      ).textContent =
-        user.business_name ||
-        "Business";
-    
-      // =========================
-      // DISPLAY BUSINESS LOGO
-      // =========================
-    
-      document.getElementById(
-        "businessLogo"
-      ).src =
-        user.business_logo ||
-        "https://placehold.co/100";
-    
+  
+    const token =
+      params.get("token");
+  
+    // LOGIN WITH TOKEN
+    if (token) {
+  
+      try {
+  
+        const response =
+          await fetch(
+            `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+          );
+  
+        const data =
+          await response.json();
+  
+        console.log(data);
+  
+        if (!data.success) {
+  
+          window.location.href =
+            "/trin001/index.html";
+  
+          return;
+  
+        }
+  
+        // SAVE USER
+        localStorage.setItem(
+          "trinfely_user",
+          JSON.stringify(data.user)
+        );
+  
+        // SAVE TOKEN
+        localStorage.setItem(
+          "trinfely_token",
+          token
+        );
+  
+        // VERY IMPORTANT FIX
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
+  
+      } catch (error) {
+  
+        console.log(error);
+  
+        return;
+  
+      }
+  
     }
-    
-    startDashboard();
-    
-    </script>
-</body>
+  
+    // GET USER
+    const savedUser =
+      localStorage.getItem(
+        "trinfely_user"
+      );
+  
+    if (!savedUser) {
+  
+      window.location.href =
+        "/trin001/index.html";
+  
+      return;
+  
+    }
+  
+    const user =
+      JSON.parse(savedUser);
+  
+    console.log(user);
+  
+    // DISPLAY NAME
+    document.getElementById(
+      "businessName"
+    ).textContent =
+      user.business_name;
+  
+    // DISPLAY LOGO
+    document.getElementById(
+      "businessLogo"
+    ).src =
+      user.business_logo;
+  
+  }
+  
+  startDashboard();
+  
+  </script></body>
 </html>
