@@ -499,7 +499,57 @@ select {
         >
           Loading...
         </h1>
-    
+       
+        
+        <script>
+
+          const savedUser =
+            JSON.parse(
+              localStorage.getItem("user")
+            );
+          
+          // NO USER
+          if (!savedUser) {
+          
+            window.location.href =
+              "/trin001/index.html";
+          
+          }
+          
+          // USER EMAIL
+          const email =
+            savedUser.email;
+          
+          // FETCH USER DATA
+          fetch(
+            `https://moma-api.victorpalmtrees001.workers.dev/get-user?email=${email}`
+          )
+          
+          .then(res => res.json())
+          
+          .then(data => {
+          
+            // BUSINESS NAME
+            document.getElementById(
+              "businessName"
+            ).textContent =
+              data.business_name;
+          
+            // BUSINESS LOGO
+            document.getElementById(
+              "businessLogo"
+            ).src =
+              data.business_logo;
+          
+          })
+          
+          .catch(error => {
+          
+            console.log(error);
+          
+          });
+          
+          </script>
       </div>
     
     </div>
@@ -2287,179 +2337,5 @@ function toggleWalletBalance() {
 }
 
   </script>
-<script>
-
-  const API_BASE =
-  "https://moma-api.victorpalmtrees001.workers.dev";
-  
-  // =========================================
-  // GET TOKEN FROM URL
-  // =========================================
-  
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-  
-  const token =
-    params.get("token");
-  
-  // =========================================
-  // LOGIN WITH TOKEN
-  // =========================================
-  
-  async function loginWithToken(loginToken) {
-  
-    try {
-  
-      const response = await fetch(
-        `${API_BASE}/verify-login?token=${loginToken}`
-      );
-  
-      const data =
-        await response.json();
-  
-      // INVALID TOKEN
-      if (!data.success) {
-  
-        localStorage.removeItem("user");
-        localStorage.removeItem("login_token");
-  
-        window.location.href =
-          "/index.html";
-  
-        return;
-  
-      }
-  
-      // SAVE USER
-      localStorage.setItem(
-        "user",
-        JSON.stringify(data.user)
-      );
-  
-      // SAVE TOKEN
-      localStorage.setItem(
-        "login_token",
-        loginToken
-      );
-  
-      // REMOVE TOKEN FROM URL
-      window.history.replaceState(
-        {},
-        document.title,
-        "/dashboard.html"
-      );
-  
-      displayUser();
-  
-    } catch (error) {
-  
-      console.log(error);
-  
-      localStorage.removeItem("user");
-      localStorage.removeItem("login_token");
-  
-      window.location.href =
-        "/index.html";
-  
-    }
-  
-  }
-  
-  // =========================================
-  // DISPLAY USER DATA
-  // =========================================
-  
-  function displayUser() {
-  
-    const savedUser =
-      JSON.parse(
-        localStorage.getItem("user")
-      );
-  
-    // NO USER
-    if (!savedUser) {
-  
-      window.location.href =
-        "/index.html";
-  
-      return;
-  
-    }
-  
-    // BUSINESS NAME
-    const businessNameEl =
-      document.getElementById(
-        "businessName"
-      );
-  
-    if (businessNameEl) {
-  
-      businessNameEl.textContent =
-        savedUser.business_name;
-  
-    }
-  
-    // BUSINESS LOGO
-    const businessLogoEl =
-      document.getElementById(
-        "businessLogo"
-      );
-  
-    if (
-      businessLogoEl &&
-      savedUser.business_logo
-    ) {
-  
-      businessLogoEl.src =
-        savedUser.business_logo;
-  
-    }
-  
-  }
-  
-  // =========================================
-  // INITIAL AUTH CHECK
-  // =========================================
-  
-  // LOGIN FROM EMAIL LINK
-  if (token) {
-  
-    loginWithToken(token);
-  
-  }
-  
-  // ALREADY LOGGED IN
-  else {
-  
-    const savedToken =
-      localStorage.getItem(
-        "login_token"
-      );
-  
-    const savedUser =
-      localStorage.getItem("user");
-  
-    // KEEP USER LOGGED IN
-    if (
-      savedToken &&
-      savedUser
-    ) {
-  
-      displayUser();
-  
-    }
-  
-    // NO SESSION
-    else {
-  
-      window.location.href =
-        "/index.html";
-  
-    }
-  
-  }
-  
-  </script></body>
+</body>
 </html>
