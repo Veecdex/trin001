@@ -2289,104 +2289,177 @@ function toggleWalletBalance() {
   </script>
 <script>
 
-  async function startDashboard() {
+  const API_BASE =
+  "https://moma-api.victorpalmtrees001.workers.dev";
   
-    const params =
-      new URLSearchParams(
-        window.location.search
+  // =========================================
+  // GET TOKEN FROM URL
+  // =========================================
+  
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+  
+  const token =
+    params.get("token");
+  
+  // =========================================
+  // LOGIN WITH TOKEN
+  // =========================================
+  
+  async function loginWithToken(loginToken) {
+  
+    try {
+  
+      const response = await fetch(
+        `${API_BASE}/verify-login?token=${loginToken}`
       );
   
-    const token =
-      params.get("token");
+      const data =
+        await response.json();
   
-    // LOGIN WITH TOKEN
-    if (token) {
+      // INVALID TOKEN
+      if (!data.success) {
   
-      try {
+        localStorage.removeItem("user");
+        localStorage.removeItem("login_token");
   
-        const response =
-          await fetch(
-            `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
-          );
-  
-        const data =
-          await response.json();
-  
-        console.log(data);
-  
-        if (!data.success) {
-  
-          window.location.href =
-            "/trin001/index.html";
-  
-          return;
-  
-        }
-  
-        // SAVE USER
-        localStorage.setItem(
-          "trinfely_user",
-          JSON.stringify(data.user)
-        );
-  
-        // SAVE TOKEN
-        localStorage.setItem(
-          "trinfely_token",
-          token
-        );
-  
-        // VERY IMPORTANT FIX
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname
-        );
-  
-      } catch (error) {
-  
-        console.log(error);
+        window.location.href =
+          "/index.html";
   
         return;
   
       }
   
-    }
-  
-    // GET USER
-    const savedUser =
-      localStorage.getItem(
-        "trinfely_user"
+      // SAVE USER
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
       );
   
+      // SAVE TOKEN
+      localStorage.setItem(
+        "login_token",
+        loginToken
+      );
+  
+      // REMOVE TOKEN FROM URL
+      window.history.replaceState(
+        {},
+        document.title,
+        "/dashboard.html"
+      );
+  
+      displayUser();
+  
+    } catch (error) {
+  
+      console.log(error);
+  
+      localStorage.removeItem("user");
+      localStorage.removeItem("login_token");
+  
+      window.location.href =
+        "/index.html";
+  
+    }
+  
+  }
+  
+  // =========================================
+  // DISPLAY USER DATA
+  // =========================================
+  
+  function displayUser() {
+  
+    const savedUser =
+      JSON.parse(
+        localStorage.getItem("user")
+      );
+  
+    // NO USER
     if (!savedUser) {
   
       window.location.href =
-        "/trin001/index.html";
+        "/index.html";
   
       return;
   
     }
   
-    const user =
-      JSON.parse(savedUser);
+    // BUSINESS NAME
+    const businessNameEl =
+      document.getElementById(
+        "businessName"
+      );
   
-    console.log(user);
+    if (businessNameEl) {
   
-    // DISPLAY NAME
-    document.getElementById(
-      "businessName"
-    ).textContent =
-      user.business_name;
+      businessNameEl.textContent =
+        savedUser.business_name;
   
-    // DISPLAY LOGO
-    document.getElementById(
-      "businessLogo"
-    ).src =
-      user.business_logo;
+    }
+  
+    // BUSINESS LOGO
+    const businessLogoEl =
+      document.getElementById(
+        "businessLogo"
+      );
+  
+    if (
+      businessLogoEl &&
+      savedUser.business_logo
+    ) {
+  
+      businessLogoEl.src =
+        savedUser.business_logo;
+  
+    }
   
   }
   
-  startDashboard();
+  // =========================================
+  // INITIAL AUTH CHECK
+  // =========================================
+  
+  // LOGIN FROM EMAIL LINK
+  if (token) {
+  
+    loginWithToken(token);
+  
+  }
+  
+  // ALREADY LOGGED IN
+  else {
+  
+    const savedToken =
+      localStorage.getItem(
+        "login_token"
+      );
+  
+    const savedUser =
+      localStorage.getItem("user");
+  
+    // KEEP USER LOGGED IN
+    if (
+      savedToken &&
+      savedUser
+    ) {
+  
+      displayUser();
+  
+    }
+  
+    // NO SESSION
+    else {
+  
+      window.location.href =
+        "/index.html";
+  
+    }
+  
+  }
   
   </script></body>
 </html>
