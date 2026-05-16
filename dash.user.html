@@ -22,6 +22,53 @@
     body{
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
+    .sidebar-btn{
+  transition: all .3s ease;
+}
+
+.active-sidebar{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.content-page{
+  display:none;
+  animation: fadeSwitch .35s ease;
+}
+
+.content-page.active-page{
+  display:block;
+}
+
+@keyframes fadeSwitch{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+/* STOP INPUT ZOOM ON MOBILE */
+@media screen and (max-width: 768px){
+
+input,
+textarea,
+select{
+  font-size: 16px !important;
+}
+
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+
   </style>
 
 </head>
@@ -94,7 +141,7 @@
     <div class="p-5">
   
       <!-- BRAND -->
-      <div class="flex items-center gap-3 mb-8 mt-2 lg:mt-0">
+      <div class="flex items-center  mb-8 mt-2 lg:mt-0">
   
         <img style="height: 72px; width: 82px;" src="TrinfelyLogo.png" alt="">
   
@@ -108,58 +155,90 @@
       </div>
   
       <!-- NAV -->
-      <nav class="space-y-2">
+<!-- NAV -->
+<nav class="space-y-2">
+    <div class="mt-8 mb-4 text-[12px] uppercase text-zinc-200 tracking-wider">
+        Navigation
+      </div>
+    <!-- SELL -->
+    <button 
+    id="sellTab"
+    onclick="switchTab('sell')"
+    class="sidebar-btn active-sidebar flex items-center gap-3 w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15 transition">
   
-        <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 transition">
-          <i data-lucide="credit-card" class="w-4 h-4 text-red-500"></i>
-          <span class="text-sm">Sell Gift Card</span>
-        </button>
+    <i data-lucide="credit-card" class="w-4 h-4 text-white-500"></i>
   
-        <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
-          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-          <span class="text-sm">Redeem Gift Card</span>
-        </button>
+    <span class="text-xs">Sell Gift Card</span>
   
-        <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
-          <i data-lucide="wallet" class="w-4 h-4"></i>
-          <span class="text-sm">Fund Wallet</span>
-        </button>
+  </button>
   
-      </nav>
+    <!-- REDEEM -->
+    <button 
+    id="redeemTab"
+    onclick="switchTab('redeem')"
+    class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
+  
+    <i data-lucide="refresh-cw" class="w-4 h-4 text-white-500"></i>
+  
+    <span class="text-xs">Redeem Gift Card</span>
+  
+  </button>
+  
+   <!-- WALLET -->
+<button 
+id="walletTab"
+onclick="switchTab('wallet')"
+class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
+
+<i data-lucide="wallet" class="w-4 h-4 text-white-500"></i>
+
+<span class="text-xs">Fund Wallet</span>
+
+</button>
+  
+  </nav>
   
       <!-- DIVIDER -->
-      <div class="mt-8 mb-4 text-[11px] uppercase text-zinc-500 tracking-wider">
+      <div class="mt-8 mb-4 text-[12px] uppercase text-zinc-200 tracking-wider">
         Invoices
       </div>
   
-      <!-- INVOICE LIST -->
-      <div class="space-y-2">
-  
-        <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
-          <p class="text-xs">Auto Invoice #001</p>
-          <p class="text-[10px] text-zinc-400 mt-1">Pending</p>
-        </div>
-  
-        <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
-          <p class="text-xs">Auto Invoice #002</p>
-          <p class="text-[10px] text-zinc-400 mt-1">Paid</p>
-        </div>
-  
-      </div>
-  
+   <!-- INVOICE LIST  -->
+<div class="space-y-2 max-h-56 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
+
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #001</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Pending</p>
     </div>
   
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #002</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Paid</p>
+    </div>
+  
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #003</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Paid</p>
+    </div>
+  
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #004</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Pending</p>
+    </div>
+  
+  </div>
+  
     <!-- BOTTOM -->
-    <div class="p-4 border-t border-zinc-800">
+    <div class="p-2 border-t border-zinc-800">
   
       <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
         <i data-lucide="settings" class="w-4 h-4"></i>
-        <span class="text-sm">Settings</span>
+        <span class="text-xs">Settings</span>
       </button>
   
       <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-red-500/10 transition text-red-400">
         <i data-lucide="log-out" class="w-4 h-4"></i>
-        <span class="text-sm">Logout</span>
+        <span class="text-xs">Logout</span>
       </button>
   
     </div>
@@ -167,8 +246,7 @@
   </aside>
 
 <!-- MAIN AREA -->
-<main class="flex-1 h-screen overflow-y-auto bg-zinc-50 relative overflow-x-hidden pt-24 lg:pt-6 p-4 lg:p-6">
-  <!-- TOP DASHBOARD CARDS -->
+<main class="flex-1 h-screen overflow-y-auto bg-zinc-50 relative overflow-x-hidden pt-24 lg:pt-6 p-4 lg:p-6 z-10"> <!-- TOP DASHBOARD CARDS -->
   <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-5 mb-6 relative z-10">
     <!-- LEFT CARD: BUSINESS PROFILE -->
     <div class="flex items-center justify-between bg-white rounded-2xl p-5 shadow-sm border border-zinc-200">
@@ -216,151 +294,499 @@
 
   </div>
 <!-- SELL GIFT CARD SECTION -->
-<div class="w-full mt-6 relative z-10 px-0 md:px-2 pb-10">
+<!-- PAGE CONTENT WRAPPER -->
+<div class="mt-6 relative z-10 pb-10">
+
+    <!-- SELL PAGE -->
+    <div id="sellPage" class="content-page active-page">
+
+        <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
+      
+          <!-- HEADER -->
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-8">
+      
+            <!-- LEFT -->
+            <div class="flex items-center gap-4">
+      
+              <div class="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center shrink-0">
+                <i data-lucide="tag" class="w-5 h-5 text-red-500"></i>
+              </div>
+      
+              <div>
+                <h2 class="text-2xl font-bold text-zinc-900">
+                  Sell a Gift Card
+                </h2>
+      
+                <p class="text-sm text-zinc-500 mt-1">
+                  Fill in the details to process a new gift card sale
+                </p>
+              </div>
+      
+            </div>
+      
+            <!-- STATS -->
+            <div class="w-full lg:min-w-[330px] bg-zinc-100 rounded-3xl p-5 border border-zinc-200">
+      
+              <div class="flex items-center justify-between mb-3">
+      
+                <div class="w-11 h-11 rounded-2xl bg-red-500 text-white flex items-center justify-center">
+                  <i data-lucide="gift" class="w-5 h-5"></i>
+                </div>
+      
+                <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+                  +12%
+                </span>
+      
+              </div>
+      
+              <p class="text-xs uppercase tracking-wider text-zinc-500 font-medium">
+                Gifts Sold Since Joined
+              </p>
+      
+              <h3 class="text-3xl font-bold text-zinc-900 mt-2">
+                1,284
+              </h3>
+      
+              <p class="text-sm text-zinc-500 mt-1">
+                Total successful gift card sales
+              </p>
+      
+            </div>
+      
+          </div>
+      
+          <!-- FORM -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      
+            <!-- SENDER -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                Sender Name
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="user"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <input 
+                  type="text"
+                  placeholder="Enter sender name"
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition">
+      
+              </div>
+      
+            </div>
+      
+            <!-- RECIPIENT -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+                Recipient Name
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="user-check"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <input 
+                  type="text"
+                  placeholder="Enter recipient name"
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition">
+      
+              </div>
+      
+            </div>
+      
+            <!-- DELIVERY -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+                Delivery Method
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="truck"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <select 
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition appearance-none">
+      
+                  <option>Instant Email</option>
+                  <option>SMS Delivery</option>
+                  <option>Manual Code</option>
+      
+                </select>
+      
+              </div>
+      
+            </div>
+      
+            <!-- AMOUNT -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="banknote" class="w-3.5 h-3.5"></i>
+                Gift Amount
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="banknote"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <input 
+                  type="number"
+                  placeholder="Enter amount"
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition">
+      
+              </div>
+      
+            </div>
+      
+          </div>
+      
+          <!-- MESSAGE -->
+          <div class="mt-5">
+      
+            <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+              <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+              Gift Message
+            </label>
+      
+            <div class="relative">
+      
+              <i data-lucide="message-square"
+                class="w-4 h-4 absolute left-4 top-5 text-zinc-400"></i>
+      
+              <textarea 
+                rows="5"
+                placeholder="Write a short message..."
+                class="w-full pl-12 pr-5 py-4 rounded-2xl border border-zinc-200 outline-none resize-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition"></textarea>
+      
+            </div>
+      
+          </div>
+      
+          <!-- BUTTON -->
+          <div class="mt-8 flex justify-end">
+      
+            <button class="h-14 px-8 rounded-2xl bg-red-500 hover:bg-red-600 text-white text-sm font-semibold flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-red-500/20">
+      
+              <i data-lucide="send" class="w-4 h-4"></i>
+              Sell Gift Card
+      
+            </button>
+      
+          </div>
+      
+        </div>
+      
+      </div>
+  
+    <!-- REDEEM PAGE -->
+    <div id="redeemPage" class="content-page">
+  
+      <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
+  
+        <!-- TOP -->
+        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-8">
+  
+          <!-- LEFT -->
+          <div class="flex items-center gap-4">
+  
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center shrink-0">
+              <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-500"></i>
+            </div>
+  
+            <div>
+              <h2 class="text-2xl font-bold text-zinc-900">
+                Redeem Gift Card
+              </h2>
+  
+              <p class="text-sm text-zinc-500 mt-1">
+                Redeem existing branded gift cards instantly
+              </p>
+            </div>
+  
+          </div>
+  
+          <!-- RIGHT CARD -->
+          <div class="w-full lg:min-w-[330px] bg-zinc-100 rounded-3xl p-5 border border-zinc-200">
+  
+            <div class="flex items-center justify-between mb-3">
+  
+              <div class="w-11 h-11 rounded-2xl bg-blue-500 text-white flex items-center justify-center">
+                <i data-lucide="badge-check" class="w-5 h-5"></i>
+              </div>
+  
+              <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+                +8%
+              </span>
+  
+            </div>
+  
+            <p class="text-xs uppercase tracking-wider text-zinc-500 font-medium">
+              Redeemed Since Joined
+            </p>
+  
+            <h3 class="text-3xl font-bold text-zinc-900 mt-2">
+              842
+            </h3>
+  
+            <p class="text-sm text-zinc-500 mt-1">
+              Successfully redeemed gift cards
+            </p>
+  
+          </div>
+  
+        </div>
+  
+        <!-- SEARCH -->
+        <div class="relative mb-5">
+  
+          <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+  
+          <input 
+            type="text"
+            placeholder="Search gift cards..."
+            class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none">
+  
+        </div>
+  
+        <!-- GIFT CODE -->
+        <div>
+  
+          <label class="text-sm font-medium text-zinc-700 mb-3 block">
+            Gift Card Code
+          </label>
+  
+          <div class="relative">
+  
+            <input 
+              id="giftCodeInput"
+              type="password"
+              value="TRINFELLY-28383-9282"
+              class="w-full h-14 px-5 pr-14 rounded-2xl border border-zinc-200 outline-none text-lg tracking-wider font-semibold">
+  
+            <button 
+              onclick="toggleGiftCode()"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500">
+  
+              <i data-lucide="eye" id="giftEye" class="w-5 h-5"></i>
+  
+            </button>
+  
+          </div>
+  
+          <p class="text-sm text-zinc-500 mt-3">
+            Enter a valid branded gift card code to redeem funds into your wallet.
+          </p>
+  
+        </div>
+  
+        <!-- BUTTON -->
+        <div class="mt-8 flex justify-end">
+  
+          <button class="h-14 px-8 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold flex items-center gap-2 transition">
+  
+            <i data-lucide="badge-check" class="w-4 h-4"></i>
+            Redeem Gift Card
+  
+          </button>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>
+  <!-- WALLET PAGE -->
+<div id="walletPage" class="content-page">
 
     <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
   
-      <!-- TOP HEADER -->
+      <!-- TOP -->
       <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-8">
   
         <!-- LEFT -->
         <div class="flex items-center gap-4">
   
-          <div class="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center shrink-0">
-            <i data-lucide="tag" class="w-5 h-5 text-red-500"></i>
+          <div class="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center shrink-0">
+            <i data-lucide="wallet" class="w-5 h-5 text-green-500"></i>
           </div>
   
           <div>
-            <h2 class="text-2xl font-bold text-zinc-900 tracking-tight">
-              Sell a Gift Card
+            <h2 class="text-2xl font-bold text-zinc-900">
+              Fund Wallet
             </h2>
   
             <p class="text-sm text-zinc-500 mt-1">
-              Fill in the details to process a new gift card sale
+              Add money securely into your Trinfelly wallet
             </p>
           </div>
   
         </div>
-    
-        <!-- RIGHT STATS CARD -->
+  
+        <!-- BALANCE CARD -->
         <div class="w-full lg:min-w-[330px] bg-zinc-100 rounded-3xl p-5 border border-zinc-200">
   
           <div class="flex items-center justify-between mb-3">
   
-            <div class="w-11 h-11 rounded-2xl bg-red-500 text-white flex items-center justify-center">
-              <i data-lucide="gift" class="w-5 h-5"></i>
+            <div class="w-11 h-11 rounded-2xl bg-green-500 text-white flex items-center justify-center">
+              <i data-lucide="badge-dollar-sign" class="w-5 h-5"></i>
             </div>
   
             <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
-              +12%
+              LIVE
             </span>
   
           </div>
   
           <p class="text-xs uppercase tracking-wider text-zinc-500 font-medium">
-            Gifts Sold Since Joined
+            Current Wallet Balance
           </p>
   
           <h3 class="text-3xl font-bold text-zinc-900 mt-2">
-            1,284
+            ₦25,000
           </h3>
   
           <p class="text-sm text-zinc-500 mt-1">
-            Total successful gift card sales
+            Available balance for transactions
           </p>
   
         </div>
   
       </div>
   
-      <!-- FORM GRID -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-  
-        <!-- SENDER NAME -->
-        <div>
-          <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
-            <i data-lucide="user" class="w-3.5 h-3.5"></i>
-            Sender Name
-          </label>
-  
-          <input 
-            type="text" 
-            placeholder="Enter sender name"
-            class="w-full h-14 px-5 rounded-2xl border border-zinc-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none text-sm transition"
-          />
-        </div>
-  
-        <!-- RECEIVER NAME -->
-        <div>
-          <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
-            <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-            Recipient Name
-          </label>
-  
-          <input 
-            type="text" 
-            placeholder="Enter recipient name"
-            class="w-full h-14 px-5 rounded-2xl border border-zinc-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none text-sm transition"
-          />
-        </div>
-  
-        <!-- DELIVERY TYPE -->
-        <div>
-          <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
-            <i data-lucide="truck" class="w-3.5 h-3.5"></i>
-            Delivery Method
-          </label>
-  
-          <select
-            class="w-full h-14 px-5 rounded-2xl border border-zinc-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none text-sm bg-white transition">
-  
-            <option>Instant Email</option>
-            <option>SMS Delivery</option>
-            <option>Manual Code</option>
-  
-          </select>
-        </div>
-  
-        <!-- GIFT AMOUNT -->
-        <div>
-          <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
-            <i data-lucide="banknote" class="w-3.5 h-3.5"></i>
-            Gift Amount
-          </label>
-  
-          <input 
-            type="number" 
-            placeholder="Enter amount"
-            class="w-full h-14 px-5 rounded-2xl border border-zinc-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none text-sm transition"
-          />
-        </div>
-  
-      </div>
-  
-      <!-- MESSAGE -->
-      <div class="mt-5">
+      <!-- AMOUNT -->
+      <div>
   
         <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
-          <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
-          Gift Message
+          <i data-lucide="banknote" class="w-3.5 h-3.5"></i>
+          Funding Amount
         </label>
   
-        <textarea 
-          rows="5" 
-          placeholder="Write a short message..."
-          class="w-full px-5 py-4 rounded-2xl border border-zinc-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none text-sm resize-none transition"></textarea>
+        <div class="relative">
+  
+          <i 
+            data-lucide="banknote"
+            class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400">
+          </i>
+  
+          <input 
+            type="number"
+            min="5000"
+            placeholder="Minimum ₦5,000"
+            class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition">
+  
+        </div>
+  
+        <p class="text-sm text-zinc-500 mt-3">
+          Minimum wallet funding amount is ₦5,000.
+        </p>
   
       </div>
   
-      <!-- SUBMIT -->
+      <!-- BUTTON -->
       <div class="mt-8 flex justify-end">
   
-        <button class="h-14 px-8 rounded-2xl bg-red-500 hover:bg-red-600 text-white text-sm font-semibold flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-red-500/20">
+        <button class="h-14 px-8 rounded-2xl bg-green-500 hover:bg-green-600 text-white text-sm font-semibold flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-green-500/20">
   
-          <i data-lucide="send" class="w-4 h-4"></i>
-          Sell Gift Card
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          Fund Wallet
   
         </button>
+  
+      </div>
+  
+      <!-- TRANSACTIONS -->
+      <div class="mt-10">
+  
+        <!-- TOP -->
+        <div class="flex items-center justify-between mb-5">
+  
+          <div>
+            <h3 class="text-lg font-semibold text-zinc-900">
+              Transaction History
+            </h3>
+  
+            <p class="text-sm text-zinc-500">
+              Recent wallet funding activities
+            </p>
+          </div>
+  
+          <button class="w-11 h-11 rounded-2xl border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 transition">
+            <i data-lucide="history" class="w-5 h-5 text-zinc-700"></i>
+          </button>
+  
+        </div>
+  
+        <!-- LIST -->
+        <div class="space-y-3">
+  
+          <!-- ITEM -->
+          <div class="flex items-center justify-between p-4 rounded-2xl border border-zinc-200">
+  
+            <div class="flex items-center gap-3">
+  
+              <div class="w-11 h-11 rounded-2xl bg-green-500/10 flex items-center justify-center">
+                <i data-lucide="arrow-down-circle" class="w-5 h-5 text-green-500"></i>
+              </div>
+  
+              <div>
+                <h4 class="text-sm font-semibold text-zinc-900">
+                  Wallet Funding
+                </h4>
+  
+                <p class="text-xs text-zinc-500 mt-1">
+                  May 16, 2026
+                </p>
+              </div>
+  
+            </div>
+  
+            <h3 class="text-sm font-bold text-green-600">
+              +₦15,000
+            </h3>
+  
+          </div>
+  
+          <!-- ITEM -->
+          <div class="flex items-center justify-between p-4 rounded-2xl border border-zinc-200">
+  
+            <div class="flex items-center gap-3">
+  
+              <div class="w-11 h-11 rounded-2xl bg-red-500/10 flex items-center justify-center">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-red-500"></i>
+              </div>
+  
+              <div>
+                <h4 class="text-sm font-semibold text-zinc-900">
+                  Gift Card Purchase
+                </h4>
+  
+                <p class="text-xs text-zinc-500 mt-1">
+                  May 15, 2026
+                </p>
+              </div>
+  
+            </div>
+  
+            <h3 class="text-sm font-bold text-red-500">
+              -₦5,000
+            </h3>
+  
+          </div>
+  
+        </div>
   
       </div>
   
@@ -441,6 +867,156 @@
   
       lucide.createIcons();
     }
+    
+
+// TOGGLE GIFT CODE
+let giftHidden = true;
+
+function toggleGiftCode(){
+
+const input = document.getElementById("giftCodeInput");
+const eye = document.getElementById("giftEye");
+
+giftHidden = !giftHidden;
+
+if(giftHidden){
+
+  input.type = "password";
+  eye.setAttribute("data-lucide","eye");
+
+} else {
+
+  input.type = "text";
+  eye.setAttribute("data-lucide","eye-off");
+
+}
+
+lucide.createIcons();
+}
   </script>
+
+<script>
+    function switchTab(tab){
+    
+      const sellPage = document.getElementById("sellPage");
+      const redeemPage = document.getElementById("redeemPage");
+      const walletPage = document.getElementById("walletPage");
+    
+      const sellTab = document.getElementById("sellTab");
+      const redeemTab = document.getElementById("redeemTab");
+      const walletTab = document.getElementById("walletTab");
+    
+      // RESET BUTTONS
+      document.querySelectorAll(".sidebar-btn").forEach(btn => {
+    
+        btn.classList.remove(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
+    
+        const icon = btn.querySelector("i");
+    
+        if(icon){
+    
+          icon.classList.remove(
+            "text-red-500",
+            "text-blue-500",
+            "text-green-500"
+          );
+    
+          icon.classList.add("text-white");
+    
+        }
+    
+      });
+    
+      // HIDE PAGES
+      document.querySelectorAll(".content-page").forEach(page => {
+        page.classList.remove("active-page");
+      });
+    
+      // SELL
+      if(tab === "sell"){
+    
+        sellPage.classList.add("active-page");
+    
+        sellTab.classList.add(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
+    
+        const icon = sellTab.querySelector("i");
+    
+        icon.classList.remove("text-white");
+        icon.classList.add("text-red-500");
+    
+      }
+    
+      // REDEEM
+      if(tab === "redeem"){
+    
+        redeemPage.classList.add("active-page");
+    
+        redeemTab.classList.add(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
+    
+        const icon = redeemTab.querySelector("i");
+    
+        icon.classList.remove("text-white");
+        icon.classList.add("text-blue-500");
+    
+      }
+    
+      // WALLET
+      if(tab === "wallet"){
+    
+        walletPage.classList.add("active-page");
+    
+        walletTab.classList.add(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
+    
+        const icon = walletTab.querySelector("i");
+    
+        icon.classList.remove("text-white");
+        icon.classList.add("text-green-500");
+    
+      }
+    
+      // MOBILE AUTO CLOSE
+      if(window.innerWidth < 1024){
+    
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const menuIcon = document.getElementById("menuIcon");
+    
+        sidebar.classList.add("-translate-x-full");
+    
+        overlay.classList.add("opacity-0");
+    
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+        }, 300);
+    
+        menuIcon.setAttribute("data-lucide", "menu");
+    
+        sidebarOpen = false;
+    
+      }
+    
+      lucide.createIcons();
+    }
+    </script>
 </body>
 </html>
