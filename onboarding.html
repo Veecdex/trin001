@@ -363,7 +363,7 @@ let currentToken = null;
 
       const response =
         await fetch(
-          `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
+          `https://moma-api.victorpalmtrees001.workers.dev/?token=${verifyData.token}`
         );
 
       const data =
