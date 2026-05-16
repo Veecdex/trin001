@@ -294,116 +294,7 @@
 
 </body>
 <script>
-let currentUser = null;
-let currentToken = null;
-    const logoUpload =
-      document.getElementById(
-        "logoUpload"
-      );
-    
-    const previewImage =
-      document.getElementById(
-        "previewImage"
-      );
-    
-    const imageInfo =
-      document.getElementById(
-        "imageInfo"
-      );
-    
-    const imageName =
-      document.getElementById(
-        "imageName"
-      );
-    
-    const imageSize =
-      document.getElementById(
-        "imageSize"
-      );
-    
-    const defaultUploadIcon =
-      document.getElementById(
-        "defaultUploadIcon"
-      );
-    
-    const uploadTitle =
-      document.getElementById(
-        "uploadTitle"
-      );
-    
-    const uploadText =
-      document.getElementById(
-        "uploadText"
-      );
-      window.addEventListener(
-  "DOMContentLoaded",
-  async () => {
 
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    const token =
-      params.get("token");
-
-    // NO TOKEN
-    if (!token) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-
-    }
-
-    currentToken = token;
-
-    try {
-
-      const response =
-        await fetch(
-          `https://moma-api.victorpalmtrees001.workers.dev/verify-login?token=${token}`
-        );
-
-      const data =
-        await response.json();
-
-      // INVALID SESSION
-      if (!data.success) {
-
-        window.location.href =
-          "login.html";
-
-        return;
-
-      }
-
-      currentUser =
-        data.user;
-
-      // USER READY FOR DASHBOARD
-      if (
-        data.redirectTo ===
-        "dashboard"
-      ) {
-
-        window.location.href =
-          `dashboard.html?token=${token}`;
-
-      }
-
-    } catch (error) {
-
-      console.log(error);
-
-      window.location.href =
-        "login.html";
-
-    }
-
-  }
-);
     
     // IMAGE PREVIEW
     
@@ -569,11 +460,6 @@ document
         return;
 
       }
-
-      // DESTROY TOKEN
-      await fetch(
-        `https://moma-api.victorpalmtrees001.workers.dev/logout-token?token=${currentToken}`
-      );
 
       // GO DASHBOARD
       window.location.href =

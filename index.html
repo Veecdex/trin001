@@ -720,7 +720,7 @@ emailModal.addEventListener(
 });
 
 /* =========================================
-   LOGIN (MAGIC LINK)
+   LOGIN OTP
 ========================================= */
 
 const loginForm =
@@ -746,32 +746,31 @@ loginForm.addEventListener(
 
     try {
 
-      // LOADING STATE
       submitBtn.disabled = true;
 
       submitBtn.innerHTML = `
         <div class="flex items-center justify-center gap-2">
           <i class="fa-solid fa-spinner fa-spin"></i>
-          Checking Account...
+          Sending OTP...
         </div>
       `;
 
-      // SEND LOGIN LINK REQUEST
-      const response = await fetch(
-        `${API_BASE}/send-login-link`,
-        {
-          method: "POST",
+      const response =
+        await fetch(
+          `${API_BASE}/send-login-otp`,
+          {
+            method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
 
-          body: JSON.stringify({
-            email
-          })
-        }
-      );
+            body: JSON.stringify({
+              email
+            })
+          }
+        );
 
       const data =
         await response.json();
@@ -779,105 +778,212 @@ loginForm.addEventListener(
       if (!response.ok) {
 
         throw new Error(
-          data.message ||
-          "Something went wrong"
+          data.message
         );
 
       }
 
-      // SUCCESS MODAL
+      // SHOW OTP UI
       document.body.insertAdjacentHTML(
         "beforeend",
         `
         <div
-        id="magicLinkModal"
+        id="otpModal"
         class="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-md flex items-center justify-center p-5">
 
           <div
           class="modalContent w-full max-w-md bg-white rounded-[2rem] p-7 shadow-2xl text-center relative">
 
-            <!-- CLOSE -->
             <button
-            id="closeMagicModal"
-            class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-all duration-300">
+            id="closeOtpModal"
+            class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100">
 
-              <i class="fa-solid fa-xmark text-gray-600"></i>
+              <i class="fa-solid fa-xmark"></i>
 
             </button>
 
-            <!-- ICON -->
             <div class="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
-              <i class="fa-solid fa-link text-4xl text-red-600"></i>
+              <i class="fa-solid fa-shield-halved text-4xl text-red-600"></i>
             </div>
 
-            <!-- TITLE -->
             <h2 class="text-3xl font-extrabold text-gray-900 mb-3">
-              Check Your Email
+              Enter OTP
             </h2>
 
-            <!-- MESSAGE -->
-            <p class="text-gray-500 leading-relaxed text-sm mb-6">
-
-              If a registered business account exists for:
-
-              <br><br>
-
-              <span class="font-bold text-gray-900 break-all">
-                ${email}
-              </span>
-
-              <br><br>
-
-              you'll receive an access link shortly.
-
+            <p class="text-gray-500 text-sm mb-5">
+              Enter the 6-digit code sent to your email.
             </p>
+            <div
+  id="otpTimer"
+  class="mb-4 text-sm font-bold text-red-600"
+>
+  OTP expires in 20s
+</div>
+            <input
+              type="text"
+              id="otpInput"
+              maxlength="6"
+              placeholder="000000"
+              class="w-full h-16 rounded-2xl border border-gray-200 text-center text-3xl tracking-[12px] font-bold outline-none"
+            >
+
+            <button
+              id="verifyOtpBtn"
+              class="w-full h-14 rounded-2xl bg-red-600 text-white font-bold mt-5"
+            >
+              Verify OTP
+            </button>
 
           </div>
 
         </div>
         `
       );
+// =========================================
+// OTP COUNTDOWN
+// =========================================
 
-      // MODAL REFERENCES
-      const magicLinkModal =
-        document.getElementById(
-          "magicLinkModal"
-        );
+let timeLeft = 20;
 
-      const closeMagicModal =
-        document.getElementById(
-          "closeMagicModal"
-        );
+const otpTimer =
+  document.getElementById(
+    "otpTimer"
+  );
 
-      // RESET FUNCTION
-      function resetMagicModal() {
+const verifyOtpBtn =
+  document.getElementById(
+    "verifyOtpBtn"
+  );
 
-        magicLinkModal.remove();
+const otpCountdown =
+  setInterval(() => {
 
-        loginForm.reset();
+    timeLeft--;
 
-      }
+    otpTimer.innerHTML =
+      `OTP expires in ${timeLeft}s`;
 
-      // CLOSE BUTTON
-      closeMagicModal.addEventListener(
-        "click",
-        resetMagicModal
+    // WARNING COLORS
+    if (timeLeft <= 10) {
+
+      otpTimer.classList.remove(
+        "text-red-600"
       );
 
-      // CLICK OUTSIDE
-      magicLinkModal.addEventListener(
+      otpTimer.classList.add(
+        "text-orange-500"
+      );
+
+    }
+
+    if (timeLeft <= 5) {
+
+      otpTimer.classList.remove(
+        "text-orange-500"
+      );
+
+      otpTimer.classList.add(
+        "text-red-700"
+      );
+
+    }
+
+    // EXPIRED
+    if (timeLeft <= 0) {
+
+      clearInterval(
+        otpCountdown
+      );
+
+      otpTimer.innerHTML =
+        "OTP Expired";
+
+      verifyOtpBtn.disabled = true;
+
+      verifyOtpBtn.classList.add(
+        "opacity-50",
+        "cursor-not-allowed"
+      );
+
+    }
+
+  }, 1000);
+      // VERIFY OTP
+      document
+      .getElementById(
+        "verifyOtpBtn"
+      )
+      .addEventListener(
         "click",
-        (e) => {
+        async () => {
 
-          if (
-            !e.target.closest(
-              ".modalContent"
+          const otp =
+            document
+            .getElementById(
+              "otpInput"
             )
-          ) {
+            .value
+            .trim();
 
-            resetMagicModal();
+          const verifyResponse =
+            await fetch(
+              `${API_BASE}/verify-login-otp`,
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+                  email,
+                  otp
+                })
+              }
+            );
+
+          const verifyData =
+            await verifyResponse.json();
+
+          if (!verifyResponse.ok) {
+
+            showToast(
+              verifyData.message,
+              "error"
+            );
+
+            return;
 
           }
+
+          // SAVE TOKEN
+          localStorage.setItem(
+            "login_token",
+            verifyData.token
+          );
+
+          // REDIRECT
+          window.location.href =
+            `https://veecdex.github.io/trin001/${verifyData.redirectTo}?token=${verifyData.token}`;
+
+        }
+      );
+
+      // CLOSE MODAL
+      document
+      .getElementById(
+        "closeOtpModal"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document
+          .getElementById(
+            "otpModal"
+          )
+          .remove();
 
         }
       );
@@ -891,11 +997,10 @@ loginForm.addEventListener(
 
     } finally {
 
-      // RESET BUTTON
       submitBtn.disabled = false;
 
       submitBtn.innerHTML =
-        "Get Link";
+        "Get OTP";
 
     }
 
