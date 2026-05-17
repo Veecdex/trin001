@@ -537,28 +537,28 @@ return;
 
             body: JSON.stringify({
 
-              email:
-                currentUser.email,
+token:
+  currentToken,
 
-              businessLocation:
-                document.getElementById(
-                  "businessLocation"
-                ).value,
+businessLocation:
+  document.getElementById(
+    "businessLocation"
+  ).value,
 
-              businessIndustry:
-                document.getElementById(
-                  "businessIndustry"
-                ).value,
+businessIndustry:
+  document.getElementById(
+    "businessIndustry"
+  ).value,
 
-              storeAddress:
-                document.getElementById(
-                  "storeAddress"
-                ).value,
+storeAddress:
+  document.getElementById(
+    "storeAddress"
+  ).value,
 
-              businessLogo:
-                compressedLogo
+businessLogo:
+  compressedLogo
 
-            })
+})
 
           }
         );
