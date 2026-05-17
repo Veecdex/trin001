@@ -357,7 +357,7 @@ textarea {
             type="submit"
             class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-300 shadow-lg shadow-red-600/20"
           >
-            Get Link
+            Get OTP
           </button>
         </form>
 
@@ -817,7 +817,7 @@ loginForm.addEventListener(
   id="otpTimer"
   class="mb-4 text-sm font-bold text-red-600"
 >
-  OTP expires in 20s
+  OTP expires in 60s
 </div>
             <input
               type="text"
@@ -843,7 +843,7 @@ loginForm.addEventListener(
 // OTP COUNTDOWN
 // =========================================
 
-let timeLeft = 20;
+let timeLeft = 60;
 
 const otpTimer =
   document.getElementById(
@@ -908,67 +908,136 @@ const otpCountdown =
     }
 
   }, 1000);
-      // VERIFY OTP
-      document
-      .getElementById(
-        "verifyOtpBtn"
-      )
-      .addEventListener(
-        "click",
-        async () => {
+  const otpInput =
+  document.getElementById(
+    "otpInput"
+  );
 
-          const otp =
-            document
-            .getElementById(
-              "otpInput"
-            )
-            .value
-            .trim();
+let verifyingOtp = false;
 
-          const verifyResponse =
-            await fetch(
-              `${API_BASE}/verify-login-otp`,
-              {
-                method: "POST",
+otpInput.addEventListener(
+  "input",
+  async () => {
 
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
+    // numbers only
+    otpInput.value =
+      otpInput.value
+      .replace(/\D/g, "");
 
-                body: JSON.stringify({
-                  email,
-                  otp
-                })
-              }
-            );
+    const otp =
+      otpInput.value.trim();
 
-          const verifyData =
-            await verifyResponse.json();
+    // wait until 6 digits
+    if (
+      otp.length !== 6 ||
+      verifyingOtp
+    ) {
+      return;
+    }
 
-          if (!verifyResponse.ok) {
+    verifyingOtp = true;
 
-            showToast(
-              verifyData.message,
-              "error"
-            );
+    // LOADER UI
+    verifyOtpBtn.disabled = true;
 
-            return;
+    verifyOtpBtn.innerHTML = `
+      <div class="flex items-center justify-center gap-2">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Verifying...
+      </div>
+    `;
 
+    try {
+
+      const verifyResponse =
+        await fetch(
+          `${API_BASE}/verify-login-otp`,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              email,
+              otp
+            })
           }
+        );
 
-          // SAVE TOKEN
-          localStorage.setItem(
-            "login_token",
-            verifyData.token
+      const verifyData =
+        await verifyResponse.json();
+
+      if (!verifyResponse.ok) {
+
+        showToast(
+          verifyData.message,
+          "error"
+        );
+
+        otpInput.value = "";
+
+        verifyOtpBtn.disabled = false;
+
+        verifyOtpBtn.innerHTML =
+          "Verify OTP";
+
+        verifyingOtp = false;
+
+        // CLOSE IF TOO MANY ATTEMPTS
+        if (
+          verifyResponse.status === 403
+        ) {
+
+          clearInterval(
+            otpCountdown
           );
 
-          // REDIRECT
-          window.location.href =
-            `https://veecdex.github.io/trin001/${verifyData.redirectTo}?token=${verifyData.token}`;
+          otpTimer.innerHTML =
+            "OTP Locked";
+
+          otpInput.disabled = true;
+
+          verifyOtpBtn.disabled = true;
 
         }
+
+        return;
+
+      }
+
+      // SAVE TOKEN
+      localStorage.setItem(
+        "login_token",
+        verifyData.token
       );
+
+      // REDIRECT
+      window.location.href =
+        `https://veecdex.github.io/trin001/${verifyData.redirectTo}?token=${verifyData.token}`;
+
+    } catch (error) {
+
+      showToast(
+        "Verification failed",
+        "error"
+      );
+
+      otpInput.value = "";
+
+      verifyOtpBtn.disabled = false;
+
+      verifyOtpBtn.innerHTML =
+        "Verify OTP";
+
+      verifyingOtp = false;
+
+    }
+
+  }
+);
 
       // CLOSE MODAL
       document
