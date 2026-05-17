@@ -389,8 +389,7 @@ let currentToken = null;
       ) {
 
         window.location.href =
-          `dashboard.html?token=${token}`;
-
+  `dashboard.html?token=${currentToken}`;
       }
 
     } catch (error) {
@@ -498,13 +497,18 @@ document
       const file =
         logoUpload.files[0];
 
-      if (!file) {
+        if (!file) {
 
-        alert("Please upload logo");
+alert("Please upload logo");
 
-        return;
+continueBtn.disabled = false;
 
-      }
+continueBtn.innerHTML =
+  "Continue To Dashboard";
+
+return;
+
+}
 
       // =========================
       // COMPRESS IMAGE TO 50KB
@@ -572,7 +576,7 @@ document
 
       // GO DASHBOARD
       window.location.href =
-  `dashboard.html?token=${token}`;
+  `dashboard.html?token=${currentToken}`;
 
     } catch (error) {
 
