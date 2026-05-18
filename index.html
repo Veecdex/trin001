@@ -1008,16 +1008,91 @@ otpInput.addEventListener(
 
       }
 
-      // SAVE TOKEN
-      localStorage.setItem(
-        "login_token",
-        verifyData.token
-      );
+   // =========================================
+// SUCCESS UI FLOW
+// =========================================
 
-      // REDIRECT
-      window.location.href =
-        `https://veecdex.github.io/trin001/${verifyData.redirectTo}?token=${verifyData.token}`;
+// stop countdown completely
+clearInterval(otpCountdown);
 
+// remove modal smoothly
+const otpModal =
+  document.getElementById(
+    "otpModal"
+  );
+
+otpModal.style.opacity = "0";
+
+otpModal.style.transform =
+  "scale(.95)";
+
+otpModal.style.transition =
+  "all .25s ease";
+
+setTimeout(() => {
+
+  otpModal.remove();
+
+}, 250);
+
+// SAVE TOKEN
+localStorage.setItem(
+  "login_token",
+  verifyData.token
+);
+
+// FULLSCREEN PRELOADER
+document.body.insertAdjacentHTML(
+  "beforeend",
+  `
+  <div
+    id="redirectLoader"
+    class="fixed inset-0 z-[999999] bg-white flex flex-col items-center justify-center"
+  >
+
+    <!-- spinning ring -->
+    <div class="relative w-24 h-24 mb-6">
+
+      <div
+        class="absolute inset-0 rounded-full border-[6px] border-red-100"
+      ></div>
+
+      <div
+        class="absolute inset-0 rounded-full border-[6px] border-red-600 border-t-transparent animate-spin"
+      ></div>
+
+    </div>
+
+    <!-- logo -->
+    <img
+      src="images/TrinfelyLogo.png"
+      class="w-40 object-contain mb-5"
+    >
+
+    <!-- text -->
+    <h2
+      class="text-2xl font-extrabold text-gray-900 mb-2"
+    >
+      Login Successful
+    </h2>
+
+    <p
+      class="text-gray-500 text-sm"
+    >
+      Preparing your workspace...
+    </p>
+
+  </div>
+  `
+);
+
+// redirect shortly after loader appears
+setTimeout(() => {
+
+  window.location.href =
+    `https://veecdex.github.io/trin001/${verifyData.redirectTo}?token=${verifyData.token}`;
+
+}, 1800);
     } catch (error) {
 
       showToast(
