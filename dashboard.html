@@ -1,2328 +1,1247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Dashboard</title>
+<title>Trinfelly Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Tailwind -->
+
+<!-- TAILWIND CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Modern Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-
-<!-- Lucide Icons -->
+<!-- LUCIDE ICONS -->
 <script src="https://unpkg.com/lucide@latest"></script>
-<script>
-  // If not coming from preloader, redirect to it
-  if (!sessionStorage.getItem("loadedFromPreloader")) {
-    sessionStorage.setItem("redirectAfterLoad", "dashboard.html");
-    window.location.href = "preloader.html";
-  } else {
-    // Reset so refresh triggers preloader again
-    sessionStorage.removeItem("loadedFromPreloader");
-  }
-</script>
-<style>
-  @keyframes fintechShake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-6px); }
-    40% { transform: translateX(6px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
-  }
-  
-  .shake {
-    animation: fintechShake 0.45s ease;
-  }
-  </style>
-<style>
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #fbfbfb;
-    zoom: 0.85;
-  }
 
-  .heading-font {
-    font-family: 'Space Grotesk', sans-serif;
-  }
- 
-  /* Hide scrollbar for Chrome, Safari, Edge */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+<!-- REPLACE YOUR CURRENT <style> WITH THIS -->
+  <style>
 
-  /* Hide scrollbar for Firefox */
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
+body{
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    
+    }
+    .sidebar-btn{
+  transition: all .3s ease;
+}
 
-  /* Hide scrollbar for IE & old Edge */
-  .no-scrollbar {
-    -ms-overflow-style: none;
+.active-sidebar{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.content-page{
+  display:none;
+  animation: fadeSwitch .35s ease;
+}
+
+.content-page.active-page{
+  display:block;
+}
+
+@keyframes fadeSwitch{
+  from{
+    opacity:0;
+    transform:translateY(10px);
   }
-  @media (max-width: 1070px) {
-  #giftWidget1,
-  #giftWidget2 {
-    display: none !important;
+  to{
+    opacity:1;
+    transform:translateY(0);
   }
 }
-@media (max-width: 1190px) {
-
-html {
-  font-size: 14px ; /* 👈 scales EVERYTHING proportionally */
-  
-}
-
-.max-w-6xl {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-}
-@media (max-width: 750px) {
-
-/* target ALL cards instead of ID */
-.mb-24 .rounded-3xl {
-  box-shadow: none !important;
-}
-
-/* specifically kill Tailwind shadows */
-.shadow-sm,
-.shadow-xl {
-  box-shadow: none !important;
-}
-
-}
-
-/* DEFAULT: mobile (bottom nav) */
-.custom-nav {
-  bottom: 0.25rem;
-  top: auto;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 28rem;
-  padding: 0 1rem;
-}
-
-.custom-nav-inner {
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-/* DESKTOP: sidebar only above 1025px */
-@media (min-width: 1200px) {
-  .custom-nav {
-    top: 50%;
-    left: 1rem;
-    bottom: 1;
-    transform: translateY(-50%);
-    width: auto;
-    max-width: none;
-    padding: 0;
-  }
-
-  .custom-nav-inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-  }
-}
-
-/* MOBILE / TABLET: show 2 cards + scroll */
-.cards-wrapper {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-}
-
-.cards-wrapper > div {
-  min-width: 50%; /* shows 2 cards */
-}
-
-/* DESKTOP: 3 cards grid (NO SCROLL) */
-@media (min-width: 950px) {
-  .cards-wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    overflow: visible;
-  }
-
-  .cards-wrapper > div {
-    min-width: 0;
-  }
-}
-@keyframes bounceSlow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.animate-bounce-slow {
-  animation: bounceSlow 1.5s infinite;
-}
-/* =========================
-   SOFT SAAS DASHBOARD POLISH
-   (SAFE ADD-ON ONLY)
-   ========================= */
-
-/* Global depth improvement (does not affect layout) */
-.bg-white {
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-}
-
-/* Card surfaces (gray cards in store list) */
-#cardList .bg-gray-50 {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  border: 1px solid rgba(0,0,0,0.03);
-  transition: all 0.2s ease;
-}
-
-#cardList .bg-gray-50:hover {
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  transform: translateY(-2px);
-}
-#gocards{
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-#tocards{
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-#locards{
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-/* Top stat cards depth */
-.rounded-3xl {
-  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-}
-
-/* Dark gradient card enhancement */
-.bg-gradient-to-br.from-\[\#1A1F2E\] {
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-
-/* Chart container breathing depth */
-canvas {
-  filter: drop-shadow(0px 6px 10px rgba(0,0,0,0.15));
-}
-
-/* Search + small UI elements polish */
-input, .rounded-lg, .rounded-xl {
-  transition: all 0.2s ease;
-}
-
-/* Buttons subtle lift */
-button {
-  transition: all 0.2s ease;
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-
-
-/* Navigation bar enhancement */
-.custom-nav .bg-white {
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  backdrop-filter: blur(10px);
-}
-
-/* Empty state card polish */
-#noStoreCards > div {
-  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.05);
-}
-
-/* Hover feel consistency */
-*:hover {
-  transition-duration: 0.2s;
-}
-@media (min-width: 900px) {
-
-#cardList::-webkit-scrollbar {
-  width: 6px;
-}
-
-#cardList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#cardList::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.35);
-  border-radius: 999px;
-  transition: all 0.2s ease;
-}
-
-#cardList:hover::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.6);
-}
-
-}
-/* =========================
-   GLOBAL PAGE SCROLLBAR
-   ========================= */
-   @media (min-width: 900px) {
-
-/* width */
-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-/* track */
-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* thumb */
-body::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.35);
-  border-radius: 999px;
-  transition: all 0.2s ease;
-}
-
-/* hover */
-body:hover::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.6);
-}
-}
-#giftWidget1 img,
-#giftWidget2 img {
-  transition: transform 0.3s ease;
-}
-
-#giftWidget1:hover img,
-#giftWidget2:hover img {
-  transform: scale(1.05);
-}
-@media (max-width: 750px) {
+/* STOP INPUT ZOOM ON MOBILE */
+@media screen and (max-width: 768px){
 
 input,
 textarea,
-select {
-  font-size: 16px !important; /* 👈 prevents shrink + iOS zoom issues */
+select{
+  font-size: 16px !important;
 }
 
 }
-</style>
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 250px;
+  right: 0;
+
+  height: 80px;
+  background: #222;
+  z-index: 999;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+
+  /* smooth modern look */
+  border-top-left-radius: 30px;
+  overflow: hidden;
+
+  /* amoeba bridge top shape */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,45 C120,0 220,90 340,45 C460,0 560,90 680,45 C800,0 900,90 1000,45 L1000,100 L0,100 Z' fill='black'/%3E%3C/svg%3E");
+
+  -webkit-mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,45 C120,0 220,90 340,45 C460,0 560,90 680,45 C800,0 900,90 1000,45 L1000,100 L0,100 Z' fill='black'/%3E%3C/svg%3E");
+
+  mask-size: cover;
+  mask-repeat: no-repeat;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .bottom-bar {
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    height: 55px;
+
+    padding: 0 15px;
+
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+  }
+}
+
+    @media (max-width: 768px){
+
+body{
+  font-size: 14px;
+}
+
+.container{
+  transform: scale(0.85);
+  transform-origin: top center;
+}
+input,
+textarea,
+select{
+  font-size: 16px !important;
+}
+/* =========================
+SIDEBAR
+========================= */
+
+#sidebar{
+  width: 92px !important;
+  min-width: 92px !important;
+  position: relative !important;
+  transform: translateX(0) !important;
+  overflow: hidden;
+}
+
+#sidebar h1{
+  display:none;
+}
+
+#sidebar img{
+  width:58px !important;
+  height:58px !important;
+  object-fit:contain;
+}
+
+#sidebar span{
+  display:none;
+}
+
+#sidebar .tracking-wider{
+  display:none;
+}
+
+.sidebar-btn{
+  justify-content:center;
+  padding:14px 0 !important;
+}
+
+/* =========================
+INVOICES FIX
+========================= */
+
+.scrollbar-thin{
+  max-height: 340px !important;
+}
+
+.scrollbar-thin .p-4{
+  padding:14px !important;
+  border-radius:16px !important;
+  min-height:70px;
+}
+
+.scrollbar-thin p{
+  display:block !important;
+  font-size:10px !important;
+  line-height:1.4;
+}
+
+/* =========================
+MAIN AREA
+========================= */
+
+main{
+  padding:14px !important;
+  overflow-x:hidden;
+}
+
+/* =========================
+TOP CARDS
+NOW VERTICAL
+========================= */
+
+.grid.grid-cols-2{
+  grid-template-columns: 1fr !important;
+}
+
+/* =========================
+PROFILE CARD
+========================= */
+
+.grid.grid-cols-2 > div:first-child{
+  min-height:85px;
+}
+
+/* =========================
+WALLET CARD
+========================= */
+
+.grid.grid-cols-2 > div:last-child{
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  min-height:90px;
+}
+
+.grid.grid-cols-2 > div:last-child button{
+  margin-left:auto;
+  white-space:nowrap;
+}
+
+/* =========================
+FORMS
+KEEP DESKTOP STYLE
+========================= */
+
+.md\:grid-cols-2{
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+}
+
+/* =========================
+TYPOGRAPHY
+========================= */
+
+h1{
+  font-size:16px !important;
+}
+
+h2{
+  font-size:19px !important;
+}
+
+h3{
+  font-size:15px !important;
+}
+
+p,
+span,
+input,
+textarea,
+select,
+button{
+  font-size:11px !important;
+}
+
+/* =========================
+INPUTS
+========================= */
+
+input,
+select{
+  height:48px !important;
+}
+
+textarea{
+  min-height:120px !important;
+}
+
+/* =========================
+ICONS
+========================= */
+
+i[data-lucide]{
+  width:16px !important;
+  height:16px !important;
+}
+
+/* =========================
+CARD RADII
+========================= */
+
+.rounded-3xl{
+  border-radius:20px !important;
+}
+
+.rounded-2xl{
+  border-radius:16px !important;
+}
+
+/* =========================
+
+
+/* =========================
+SPACING
+========================= */
+
+.p-6{
+  padding:18px !important;
+}
+
+.p-5{
+  padding:16px !important;
+}
+
+.mb-8{
+  margin-bottom:20px !important;
+}
+
+.mt-8{
+  margin-top:20px !important;
+}
+
+.max-w-5xl{
+  max-width:100% !important;
+}
+
+}
+    
+    </style>
+
 </head>
 
-<body>
-<!-- =========================================
-     OFFLINE BANNER + READ-ONLY MODE
-========================================= -->
-<div id="offlineBanner" class="fixed top-0 left-0 right-0 z-50 hidden">
-  <div class="bg-amber-50 border-b border-amber-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-3">
-      
-      <!-- Offline Wi-Fi Icon -->
-      <svg xmlns="http://www.w3.org/2000/svg"
-           class="w-5 h-5 text-amber-600 flex-shrink-0"
-           fill="none"
-           viewBox="0 0 24 24"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        
-        <!-- Wi-Fi waves -->
-        <path d="M2.5 8.5a16 16 0 0119 0" />
-        <path d="M5.5 11.5a11.5 11.5 0 0113 0" />
-        <path d="M8.8 14.8a6.5 6.5 0 016.4 0" />
-        <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
-        
-        <!-- Cross mark -->
-        <path d="M18.5 5.5l4 4" />
-        <path d="M22.5 5.5l-4 4" />
-      </svg>
+<body class="bg-white">
 
-      <p class="text-sm font-medium text-amber-800">
-        You're offline. Please check your network.
-      </p>
-    </div>
-  </div>
-</div>
+    <div class="flex h-screen overflow-hidden relative">
 
-<script>
-  const offlineBanner = document.getElementById('offlineBanner');
 
-  function setReadOnlyMode(isOffline) {
-    document.querySelectorAll('input, textarea, select, button').forEach(el => {
-      if (isOffline) {
-        el.dataset.wasDisabled = el.disabled;
-        el.disabled = true;
-      } else {
-        if (el.dataset.wasDisabled !== 'true') {
-          el.disabled = false;
-        }
-      }
-    });
+  <!-- SIDEBAR -->
+<!-- REPLACE YOUR SIDEBAR CLASS WITH THIS -->
 
-    document.querySelectorAll('[contenteditable="true"]').forEach(el => {
-      if (isOffline) {
-        el.dataset.wasContentEditable = 'true';
-        el.contentEditable = 'false';
-      } else if (el.dataset.wasContentEditable === 'true') {
-        el.contentEditable = 'true';
-      }
-    });
-
-    document.body.classList.toggle('offline-mode', isOffline);
-  }
-
-  function updateConnectionStatus() {
-    const isOffline = !navigator.onLine;
-
-    offlineBanner.classList.toggle('hidden', !isOffline);
-    setReadOnlyMode(isOffline);
-  }
-
-  window.addEventListener('online', updateConnectionStatus);
-  window.addEventListener('offline', updateConnectionStatus);
-
-  updateConnectionStatus();
-</script>
-
-<style>
-  body.offline-mode button:not(:disabled) {
-    pointer-events: none;
-  }
-
-  body.offline-mode input,
-  body.offline-mode textarea,
-  body.offline-mode select {
-    background-color: #f9fafb;
-    cursor: not-allowed;
-  }
-</style>
-<!-- =========================================
-     Trinfely MINIMAL BRAND STRIP
-     Full Width | Lightweight | Premium
-========================================= -->
-<div id="momaBrandBanner" class="sticky top-0 z-40 w-full mb-2">
-  <div class="bg-slate-950/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl shadow-black/40">
-    <div class="w-full px-4 md:px-6 lg:px-8">
-      <div class="h-16 flex items-center justify-between gap-4">
-
-        <!-- LEFT: BRAND -->
-        <div class="flex items-center flex-shrink-0">
+<aside 
+id="sidebar"
+class="fixed lg:relative top-0 left-0 z-50 h-screen w-[280px] bg-black text-white flex flex-col justify-between border-r border-zinc-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"> <!-- TOP -->
+    <div class="p-5">
   
-          <!-- BIG standalone logo -->
-          <img 
-            src="images/TrinfelyLogo.png" 
-            alt="Trinfely Logo"
-            class="w-36 sm:w-44 md:w-52 h-auto object-contain drop-shadow-[0_10px_25px_rgba(239,68,68,0.35)]"
-          />
-        
-        </div>
-
-         <!-- RIGHT: FEATURES -->
-<div class="hidden md:flex items-center gap-8 lg:gap-10 ml-auto pr-6 lg:pr-10">
-
-  <div class="flex items-center gap-3 text-slate-300">
-    <div class="w-10 h-10 rounded-2xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
-      <i data-lucide="shopping-bag" class="w-5 h-5 text-red-400"></i>
-    </div>
-    <span class="text-base lg:text-lg font-semibold">Sell</span>
-  </div>
-
-  <div class="flex items-center gap-3 text-slate-300">
-    <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
-      <i data-lucide="ticket-check" class="w-5 h-5 text-emerald-400"></i>
-    </div>
-    <span class="text-base lg:text-lg font-semibold">Redeem</span>
-  </div>
-
-  <div class="flex items-center gap-3 text-slate-300">
-    <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
-      <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i>
-    </div>
-    <span class="text-base lg:text-lg font-semibold">Earn</span>
-  </div>
-
-</div>
-
-        <div class="flex md:hidden items-center justify-end gap-2 ml-auto">
-          <div class="w-9 h-9 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
-            <i data-lucide="shopping-bag" class="w-4 h-4 text-red-400"></i>
-          </div>
-        
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center">
-            <i data-lucide="ticket-check" class="w-4 h-4 text-emerald-400"></i>
-          </div>
-        
-          <div class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center">
-            <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  lucide.createIcons();
-</script>
-<!-- MAIN WRAPPER  -->
-<div style="margin-top: -12px;" class="max-w-6xl mx-auto px-6 py-6 min-h-0 ">
-
-  <!-- TOP BAR -->
-  <div class="flex items-center justify-between mb-8">
-
-    <!-- LEFT -->
-    <div class="flex items-center gap-4">
-
-      <div class="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-xl overflow-hidden">
-    
-        <img
-          id="businessLogo"
-          src=""
-          alt="business"
-          class="w-full h-full object-cover"
-        />
-    
-      </div>
-    
-      <div>
-    
-        <p
-          id="greetingText"
-          class="text-sm text-gray-500"
+      <!-- BRAND -->
+      <div class="flex items-center  mb-8 mt-2 lg:mt-0">
+  
+        <img style="height: 72px; width: 82px;" src="TrinfelyLogo.png" alt="">
+  
+        <h1 
+          class="text-xl font-semibold tracking-tight text-white"
+          style="font-family: 'Poppins', sans-serif;"
         >
-          Good evening
-        </p>
-    
-        <h1
-          id="businessName"
-          class="heading-font text-lg font-semibold text-gray-900"
-        >
-          Loading...
+          Trinfelly
         </h1>
-       
-        
-      
-      </div>
-    
-    </div>
-
-    <!-- RIGHT -->
-    <div class="flex items-center gap-4">
-
-      <div onclick="openStore()" class="group flex items-center gap-3 bg-white shadow-sm border border-gray-200 
-      px-3 py-2 rounded-xl cursor-pointer hover:shadow-md transition">
-
-<!-- ICON -->
-<div class="w-11 h-11 flex items-center justify-center rounded-xl bg-red-50 relative">
-<i data-lucide="shopping-cart" 
- class="w-5 h-5 text-red-600 animate-bounce-slow"></i>
-</div>
-
-<!-- TEXT (HIDDEN ON MOBILE) -->
-<div class="hidden lg:flex flex-col leading-tight">
-<p class="text-sm font-semibold text-gray-900">
-Order Gift Cards
-</p>
-<p class="text-xs text-gray-500">
-Stock your store & start selling
-</p>
-</div>
-
-</div>
-
-      <div class="px-4 py-2 border border-red-200 rounded-xl bg-white shadow-sm">
-        <p class="text-xs text-gray-500">Gift Cards</p>
-        <p id="storeCountText" class="text-sm font-semibold text-gray-900">
-          In-store 0
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="mb-24 overflow-x-auto no-scrollbar md:overflow-visible ">
-
-    <!-- FLEX SCROLL ON MOBILE / GRID ON DESKTOP -->
-    <div  class="flex gap-4 md:px-0 md:grid md:grid-cols-3">
   
-      <!-- ===================== -->
-      <!-- CARD 1 (TODAY SALES) -->
-      <!-- ===================== -->
-      <div id="gocards" class="bg-[#0F0F10] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
-                  min-w-[100%] md:min-w-0">
-  
-        <div class="flex items-start justify-between mb-10">
-          <div class="flex items-start gap-3">
-            <div class="w-10 h-10 bg-white/10 flex items-center justify-center rounded-xl">
-              <i data-lucide="calendar" class="w-5 h-5 text-white"></i>
-            </div>
-  
-            <div>
-              <p class="text-sm text-gray-400">Today</p>
-              <p id="todayDate" class="text-base font-medium text-white mt-1"></p>
-            </div>
-          </div>
-  
-          <button id="toggleBtn"
-            class="text-xs px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-gray-300">
-            Hide
-          </button>
-        </div>
-  
-        <div class="flex justify-between items-end">
-          <div>
-            <p class="text-sm text-gray-400">Gifts Sold</p>
-            <h2 id="giftsValue" class="text-2xl md:text-3xl font-semibold mt-1">0</h2>
-          </div>
-  
-          <div class="text-right">
-            <p class="text-sm text-gray-400">Amount</p>
-            <h2 id="amountValue" class="text-2xl md:text-3xl font-semibold mt-1">₦0</h2>
-          </div>
-        </div>
       </div>
   
-  <!-- CARD 2 (BUSINESS WALLET - STRUCTURE FIXED ALIGNMENT) -->
-<div id="gocards" class="bg-white text-gray-900 rounded-3xl p-5 md:p-6 relative overflow-hidden 
-min-w-[98%] md:min-w-0 border border-gray-200 shadow-sm">
-
-<!-- TOP -->
-<div class="flex items-start justify-between mb-6">
-
-  <div class="flex items-center gap-3">
-
-    <div class="w-9 h-9 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
-      <i data-lucide="wallet" class="w-4 h-4"></i>
-    </div>
-
-    <div>
-      <p class="text-sm text-gray-500">Business Wallet</p>
-      <p class="text-base font-semibold text-gray-900 mt-0.5">Account Balance</p>
-    </div>
-
-  </div>
-
-  <button onclick="window.location.href='history.html'" 
-    class="text-sm text-gray-500 hover:text-red-500 transition">
-    Transactions
+      <!-- NAV -->
+<!-- NAV -->
+<nav class="space-y-2">
+    <div class="mt-8 mb-4 text-[12px] uppercase text-zinc-200 tracking-wider">
+        Navigation
+      </div>
+    <!-- SELL -->
+    <button 
+    id="sellTab"
+    onclick="switchTab('sell')"
+    class="sidebar-btn active-sidebar flex items-center gap-3 w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15 transition">
+  
+    <i data-lucide="credit-card" class="w-4 h-4 text-white-500"></i>
+  
+    <span class="hidden lg:block text-xs">Sell Gift Card</span>
+  
   </button>
+  
+    <!-- REDEEM -->
+    <button 
+    id="redeemTab"
+    onclick="switchTab('redeem')"
+    class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
+  
+    <i data-lucide="refresh-cw" class="w-4 h-4 text-white-500"></i>
+  
+    <span class="hidden lg:block text-xs">Redeem Gift Card</span>
+  
+  </button>
+  
+   <!-- WALLET -->
+<button 
+id="walletTab"
+onclick="switchTab('wallet')"
+class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
 
-</div>
+<i data-lucide="wallet" class="w-4 h-4 text-white-500"></i>
 
+<span class="hidden lg:block text-xs">Fund Wallet</span>
 
+</button>
+  
+  </nav>
+  
+      <!-- DIVIDER -->
+      <div class="mt-8 mb-4 text-[12px] uppercase text-zinc-200 tracking-wider">
+        Invoices
+      </div>
+  
+   <!-- INVOICE LIST  -->
+<div class="space-y-2 max-h-56 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
 
-<div class="flex justify-between items-end mt-12">
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #001</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Pending</p>
+    </div>
+  
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #002</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Paid</p>
+    </div>
+  
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #003</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Paid</p>
+    </div>
+  
+    <div class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 cursor-pointer transition">
+      <p class="text-xs">Auto Invoice #004</p>
+      <p class="text-[10px] text-zinc-400 mt-1">Pending</p>
+    </div>
+  
+  </div>
+  
+    <!-- BOTTOM -->
+    <div class="p-2 border-t border-zinc-800">
+  
+      <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
+        <i data-lucide="settings" class="w-4 h-4"></i>
+        <span class="hidden lg:block text-xs">Settings</span>
+      </button>
+  
+      <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-red-500/10 transition text-red-400">
+        <i data-lucide="log-out" class="w-4 h-4"></i>
+        <span class="hidden lg:block text-xs">Logout</span>
+      </button>
+  
+    </div>
+  
+  </aside>
 
-  <!-- LEFT -->
-  <div class="flex flex-col gap-1">
-    <p class="text-xs text-gray-500">Available Balance</p>
+<!-- MAIN AREA -->
+<!-- REPLACE MAIN TAG -->
 
-    <div class="flex items-center gap-2">
-      <h2 id="walletBalance"
-          class="text-2xl md:text-3xl font-bold text-gray-900 leading-none">
-        ₦0
-      </h2>
-    
-      <button onclick="toggleWalletBalance()"
-              class="text-gray-400 hover:text-red-500 transition">
-        <i id="walletEye" data-lucide="eye" class="w-5 h-5"></i>
+<main class="flex-1 h-screen overflow-y-auto bg-zinc-50 relative overflow-x-hidden p-4 lg:p-6 z-10">   
+  <div class="bottom-bar">
+        <img
+        style="
+          width:1000px;
+          filter: brightness(40%);
+        "
+        src="bkg.jpg"
+        alt=""
+      >
+      </div>
+      <div class="grid grid-cols-2 gap-4 lg:gap-5 mb-6 relative z-10">
+    <!-- LEFT CARD: BUSINESS PROFILE -->
+    <div class="flex items-center justify-between bg-white rounded-2xl p-5 shadow-sm border border-zinc-200">
+  
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-full bg-zinc-200 overflow-hidden flex items-center justify-center">
+          <img src="cake.jpg" class="w-full h-full object-cover" alt="brand">
+        </div>
+
+        <div>
+          <h3 class="text-base font-semibold text-zinc-900">Kailey Place</h3>
+          <p class="text-sm text-zinc-500">Retail & Restaurant</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-4 h-4 text-red-500" 
+             fill="currentColor" 
+             viewBox="0 0 24 24">
+          <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+        </svg>
+      
+        <span class="text-sm font-medium text-gray-700">Lagos, Nigeria</span>
+      </div>
+
+    </div>
+
+    <!-- RIGHT CARD: WALLET -->
+    <div class="bg-black text-white rounded-3xl p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+          <i data-lucide="wallet" class="w-5 h-5 text-red-500"></i>
+        </div>
+
+        <div>
+          <p class="text-xs text-zinc-400">Wallet Balance</p>
+          <div class="flex items-center gap-2">
+            <h3 id="walletBalance" class="text-xl font-semibold">₦25,000</h3>
+            <button onclick="toggleBalance()" class="text-zinc-400 hover:text-white">
+              <i data-lucide="eye" id="eyeIcon" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-xl text-sm font-medium">
+        Fund Wallet
       </button>
     </div>
-  </div>
-
-
-  <!-- RIGHT -->
-  <div class="flex flex-col items-end gap-2">
-
-
-    <button onclick="window.location.href='payment.html'" style="font-weight: bold; background-color: rgb(31, 32, 34); color: white;" class=" bg-white text-xs px-4 py-2 rounded-lg flex items-center gap-2">
-      <i data-lucide="plus" class="w-4 h-4"></i>
-      Fund Wallet
-    </button>
 
   </div>
+<!-- SELL GIFT CARD SECTION -->
+<!-- PAGE CONTENT WRAPPER -->
+<div class="mt-6 relative z-10 pb-10">
 
-</div>
+    <!-- SELL PAGE -->
+    <div id="sellPage" class="content-page active-page">
 
-</div>
-      <!-- ===================== -->
-      <!-- CARD 3 (TOTAL SALES 🔥 BRIGHT) -->
-      <!-- ===================== -->
-      <div class="bg-gradient-to-br from-[#1A1F2E] to-[#111827] text-white rounded-3xl p-6 md:p-8 relative overflow-hidden 
-                  min-w-[98%] md:min-w-0 shadow-xl">
+        <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
+      
+          <!-- HEADER -->
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-8">
+      
+            <!-- LEFT -->
+            <div class="flex items-center gap-4">
+      
+              <div class="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center shrink-0">
+                <i data-lucide="tag" class="w-5 h-5 text-red-500"></i>
+              </div>
+      
+              <div>
+                <h2 class="text-2xl font-bold text-zinc-900">
+                  Sell a Gift Card
+                </h2>
+      
+                <p class="text-sm text-zinc-500 mt-1">
+                  Fill in the details to process a new gift card sale
+                </p>
+              </div>
+      
+            </div>
+      
+            <!-- STATS -->
+            <div class="w-full lg:min-w-[330px] bg-zinc-100 rounded-3xl p-5 border border-zinc-200">
+      
+              <div class="flex items-center justify-between mb-3">
+      
+                <div class="w-11 h-11 rounded-2xl bg-red-500 text-white flex items-center justify-center">
+                  <i data-lucide="gift" class="w-5 h-5"></i>
+                </div>
+      
+                <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+                  +12%
+                </span>
+      
+              </div>
+      
+              <p class="text-xs uppercase tracking-wider text-zinc-500 font-medium">
+                Gifts Sold Since Joined
+              </p>
+      
+              <h3 class="text-3xl font-bold text-zinc-900 mt-2">
+                1,284
+              </h3>
+      
+              <p class="text-sm text-zinc-500 mt-1">
+                Total successful gift card sales
+              </p>
+      
+            </div>
+      
+          </div>
+      
+          <!-- FORM -->
+          <div class="grid grid-cols-2 gap-5">
+      
+            <!-- SENDER -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                Sender Name
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="user"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <input 
+                  type="text"
+                  placeholder="Enter sender name"
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition">
+      
+              </div>
+      
+            </div>
+      
+            <!-- RECIPIENT -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+                Recipient Name
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="user-check"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <input 
+                  type="text"
+                  placeholder="Enter recipient name"
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition">
+      
+              </div>
+      
+            </div>
+      
+            <!-- DELIVERY -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+                Delivery Method
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="truck"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <select 
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition appearance-none">
+      
+                  <option>Instant Email</option>
+                  <option>SMS Delivery</option>
+                  <option>Manual Code</option>
+      
+                </select>
+      
+              </div>
+      
+            </div>
+      
+            <!-- AMOUNT -->
+            <div>
+      
+              <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+                <i data-lucide="banknote" class="w-3.5 h-3.5"></i>
+                Gift Amount
+              </label>
+      
+              <div class="relative">
+      
+                <i data-lucide="banknote"
+                  class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+      
+                <input 
+                  type="number"
+                  placeholder="Enter amount"
+                  class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition">
+      
+              </div>
+      
+            </div>
+      
+          </div>
+      
+          <!-- MESSAGE -->
+          <div class="mt-5">
+      
+            <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+              <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+              Gift Message
+            </label>
+      
+            <div class="relative">
+      
+              <i data-lucide="message-square"
+                class="w-4 h-4 absolute left-4 top-5 text-zinc-400"></i>
+      
+              <textarea 
+                rows="5"
+                placeholder="Write a short message..."
+                class="w-full pl-12 pr-5 py-4 rounded-2xl border border-zinc-200 outline-none resize-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition"></textarea>
+      
+            </div>
+      
+          </div>
+      
+          <!-- BUTTON -->
+          <div class="mt-8 flex justify-end">
+      
+            <button class="h-14 px-8 rounded-2xl bg-red-500 hover:bg-red-600 text-white text-sm font-semibold flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-red-500/20">
+      
+              <i data-lucide="send" class="w-4 h-4"></i>
+              Sell Gift Card
+      
+            </button>
+      
+          </div>
+      
+        </div>
+      
+      </div>
   
-        <!-- glow effect -->
-        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+    <!-- REDEEM PAGE -->
+    <div id="redeemPage" class="content-page">
+  
+      <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
   
         <!-- TOP -->
-        <div class="flex items-start gap-3 mb-10">
+        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-8">
   
-          <div class="w-10 h-10 bg-white/20 flex items-center justify-center rounded-xl">
-            <i data-lucide="trending-up" class="w-5 h-5 text-white"></i>
-          </div>
-  
-          <div>
-            <p class="text-sm text-white/80">Total Sales</p>
-            <p class="text-base font-medium text-white mt-1">Since Joined</p>
-          </div>
-  
-        </div>
-  
-        <!-- BOTTOM -->
-        <div class="flex justify-between items-end">
-  
-          <div>
-            <p class="text-sm text-white/80">Total Revenue</p>
-            <h2 id="totalSalesAmount" class="text-3xl md:text-4xl font-bold mt-1">₦0</h2>
-          </div>
-  
-          <div class="text-right">
-            <p class="text-sm text-white/80">Duration</p>
-            <h2 id="businessDuration" class="text-lg font-semibold mt-1">3 Months</h2>
-          </div>
-  
-        </div>
-  
-      </div>
-  
-  
-    
-  
-    </div>
-  </div>
-<!-- STORE CARDS SECTION -->
-<div id="cardik" style="margin-top: -75px;" class="bg-white rounded-t-3xl border border-gray-100 flex flex-col h-[105vh] md:h-[60vh]">
-  <div class="flex items-center justify-between px-6 pt-5 pb-3">
-
-    <h2 class="text-sm font-semibold text-gray-800">Gifts In Store</h2>
-  
-    <!-- SEARCH AREA -->
-    <div class="flex items-center gap-2">
-  
-      <!-- INPUT (HIDDEN INITIALLY) -->
-      <input  
-      id="searchInput"
-      type="text"
-      placeholder="Search purchase code..."
-      class="hidden px-3 py-2 text-base border rounded-lg outline-none focus:ring-2 focus:ring-red-500 w-full"
-    />
-  
-      <!-- SEARCH BUTTON -->
-      <div id="searchBtn" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
-        <i data-lucide="search" class="w-4 h-4 text-gray-600"></i>
-      </div>
-  
-    </div>
-  
-  </div>
-
-  <div class="flex flex-col lg:flex-row gap-6 px-4 flex-1 min-h-0">
-
-    <!-- ===================== -->
-    <!-- LEFT: CARD LIST -->
-    <!-- ===================== -->
-    <div class="flex-1 flex flex-col min-h-0">
-  
-      <!-- SCROLL AREA -->
-      <div id="cardList" class="flex-1 overflow-y-auto pb-4 space-y-3">
-  
-        <!-- CARD ITEM -->
-        <div class="bg-gray-50 rounded-xl px-4 py-4 flex items-center justify-between hover:bg-gray-100 transition">
-          <div>
-            <p class="text-xs text-gray-500">Purchase Code</p>
-            <p class="text-sm font-semibold text-gray-900 mt-1"></p>
-          </div>
-          <div class="text-right">
-            <p class="text-xs text-gray-500"></p>
-            <p class="text-sm font-semibold text-gray-900 mt-1"></p>
-          </div>
-          <button class="ml-4 px-4 py-2 text-xs font-medium rounded-lg bg-red-600 text-white">
-           
-          </button>
-        </div>
-  
-      </div>
-  
-    </div>
-  
-    <!-- ===================== -->
-    <!-- RIGHT: CHART -->
-    <!-- ===================== -->
-    <div class="w-full  lg:w-1/2 xl:w-3/5 h-[220px] sm:h-[160px] lg:h-full mb-16
-    bg-gradient-to-br from-[#1A1F2E] to-[#111827] 
-    rounded-2xl p-4 shadow-lg">
-
-<canvas id="salesChart" class="w-full h-full"></canvas>
-
-</div>
-  
-
-<!-- NAVIGATION -->
-<div class="fixed bottom-4 left-0 right-0 z-50 flex justify-center
-            min-[1100px]:left-3 min-[1100px]:right-auto
-            min-[1100px]:top-1/2 min-[1100px]:-translate-y-1/2
-            min-[1100px]:bottom-auto">
-
-  <!-- NAV CONTAINER -->
-  <div class="bg-white border border-gray-200 shadow-xl rounded-3xl px-5 py-3
-              flex items-center gap-6
-              min-[1100px]:flex-col min-[1200px]:gap-5
-              min-[1100px]:px-2 min-[1200px]:py-4
-              min-[1100px]:w-[72px]">
-
-    <!-- DASHBOARD -->
-    <div class="flex flex-col items-center text-red-600 cursor-pointer transition">
-      <i data-lucide="home" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-semibold min-[1100px]:hidden">Dashboard</span>
-    </div>
-
-    <!-- SALES -->
-    <div onclick="window.location.href='sales.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
-      <i data-lucide="bar-chart-3" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Sales</span>
-    </div>
-
-    <!-- PLUS BUTTON -->
-    <div onclick="window.location.href='payment.html'" class="flex flex-col items-center justify-center -mt-8 cursor-pointer
-                min-[1100px]:mt-0">
-
-      <div class="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-pink-500 
-                  shadow-lg flex items-center justify-center text-white">
-
-        <i data-lucide="plus" class="w-7 h-7 stroke-[3]"></i>
-      </div>
-
-      <span class="text-[11px] mt-1 font-semibold text-gray-700 min-[1100px]:hidden">Add</span>
-    </div>
-
-    <!-- REDEEM -->
-    <div onclick="window.location.href='redeem.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
-      <i data-lucide="ticket" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Redeem</span>
-    </div>
-
-    <!-- PROFILE -->
-    <div onclick="window.location.href='profile.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
-      <i data-lucide="user" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Profile</span>
-    </div>
-
-  </div>
-</div>
-<!-- SUCCESS MODAL -->
-<div id="sellSuccessModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-  <div class="bg-white w-[90%] max-w-sm rounded-2xl p-6 shadow-xl flex flex-col items-center">
-    <div class="w-16 h-16 bg-green-100 text-green-600 flex items-center justify-center rounded-full mb-4">
-      <i data-lucide="check" class="w-8 h-8"></i>
-    </div>
-    <h3 class="text-lg font-semibold text-gray-900 mb-2">Sale Successful!</h3>
-    <p class="text-sm text-gray-500 text-center mb-4">Your gift card has been sold successfully.</p>
-    <button id="closeSellSuccess" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Close</button>
-  </div>
-</div>
-<!-- SELL CONFIRMATION MODAL -->
-<div id="sellModal" class="fixed inset-0 bg-black/40 flex items-center justify-center hidden">
-  <div class="bg-white rounded-2xl p-6 w-96">
-    <h2 class="text-lg font-semibold text-gray-900 mb-4">Confirm Sale</h2>
-    <p class="text-sm text-gray-600 mb-2">Are you sure you want to sell this gift card?</p>
-    <p class="text-xs text-red-600 mb-6">This action cannot be undone!</p>
-    
-    <div class="flex justify-end gap-3">
-      <button id="cancelSell" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">Cancel</button>
-      <button  id="confirmSell" class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700">Confirm</button>
-    </div>
-  </div>
-</div>
-<!-- First Widget (Red-Pink Gradient) -->
-<div id="giftWidget1"
-  class="hidden md:block fixed top-1/2 right-4 -translate-y-1/2 z-50 cursor-grab active:cursor-grabbing">
-
-  <div class="w-24 h-60 rounded-2xl shadow-2xl relative overflow-hidden">
-
-    <!-- IMAGE -->
-    <img 
-      src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=400"
-      alt="gift card"
-      class="w-full h-full object-cover rounded-2xl"
-    />
-
-    <!-- Optional dark overlay (keeps premium feel) -->
-    <div class="absolute inset-0 bg-black/10"></div>
-
-  </div>
-</div>
-<div id="giftWidget2"
-  class="hidden md:block fixed bottom-4 left-4 z-50 cursor-grab active:cursor-grabbing">
-
-  <div class="w-24 h-60 rounded-2xl shadow-2xl relative overflow-hidden">
-
-    <!-- IMAGE -->
-    <img 
-      src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=400"
-      alt="business"
-      class="w-full h-full object-cover rounded-2xl"
-    />
-
-    <!-- Optional overlay -->
-    <div class="absolute inset-0 bg-black/20"></div>
-
-  </div>
-</div>
-<!-- =========================================
-     Trinfely STORE WITH DYNAMIC CART
-========================================= -->
-
-<!-- STORE OVERLAY -->
-<div id="storeModal" class="fixed inset-0 bg-black/40 hidden z-50">
-  <div id="storeSheet" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-4 md:p-6 max-h-[95vh] overflow-y-auto transform translate-y-full transition-transform duration-300">
-
-    <!-- LOADING INDICATOR -->
-    <div id="storeLoader"
-    class="hidden absolute top-4 right-4 z-50">
- <div class="w-5 h-5 border-2 border-red-200 border-t-red-500 rounded-full animate-spin"></div>
-</div>
-
-  <!-- HEADER -->
-<div class="flex items-center justify-between mb-3">
-  <button onclick="closeStore()" class="text-gray-600">
-    <i data-lucide="x"></i>
-  </button>
-
-  <h2 class="font-bold text-xl">Trinfely Store</h2>
-
-  <!-- Right Actions -->
-  <div class="flex items-center gap-3">
-    <!-- Orders Button -->
-    <button
-      onclick="window.location.href='order.html'"
-      class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-red-600 rounded-xl transition-all duration-300 border border-gray-200 hover:border-red-200"
-    >
-      <i data-lucide="package" class="w-4 h-4"></i>
-      <span class="text-sm font-medium hidden sm:inline">Orders</span>
-    </button>
-
-    <!-- Cart Button -->
-    <button class="relative text-gray-700 hover:text-red-600 transition-colors duration-300">
-      <i data-lucide="shopping-cart"></i>
-      <span
-        id="cartCount"
-        class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center"
-      >
-        0
-      </span>
-    </button>
-  </div>
-</div>
-
-    <div class="border-b border-gray-200 mb-4"></div>
-
-    <p class="text-sm text-gray-600 text-center mb-5">
-      Buy branded gift cards for your business and start selling instantly on Trinfely.
-    </p>
-<!-- PRODUCTS -->
-<div>
-  <div class="flex items-center justify-between mb-4">
-    <h3 class="font-semibold text-lg">Gift Cards</h3>
-  </div>
-
-  <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
-</div>
-    <!-- CART SECTION -->
-    <div class="mb-6">
-      <div class="flex items-center justify-between mb-3">
-        <p class="font-semibold text-lg mt-4">Cart Summary</p>
-        <span id="cartItemLabel" class="text-sm text-gray-500">0 items</span>
-      </div>
-
-      <div id="cartItems" class="bg-gray-50 rounded-2xl p-4 space-y-3">
-        <div id="emptyCart" class="text-center py-4">
-          <p class="text-gray-500 text-sm">Oops… your cart is empty right now 🛒</p>
-          <p class="text-xs text-gray-400 mt-1">Add gift cards to start your order</p>
-        </div>
-      </div>
-
-      <div class="mt-4 bg-white border rounded-2xl p-4">
-        <div class="flex justify-between text-sm mb-2">
-          <span class="text-gray-500">Subtotal</span>
-          <span id="cartSubtotal" class="font-semibold">₦0</span>
-        </div>
-        <div class="flex justify-between text-base font-bold">
-          <span>Total</span>
-          <span id="cartTotal">₦0</span>
-        </div>
-
-        <button id="payButton" class="w-full mt-4 bg-red-500 text-white py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-          Pay ₦0
-        </button>
-   <!-- WALLET STATUS BELOW PAY BUTTON -->
-<div class="mt-3 space-y-2">
-  <div class="flex items-center justify-between text-sm">
-    <span class="text-gray-500">Wallet Balance</span>
-    <span id="walletBalancePreview" class="font-semibold text-gray-900">₦0</span>
-  </div>
-
-  <div id="walletStatus"
-       class="hidden text-center text-sm font-semibold rounded-xl px-4 py-3 border transition-all duration-300">
-  </div>
-</div>
-
-<script>
-let walletAmount = Number(localStorage.getItem('momaWalletBalance')) || 0;
-  
-  function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-      minimumFractionDigits: 0
-    }).format(amount).replace('NGN', '₦');
-  }
-  
-  function updateWalletUI() {
-    document.getElementById('walletBalance').textContent = formatCurrency(walletAmount);
-    document.getElementById('walletBalancePreview').textContent = formatCurrency(walletAmount);
-    localStorage.setItem('momaWalletBalance', walletAmount);
-  }
-  let pendingTotal = 0;
-
-function openPaymentModal(total) {
-  pendingTotal = total;
-
-  document.getElementById('paymentAmount').textContent = formatCurrency(total);
-
-  const modal = document.getElementById('paymentModal');
-  const box = document.getElementById('paymentBox');
-
-  modal.classList.remove('hidden');
-
-  // shake animation
-  box.classList.add('wallet-shake');
-  setTimeout(() => box.classList.remove('wallet-shake'), 400);
-}
-
-function closePaymentModal() {
-  document.getElementById('paymentModal').classList.add('hidden');
-}
-
-function confirmPayment() {
-  closePaymentModal();
-
-  const loader = document.getElementById('paymentLoader');
-  loader.classList.remove('hidden');
-
-  setTimeout(() => {
-    loader.classList.add('hidden');
-    processPayment(pendingTotal);
-  }, 1200);
-}
-
-function processPayment(total) {
-  const message = document.getElementById('paymentMessage');
-  const actionBtn = document.getElementById('paymentActionBtn');
-
-  if (walletAmount >= total) {
-
-    // ✅ Deduct
-    walletAmount -= total;
-    updateWalletUI();
-
-    // ✅ Save order (same logic you already have)
-    let rawCart = localStorage.getItem('momaCart');
-    try { rawCart = rawCart ? JSON.parse(rawCart) : {}; } catch { rawCart = {}; }
-
-    const items = [];
-
-Object.entries(rawCart).forEach(([id, qty]) => {
-  const numericId = Number(id);
-
-  for (let i = 0; i < qty; i++) {
-    const instanceId = generateInstanceId(numericId, i);
-
-    items.push({
-      id: numericId,
-      instanceId
-    });
-  }
-});
-
-function generateInstanceId(id, index) {
-  const time = Date.now().toString(36);
-  const random = crypto.getRandomValues(new Uint32Array(1))[0].toString(36);
-  
-  return `GC-${id}-${time}-${index}-${random}`;
-}
-
-    const order = {
-      id: generateOrderId(),
-      date: new Date().toLocaleString(),
-      amount: total,
-      items: items,
-      status: 'Processing',
-      delivery: 'Virtual gift cards will be delivered within 24 hours.'
-    };
-    let existingCards = JSON.parse(localStorage.getItem("momaStoreCards")) || [];
-
-items.forEach(item => {
-  const product = products.find(p => p.id === item.id);
-
-  if (!product) return;
-
-  const newCard = {
-    purchaseCode: order.id,
-    giftCode: item.instanceId,
-    amount: product.value,
-    realAmount: Math.floor(product.value * 0.97), // 🔥 your 3% logic
-    status: "active",
-    soldAt: null,
-    expiresAt: null
-  };
-
-  existingCards.unshift(newCard);
-});
-
-localStorage.setItem("momaStoreCards", JSON.stringify(existingCards));
-    const orders = JSON.parse(localStorage.getItem('momaOrders')) || [];
-    orders.unshift(order);
-
-    localStorage.setItem('momaOrders', JSON.stringify(orders));
-    localStorage.setItem('latestMomaOrder', JSON.stringify(order));
-    localStorage.removeItem('momaCart');
-
-    message.textContent = `Payment successful. Your order of ${formatCurrency(total)} has been processed and your gift cards are now available.`;
-    actionBtn.classList.add('hidden');
-
-    document.getElementById('paymentResult').classList.remove('hidden');
-
-    setTimeout(() => {
-      window.location.href = 'order.html';
-    }, 2000);
-
-  } else {
-
-    message.textContent = "You do not have enough funds to complete this purchase.";
-
-    actionBtn.classList.remove('hidden');
-  
-
-    document.getElementById('paymentResult').classList.remove('hidden');
-  }
-}
-const confirmBtn = document.getElementById("confirmSell");
-
-
-function closeResult() {
-  document.getElementById('paymentResult').classList.add('hidden');
-}
-function generateOrderId(businessName = "Kandie Store") {
-
-// CLEAN BUSINESS NAME
-// "Kandie Place" => "KANDIEPLACE"
-const cleanName = businessName
-  .replace(/[^a-zA-Z0-9]/g, '')
-  .toUpperCase();
-
-// GET FIRST + LAST LETTER
-// "KANDIEPLACE" => "KE"
-const shortName =
-  cleanName.length > 1
-    ? cleanName[0] + cleanName[cleanName.length - 1]
-    : cleanName;
-
-// TIME PART
-const timestamp = Date.now().toString(36).toUpperCase();
-
-// RANDOM PARTS
-const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-
-
-// FINAL ID
-return `${shortName}-${timestamp}-${random}`;
-}
-  
-  function checkWalletSufficiency(total) {
-    const status = document.getElementById('walletStatus');
-  
-    if (total <= 0) {
-      status.classList.add('hidden');
-      return;
-    }
-  
-    status.classList.remove('hidden');
-  
-    if (walletAmount >= total) {
-      status.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i> Sufficient balance available';
-      status.className = 'text-center text-sm font-semibold rounded-xl px-4 py-3 border bg-green-50 text-green-700 border-green-200';
-    } else {
-      status.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4 inline mr-1"></i> Insufficient wallet balance';
-      status.className = 'text-center text-sm font-semibold rounded-xl px-4 py-3 border bg-red-50 text-red-600 border-red-200 wallet-shake';
-    }
-  
-    lucide.createIcons();
-  }
-  
-  document.getElementById('payButton').addEventListener('click', function () {
-  const total = Number(document.getElementById('cartTotal').textContent.replace(/[^0-9]/g, '')) || 0;
-
-  if (total <= 0) return;
-
-  checkWalletSufficiency(total);
-
-  // ✅ OPEN MODAL INSTEAD
-  openPaymentModal(total);
-});
-  window.addEventListener('load', updateWalletUI);
-  </script>
-  
-  <style>
-  @keyframes walletShake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-6px); }
-    40% { transform: translateX(6px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
-  }
-  
-  .wallet-shake {
-    animation: walletShake 0.45s ease;
-  }
-  </style>
-  
-  
-
-  
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-<!-- PAYMENT MODAL -->
-<div id="paymentModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center">
-  <div id="paymentBox" class="bg-white w-[90%] max-w-md rounded-2xl p-6 shadow-xl">
-
-    <h3 class="text-lg font-bold mb-2">Confirm Payment</h3>
-    <p class="text-sm text-gray-500 mb-4">You're about to complete this purchase.</p>
-
-    <div class="bg-gray-50 rounded-xl p-4 mb-4">
-      <p class="text-sm text-gray-500">Total Amount</p>
-      <p id="paymentAmount" class="text-xl font-bold text-gray-900">₦0</p>
-    </div>
-
-    <div class="flex gap-3">
-      <button onclick="closePaymentModal()" class="flex-1 py-2 rounded-lg bg-gray-100">Cancel</button>
-      <button onclick="confirmPayment()" class="flex-1 py-2 rounded-lg bg-red-500 text-white">Confirm</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- LOADER -->
-<div id="paymentLoader" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center">
-  <div class="bg-white p-6 rounded-xl shadow-lg text-center">
-    <div class="animate-spin w-8 h-8 border-4 border-red-500 border-t-transparent rounded-full mx-auto mb-3"></div>
-    <p class="text-sm text-gray-600">Processing payment...</p>
-  </div>
-</div>
-
-<!-- RESULT MODAL -->
-<div id="paymentResult" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center">
-  <div class="bg-white w-[90%] max-w-md rounded-2xl p-6 shadow-xl text-center">
-    <p id="paymentMessage" class="text-sm text-gray-600 mb-4"></p>
-
-    <button onclick="window.location.href='payment.html'" id="paymentActionBtn" class="hidden w-full py-2 rounded-lg bg-red-500 text-white">
-      Fund Wallet
-    </button>
-
-    <button onclick="closeResult()" class="mt-3 w-full py-2 rounded-lg bg-gray-100">
-      Close
-    </button>
-  </div>
-</div>
-<script>
-  const products = [
-    {
-      id: 1,
-      value: 2000,
-      orderPrice: 50,
-      purchaseCode: 'TRIN-••••-••••',
-      giftCode: 'GC-••••-••••',
-      description: 'Perfect for quick rewards, customer appreciation, and small promotional campaigns.'
-    },
-    {
-      id: 2,
-      value: 5000,
-      orderPrice: 125,
-      purchaseCode: 'TRIN-••••-••••',
-      giftCode: 'GC-••••-••••',
-      description: 'A versatile option for giveaways, staff incentives, and premium customer rewards.'
-    },
-    {
-      id: 3,
-      value: 10000,
-      orderPrice: 250,
-      purchaseCode: 'TRIN-••••-••••',
-      giftCode: 'GC-••••-••••',
-      description: 'Ideal for high-value rewards, loyalty programs, and exclusive promotions.'
-    },
-    {
-      id: 4,
-      value: 15000,
-      orderPrice: 375,
-      purchaseCode: 'TRIN-••••-••••',
-      giftCode: 'GC-••••-••••',
-      description: 'Designed for premium gifting experiences and executive appreciation rewards.'
-    },
-    {
-      id: 5,
-      value: 20000,
-      orderPrice: 500,
-      purchaseCode: 'TRIN-••••-••••',
-      giftCode: 'GC-••••-••••',
-      description: 'An excellent choice for major campaigns, VIP rewards, and strategic incentives.'
-    },
-    {
-      id: 6,
-      value: 50000,
-      orderPrice: 1200,
-      purchaseCode: 'TRIN-••••-••••',
-      giftCode: 'GC-••••-••••',
-      description: 'Our flagship gift card for luxury rewards, enterprise gifting, and elite campaigns.'
-    }
-  ];
-  
-  let cart = {};
-  
-  function formatCurrency(amount) {
-    return '₦' + amount.toLocaleString();
-  }
-  
-  function showLoader() {
-    const loader = document.getElementById('storeLoader');
-    loader.classList.remove('hidden');
-    setTimeout(() => loader.classList.add('hidden'), 400);
-  }
-  
-  function renderProducts() {
-    const grid = document.getElementById('productsGrid');
-    grid.innerHTML = products.map(product => `
-      <div class="border rounded-2xl p-4 hover:shadow-md transition bg-white">
-        <p class="font-semibold text-sm">${formatCurrency(product.value)} Gift Card</p>
-        <p class="text-xs text-gray-500 mt-1">Order Price ${formatCurrency(product.orderPrice)}</p>
-  
-        <div class="flex gap-2 mt-4">
-          <button onclick="showProductDetails(${product.id})" class="flex-1 bg-gray-100 text-xs py-2 rounded-lg hover:bg-gray-200 transition">Details</button>
-          <button onclick="addToCart(${product.id})" class="flex-1 bg-red-500 text-white text-xs py-2 rounded-lg hover:bg-red-600 transition">Add</button>
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  function showProductDetails(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-  
-    const modal = document.getElementById('giftCardModal');
-    const content = document.getElementById('giftCardModalContent');
-  
-    content.innerHTML = `
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-600 via-red-500 to-red-700 text-white p-6 shadow-2xl">
-        <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-        <div class="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full translate-y-12 -translate-x-10"></div>
-  
-        <div class="relative z-10">
-          <div class="flex items-start justify-between mb-6">
-            <div>
-              <p class="text-white/80 text-xs uppercase tracking-[0.25em]">TRINFELY Gift Card</p>
-              <h3 class="text-2xl font-bold mt-2">${formatCurrency(product.value)}</h3>
-            </div>
-            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
-              <i data-lucide="gift" class="w-6 h-6"></i>
-            </div>
-          </div>
-  
-          <p class="text-sm text-white/90 leading-relaxed mb-6">${product.description}</p>
-  
-          <div class="space-y-4">
-            <div class="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20">
-              <p class="text-xs text-white/70 mb-1">Purchase Code</p>
-              <p class="font-mono text-sm tracking-wider">${product.purchaseCode}</p>
-            </div>
-  
-            <div class="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20">
-              <p class="text-xs text-white/70 mb-1">Gift Code</p>
-              <p class="font-mono text-sm tracking-wider">${product.giftCode}</p>
-            </div>
-          </div>
-  
-          <div class="mt-6 flex items-center justify-between text-sm">
-            <span class="text-white/80">Order Price</span>
-            <span class="font-bold text-lg">${formatCurrency(product.orderPrice)}</span>
-          </div>
-        </div>
-      </div>
-    `;
-  
-    modal.classList.remove('hidden');
-    lucide.createIcons();
-  }
-  
-  function closeProductDetails() {
-    document.getElementById('giftCardModal').classList.add('hidden');
-  }
-  
-  function addToCart(productId) {
-    showLoader();
-    cart[productId] = (cart[productId] || 0) + 1;
-    renderCart();
-  }
-  
-  function updateQuantity(productId, change) {
-    showLoader();
-    if (!cart[productId]) return;
-  
-    cart[productId] += change;
-  
-    if (cart[productId] <= 0) {
-      delete cart[productId];
-    }
-  
-    renderCart();
-  }
-  
-  function removeFromCart(productId) {
-    showLoader();
-    delete cart[productId];
-    renderCart();
-  }
-  
-  function renderCart() {
-  // 🔥 SAVE CART EVERY TIME IT CHANGES
-  localStorage.setItem('momaCart', JSON.stringify(cart));
-
-  const cartItems = document.getElementById('cartItems');
-  const items = Object.entries(cart);
-
-  if (items.length === 0) {
-    cartItems.innerHTML = `
-      <div class="text-center py-4">
-        <p class="text-gray-500 text-sm">Oops… your cart is empty right now 🛒</p>
-        <p class="text-xs text-gray-400 mt-1">Add gift cards to start your order</p>
-      </div>`;
-  } else {
-    cartItems.innerHTML = items.map(([id, qty]) => {
-      const product = products.find(p => p.id == id);
-      const total = product.orderPrice * qty;
-
-      return `
-        <div class="flex items-center justify-between bg-white rounded-xl p-3 border">
-          <div>
-            <p class="font-medium text-sm">${formatCurrency(product.value)} Gift Card</p>
-            <p class="text-xs text-gray-500">${formatCurrency(product.orderPrice)} each</p>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <button onclick="updateQuantity(${id}, -1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-              <i data-lucide="minus" class="w-4 h-4"></i>
-            </button>
-
-            <span class="w-6 text-center text-sm font-semibold">${qty}</span>
-
-            <button onclick="updateQuantity(${id}, 1)" class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
-
-            <button onclick="removeFromCart(${id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <div class="text-sm font-semibold ml-3">${formatCurrency(total)}</div>
-        </div>`;
-    }).join('');
-  }
-
-  updateSummary();
-  lucide.createIcons();
-}
-  function updateSummary() {
-    let totalItems = 0;
-    let totalAmount = 0;
-  
-    Object.entries(cart).forEach(([id, qty]) => {
-      const product = products.find(p => p.id == id);
-      totalItems += qty;
-      totalAmount += product.orderPrice * qty;
-    });
-  
-    document.getElementById('cartCount').textContent = totalItems;
-    document.getElementById('cartItemLabel').textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
-    document.getElementById('cartSubtotal').textContent = formatCurrency(totalAmount);
-    document.getElementById('cartTotal').textContent = formatCurrency(totalAmount);
-  
-    const payButton = document.getElementById('payButton');
-    payButton.textContent = `Pay ${formatCurrency(totalAmount)}`;
-    payButton.disabled = totalItems === 0;
-  }
-  
-  renderProducts();
-  renderCart();
-  </script>
-  
-  <!-- Gift Card Details Modal -->
-  <div id="giftCardModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-      <div id="giftCardModalContent"></div>
-  
-      <button onclick="closeProductDetails()" class="w-full mt-4 bg-white text-gray-800 py-3 rounded-2xl font-medium hover:bg-gray-100 transition">
-        Close
-      </button>
-    </div>
-  </div>
-  
-
-<!-- INIT ICONS -->
-<script>
-  lucide.createIcons();
-</script>
-<script>
-const toggleBtn = document.getElementById("toggleBtn");
-const giftsValue = document.getElementById("giftsValue");
-const amountValue = document.getElementById("amountValue");
-
-let hidden = false;
-
-toggleBtn.addEventListener("click", () => {
-  hidden = !hidden;
-
-  if (hidden) {
-    // HIDE VALUES
-    giftsValue.textContent = "•••";
-    amountValue.textContent = "••••••";
-    toggleBtn.textContent = "Reveal";
-  } else {
-    // SHOW REAL DATA (DYNAMIC)
-    updateDashboardTotals();
-    toggleBtn.textContent = "Hide";
-  }
-});
-
-function setTodayDate() {
-  const el = document.getElementById("todayDate");
-  const today = new Date();
-
-  el.textContent = today.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
-}
-
-setTodayDate();
-
-</script>
- <script>
-// ==============================
-// NAVIGATION (WORKS EVERYWHERE)
-// ==============================
-const navRedeem = document.getElementById("nav-redeem");
-const navDashboard = document.getElementById("nav-dashboard");
-const navSales = document.getElementById("nav-sales");
-const navProfile = document.getElementById("nav-profile");
-
-navRedeem?.addEventListener("click", () => {
-  window.location.href = "redeem.html";
-});
-
-navDashboard?.addEventListener("click", () => {
-  window.location.href = "dashboard.html";
-});
-
-navSales?.addEventListener("click", () => {
-  window.location.href = "sales.html";
-});
-
-navProfile?.addEventListener("click", () => {
-  window.location.href = "profile.html";
-});
-
-// ==============================
-// ACTIVE NAV STATE
-// ==============================
-const currentPage = window.location.pathname;
-
-if (currentPage.includes("index.html")) {
-  navDashboard?.classList.add("text-red-600");
-}
-
-
-// ==============================
-// OPTIONAL: SALES DATA
-// ==============================
-function saveSalesData() {
-  let sales = [];
-
-  for (let i = 0; i < 7; i++) {
-    sales.push({
-      day: `Day ${i + 1}`,
-      amount: Math.floor(Math.random() * 20000)
-    });
-  }
-
-  localStorage.setItem("salesData", JSON.stringify(sales));
-}
-
-// ==============================
-// INIT DASHBOARD
-// ==============================
-window.addEventListener("DOMContentLoaded", () => {
-  saveSoldCards();
-  saveSalesData();
-});
- </script>
-  <script>
-    const navSales = document.getElementById("nav-sales");
-    const salesPage = document.getElementById("salesPage");
-  
-    const filters = document.querySelectorAll(".filter-btn");
-    const salesList = document.getElementById("salesList");
-  
-    // NAVIGATION TO SALES
-    navSales.addEventListener("click", () => {
-      dashboard.style.display = "none";
-      redeemPage.classList.add("hidden");
-      salesPage.classList.remove("hidden");
-  
-      // nav state
-      document.querySelectorAll('[id^="nav-"]').forEach(n => {
-        n.classList.remove("text-red-600");
-        n.classList.add("text-gray-400");
-      });
-  
-      navSales.classList.add("text-red-600");
-  
-      loadSales("today");
-    });
-  
-    // FILTER CLICK
-    filters.forEach((btn, index) => {
-      btn.addEventListener("click", () => {
-  
-        filters.forEach(b => {
-          b.classList.remove("bg-red-600", "text-white");
-          b.classList.add("bg-gray-100", "text-gray-600");
-        });
-  
-        btn.classList.add("bg-red-600", "text-white");
-  
-        const types = ["today", "week", "month", "all"];
-        loadSales(types[index]);
-  
-      });
-    });
-  
-
-
-  // -----------------------------
-  // LOAD SALES DATA
-  // -----------------------------
-  function loadSales(type) {
-    if (!salesList) return; // safety check
-    salesList.innerHTML = "";
-
-    for (let i = 0; i < 12; i++) {
-      salesList.innerHTML += `
-        <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
-
           <!-- LEFT -->
-          <div>
-            <p class="text-xs text-gray-500">Purchase Code</p>
-            <p class="text-sm font-semibold text-gray-900 mt-1">SALE${i}</p>
-            <p class="text-xs text-gray-400 mt-2">${getTime()}</p>
-          </div>
-
-          <!-- RIGHT -->
-          <div class="text-right">
-            <p class="text-xs text-gray-500">Amount</p>
-            <p class="text-sm font-semibold text-gray-900 mt-1">₦15,000</p>
-          </div>
-
-        </div>
-      `;
-    }
-  }
-
-  // -----------------------------
-  // TIME GENERATOR
-  // -----------------------------
-  function getTime() {
-    const now = new Date();
-    return now.toLocaleString();
-  }
-
-  // -----------------------------
-  // FILTER BUTTONS
-  // -----------------------------
-  filters.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      filters.forEach(b => {
-        b.classList.remove("bg-red-600", "text-white");
-        b.classList.add("bg-gray-100", "text-gray-600");
-      });
-
-      btn.classList.add("bg-red-600", "text-white");
-
-      const types = ["today", "week", "month", "all"];
-      loadSales(types[index]);
-    });
-  });
-</script>
-<script>
- const searchBtn = document.getElementById("searchBtn");
-const searchInput = document.getElementById("searchInput");
-
-// 🔥 NEW FUNCTION
-function getCards() {
-  return document.querySelectorAll("#cardList .bg-gray-50");
-}
-
-// TOGGLE SEARCH
-searchBtn.addEventListener("click", () => {
-  searchInput.classList.toggle("hidden");
-  searchInput.focus();
-
-  if (searchInput.classList.contains("hidden")) {
-    resetCards();
-    searchInput.value = "";
-  }
-});
-
-// LIVE SEARCH
-searchInput.addEventListener("input", () => {
-  const value = searchInput.value.toLowerCase().trim();
-  let found = false;
-
-  const cards = getCards(); // 🔥 FIX
-
-  cards.forEach(card => {
-    const code = card.querySelector("p.text-sm").innerText.toLowerCase();
-
-    if (code.includes(value)) {
-      card.style.display = "flex";
-      found = true;
-    } else {
-      card.style.display = "none";
-    }
-  });
-
-  handleEmptyState(found);
-});
-
-// RESET
-function resetCards() {
-  const cards = getCards(); 
-
-  cards.forEach(card => {
-    card.style.display = "flex";
-  });
-
-  const empty = document.getElementById("noResult");
-  if (empty) empty.remove();
-}
-
-// EMPTY STATE
-function handleEmptyState(found) {
-  let empty = document.getElementById("noResult");
-
-  if (!found) {
-    if (!empty) {
-      empty = document.createElement("div");
-      empty.id = "noResult";
-      empty.className = "text-center text-gray-400 mt-10 text-sm";
-      empty.innerText = "No card found 😕";
-      document.getElementById("cardList").appendChild(empty);
-    }
-  } else {
-    if (empty) empty.remove();
-  }
-}
-</script>
-<script>
-let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
-let cardToSell = null; // TRACK CURRENT CARD SELECTED FOR SALE
-
-// 1️⃣ Store cards array
-let storeCardsData = JSON.parse(localStorage.getItem("momaStoreCards")) || [];
-
-// 2️⃣ Function to render cards dynamically
-function renderStoreCards() {
-  const cardList = document.getElementById("cardList");
-  cardList.innerHTML = ""; // Clear any existing cards
-
-  storeCardsData.forEach(card => {
-  const cardDiv = document.createElement("div");
-  cardDiv.className = "bg-gray-50 rounded-xl px-4 py-4 flex items-center justify-between hover:bg-gray-100 transition";
-
-  cardDiv.innerHTML = `
-    <div>
-      <p class="text-xs text-gray-500">Purchase Code</p>
-      <p class="text-sm font-semibold text-gray-900 mt-1">${card.purchaseCode}</p>
-    </div>
-
-    <div class="text-right">
-      <p class="text-xs text-gray-500">Amount</p>
-      <p class="text-sm font-semibold text-gray-900 mt-1">₦${card.amount.toLocaleString()}</p>
-    </div>
-
-    <button 
-  class="ml-4 px-4 py-2 text-xs font-medium rounded-lg bg-red-600 text-white">
-  Sell
-</button>
-  `;
-
-  // ✅ 👉 ADD THIS PART RIGHT HERE
-  const sellBtn = cardDiv.querySelector("button");
-
-  sellBtn.addEventListener("click", () => {
-    openSellModal({
-      ...card,        // full card data (VERY IMPORTANT)
-      element: cardDiv
-    });
-  });
-
-  cardList.appendChild(cardDiv);
-});
-  checkIfStoreEmpty();
-  updateStoreCount();
-}
-function checkIfStoreEmpty() {
-  const cardList = document.getElementById("cardList");
-  const cards = document.querySelectorAll("#cardList .bg-gray-50");
-
-  // remove old empty state
-  const existing = document.getElementById("noStoreCards");
-  if (existing) existing.remove();
-
-  if (cards.length === 0) {
-    const empty = document.createElement("div");
-    empty.id = "noStoreCards";
-    empty.className = "flex flex-col items-center justify-center mt-16 text-center";
-
-    empty.innerHTML = `
-  <div  class="bg-white border border-gray-100 shadow-sm rounded-2xl p-2 max-w-sm w-full mb-14">
-
-    <!-- ICON -->
-    <div class="w-14 h-14 flex items-center justify-center rounded-full bg-red-50 text-red-600 mb-54">
-      <i data-lucide="credit-card" class="w-6 h-6"></i>
-    </div>
-
-    <!-- TITLE -->
-    <h3 class="text-base font-semibold text-gray-900 mb-1">
-      No cards in store
-    </h3>
-
-    <!-- DESCRIPTION -->
-    <p class="text-sm text-gray-500 mb-5 leading-relaxed">
-      You don’t have any gift cards available yet. Order branded cards and start offering them to your customers.
-    </p>
-
-    <!-- CTA -->
-    <button class="w-full px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700 transition">
-      Order Gift Cards
-    </button>
-
-    <!-- OPTIONAL SUPPORT -->
-    <p class="text-xs text-gray-400 mt-3">
-      Need help? <span class="text-red-600 cursor-pointer">Contact support</span>
-    </p>
-
-  </div>
-`;
-
-    cardList.appendChild(empty);
-  }
-  lucide.createIcons();
-}
-function sellCard(giftCode) {
-  let cards = JSON.parse(localStorage.getItem("momaStoreCards")) || [];
-  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
-
-  const index = cards.findIndex(c => c.giftCode === giftCode);
-  if (index === -1) return;
-
-  const card = cards[index];
-
-  soldCards.push({
-  giftCode: card.giftCode,
-  amount: card.amount,
-  status: "active",
-  createdAt: Date.now()
-});
-
-  // ✅ REMOVE FROM STORE COMPLETELY
-  cards.splice(index, 1);
-
-  // ✅ UPDATE WALLET
-  let wallet = Number(localStorage.getItem('momaWalletBalance')) || 0;
-  wallet += card.realAmount;
-  localStorage.setItem('momaWalletBalance', wallet);
-
-  // ✅ SAVE EVERYTHING BACK
-  localStorage.setItem("momaStoreCards", JSON.stringify(cards));
-  localStorage.setItem("soldCards", JSON.stringify(soldCards));
-
-  // ✅ UPDATE UI
-  storeCardsData = cards;
-  renderStoreCards();
-}
-window.addEventListener("load", () => {
-  storeCardsData = JSON.parse(localStorage.getItem("momaStoreCards")) || [];
-  renderStoreCards();
-});
-// OPEN MODAL FUNCTION
-function openSellModal(card) {
-  cardToSell = card;
-  document.getElementById("sellModal").classList.remove("hidden");
-}
-
-// CLOSE MODAL FUNCTION
-function closeSellModal() {
-  cardToSell = null;
-  document.getElementById("sellModal").classList.add("hidden");
-}
-
-function updateDashboardTotals() {
-  const giftsValue = document.getElementById("giftsValue");
-  const amountValue = document.getElementById("amountValue");
-
-  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
-
-  const today = new Date();
-  const todayStr = today.toDateString();
-
-  // 🔥 filter ONLY today's sales
-  const todaySales = soldCards.filter(card => {
-    if (!card.soldAt) return false;
-    return new Date(card.soldAt).toDateString() === todayStr;
-  });
-
-  // count
-  giftsValue.textContent = todaySales.length;
-
-  // sum
-  const totalAmount = todaySales.reduce((sum, card) => sum + card.amount, 0);
-  amountValue.textContent = `₦${totalAmount.toLocaleString()}`;
-}
-
-if (!localStorage.getItem("joinedAt")) {
-  localStorage.setItem("joinedAt", Date.now());
-}
-function updateBusinessDuration() {
-  const el = document.getElementById("businessDuration");
-  const joinedAt = localStorage.getItem("joinedAt");
-
-  if (!joinedAt) return;
-
-  const start = new Date(parseInt(joinedAt));
-  const now = new Date();
-
-  const diffMs = now - start;
-
-  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const weeks = Math.floor(days / 7);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(days / 365);
-
-  let text = "";
-
-  if (years > 0) text = `${years} Year${years > 1 ? "s" : ""}`;
-  else if (months > 0) text = `${months} Month${months > 1 ? "s" : ""}`;
-  else if (weeks > 0) text = `${weeks} Week${weeks > 1 ? "s" : ""}`;
-  else text = `${days} Day${days !== 1 ? "s" : ""}`;
-
-  el.textContent = text;
-}
-updateBusinessDuration();
-setInterval(updateBusinessDuration, 60000); // update every minute
-function updateTotalRevenue() {
-  const el = document.getElementById("totalSalesAmount");
-
-  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
-
-  const total = soldCards.reduce((sum, card) => sum + card.amount, 0);
-
-  el.textContent = `₦${total.toLocaleString()}`;
-}
-updateTotalRevenue();
-setInterval(updateTotalRevenue, 2000);
-// CONFIRM SALE BUTTON
-confirmSell.addEventListener("click", () => {
-  if (!cardToSell) return;
-
-  let soldCards = JSON.parse(localStorage.getItem("soldCards")) || [];
-
-  cardToSell.status = "active";
-  cardToSell.soldAt = Date.now();
-  cardToSell.expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
-
-  soldCards.push(cardToSell);
-  localStorage.setItem("soldCards", JSON.stringify(soldCards));
-
-  // ✅ ADD THIS PART (SALES RECORD)
-  let sales = JSON.parse(localStorage.getItem("sales")) || [];
-
-  sales.push({
-    amount: cardToSell.amount,
-    date: new Date().toISOString(),
-    ref: "TXN-" + Math.floor(100000 + Math.random() * 900000)
-  });
-
-  localStorage.setItem("sales", JSON.stringify(sales));
-
-  // UI updates
-  cardToSell.element.remove();
-  closeSellModal();
-  checkIfStoreEmpty();
-  updateStoreCount();
-  updateDashboardTotals();
-});
-
-// CANCEL BUTTON
-document.getElementById("cancelSell").addEventListener("click", closeSellModal);
-
-// LOAD SOLD CARDS INTO REDEEM PAGE
-function loadSold() {
-  const list = document.getElementById("redeemList");
+          <div class="flex items-center gap-4">
   
-  list.innerHTML = "";
-
-  soldCards.forEach(card => {
-
-
-    const redeemAmount = card.amount * 0.97;
-
-    list.innerHTML += `
-      <div class="bg-gray-50 rounded-xl px-4 py-4 flex justify-between items-center">
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center shrink-0">
+              <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-500"></i>
+            </div>
+  
+            <div>
+              <h2 class="text-2xl font-bold text-zinc-900">
+                Redeem Gift Card
+              </h2>
+  
+              <p class="text-sm text-zinc-500 mt-1">
+                Redeem existing branded gift cards instantly
+              </p>
+            </div>
+  
+          </div>
+  
+          <!-- RIGHT CARD -->
+          <div class="w-full lg:min-w-[330px] bg-zinc-100 rounded-3xl p-5 border border-zinc-200">
+  
+            <div class="flex items-center justify-between mb-3">
+  
+              <div class="w-11 h-11 rounded-2xl bg-blue-500 text-white flex items-center justify-center">
+                <i data-lucide="badge-check" class="w-5 h-5"></i>
+              </div>
+  
+              <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+                +8%
+              </span>
+  
+            </div>
+  
+            <p class="text-xs uppercase tracking-wider text-zinc-500 font-medium">
+              Redeemed Since Joined
+            </p>
+  
+            <h3 class="text-3xl font-bold text-zinc-900 mt-2">
+              842
+            </h3>
+  
+            <p class="text-sm text-zinc-500 mt-1">
+              Successfully redeemed gift cards
+            </p>
+  
+          </div>
+  
+        </div>
+  
+        <!-- SEARCH -->
+        <div class="relative mb-5">
+  
+          <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+  
+          <input 
+            type="text"
+            placeholder="Search gift cards..."
+            class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none">
+  
+        </div>
+  
+        <!-- GIFT CODE -->
         <div>
-          <p class="text-xs text-gray-500">Purchase Code</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">
-            ${card.purchaseCode}
+  
+          <label class="text-sm font-medium text-zinc-700 mb-3 block">
+            Gift Card Code
+          </label>
+  
+          <div class="relative">
+  
+            <input 
+              id="giftCodeInput"
+              type="password"
+              value="TRINFELLY-28383-9282"
+              class="w-full h-14 px-5 pr-14 rounded-2xl border border-zinc-200 outline-none text-lg tracking-wider font-semibold">
+  
+            <button 
+              onclick="toggleGiftCode()"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500">
+  
+              <i data-lucide="eye" id="giftEye" class="w-5 h-5"></i>
+  
+            </button>
+  
+          </div>
+  
+          <p class="text-sm text-zinc-500 mt-3">
+            Enter a valid branded gift card code to redeem funds into your wallet.
           </p>
+  
         </div>
-
-        <div class="text-right">
-          <p class="text-xs text-gray-500">Amount</p>
-          <p class="text-sm font-semibold text-gray-900 mt-1">
-            ₦${redeemAmount.toLocaleString()}
-          </p>
+  
+        <!-- BUTTON -->
+        <div class="mt-8 flex justify-end">
+  
+          <button class="h-14 px-8 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold flex items-center gap-2 transition">
+  
+            <i data-lucide="badge-check" class="w-4 h-4"></i>
+            Redeem Gift Card
+  
+          </button>
+  
         </div>
-
-        <button class="ml-4 px-4 py-2 text-xs rounded-lg bg-red-600 text-white">
-          Redeem
-        </button>
+  
       </div>
-    `;
-  });
-}
-function updateGreeting() {
-  const greetingEl = document.getElementById("greetingText");
-  const hour = new Date().getHours();
+  
+    </div>
+  
+  </div>
+  <!-- WALLET PAGE -->
+<div id="walletPage" class="content-page">
 
-  let greeting = "";
+    <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
+  
+      <!-- TOP -->
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-8">
+  
+        <!-- LEFT -->
+        <div class="flex items-center gap-4">
+  
+          <div class="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center shrink-0">
+            <i data-lucide="wallet" class="w-5 h-5 text-green-500"></i>
+          </div>
+  
+          <div>
+            <h2 class="text-2xl font-bold text-zinc-900">
+              Fund Wallet
+            </h2>
+  
+            <p class="text-sm text-zinc-500 mt-1">
+              Add money securely into your Trinfelly wallet
+            </p>
+          </div>
+  
+        </div>
+  
+        <!-- BALANCE CARD -->
+        <div class="w-full lg:min-w-[330px] bg-zinc-100 rounded-3xl p-5 border border-zinc-200">
+  
+          <div class="flex items-center justify-between mb-3">
+  
+            <div class="w-11 h-11 rounded-2xl bg-green-500 text-white flex items-center justify-center">
+              <i data-lucide="badge-dollar-sign" class="w-5 h-5"></i>
+            </div>
+  
+            <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+              LIVE
+            </span>
+  
+          </div>
+  
+          <p class="text-xs uppercase tracking-wider text-zinc-500 font-medium">
+            Current Wallet Balance
+          </p>
+  
+          <h3 class="text-3xl font-bold text-zinc-900 mt-2">
+            ₦25,000
+          </h3>
+  
+          <p class="text-sm text-zinc-500 mt-1">
+            Available balance for transactions
+          </p>
+  
+        </div>
+  
+      </div>
+  
+      <!-- AMOUNT -->
+      <div>
+  
+        <label class="text-xs font-medium text-zinc-500 flex items-center gap-2 mb-2">
+          <i data-lucide="banknote" class="w-3.5 h-3.5"></i>
+          Funding Amount
+        </label>
+  
+        <div class="relative">
+  
+          <i 
+            data-lucide="banknote"
+            class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400">
+          </i>
+  
+          <input 
+            type="number"
+            min="5000"
+            placeholder="Minimum ₦5,000"
+            class="w-full h-14 pl-12 pr-5 rounded-2xl border border-zinc-200 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition">
+  
+        </div>
+  
+        <p class="text-sm text-zinc-500 mt-3">
+          Minimum wallet funding amount is ₦5,000.
+        </p>
+  
+      </div>
+  
+      <!-- BUTTON -->
+      <div class="mt-8 flex justify-end">
+  
+        <button class="h-14 px-8 rounded-2xl bg-green-500 hover:bg-green-600 text-white text-sm font-semibold flex items-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-green-500/20">
+  
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          Fund Wallet
+  
+        </button>
+  
+      </div>
+  
+      <!-- TRANSACTIONS -->
+      <div class="mt-10">
+  
+        <!-- TOP -->
+        <div class="flex items-center justify-between mb-5">
+  
+          <div>
+            <h3 class="text-lg font-semibold text-zinc-900">
+              Transaction History
+            </h3>
+  
+            <p class="text-sm text-zinc-500">
+              Recent wallet funding activities
+            </p>
+          </div>
+  
+          <button class="w-11 h-11 rounded-2xl border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 transition">
+            <i data-lucide="history" class="w-5 h-5 text-zinc-700"></i>
+          </button>
+  
+        </div>
+  
+        <!-- LIST -->
+        <div class="space-y-3">
+  
+          <!-- ITEM -->
+          <div class="flex items-center justify-between p-4 rounded-2xl border border-zinc-200">
+  
+            <div class="flex items-center gap-3">
+  
+              <div class="w-11 h-11 rounded-2xl bg-green-500/10 flex items-center justify-center">
+                <i data-lucide="arrow-down-circle" class="w-5 h-5 text-green-500"></i>
+              </div>
+  
+              <div>
+                <h4 class="text-sm font-semibold text-zinc-900">
+                  Wallet Funding
+                </h4>
+  
+                <p class="text-xs text-zinc-500 mt-1">
+                  May 16, 2026
+                </p>
+              </div>
+  
+            </div>
+  
+            <h3 class="text-sm font-bold text-green-600">
+              +₦15,000
+            </h3>
+  
+          </div>
+  
+          <!-- ITEM -->
+          <div class="flex items-center justify-between p-4 rounded-2xl border border-zinc-200">
+  
+            <div class="flex items-center gap-3">
+  
+              <div class="w-11 h-11 rounded-2xl bg-red-500/10 flex items-center justify-center">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-red-500"></i>
+              </div>
+  
+              <div>
+                <h4 class="text-sm font-semibold text-zinc-900">
+                  Gift Card Purchase
+                </h4>
+  
+                <p class="text-xs text-zinc-500 mt-1">
+                  May 15, 2026
+                </p>
+              </div>
+  
+            </div>
+  
+            <h3 class="text-sm font-bold text-red-500">
+              -₦5,000
+            </h3>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>
+  <div class="mt-6 flex flex-col items-center gap-3 text-xs text-zinc-500">
 
-  if (hour < 12) {
-    greeting = "Good morning";
-  } else if (hour < 18) {
-    greeting = "Good afternoon";
-  } else {
-    greeting = "Good evening";
-  }
+    <p>© 2026 Trinfelly. Sell Branded Virtual Gift Card.</p>
+  
+  </div>
+</main>
 
-  greetingEl.textContent = greeting;
-}
-function updateStoreCount() {
-  const cards = document.querySelectorAll("#cardList .bg-gray-50");
-  const countText = document.getElementById("storeCountText");
+</div>
 
-  countText.textContent = `In-store ${cards.length}`;
-}
-// 🔹 INITIALIZE
-updateGreeting();
-renderStoreCards();
-initStoreCards();
-updateDashboardTotals();
-checkIfStoreEmpty();
-document.addEventListener("DOMContentLoaded", updateStoreCount);
+<script>
+  lucide.createIcons();
 </script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    lucide.createIcons();
+  
+    let hidden = false;
+    let realBalance = "₦25,000";
+  
+    function toggleBalance() {
+      const balanceEl = document.getElementById("walletBalance");
+      const eyeIcon = document.getElementById("eyeIcon");
+  
+      hidden = !hidden;
+  
+      if (hidden) {
+        balanceEl.textContent = "••••••";
+        eyeIcon.setAttribute("data-lucide", "eye-off");
+      } else {
+        balanceEl.textContent = realBalance;
+        eyeIcon.setAttribute("data-lucide", "eye");
+      }
+  
+      lucide.createIcons();
+    }
+  
+    // SIDEBAR TOGGLE
+    let sidebarOpen = false;
+  
+    function toggleSidebar() {
+  
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const menuIcon = document.getElementById("menuIcon");
+  
+      sidebarOpen = !sidebarOpen;
+  
+      if(sidebarOpen){
+  
+        sidebar.classList.remove("-translate-x-full");
+  
+        overlay.classList.remove("hidden");
+  
+        setTimeout(() => {
+          overlay.classList.remove("opacity-0");
+        }, 10);
+  
+        menuIcon.setAttribute("data-lucide", "x");
+  
+      } else {
+  
+        sidebar.classList.add("-translate-x-full");
+  
+        overlay.classList.add("opacity-0");
+  
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+        }, 300);
+  
+        menuIcon.setAttribute("data-lucide", "menu");
+  
+      }
+  
+      lucide.createIcons();
+    }
+    
 
-  <script>
-    const ctx = document.getElementById('salesChart').getContext('2d');
+// TOGGLE GIFT CODE
+let giftHidden = true;
+
+function toggleGiftCode(){
+
+const input = document.getElementById("giftCodeInput");
+const eye = document.getElementById("giftEye");
+
+giftHidden = !giftHidden;
+
+if(giftHidden){
+
+  input.type = "password";
+  eye.setAttribute("data-lucide","eye");
+
+} else {
+
+  input.type = "text";
+  eye.setAttribute("data-lucide","eye-off");
+
+}
+
+lucide.createIcons();
+}
+  </script>
+
+<script>
+    function switchTab(tab){
     
-    // gradient
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, "rgba(239, 68, 68, 0.35)");
-    gradient.addColorStop(1, "rgba(239, 68, 68, 0.02)");
+      const sellPage = document.getElementById("sellPage");
+      const redeemPage = document.getElementById("redeemPage");
+      const walletPage = document.getElementById("walletPage");
     
-    /* =========================
-       🔥 GET REAL SALES DATA
-       ========================= */
-    function getWeeklySalesData() {
-      let sales = JSON.parse(localStorage.getItem("sales")) || [];
+      const sellTab = document.getElementById("sellTab");
+      const redeemTab = document.getElementById("redeemTab");
+      const walletTab = document.getElementById("walletTab");
     
-      const labels = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-      const totals = [0,0,0,0,0,0,0];
+      // RESET BUTTONS
+      document.querySelectorAll(".sidebar-btn").forEach(btn => {
     
-      sales.forEach(sale => {
-        if (!sale.date || !sale.amount) return;
+        btn.classList.remove(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
     
-        const d = new Date(sale.date);
-        const day = d.getDay(); // 0-6
+        const icon = btn.querySelector("i");
     
-        totals[day] += sale.amount;
+        if(icon){
+    
+          icon.classList.remove(
+            "text-red-500",
+            "text-blue-500",
+            "text-green-500"
+          );
+    
+          icon.classList.add("text-white");
+    
+        }
+    
       });
     
-      return { labels, totals };
-    }
+      // HIDE PAGES
+      document.querySelectorAll(".content-page").forEach(page => {
+        page.classList.remove("active-page");
+      });
     
-    // 🔥 initial data
-    const initialData = getWeeklySalesData();
+      // SELL
+      if(tab === "sell"){
     
-    /* =========================
-       🚀 CREATE CHART
-       ========================= */
-    const salesChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: initialData.labels,
-        datasets: [{
-          data: initialData.totals,
+        sellPage.classList.add("active-page");
     
-          borderColor: '#EF4444',
-          borderWidth: 2,
-          tension: 0.45,
-          fill: true,
-          backgroundColor: gradient,
+        sellTab.classList.add(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
     
-          pointRadius: 0,
-          pointHitRadius: 20,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#EF4444',
-          pointHoverBorderWidth: 2,
-        }]
-      },
+        const icon = sellTab.querySelector("i");
     
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        icon.classList.remove("text-white");
+        icon.classList.add("text-red-500");
     
-        interaction: {
-          mode: 'nearest',
-          intersect: false
-        },
-    
-        plugins: {
-          legend: { display: false },
-    
-          tooltip: {
-            enabled: true,
-            backgroundColor: "#111827",
-            borderColor: "#374151",
-            borderWidth: 1,
-            titleColor: "#fff",
-            bodyColor: "#e5e7eb",
-            padding: 10,
-            displayColors: false,
-    
-            callbacks: {
-              label: function(context) {
-                return "₦" + context.raw.toLocaleString();
-              }
-            }
-          }
-        },
-    
-        scales: {
-          x: {
-            ticks: { color: "#9CA3AF" },
-            grid: { display: false }
-          },
-    
-          y: {
-            ticks: {
-              color: "#6B7280",
-              callback: (value) => "₦" + value/1000 + "k"
-            },
-            grid: {
-              color: "rgba(255,255,255,0.05)",
-              drawBorder: false
-            }
-          }
-        }
       }
-    });
     
-    /* =========================
-       🔄 LIVE UPDATE
-       ========================= */
-    function updateChartLive() {
-      const newData = getWeeklySalesData();
+      // REDEEM
+      if(tab === "redeem"){
     
-      salesChart.data.labels = newData.labels;
-      salesChart.data.datasets[0].data = newData.totals;
+        redeemPage.classList.add("active-page");
     
-      salesChart.update();
+        redeemTab.classList.add(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
+    
+        const icon = redeemTab.querySelector("i");
+    
+        icon.classList.remove("text-white");
+        icon.classList.add("text-blue-500");
+    
+      }
+    
+      // WALLET
+      if(tab === "wallet"){
+    
+        walletPage.classList.add("active-page");
+    
+        walletTab.classList.add(
+          "active-sidebar",
+          "bg-white/10",
+          "border",
+          "border-white/10"
+        );
+    
+        const icon = walletTab.querySelector("i");
+    
+        icon.classList.remove("text-white");
+        icon.classList.add("text-green-500");
+    
+      }
+    
+      // MOBILE AUTO CLOSE
+      if(window.innerWidth < 1024){
+    
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const menuIcon = document.getElementById("menuIcon");
+    
+        sidebar.classList.add("-translate-x-full");
+    
+        overlay.classList.add("opacity-0");
+    
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+        }, 300);
+    
+        menuIcon.setAttribute("data-lucide", "menu");
+    
+        sidebarOpen = false;
+    
+      }
+    
+      lucide.createIcons();
     }
-    
-    // 🔥 auto refresh every 2 seconds
-    setInterval(updateChartLive, 2000);
     </script>
-<script>
-  const widget = document.getElementById("giftWidget");
-
-let isDragging = false;
-let offsetX, offsetY;
-
-widget.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  offsetX = e.clientX - widget.getBoundingClientRect().left;
-  offsetY = e.clientY - widget.getBoundingClientRect().top;
-});
-
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-
-  widget.style.left = (e.clientX - offsetX) + "px";
-  widget.style.top = (e.clientY - offsetY) + "px";
-  widget.style.right = "auto"; // remove fixed right
-  widget.style.transform = "none"; // remove center transform
-});
-
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-});
-
-</script>
-<script>
-  const sellModal = document.getElementById("sellModal");
-const confirmSell = document.getElementById("confirmSell");
-const cancelSell = document.getElementById("cancelSell");
-const sellSuccessModal = document.getElementById("sellSuccessModal");
-const closeSellSuccess = document.getElementById("closeSellSuccess");
-
-// Cancel button hides modal
-cancelSell.addEventListener("click", () => {
-  sellModal.classList.add("hidden");
-});
-
-// Confirm button
-confirmSell.addEventListener("click", () => {
-  // 👇 Put your existing sale logic here:
-  // Example: remove card from dashboard, update localStorage, etc.
-
-  // Hide confirmation modal
-  sellModal.classList.add("hidden");
-
-  // Show success modal
-  sellSuccessModal.classList.remove("hidden");
-  sellSuccessModal.classList.add("flex");
-
-  // Optional: auto-close after 2 seconds
-  setTimeout(() => {
-    sellSuccessModal.classList.add("hidden");
-  }, 2000);
-});
-
-// Close success modal manually
-closeSellSuccess.addEventListener("click", () => {
-  sellSuccessModal.classList.add("hidden");
-});
-// 🔥 AUTO REFRESH EVERY 2 SECONDS
-setInterval(() => {
-  updateDashboardTotals();
-}, 2000);
-</script>
-<script>
-  function openStore() {
-    const modal = document.getElementById("storeModal");
-    const sheet = document.getElementById("storeSheet");
-  
-    modal.classList.remove("hidden");
-  
-    setTimeout(() => {
-      sheet.classList.remove("translate-y-full");
-    }, 10);
-  }
-  
-  function closeStore() {
-    const modal = document.getElementById("storeModal");
-    const sheet = document.getElementById("storeSheet");
-  
-    sheet.classList.add("translate-y-full");
-  
-    setTimeout(() => {
-      modal.classList.add("hidden");
-    }, 250);
-  }
-  let walletBalance = Number(localStorage.getItem('momaWalletBalance')) || 0;
-let walletVisible = true;
-
-function formatCurrency(amount) {
-  return `₦${amount.toLocaleString()}`;
-}
-
-function toggleWalletBalance() {
-  const balanceEl = document.getElementById('walletBalance');
-  const eyeIcon = document.getElementById('walletEye');
-
-  if (walletVisible) {
-    balanceEl.textContent = '••••••';
-    eyeIcon.setAttribute('data-lucide', 'eye-off');
-  } else {
-    balanceEl.textContent = formatCurrency(walletBalance);
-    eyeIcon.setAttribute('data-lucide', 'eye');
-  }
-
-  walletVisible = !walletVisible;
-  lucide.createIcons();
-}
-
-  </script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
-
-// fallback storage
-const savedToken = localStorage.getItem("login_token");
-
-const finalToken = token || savedToken;
-
-if (!finalToken) {
-  window.location.href = "/trin001/index.html";
-}
-
-fetch(`https://moma-api.victorpalmtrees001.workers.dev/me?token=${finalToken}`)
-  .then(res => res.json())
-  .then(data => {
-
-    if (!data.success) {
-      window.location.href = "/trin001/index.html";
-      return;
-    }
-
-    // SAVE SESSION
-    localStorage.setItem("login_token", finalToken);
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    // DISPLAY DATA
-    document.getElementById("businessName").textContent = data.user.business_name;
-    document.getElementById("businessLogo").src = data.user.business_logo;
-
-    // clean URL
-    window.history.replaceState({}, "", "/trin001/dashboard.html");
-
-  });
-  </script>
 </body>
 </html>
