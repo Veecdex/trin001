@@ -389,8 +389,13 @@ let currentToken = null;
         "dashboard"
       ) {
 
-        window.location.href =
-  `dashboard.html?token=${currentToken}`;
+        localStorage.setItem(
+  "trinfelly_token",
+  currentToken
+);
+
+window.location.href =
+  "dashboard.html";
       }
 
     } catch (error) {
@@ -575,9 +580,13 @@ businessLogo:
 
       }
 
-      // GO DASHBOARD
-      window.location.href =
-  `dashboard.html?token=${currentToken}`;
+      localStorage.setItem(
+  "trinfelly_token",
+  currentToken
+);
+
+window.location.href =
+  "dashboard.html";
 
     } catch (error) {
 
@@ -593,7 +602,7 @@ businessLogo:
     }
 
   }
-);
+); 
 async function compressImage(
   file,
   maxKB
@@ -699,6 +708,6 @@ async function compressImage(
     }
   );
 
-}
+} 
     </script>
 </html>

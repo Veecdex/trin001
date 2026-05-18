@@ -1274,101 +1274,113 @@ lucide.createIcons();
     "https://moma-api.victorpalmtrees001.workers.dev";
     
     async function loadDashboardUser() {
-    
-      try {
-    
-        // TOKEN
-        const token =
-          localStorage.getItem(
-            "trinfelly_token"
-          );
-    
-        // NO TOKEN
-        if (!token) {
-    
-          window.location.href =
-            "index.html";
-    
-          return;
-    
-        }
-    
-        // FETCH USER DATA
-        const response =
-          await fetch(
-            `${API_BASE}/dashboard-user?token=${token}`
-          );
-    
-        const data =
-          await response.json();
-    
-        console.log(data);
-    
-        // INVALID SESSION
-        if (
-          !response.ok ||
-          !data.success
-        ) {
-    
-          localStorage.removeItem(
-            "trinfelly_token"
-          );
-    
-          window.location.href =
-            "index.html";
-    
-          return;
-    
-        }
-    
-        // USER
-        const user = data.user;
-    
-        // NAME
-        document.getElementById(
-          "businessName"
-        ).textContent =
-          user.businessName ||
-          "Business Name";
-    
-        // INDUSTRY
-        document.getElementById(
-          "businessIndustry"
-        ).textContent =
-          user.businessIndustry ||
-          "Business Industry";
-    
-        // LOCATION
-        document.getElementById(
-          "businessLocation"
-        ).textContent =
-          user.businessLocation ||
-          "No Location";
-    
-        // LOGO
-        document.getElementById(
-          "businessLogo"
-        ).src =
-          user.businessLogo ||
-          "https://ui-avatars.com/api/?name=" +
-          encodeURIComponent(
-            user.businessName || "T"
-          ) +
-          "&background=111827&color=ffffff";
-    
-      } catch (error) {
-    
-        console.log(
-          "Dashboard Error:",
-          error
-        );
-    
-      }
-    
-    }
-    
-    // LOAD USER
-    loadDashboardUser();
+
+try {
+
+  // GET TOKEN
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  let token =
+    params.get("token") ||
+    localStorage.getItem(
+      "trinfelly_token"
+    );
+
+  // NO TOKEN
+  if (!token) {
+
+    window.location.href =
+      "index.html";
+
+    return;
+
+  }
+
+  // SAVE TOKEN
+  localStorage.setItem(
+    "trinfelly_token",
+    token
+  );
+
+  // FETCH USER DATA
+  const response =
+    await fetch(
+      `${API_BASE}/dashboard-user?token=${token}`
+    );
+
+  const data =
+    await response.json();
+
+  console.log(data);
+
+  // INVALID SESSION
+  if (
+    !response.ok ||
+    !data.success
+  ) {
+
+    localStorage.removeItem(
+      "trinfelly_token"
+    );
+
+    window.location.href =
+      "index.html";
+
+    return;
+
+  }
+
+  // USER
+  const user = data.user;
+
+  // NAME
+  document.getElementById(
+    "businessName"
+  ).textContent =
+    user.businessName ||
+    "Business Name";
+
+  // INDUSTRY
+  document.getElementById(
+    "businessIndustry"
+  ).textContent =
+    user.businessIndustry ||
+    "Business Industry";
+
+  // LOCATION
+  document.getElementById(
+    "businessLocation"
+  ).textContent =
+    user.businessLocation ||
+    "No Location";
+
+  // LOGO
+  document.getElementById(
+    "businessLogo"
+  ).src =
+    user.businessLogo ||
+    "https://ui-avatars.com/api/?name=" +
+    encodeURIComponent(
+      user.businessName || "T"
+    ) +
+    "&background=111827&color=ffffff";
+
+} catch (error) {
+
+  console.log(
+    "Dashboard Error:",
+    error
+  );
+
+}
+
+}
+
+// LOAD USER
+loadDashboardUser();
     
     </script>
 </body>
