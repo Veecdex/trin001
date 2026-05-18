@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 
@@ -472,12 +471,33 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
   
       <div class="flex items-center gap-4">
         <div class="w-14 h-14 rounded-full bg-zinc-200 overflow-hidden flex items-center justify-center">
-          <img src="cake.jpg" class="w-full h-full object-cover" alt="brand">
+          <img
+  id="businessLogo"
+  src=""
+  class="w-full h-full object-cover"
+  alt="brand"
+>
         </div>
 
+
+
+
+
+
         <div>
-          <h3 class="text-base font-semibold text-zinc-900">Kailey Place</h3>
-          <p class="text-sm text-zinc-500">Retail & Restaurant</p>
+         
+<h3
+id="businessName"
+class="text-base font-semibold text-zinc-900"
+>
+Loading...
+</h3>
+<p
+id="businessIndustry"
+class="text-sm text-zinc-500"
+>
+Loading...
+</p>
         </div>
       </div>
 
@@ -489,7 +509,12 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
           <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
         </svg>
       
-        <span class="text-sm font-medium text-gray-700">Lagos, Nigeria</span>
+        <span
+  id="businessLocation"
+  class="text-sm font-medium text-gray-700"
+>
+  Loading...
+</span>
       </div>
 
     </div>
@@ -1243,5 +1268,84 @@ lucide.createIcons();
       lucide.createIcons();
     }
     </script>
+    <script>
+
+      async function loadDashboardUser() {
+      
+        try {
+      
+          // GET TOKEN
+          const token =
+            localStorage.getItem("trinfelly_token");
+      
+          if (!token) {
+      
+            window.location.href = "index.html";
+            return;
+      
+          }
+      
+          // FETCH USER
+          const response =
+            await fetch(
+              `https://moma-api.victorpalmtrees001.workers.dev/dashboard-user?token=${token}`
+            );
+      
+          const data =
+            await response.json();
+      
+          // INVALID SESSION
+          if (!data.success) {
+      
+            localStorage.removeItem(
+              "trinfelly_token"
+            );
+      
+            window.location.href =
+              "index.html";
+      
+            return;
+      
+          }
+      
+          const user =
+            data.user;
+      
+          // BUSINESS NAME
+          document.getElementById(
+            "businessName"
+          ).textContent =
+            user.businessName;
+      
+          // INDUSTRY
+          document.getElementById(
+            "businessIndustry"
+          ).textContent =
+            user.businessIndustry;
+      
+          // LOCATION
+          document.getElementById(
+            "businessLocation"
+          ).textContent =
+            user.businessLocation;
+      
+          // LOGO
+          document.getElementById(
+            "businessLogo"
+          ).src =
+            user.businessLogo;
+      
+        } catch (error) {
+      
+          console.log(error);
+      
+        }
+      
+      }
+      
+      // LOAD
+      loadDashboardUser();
+      
+      </script>
 </body>
 </html>
