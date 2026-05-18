@@ -18,9 +18,12 @@
 <!-- LUCIDE ICONS -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
-<style>
-    body{
+<!-- REPLACE YOUR CURRENT <style> WITH THIS -->
+  <style>
+
+body{
       font-family: 'Plus Jakarta Sans', sans-serif;
+    
     }
     .sidebar-btn{
   transition: all .3s ease;
@@ -60,6 +63,7 @@ select{
 }
 
 }
+
 .scrollbar-thin::-webkit-scrollbar {
   width: 4px;
 }
@@ -115,7 +119,214 @@ select{
     border-top-right-radius: 25px;
   }
 }
-  </style>
+
+    @media (max-width: 768px){
+
+body{
+  font-size: 14px;
+}
+
+.container{
+  transform: scale(0.85);
+  transform-origin: top center;
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+#sidebar{
+  width: 92px !important;
+  min-width: 92px !important;
+  position: relative !important;
+  transform: translateX(0) !important;
+  overflow: hidden;
+}
+
+#sidebar h1{
+  display:none;
+}
+
+#sidebar img{
+  width:58px !important;
+  height:58px !important;
+  object-fit:contain;
+}
+
+#sidebar span{
+  display:none;
+}
+
+#sidebar .tracking-wider{
+  display:none;
+}
+
+.sidebar-btn{
+  justify-content:center;
+  padding:14px 0 !important;
+}
+
+/* =========================
+INVOICES FIX
+========================= */
+
+.scrollbar-thin{
+  max-height: 340px !important;
+}
+
+.scrollbar-thin .p-4{
+  padding:14px !important;
+  border-radius:16px !important;
+  min-height:70px;
+}
+
+.scrollbar-thin p{
+  display:block !important;
+  font-size:10px !important;
+  line-height:1.4;
+}
+
+/* =========================
+MAIN AREA
+========================= */
+
+main{
+  padding:14px !important;
+  overflow-x:hidden;
+}
+
+/* =========================
+TOP CARDS
+NOW VERTICAL
+========================= */
+
+.grid.grid-cols-2{
+  grid-template-columns: 1fr !important;
+}
+
+/* =========================
+PROFILE CARD
+========================= */
+
+.grid.grid-cols-2 > div:first-child{
+  min-height:85px;
+}
+
+/* =========================
+WALLET CARD
+========================= */
+
+.grid.grid-cols-2 > div:last-child{
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  min-height:90px;
+}
+
+.grid.grid-cols-2 > div:last-child button{
+  margin-left:auto;
+  white-space:nowrap;
+}
+
+/* =========================
+FORMS
+KEEP DESKTOP STYLE
+========================= */
+
+.md\:grid-cols-2{
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+}
+
+/* =========================
+TYPOGRAPHY
+========================= */
+
+h1{
+  font-size:16px !important;
+}
+
+h2{
+  font-size:19px !important;
+}
+
+h3{
+  font-size:15px !important;
+}
+
+p,
+span,
+input,
+textarea,
+select,
+button{
+  font-size:11px !important;
+}
+
+/* =========================
+INPUTS
+========================= */
+
+input,
+select{
+  height:48px !important;
+}
+
+textarea{
+  min-height:120px !important;
+}
+
+/* =========================
+ICONS
+========================= */
+
+i[data-lucide]{
+  width:16px !important;
+  height:16px !important;
+}
+
+/* =========================
+CARD RADII
+========================= */
+
+.rounded-3xl{
+  border-radius:20px !important;
+}
+
+.rounded-2xl{
+  border-radius:16px !important;
+}
+
+/* =========================
+
+
+/* =========================
+SPACING
+========================= */
+
+.p-6{
+  padding:18px !important;
+}
+
+.p-5{
+  padding:16px !important;
+}
+
+.mb-8{
+  margin-bottom:20px !important;
+}
+
+.mt-8{
+  margin-top:20px !important;
+}
+
+.max-w-5xl{
+  max-width:100% !important;
+}
+
+}
+    
+    </style>
 
 </head>
 
@@ -123,67 +334,13 @@ select{
 
     <div class="flex h-screen overflow-hidden relative">
 
+
   <!-- SIDEBAR -->
-  <!-- MOBILE TOPBAR -->
-<div class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-zinc-200 px-4 py-3 flex items-center justify-between">
+<!-- REPLACE YOUR SIDEBAR CLASS WITH THIS -->
 
-    <!-- LEFT -->
-    <div class="flex items-center">
-  
-      <!-- MENU BUTTON -->
-      <button 
-        id="menuBtn"
-        onclick="toggleSidebar()"
-        class="w-11 h-11 rounded-2xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center active:scale-95 transition-all duration-300 shadow-sm">
-  
-        <i data-lucide="menu" id="menuIcon" class="w-5 h-5 text-zinc-900"></i>
-  
-      </button>
-      <h1 
-      class="text-lg font-bold text-zinc-900 tracking-tight"
-      style="font-family: 'Poppins', sans-serif; margin-left: 10px;"
-    >
-      Trinfelly
-    </h1>
-    </div>
-
-     
-
-    <!-- RIGHT ACTIONS -->
-    <div class="flex items-center gap-2">
-  
-      <!-- SELL -->
-      <button class="w-10 h-10 rounded-2xl bg-red-500 text-white flex items-center justify-center shadow-lg shadow-red-500/20 active:scale-95 transition">
-        <i data-lucide="credit-card" class="w-4 h-4"></i>
-      </button>
-  
-      <!-- REDEEM -->
-      <button class="w-10 h-10 rounded-2xl bg-zinc-100 text-zinc-900 flex items-center justify-center border border-zinc-200 active:scale-95 transition">
-        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-      </button>
-  
-      <!-- WALLET -->
-      <button class="w-10 h-10 rounded-2xl bg-zinc-100 text-zinc-900 flex items-center justify-center border border-zinc-200 active:scale-95 transition">
-        <i data-lucide="wallet" class="w-4 h-4"></i>
-      </button>
-  
-    </div>
-  
-  </div>
-  
-  <!-- OVERLAY -->
-  <div 
-    id="overlay"
-    onclick="toggleSidebar()"
-    class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden opacity-0 transition duration-300">
-  </div>
-  
-  <!-- SIDEBAR -->
-  <aside 
-    id="sidebar"
-    class="fixed lg:relative top-0 left-0 z-50 h-screen w-[280px] bg-black text-white flex flex-col justify-between border-r border-zinc-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
-  
-    <!-- TOP -->
+<aside 
+id="sidebar"
+class="fixed lg:relative top-0 left-0 z-50 h-screen w-[280px] bg-black text-white flex flex-col justify-between border-r border-zinc-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"> <!-- TOP -->
     <div class="p-5">
   
       <!-- BRAND -->
@@ -214,7 +371,7 @@ select{
   
     <i data-lucide="credit-card" class="w-4 h-4 text-white-500"></i>
   
-    <span class="text-xs">Sell Gift Card</span>
+    <span class="hidden lg:block text-xs">Sell Gift Card</span>
   
   </button>
   
@@ -226,7 +383,7 @@ select{
   
     <i data-lucide="refresh-cw" class="w-4 h-4 text-white-500"></i>
   
-    <span class="text-xs">Redeem Gift Card</span>
+    <span class="hidden lg:block text-xs">Redeem Gift Card</span>
   
   </button>
   
@@ -238,7 +395,7 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
 
 <i data-lucide="wallet" class="w-4 h-4 text-white-500"></i>
 
-<span class="text-xs">Fund Wallet</span>
+<span class="hidden lg:block text-xs">Fund Wallet</span>
 
 </button>
   
@@ -279,12 +436,12 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
   
       <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
         <i data-lucide="settings" class="w-4 h-4"></i>
-        <span class="text-xs">Settings</span>
+        <span class="hidden lg:block text-xs">Settings</span>
       </button>
   
       <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-red-500/10 transition text-red-400">
         <i data-lucide="log-out" class="w-4 h-4"></i>
-        <span class="text-xs">Logout</span>
+        <span class="hidden lg:block text-xs">Logout</span>
       </button>
   
     </div>
@@ -292,8 +449,10 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
   </aside>
 
 <!-- MAIN AREA -->
-<main class="flex-1 h-screen overflow-y-auto bg-zinc-50 relative overflow-x-hidden pt-24 lg:pt-6 p-4 lg:p-6 z-10"> <!-- TOP DASHBOARD CARDS -->
-    <div class="bottom-bar">
+<!-- REPLACE MAIN TAG -->
+
+<main class="flex-1 h-screen overflow-y-auto bg-zinc-50 relative overflow-x-hidden p-4 lg:p-6 z-10">   
+  <div class="bottom-bar">
         <img
         style="
           width:1000px;
@@ -303,7 +462,7 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
         alt=""
       >
       </div>
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-5 mb-6 relative z-10">
+      <div class="grid grid-cols-2 gap-4 lg:gap-5 mb-6 relative z-10">
     <!-- LEFT CARD: BUSINESS PROFILE -->
     <div class="flex items-center justify-between bg-white rounded-2xl p-5 shadow-sm border border-zinc-200">
   
@@ -319,8 +478,14 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
       </div>
 
       <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-        <span class="text-sm font-medium text-green-600">Active</span>
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-4 h-4 text-red-500" 
+             fill="currentColor" 
+             viewBox="0 0 24 24">
+          <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+        </svg>
+      
+        <span class="text-sm font-medium text-gray-700">Lagos, Nigeria</span>
       </div>
 
     </div>
@@ -412,7 +577,7 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
           </div>
       
           <!-- FORM -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="grid grid-cols-2 gap-5">
       
             <!-- SENDER -->
             <div>
