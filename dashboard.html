@@ -1268,84 +1268,108 @@ lucide.createIcons();
       lucide.createIcons();
     }
     </script>
-    <script>
+   <script>
 
-      async function loadDashboardUser() {
-      
-        try {
-      
-          // GET TOKEN
-          const token =
-            localStorage.getItem("trinfelly_token");
-      
-          if (!token) {
-      
-            window.location.href = "index.html";
-            return;
-      
-          }
-      
-          // FETCH USER
-          const response =
-            await fetch(
-              `https://moma-api.victorpalmtrees001.workers.dev/dashboard-user?token=${token}`
-            );
-      
-          const data =
-            await response.json();
-      
-          // INVALID SESSION
-          if (!data.success) {
-      
-            localStorage.removeItem(
-              "trinfelly_token"
-            );
-      
-            window.location.href =
-              "index.html";
-      
-            return;
-      
-          }
-      
-          const user =
-            data.user;
-      
-          // BUSINESS NAME
-          document.getElementById(
-            "businessName"
-          ).textContent =
-            user.businessName;
-      
-          // INDUSTRY
-          document.getElementById(
-            "businessIndustry"
-          ).textContent =
-            user.businessIndustry;
-      
-          // LOCATION
-          document.getElementById(
-            "businessLocation"
-          ).textContent =
-            user.businessLocation;
-      
-          // LOGO
-          document.getElementById(
-            "businessLogo"
-          ).src =
-            user.businessLogo;
-      
-        } catch (error) {
-      
-          console.log(error);
-      
+    const API_BASE =
+    "https://moma-api.victorpalmtrees001.workers.dev";
+    
+    async function loadDashboardUser() {
+    
+      try {
+    
+        // TOKEN
+        const token =
+          localStorage.getItem(
+            "trinfelly_token"
+          );
+    
+        // NO TOKEN
+        if (!token) {
+    
+          window.location.href =
+            "index.html";
+    
+          return;
+    
         }
-      
+    
+        // FETCH USER DATA
+        const response =
+          await fetch(
+            `${API_BASE}/dashboard-user?token=${token}`
+          );
+    
+        const data =
+          await response.json();
+    
+        console.log(data);
+    
+        // INVALID SESSION
+        if (
+          !response.ok ||
+          !data.success
+        ) {
+    
+          localStorage.removeItem(
+            "trinfelly_token"
+          );
+    
+          window.location.href =
+            "index.html";
+    
+          return;
+    
+        }
+    
+        // USER
+        const user = data.user;
+    
+        // NAME
+        document.getElementById(
+          "businessName"
+        ).textContent =
+          user.businessName ||
+          "Business Name";
+    
+        // INDUSTRY
+        document.getElementById(
+          "businessIndustry"
+        ).textContent =
+          user.businessIndustry ||
+          "Business Industry";
+    
+        // LOCATION
+        document.getElementById(
+          "businessLocation"
+        ).textContent =
+          user.businessLocation ||
+          "No Location";
+    
+        // LOGO
+        document.getElementById(
+          "businessLogo"
+        ).src =
+          user.businessLogo ||
+          "https://ui-avatars.com/api/?name=" +
+          encodeURIComponent(
+            user.businessName || "T"
+          ) +
+          "&background=111827&color=ffffff";
+    
+      } catch (error) {
+    
+        console.log(
+          "Dashboard Error:",
+          error
+        );
+    
       }
-      
-      // LOAD
-      loadDashboardUser();
-      
-      </script>
+    
+    }
+    
+    // LOAD USER
+    loadDashboardUser();
+    
+    </script>
 </body>
 </html>

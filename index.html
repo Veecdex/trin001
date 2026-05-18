@@ -4,10 +4,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trinfely | Business Onboarding & Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { background: #f9fafb; font-family: 'Nunito Sans', sans-serif;  }
+    body { background: #f9fafb;  font-family: 'Plus Jakarta Sans', sans-serif; }
     .brand { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
     @media (min-width: 1190px) {
 
@@ -147,43 +147,73 @@ textarea {
 }
 </style>
 <div class="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row">
- <!-- Hero Section -->
-<div class="relative lg:w-1/2 w-full h-[55vh] lg:h-full text-white flex flex-col">
-  <img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b" alt="Business" class="absolute inset-0 w-full h-full object-cover">
-  <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-red-600/70"></div>
 
-  <!-- Hero Content -->
-  <div class="relative z-10 flex-1 flex items-center px-6 lg:px-12">
-    <div>
-      <img 
-      src="images/TrinfelyLogo.png" 
-      alt="TRINFELY Logo"
-      class="w-36 sm:w-44 md:w-52 h-auto object-contain drop-shadow-[0_10px_25px_rgba(239,68,68,0.35)]"
-    />
+  <!-- Hero Section -->
+  <div class="relative lg:w-1/2 w-full h-[70vh] lg:h-full text-white flex flex-col overflow-hidden">
 
-     <h2 class="text-3xl lg:text-5xl font-bold mb-4 leading-tight">
-  Launch and Manage Branded Gift Cards with Ease
-</h2>
+    <!-- Background Image -->
+    <img 
+      src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b" 
+      alt="Business" 
+      class="absolute inset-0 w-full h-full object-cover scale-110 blur-[1px]"
+    >
 
-<p class="text-gray-200 text-sm lg:text-base max-w-md">
-  Trinfely helps businesses create, sell, redeem, and track branded gift cards through one seamless platform built for modern brands and online stores.
-</p>
+    <!-- Dark Fintech Overlay -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(239,68,68,0.18),transparent_40%),linear-gradient(to_bottom_right,rgba(0,0,0,0.96),rgba(5,5,5,0.9),rgba(10,10,10,0.96))]"></div>
+
+    <!-- Glass Glow -->
+    <div class="absolute top-[-120px] right-[-120px] w-[320px] h-[320px] bg-red-500/20 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-[-100px] left-[-100px] w-[250px] h-[250px] bg-white/5 blur-[100px] rounded-full"></div>
+
+    <!-- Grid Pattern -->
+    <div class="absolute inset-0 opacity-[0.06] bg-[linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 flex-1 flex items-center px-6 lg:px-12">
+
+      <!-- Glass Card -->
+      <div class="backdrop-blur-xl bg-white/[0.04] border border-white/10 rounded-[32px] p-7 lg:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.65)] max-w-xl">
+
+
+        <img 
+          src="images/TrinfelyLogo.png" 
+          alt="TRINFELY Logo"
+          class="w-36 sm:w-44 md:w-52 h-auto object-contain mb-7 drop-shadow-[0_10px_25px_rgba(239,68,68,0.4)]"
+        />
+
+        <h2 class="text-3xl lg:text-5xl font-bold mb-5 leading-tight tracking-tight">
+          Launch and Manage 
+          <span class="text-red-500">Branded Gift Cards</span> 
+          with Ease
+        </h2>
+
+        <p class="text-gray-300 text-sm lg:text-base leading-relaxed max-w-md">
+          Trinfely helps businesses create, sell, redeem, and track branded gift cards through one seamless platform built for modern brands and online stores.
+        </p>
+
+       
+
+      </div>
+
     </div>
-  </div>
 
-  <!-- Footer -->
-  <div class="relative z-10 px-6 lg:px-12 py-4 border-t border-white/20 bg-black/20 backdrop-blur-sm">
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs lg:text-sm text-gray-300">
-      <p>&copy; 2026 Trinfely.com All rights reserved.</p>
+    <!-- Footer -->
+    <div class="relative z-10 px-6 lg:px-12 py-4 border-t border-white/10 bg-black/40 backdrop-blur-xl">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs lg:text-sm text-gray-400">
 
-      <div class="flex flex-wrap items-center justify-center gap-4">
-        <a href="#" class="hover:text-white transition-colors duration-300">Terms of Use</a>
-        <a href="#" class="hover:text-white transition-colors duration-300">Privacy Policy</a>
-        <a href="#" class="hover:text-white transition-colors duration-300">Contact</a>
+        <p>&copy; 2026 Trinfely.com All rights reserved.</p>
+
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="#" class="hover:text-white transition duration-300">Terms of Use</a>
+          <a href="#" class="hover:text-white transition duration-300">Privacy Policy</a>
+          <a href="#" class="hover:text-white transition duration-300">Contact</a>
+        </div>
+
       </div>
     </div>
+
   </div>
-</div>
+
 
  <!-- =========================================
      RIGHT AUTH SECTION (REPLACE YOUR CURRENT RIGHT SIDE WITH THIS)
@@ -1036,8 +1066,9 @@ setTimeout(() => {
 }, 250);
 
 // SAVE TOKEN
+// SAVE TOKEN
 localStorage.setItem(
-  "login_token",
+  "trinfelly_token",
   verifyData.token
 );
 
