@@ -437,9 +437,17 @@ class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg
     <!-- BOTTOM -->
     <div class="p-2 border-t border-zinc-800">
   
-      <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
-        <i data-lucide="settings" class="w-4 h-4"></i>
-        <span class="hidden lg:block text-xs">Settings</span>
+      <button
+      id="settingsTab"
+      onclick="switchTab('profile')"
+      class="sidebar-btn flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-white/10 transition">
+      
+        <i data-lucide="user-circle-2" class="w-4 h-4"></i>
+      
+        <span class="hidden lg:block text-xs">
+          Profile
+        </span>
+      
       </button>
   
       <button class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-red-500/10 transition text-red-400">
@@ -543,6 +551,7 @@ Loading...
     </div>
 
   </div>
+
 <!-- SELL GIFT CARD SECTION -->
 <!-- PAGE CONTENT WRAPPER -->
 <div class="mt-6 relative z-10 pb-10">
@@ -1043,6 +1052,171 @@ Loading...
     </div>
   
   </div>
+  <!-- PROFILE PAGE -->
+<div id="profilePage" class="content-page">
+
+  <div class="w-full max-w-5xl bg-white border border-zinc-200 rounded-[32px] shadow-sm p-6 md:p-8">
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between mb-8">
+
+      <div class="flex items-center gap-4">
+
+        <div class="w-14 h-14 rounded-2xl bg-zinc-100 flex items-center justify-center">
+          <i data-lucide="user-circle-2" class="w-7 h-7 text-red-500"></i>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold text-zinc-900">
+            Business Profile
+          </h2>
+
+          <p class="text-sm text-zinc-500">
+            Manage your business information
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- PROFILE -->
+    <div class="grid md:grid-cols-2 gap-5">
+
+      <!-- BUSINESS NAME -->
+      <div>
+        <label class="text-xs text-zinc-500 mb-2 block">
+          Business Name
+        </label>
+
+        <input
+          id="profileBusinessName"
+          type="text"
+          disabled
+          class="w-full h-14 px-5 rounded-2xl border border-zinc-200 bg-zinc-100 outline-none">
+      </div>
+
+      <!-- EMAIL -->
+      <div>
+        <label class="text-xs text-zinc-500 mb-2 block">
+          Email Address
+        </label>
+
+        <input
+          id="profileEmail"
+          type="text"
+          disabled
+          class="w-full h-14 px-5 rounded-2xl border border-zinc-200 bg-zinc-100 outline-none">
+      </div>
+
+      <!-- BUSINESS LOCATION -->
+      <div>
+        <label class="text-xs text-zinc-500 mb-2 block">
+          Business Location
+        </label>
+
+        <input
+          id="profileLocation"
+          type="text"
+          disabled
+          class="w-full h-14 px-5 rounded-2xl border border-zinc-200 bg-zinc-100 outline-none">
+      </div>
+
+      <!-- BUSINESS ID -->
+      <div>
+        <label class="text-xs text-zinc-500 mb-2 block">
+          Business ID
+        </label>
+
+        <input
+          id="profileBusinessId"
+          type="text"
+          disabled
+          class="w-full h-14 px-5 rounded-2xl border border-zinc-200 bg-zinc-100 outline-none">
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="md:col-span-2">
+        <label class="text-xs text-zinc-500 mb-2 block">
+          Business Address
+        </label>
+
+        <textarea
+          id="profileAddress"
+          class="w-full min-h-[130px] p-5 rounded-2xl border border-zinc-200 outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition"></textarea>
+      </div>
+
+      <!-- LOGO -->
+      <div class="md:col-span-2">
+
+        <label class="text-xs text-zinc-500 mb-3 block">
+          Business Logo
+        </label>
+
+        <div class="flex items-center gap-5 flex-wrap">
+
+          <div class="w-24 h-24 rounded-3xl overflow-hidden border border-zinc-200">
+            <img
+              id="profileLogoPreview"
+              src=""
+              class="w-full h-full object-cover">
+          </div>
+
+          <input
+            id="profileLogoInput"
+            type="file"
+            accept="image/*"
+            class="block text-sm text-zinc-500">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SAVE -->
+    <div class="mt-8 flex justify-end">
+
+      <button
+        onclick="saveProfileChanges()"
+        class="h-14 px-8 rounded-2xl bg-red-500 hover:bg-red-600 text-white text-sm font-semibold flex items-center gap-2 transition">
+
+        <i data-lucide="save" class="w-4 h-4"></i>
+
+        Save Changes
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- TOAST -->
+<div
+id="toast"
+class="fixed top-5 right-5 translate-y-[-20px] opacity-0 pointer-events-none transition-all duration-300 z-[9999]">
+
+  <div class="bg-black text-white px-5 py-4 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-3">
+
+    <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
+      <i data-lucide="check" class="w-5 h-5 text-green-400"></i>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold">
+        Success
+      </h3>
+
+      <p
+      id="toastMessage"
+      class="text-xs text-zinc-400 mt-1">
+        Profile updated successfully
+      </p>
+    </div>
+
+  </div>
+
+</div>
   <div class="mt-6 flex flex-col items-center gap-3 text-xs text-zinc-500">
 
     <p>© 2026 Trinfelly. Sell Branded Virtual Gift Card.</p>
@@ -1155,7 +1329,11 @@ lucide.createIcons();
       const sellTab = document.getElementById("sellTab");
       const redeemTab = document.getElementById("redeemTab");
       const walletTab = document.getElementById("walletTab");
-    
+      const profilePage =
+document.getElementById("profilePage");
+
+const settingsTab =
+document.getElementById("settingsTab");
       // RESET BUTTONS
       document.querySelectorAll(".sidebar-btn").forEach(btn => {
     
@@ -1243,7 +1421,19 @@ lucide.createIcons();
         icon.classList.add("text-green-500");
     
       }
-    
+    // PROFILE
+if(tab === "profile"){
+
+profilePage.classList.add("active-page");
+
+settingsTab.classList.add(
+  "active-sidebar",
+  "bg-white/10",
+  "border",
+  "border-white/10"
+);
+
+}
       // MOBILE AUTO CLOSE
       if(window.innerWidth < 1024){
     
@@ -1367,7 +1557,36 @@ try {
       user.businessName || "T"
     ) +
     "&background=111827&color=ffffff";
+// PROFILE PAGE DATA
+document.getElementById(
+  "profileBusinessName"
+).value =
+  user.businessName || "";
 
+document.getElementById(
+  "profileEmail"
+).value =
+  user.email || "";
+
+document.getElementById(
+  "profileLocation"
+).value =
+  user.businessLocation || "";
+
+document.getElementById(
+  "profileBusinessId"
+).value =
+  user.businessId || "";
+
+document.getElementById(
+  "profileAddress"
+).value =
+  user.storeAddress || "";
+
+document.getElementById(
+  "profileLogoPreview"
+).src =
+  user.businessLogo || "";
 } catch (error) {
 
   console.log(
@@ -1383,5 +1602,148 @@ try {
 loadDashboardUser();
     
     </script>
+    <script>
+
+      document
+      .getElementById("profileLogoInput")
+      .addEventListener(
+        "change",
+        function(e){
+      
+          const file =
+            e.target.files[0];
+      
+          if(!file) return;
+      
+          const reader =
+            new FileReader();
+      
+          reader.onload =
+            function(event){
+      
+              document.getElementById(
+                "profileLogoPreview"
+              ).src =
+                event.target.result;
+      
+            };
+      
+          reader.readAsDataURL(file);
+      
+      });
+      
+      </script>
+      <script>
+
+        async function saveProfileChanges(){
+        
+          try {
+        
+            const token =
+              localStorage.getItem(
+                "trinfelly_token"
+              );
+        
+            const storeAddress =
+              document.getElementById(
+                "profileAddress"
+              ).value;
+        
+            const businessLogo =
+              document.getElementById(
+                "profileLogoPreview"
+              ).src;
+        
+            const response =
+              await fetch(
+                `${API_BASE}/update-profile`,
+                {
+                  method: "POST",
+        
+                  headers: {
+                    "Content-Type":
+                      "application/json"
+                  },
+        
+                  body: JSON.stringify({
+        
+                    token,
+        
+                    storeAddress,
+        
+                    businessLogo
+        
+                  })
+                }
+              );
+        
+            const data =
+              await response.json();
+        
+            if(data.success){
+        
+              // UPDATE TOP LOGO
+              document.getElementById(
+                "businessLogo"
+              ).src =
+                businessLogo;
+        
+                showToast(
+  "Profile updated successfully"
+);
+        
+            }
+        
+          } catch(error){
+        
+            console.log(error);
+        
+          }
+        
+        }
+        
+        </script>
+        <script>
+
+          function showToast(message){
+          
+            const toast =
+              document.getElementById("toast");
+          
+            const toastMessage =
+              document.getElementById("toastMessage");
+          
+            toastMessage.textContent =
+              message;
+          
+            toast.classList.remove(
+              "opacity-0",
+              "translate-y-[-20px]",
+              "pointer-events-none"
+            );
+          
+            toast.classList.add(
+              "opacity-100",
+              "translate-y-0"
+            );
+          
+            setTimeout(() => {
+          
+              toast.classList.remove(
+                "opacity-100",
+                "translate-y-0"
+              );
+          
+              toast.classList.add(
+                "opacity-0",
+                "translate-y-[-20px]",
+                "pointer-events-none"
+              );
+          
+            }, 3000);
+          
+          }
+          
+          </script>
 </body>
 </html>
