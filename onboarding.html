@@ -347,6 +347,7 @@ let currentToken = null;
 
     const token =
       params.get("token");
+      localStorage.setItem("trinfelly_token", token);
 
     // NO TOKEN
     if (!token) {
@@ -384,19 +385,10 @@ let currentToken = null;
         data.user;
 
       // USER READY FOR DASHBOARD
-      if (
-        data.redirectTo ===
-        "dashboard"
-      ) {
+      currentUser = data.user;
+currentToken = token;
 
-        localStorage.setItem(
-  "trinfelly_token",
-  currentToken
-);
-
-window.location.href =
-  "dashboard.html";
-      }
+localStorage.setItem("trinfelly_token", token);
 
     } catch (error) {
 
