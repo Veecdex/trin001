@@ -3,187 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wiesel OS Dashboard</title>
+  <title>Dash View </title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-/* Hide Scrollbars */
-::-webkit-scrollbar{
-  width:0;
-  height:0;
-}
-
-*{
-  scrollbar-width:none;
-}
-
-/* MOBILE */
-@media (max-width: 768px){
-
-  /* Sidebar */
-  aside{
-    width:72px !important;
-  }
-
-  /* Hide Brand Text */
-  aside .leading-tight{
-    display:none;
-  }
-
-  /* Center Logo */
-  aside .border-b{
-    justify-content:center;
-    padding:16px 0;
-  }
-
-  /* Icon Only Nav */
-  aside nav a{
-    justify-content:center;
-    padding:12px;
-  }
-
-  aside nav a{
-    font-size:0;
-  }
-
-  aside nav a i{
-    width:20px;
-    height:20px;
-  }
-
-  /* Online Store Button */
-  aside .bg-gradient-to-r{
-    justify-content:center;
-    padding:12px;
-  }
-
-  aside .bg-gradient-to-r div{
-    font-size:0;
-  }
-
-  aside .bg-gradient-to-r i:last-child{
-    display:none;
-  }
-
-  /* Header */
-  header{
-    height:68px !important;
-    padding-left:16px !important;
-    padding-right:16px !important;
-  }
-
-  header h2{
-    font-size:10px;
-    letter-spacing:.15em;
-  }
-
-  /* Profile */
-  header img{
-    width:34px;
-    height:34px;
-  }
-
-  header .leading-tight p:first-child{
-    font-size:12px;
-  }
-
-  header .leading-tight p:last-child{
-    font-size:10px;
-  }
-
-  /* Main */
-  main{
-    padding:16px !important;
-  }
-
-  /* Welcome */
-  main h1{
-    font-size:22px;
-  }
-
-  /* Stat Cards Horizontal Scroll */
-  main > .grid:first-of-type{
-    display:flex !important;
-    overflow-x:auto;
-    overflow-y:hidden;
-    gap:14px;
-    padding-bottom:4px;
-    scroll-snap-type:x proximity;
-  }
-
-  main > .grid:first-of-type > div{
-    min-width:260px;
-    flex-shrink:0;
-    scroll-snap-align:start;
-  }
-
-  /* Stack Containers */
-  .xl\:col-span-2{
-    grid-column:auto !important;
-  }
-
-  /* Charts */
-  #salesChart{
-    max-height:240px;
-  }
-
-  #channelChart{
-    max-height:220px;
-  }
-
-  /* Sales Channel */
-  .md\:grid-cols-2{
-    grid-template-columns:1fr !important;
-  }
-
-  /* Recent Orders */
-  .space-y-4 > div{
-    gap:10px;
-  }
-
-  /* Smaller Cards */
-  .rounded-3xl{
-    border-radius:22px;
-  }
-
-  .p-6{
-    padding:18px !important;
-  }
-
-  .p-5{
-    padding:16px !important;
-  }
-
-  h3{
-    font-size:18px !important;
-  }
-}
-@media (max-width:768px){
-
-aside nav a svg{
-    width:24px !important;
-    height:24px !important;
-    min-width:24px;
-    min-height:24px;
-}
-
-aside .bg-gradient-to-r svg{
-    width:24px !important;
-    height:24px !important;
-}
-
-}
-  </style>
+ <link rel="stylesheet" href="view.css">
 </head>
 <body class="bg-gray-50 text-slate-900 h-screen overflow-hidden">
 
@@ -209,22 +35,22 @@ aside .bg-gradient-to-r svg{
       <nav class="p-3 space-y-1">
 
         <!-- Dashboard ACTIVE -->
-        <a class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
           <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
           Dashboard
         </a>
 
-        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+        <a href="customers.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
           <i data-lucide="users" class="w-5 h-5"></i>
           Happy Customers
         </a>
 
-        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+        <a href="messages.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
           <i data-lucide="message-square" class="w-5 h-5"></i>
           Messages
         </a>
 
-        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+        <a href="orders.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
           <i data-lucide="shopping-cart" class="w-5 h-5"></i>
           Orders
         </a>
@@ -304,7 +130,10 @@ aside .bg-gradient-to-r svg{
     </header>
 
     <!-- MAIN -->
-    <main class="flex-1 overflow-y-auto p-6 bg-slate-50">
+    <main
+  id="mainContent"
+  class="flex-1 overflow-y-auto p-6 bg-slate-50">
+
 
         <!-- WELCOME -->
         <div class="mb-6">
@@ -576,157 +405,7 @@ aside .bg-gradient-to-r svg{
 
   </div>
 </div>
-<script>
-
-    const salesCtx =
-    document.getElementById("salesChart");
-    
-    const gradient =
-    salesCtx.getContext("2d")
-    .createLinearGradient(
-      0,
-      0,
-      0,
-      350
-    );
-    
-    gradient.addColorStop(
-      0,
-      "rgba(99,102,241,.35)"
-    );
-    
-    gradient.addColorStop(
-      1,
-      "rgba(99,102,241,0)"
-    );
-    
-    new Chart(salesCtx, {
-    
-      type: "line",
-    
-      data: {
-    
-        labels: [
-          "Mon",
-          "Tue",
-          "Wed",
-          "Thu",
-          "Fri",
-          "Sat",
-          "Sun"
-        ],
-    
-        datasets: [{
-    
-          data: [
-            140,
-            280,
-            220,
-            420,
-            310,
-            600,
-            520
-          ],
-    
-          borderColor: "#6366f1",
-    
-          backgroundColor: gradient,
-    
-          fill: true,
-    
-          tension: 0.45,
-    
-          borderWidth: 4,
-    
-          pointRadius: 0
-    
-        }]
-      },
-    
-      options: {
-    
-        responsive: true,
-    
-        maintainAspectRatio: false,
-    
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-    
-        scales: {
-    
-          x: {
-            grid: {
-              display: false
-            }
-          },
-    
-          y: {
-            grid: {
-              color: "#f1f5f9"
-            },
-            border: {
-              display: false
-            }
-          }
-    
-        }
-    
-      }
-    
-    });
-    
-    new Chart(
-    document.getElementById("channelChart"),
-    {
-    
-      type: "doughnut",
-    
-      data: {
-    
-        labels: [
-          "Online",
-          "Offline"
-        ],
-    
-        datasets: [{
-    
-          data: [
-            78,
-            22
-          ],
-    
-          backgroundColor: [
-            "#6366f1",
-            "#e2e8f0"
-          ],
-    
-          borderWidth: 0
-    
-        }]
-      },
-    
-      options: {
-    
-        responsive: true,
-    
-        cutout: "75%",
-    
-        plugins: {
-    
-          legend: {
-            display: false
-          }
-    
-        }
-    
-      }
-    
-    });
-    
-    </script>
+<script src="chart.js"></script>
 <script>
   lucide.createIcons();
 </script>

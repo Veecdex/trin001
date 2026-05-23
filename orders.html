@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orders </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="view.css">
+</head>
+<body class="bg-gray-50 text-slate-900 h-screen overflow-hidden">
+
+    <div class="flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 h-screen flex-shrink-0 bg-white border-r border-slate-200 flex flex-col justify-between overflow-hidden">
+    <!-- TOP NAV -->
+    <div>
+
+      <!-- BRAND -->
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg">
+          W
+        </div>
+        <div class="leading-tight">
+          <h1 class="text-sm font-semibold">WIesel</h1>
+          <p class="text-[10px] text-slate-500">Commerce OS</p>
+        </div>
+      </div>
+
+      <!-- NAV LINKS -->
+      <nav class="p-3 space-y-1">
+
+        <!-- Dashboard ACTIVE -->
+        <a href="dash_store.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600 ">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          Dashboard
+        </a>
+
+        <a href="customers.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="users" class="w-5 h-5"></i>
+          Happy Customers
+        </a>
+
+        <a href="messages.html"
+        class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="message-square" class="w-5 h-5"></i>
+          Messages
+        </a>
+
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
+          <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+          Orders
+        </a>
+
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+          Sales
+        </a>
+
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="package" class="w-5 h-5"></i>
+          Products
+        </a>
+
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          Transaction History
+        </a>
+
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          Store Settings
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- BOTTOM LINK (SPECIAL) -->
+    <div class="p-3 border-t border-slate-100">
+
+      <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:opacity-90 transition">
+        <div class="flex items-center gap-3">
+          <i data-lucide="external-link" class="w-5 h-5"></i>
+          Online Store
+        </div>
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+    <!-- TOP BAR -->
+    <header class="h-20 flex-shrink-0 px-6 flex items-center justify-between border-b border-slate-200 bg-white z-20">
+    <!-- LEFT -->
+<div class="hidden sm:flex items-center gap-3">
+    <div class="leading-tight">
+      <h2 class="text-sm tracking-widest text-slate-500">
+        OS FOR MODERN COMMERCE
+      </h2>
+    </div>
+  </div>
+
+      <!-- RIGHT -->
+      <div class="flex items-center gap-4">
+
+        <button class="relative p-2 rounded-xl hover:bg-slate-100 transition">
+          <i data-lucide="bell" class="w-5 h-5"></i>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+
+        <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
+            class="w-10 h-10 rounded-full object-cover border border-slate-200"
+          />
+          <div class="leading-tight">
+            <p class="text-sm font-semibold">Trinfelly Store</p>
+            <p class="text-[11px] text-slate-500">Joined: Jan 2026</p>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <main id="mainContent" class="flex-1 bg-slate-50 overflow-y-auto min-h-0 p-4 sm:p-6">
+            <!-- HEADER -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+              <div>
+                <h1 class="text-xl sm:text-2xl font-semibold text-slate-800">Orders</h1>
+                <p class="text-sm text-slate-500">All successful customer orders</p>
+              </div>
+          
+              <div class="relative w-full sm:w-72">
+
+                <i
+                  data-lucide="search"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400">
+                </i>
+              
+                <input
+                  id="searchOrders"
+                  type="text"
+                  placeholder="Search order ID or customer..."
+                  class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                />
+              
+              </div>
+            </div>
+          
+            <!-- STATS (optional but useful) -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-xs text-slate-500">Total Orders</p>
+                <h2 id="totalOrders" class="text-xl font-semibold">0</h2>
+
+              </div>
+          
+              <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-xs text-slate-500">Successful</p>
+                <h2 id="successfulOrders"
+                class="text-xl font-semibold text-green-600">0</h2>
+              </div>
+          
+              <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-xs text-slate-500">Pending</p>
+                <h2 id="pendingOrders"
+                class="text-xl font-semibold text-amber-500">0</h2>
+              </div>
+            </div>
+          
+            <!-- DESKTOP TABLE -->
+            <div id="ordersContainer" class="grid gap-4"></div>
+          
+          </main>
+    <!-- MODAL BACKDROP -->
+<div id="orderModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+  
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6">
+      
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Order Details</h2>
+        <button onclick="closeModal()" class="text-slate-500 hover:text-black">✕</button>
+      </div>
+  
+      <div id="modalContent" class="space-y-3 text-sm text-slate-700">
+        <!-- injected by JS -->
+      </div>
+  
+    </div>
+  </div>
+<script>
+  lucide.createIcons();
+</script>
+<script src="order.js"></script>
+</body>
+</html>
