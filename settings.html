@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>   Profile  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <link rel="stylesheet" href="style/view.css">
+</head>
+<body class="bg-gray-50 text-slate-900 h-screen overflow-hidden">
+
+    <div class="flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 h-screen flex-shrink-0 bg-white border-r border-slate-200 flex flex-col justify-between overflow-hidden">
+    <!-- TOP NAV -->
+    <div>
+
+      <!-- BRAND -->
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg">
+          W
+        </div>
+        <div class="leading-tight">
+          <h1 class="text-lg font-semibold">WIESEL</h1>
+        </div>
+      </div>
+
+      <!-- NAV LINKS -->
+      <nav class="p-3 space-y-1">
+
+        <!-- Dashboard ACTIVE -->
+        <a href="dash_store.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          Dashboard
+        </a>
+
+        <a href="customers.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="users" class="w-5 h-5"></i>
+          Happy Customers
+        </a>
+
+        <a href="messages.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="message-square" class="w-5 h-5"></i>
+          Messages
+        </a>
+
+        <a href="orders.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+          Orders
+        </a>
+
+        <a href="sales.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+          Sales
+        </a>
+
+        <a href="stock.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="package" class="w-5 h-5"></i>
+          Products
+        </a>
+
+        <a href="pay.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          Transaction History
+        </a>
+
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          Store Settings
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- BOTTOM LINK (SPECIAL) -->
+    <div class="p-3 border-t border-slate-100">
+
+      <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:opacity-90 transition">
+        <div class="flex items-center gap-3">
+          <i data-lucide="external-link" class="w-5 h-5"></i>
+          Online Store
+        </div>
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+    <!-- TOP BAR -->
+    <header class="h-20 flex-shrink-0 px-6 flex items-center justify-between border-b border-slate-200 bg-white z-20">
+    <!-- LEFT -->
+<div class="hidden sm:flex items-center gap-3">
+    <div class="leading-tight">
+      <h2 class="text-sm tracking-widest text-slate-500">
+        OS FOR MODERN COMMERCE
+      </h2>
+    </div>
+  </div>
+
+      <!-- RIGHT -->
+      <div class="flex items-center gap-4">
+
+        <button class="relative p-2 rounded-xl hover:bg-slate-100 transition">
+          <i data-lucide="bell" class="w-5 h-5"></i>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+
+        <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
+            class="w-10 h-10 rounded-full object-cover border border-slate-200"
+          />
+          <div class="leading-tight">
+            <p class="text-sm font-semibold">Trinfelly Store</p>
+            <p class="text-[11px] text-slate-500">Joined: Jan 2026</p>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main
+    id="mainContent"
+    class="flex-1 overflow-y-auto p-6 bg-slate-50">
+  
+    <!-- PAGE HEADER -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold">
+        Store Settings
+      </h1>
+      <p class="text-slate-500 mt-1">
+        Manage your store profile, contact information and security preferences.
+      </p>
+    </div>
+  
+    <div class="grid xl:grid-cols-3 gap-6">
+  
+      <!-- LEFT -->
+      <div class="xl:col-span-2 space-y-6">
+  
+        <!-- BUSINESS PROFILE -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-6">
+  
+          <h2 class="font-semibold text-lg mb-5">
+            Business Profile
+          </h2>
+  
+          <div class="flex flex-col md:flex-row gap-6">
+  
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
+                class="w-28 h-28 rounded-2xl object-cover border border-slate-200">
+  
+              <button
+                class="mt-3 w-full h-10 rounded-xl border border-slate-200 text-sm">
+                Change Logo
+              </button>
+            </div>
+  
+            <div class="flex-1 grid md:grid-cols-2 gap-4">
+  
+              <div>
+                <label class="text-sm text-slate-500">
+                  Business Name
+                </label>
+  
+                <input
+                  value="Trinfelly Store"
+                  class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
+              </div>
+  
+              <div>
+                <label class="text-sm text-slate-500">
+                  Business ID
+                </label>
+  
+                <input
+                  value="WSL-BIZ-2026-1023"
+                  disabled
+                  class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-100">
+              </div>
+  
+            </div>
+  
+          </div>
+  
+        </div>
+  
+        <!-- CONTACT -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-6">
+  
+          <h2 class="font-semibold text-lg mb-5">
+            Contact Information
+          </h2>
+  
+          <div class="grid md:grid-cols-2 gap-4">
+  
+            <div>
+              <label class="text-sm text-slate-500">
+                Phone Number
+              </label>
+  
+              <input
+                value="+229 61 00 00 00"
+                class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
+            </div>
+  
+            <div>
+              <label class="text-sm text-slate-500">
+                Email Address
+              </label>
+  
+              <input
+                value="store@email.com"
+                class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
+            </div>
+  
+            <div class="md:col-span-2">
+              <label class="text-sm text-slate-500">
+                Store Address
+              </label>
+  
+              <textarea
+                class="mt-1 w-full p-4 rounded-xl border border-slate-200 h-28 resize-none">Cotonou, Littoral, Benin</textarea>
+            </div>
+  
+          </div>
+  
+        </div>
+  
+        <!-- SECURITY -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-6">
+  
+          <h2 class="font-semibold text-lg mb-5">
+            Security Settings
+          </h2>
+  
+          <div class="space-y-4">
+  
+            <div class="flex items-center justify-between">
+  
+              <div>
+                <h3 class="font-medium">
+                  Transaction PIN
+                </h3>
+  
+                <p class="text-sm text-slate-500">
+                  PIN is hashed and required for withdrawals.
+                </p>
+              </div>
+  
+              <button
+                class="h-11 px-5 rounded-xl bg-indigo-600 text-white">
+                Setup PIN
+              </button>
+  
+            </div>
+  
+            <div class="flex items-center justify-between">
+  
+              <div>
+                <h3 class="font-medium">
+                  OTP Verification
+                </h3>
+  
+                <p class="text-sm text-slate-500">
+                  Required before creating or changing transaction PIN.
+                </p>
+              </div>
+  
+              <span
+                class="px-3 py-1 rounded-full bg-green-100 text-green-600 text-sm">
+                Enabled
+              </span>
+  
+            </div>
+  
+          </div>
+  
+        </div>
+  
+        <!-- SAVE -->
+        <div class="flex justify-end">
+  
+          <button
+            class="h-12 px-8 rounded-xl bg-indigo-600 text-white font-medium">
+            Save Changes
+          </button>
+  
+        </div>
+  
+      </div>
+  
+      <!-- RIGHT SIDEBAR -->
+      <div>
+  
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 sticky top-6">
+  
+          <h2 class="font-semibold text-lg mb-5">
+            Store Information
+          </h2>
+  
+          <div class="space-y-5">
+  
+            <div>
+              <p class="text-sm text-slate-500">
+                Business Name
+              </p>
+  
+              <p class="font-semibold">
+                Trinfelly Store
+              </p>
+            </div>
+  
+            <div>
+              <p class="text-sm text-slate-500">
+                Business ID
+              </p>
+  
+              <p class="font-semibold">
+                WSL-BIZ-2026-1023
+              </p>
+            </div>
+  
+            <div>
+              <p class="text-sm text-slate-500">
+                Phone Number
+              </p>
+  
+              <p class="font-semibold">
+                +229 61 00 00 00
+              </p>
+            </div>
+  
+            <div>
+              <p class="text-sm text-slate-500">
+                Joined
+              </p>
+  
+              <p class="font-semibold">
+                January 2026
+              </p>
+            </div>
+  
+            <div>
+              <p class="text-sm text-slate-500">
+                Verification Status
+              </p>
+  
+              <span
+                class="inline-flex px-3 py-1 rounded-full bg-green-100 text-green-600 text-sm">
+                Verified
+              </span>
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </main>
+
+  </div>
+</div>
+<script src="script/chart.js"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

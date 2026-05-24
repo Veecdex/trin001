@@ -1,396 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sales </title>
 
-<title>Sales</title>
-
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Modern Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<style>
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #f7f7f8;
-    zoom: 0.85;
-  }
-
-  .heading-font {
-    font-family: 'Space Grotesk', sans-serif;
-  }
- 
-  /* Hide scrollbar for Chrome, Safari, Edge */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for Firefox */
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-
-  /* Hide scrollbar for IE & old Edge */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-  }
-/* DEFAULT: mobile (bottom nav) */
-.custom-nav {
-  bottom: 0.25rem;
-  top: auto;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 28rem;
-  padding: 0 1rem;
-}
-
-.custom-nav-inner {
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-/* DESKTOP: sidebar only above 1025px */
-@media (min-width: 1200px) {
-  .custom-nav {
-    top: 50%;
-    left: 1rem;
-    bottom: 1;
-    transform: translateY(-50%);
-    width: auto;
-    max-width: none;
-    padding: 0;
-  }
-
-  .custom-nav-inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-  }
-}
-@media (max-width: 750px) {
-
-html {
-  font-size: 14px; /* 👈 scales EVERYTHING proportionally */
-}
-
-.max-w-6xl {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-}
-</style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style/customers.css">
 </head>
+<body class="bg-gray-50 text-slate-900 h-screen overflow-hidden">
 
-<body>
-<!-- =========================================
-     OFFLINE BANNER + READ-ONLY MODE
-========================================= -->
-<div id="offlineBanner" class="fixed top-0 left-0 right-0 z-50 hidden">
-  <div class="bg-amber-50 border-b border-amber-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-3">
-      
-      <!-- Offline Wi-Fi Icon -->
-      <svg xmlns="http://www.w3.org/2000/svg"
-           class="w-5 h-5 text-amber-600 flex-shrink-0"
-           fill="none"
-           viewBox="0 0 24 24"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        
-        <!-- Wi-Fi waves -->
-        <path d="M2.5 8.5a16 16 0 0119 0" />
-        <path d="M5.5 11.5a11.5 11.5 0 0113 0" />
-        <path d="M8.8 14.8a6.5 6.5 0 016.4 0" />
-        <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
-        
-        <!-- Cross mark -->
-        <path d="M18.5 5.5l4 4" />
-        <path d="M22.5 5.5l-4 4" />
-      </svg>
+    <div class="flex h-screen overflow-hidden">
 
-      <p class="text-sm font-medium text-amber-800">
-        You're offline. Please check your network.
-      </p>
-    </div>
-  </div>
-</div>
+  <!-- SIDEBAR -->
+  <aside class="w-64 h-screen flex-shrink-0 bg-white border-r border-slate-200 flex flex-col justify-between overflow-hidden">
+    <!-- TOP NAV -->
+    <div>
 
-<script>
-  const offlineBanner = document.getElementById('offlineBanner');
-
-  function setReadOnlyMode(isOffline) {
-    document.querySelectorAll('input, textarea, select, button').forEach(el => {
-      if (isOffline) {
-        el.dataset.wasDisabled = el.disabled;
-        el.disabled = true;
-      } else {
-        if (el.dataset.wasDisabled !== 'true') {
-          el.disabled = false;
-        }
-      }
-    });
-
-    document.querySelectorAll('[contenteditable="true"]').forEach(el => {
-      if (isOffline) {
-        el.dataset.wasContentEditable = 'true';
-        el.contentEditable = 'false';
-      } else if (el.dataset.wasContentEditable === 'true') {
-        el.contentEditable = 'true';
-      }
-    });
-
-    document.body.classList.toggle('offline-mode', isOffline);
-  }
-
-  function updateConnectionStatus() {
-    const isOffline = !navigator.onLine;
-
-    offlineBanner.classList.toggle('hidden', !isOffline);
-    setReadOnlyMode(isOffline);
-  }
-
-  window.addEventListener('online', updateConnectionStatus);
-  window.addEventListener('offline', updateConnectionStatus);
-
-  updateConnectionStatus();
-</script>
-
-<style>
-  body.offline-mode button:not(:disabled) {
-    pointer-events: none;
-  }
-
-  body.offline-mode input,
-  body.offline-mode textarea,
-  body.offline-mode select {
-    background-color: #f9fafb;
-    cursor: not-allowed;
-  }
-</style>
-<!-- MAIN WRAPPER (DESKTOP FEEL) -->
-<div class="max-w-6xl mx-auto min-h-0">
-
-<!-- NAVIGATION -->
-<div class="fixed bottom-4 left-0 right-0 z-50 flex justify-center
-            min-[1100px]:left-3 min-[1100px]:right-auto
-            min-[1100px]:top-1/2 min-[1100px]:-translate-y-1/2
-            min-[1100px]:bottom-auto">
-
-  <!-- NAV CONTAINER -->
-  <div class="bg-white border border-gray-200 shadow-xl rounded-3xl px-5 py-3
-              flex items-center gap-6
-              min-[1100px]:flex-col min-[1200px]:gap-5
-              min-[1100px]:px-2 min-[1200px]:py-4
-              min-[1100px]:w-[72px]">
-
-    <!-- DASHBOARD -->
-    <div onclick="window.location.href='dashboard.html'" class="flex flex-col items-center text-grey-600 cursor-pointer transition">
-      <i data-lucide="home" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-semibold min-[1100px]:hidden">Dashboard</span>
-    </div>
-
-    <!-- SALES -->
-    <div  class="flex flex-col items-center text-red-600 hover:text-black cursor-pointer transition">
-      <i data-lucide="bar-chart-3" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Sales</span>
-    </div>
-
-    <!-- PLUS BUTTON -->
-    <div onclick="window.location.href='payment.html'" class="flex flex-col items-center justify-center -mt-8 cursor-pointer
-                min-[1100px]:mt-0">
-
-      <div class="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-pink-500 
-                  shadow-lg flex items-center justify-center text-white">
-
-        <i data-lucide="plus" class="w-7 h-7 stroke-[3]"></i>
+      <!-- BRAND -->
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg">
+          W
+        </div>
+        <div class="leading-tight">
+          <h1 class="text-sm font-semibold">WIesel</h1>
+          <p class="text-[10px] text-slate-500">Commerce OS</p>
+        </div>
       </div>
 
-      <span class="text-[11px] mt-1 font-semibold text-gray-700 min-[1100px]:hidden">Add</span>
+      <!-- NAV LINKS -->
+      <nav class="p-3 space-y-1">
+
+        <!-- Dashboard ACTIVE -->
+        <a href="dash_store.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600 ">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          Dashboard
+        </a>
+
+        <a href="customers.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="users" class="w-5 h-5"></i>
+          Happy Customers
+        </a>
+
+        <a href="#"
+        class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="message-square" class="w-5 h-5"></i>
+          Messages
+        </a>
+
+        <a href="orders.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+          Orders
+        </a>
+
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
+          <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+          Sales
+        </a>
+
+        <a href="stock.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="package" class="w-5 h-5"></i>
+          Products
+        </a>
+
+        <a href="pay.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="history" class="w-5 h-5"></i>
+          Transaction History
+        </a>
+
+        <a href="settings.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          Store Settings
+        </a>
+
+      </nav>
     </div>
 
-    <!-- REDEEM -->
-    <div onclick="window.location.href='redeem.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
-      <i data-lucide="ticket" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Redeem</span>
+    <!-- BOTTOM LINK (SPECIAL) -->
+    <div class="p-3 border-t border-slate-100">
+
+      <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:opacity-90 transition">
+        <div class="flex items-center gap-3">
+          <i data-lucide="external-link" class="w-5 h-5"></i>
+          Online Store
+        </div>
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+
     </div>
 
-    <!-- PROFILE -->
-    <div onclick="window.location.href='profile.html'" class="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer transition">
-      <i data-lucide="user" class="w-6 h-6 stroke-[2.5]"></i>
-      <span class="text-[11px] mt-1 font-medium min-[1100px]:hidden">Profile</span>
-    </div>
+  </aside>
 
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+    <!-- TOP BAR -->
+    <header class="h-20 flex-shrink-0 px-6 flex items-center justify-between border-b border-slate-200 bg-white z-20">
+    <!-- LEFT -->
+<div class="hidden sm:flex items-center gap-3">
+    <div class="leading-tight">
+      <h2 class="text-sm tracking-widest text-slate-500">
+        OS FOR MODERN COMMERCE
+      </h2>
+    </div>
   </div>
-</div>
-  <!-- SALES PAGE -->
-  <div id="salesPage" class=" max-w-6xl mx-auto px-6 pb-24">
 
-    <!-- HEADER -->
-    <div class="bg-white rounded-2xl p-5 border border-gray-100 flex items-center gap-3 mb-6">
-  
-      <div class="w-10 h-10 bg-red-50 text-red-600 flex items-center justify-center rounded-xl">
-        <i data-lucide="bar-chart-3"></i>
-      </div>
-  
-      <h2 class="text-lg font-semibold text-gray-900">Sales</h2>
-  
-    </div>
-  
-    <!-- FILTERS -->
-    <div class="flex gap-3 mb-5 overflow-x-auto pb-1">
-  
-      <button class="filter-btn active-filter px-4 py-2 text-xs rounded-lg bg-red-600 text-white">Today</button>
-  
-      <button class="filter-btn px-4 py-2 text-xs rounded-lg bg-gray-100 text-gray-600">This Week</button>
-  
-      <button class="filter-btn px-4 py-2 text-xs rounded-lg bg-gray-100 text-gray-600">This Month</button>
-  
-      <button class="filter-btn px-4 py-2 text-xs rounded-lg bg-gray-100 text-gray-600">All Sales</button>
-  
-    </div>
-  
-    <!-- SALES LIST -->
-    <div id="salesList" class="space-y-3">
-  
-      <!-- JS WILL FILL -->
-  
-    </div>
-  
-  </div>
-    </div>
-  
-  </div>
-  
-  </div>
+      <!-- RIGHT -->
+      <div class="flex items-center gap-4">
 
-  <script>
-    lucide.createIcons();
-  </script>
-<script>
-    const navRedeem = document.getElementById("nav-redeem");
-const navDashboard = document.getElementById("nav-dashboard");
-const navSales = document.getElementById("nav-sales");
-const navProfile = document.getElementById("nav-profile");
+        <button class="relative p-2 rounded-xl hover:bg-slate-100 transition">
+          <i data-lucide="bell" class="w-5 h-5"></i>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
 
-navRedeem?.addEventListener("click", () => {
-  window.location.href = "redeem.html";
-});
-
-navDashboard?.addEventListener("click", () => {
-  window.location.href = "dashboard.html";
-});
-
-navSales?.addEventListener("click", () => {
-  window.location.href = "sales.html";
-});
-
-navProfile?.addEventListener("click", () => {
-  window.location.href = "profile.html";
-});
-const salesList = document.getElementById("salesList");
-
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString() + " • " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-
-function loadSales(filter = "today") {
-  const salesList = document.getElementById("salesList");
-  if (!salesList) return;
-
-  const sales = JSON.parse(localStorage.getItem("sales")) || [];
-  const now = new Date();
-
-  const filtered = sales.filter(sale => {
-    const d = new Date(sale.date);
-
-    if (filter === "today") {
-      return d.toDateString() === now.toDateString();
-    }
-
-    if (filter === "week") {
-      const weekAgo = new Date();
-      weekAgo.setDate(now.getDate() - 7);
-      return d >= weekAgo;
-    }
-
-    if (filter === "month") {
-      return d.getMonth() === now.getMonth() &&
-             d.getFullYear() === now.getFullYear();
-    }
-
-    return true;
-  });
-
-  renderSales(filtered.reverse());
-}
-function renderSales(data) {
-  const salesList = document.getElementById("salesList");
-  salesList.innerHTML = "";
-
-  if (data.length === 0) {
-    salesList.innerHTML = `<p class="text-gray-400 text-sm">No sales yet</p>`;
-    return;
-  }
-
-  data.forEach(sale => {
-    salesList.innerHTML += `
-      <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex justify-between items-center">
-
-        <div class="flex items-start gap-3">
-          <div class="w-3 h-3 mt-2 rounded-full bg-green-500"></div>
-
-          <div>
-            <p class="text-sm font-semibold text-gray-900">₦${sale.amount.toLocaleString()}</p>
-            <p class="text-xs text-gray-500 mt-1">${formatDate(sale.date)}</p>
-            <p class="text-[10px] text-gray-400 mt-1">${sale.ref}</p>
+        <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
+            class="w-10 h-10 rounded-full object-cover border border-slate-200"
+          />
+          <div class="leading-tight">
+            <p class="text-sm font-semibold">Trinfelly Store</p>
+            <p class="text-[11px] text-slate-500">Joined: Jan 2026</p>
           </div>
         </div>
 
-        <span class="text-[10px] px-2 py-1 rounded-full bg-green-100 text-green-600">
-          Completed
-        </span>
-
       </div>
-    `;
-  });
-}
-const filterBtns = document.querySelectorAll(".filter-btn");
+    </header>
 
-filterBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    
-    // UI ACTIVE STATE
-    filterBtns.forEach(b => {
-      b.classList.remove("bg-red-600", "text-white");
-      b.classList.add("bg-gray-100", "text-gray-600");
-    });
+    <!-- MAIN -->
+    <main id="mainContent" class="flex-1 bg-slate-50 overflow-hidden relative">
 
-    btn.classList.add("bg-red-600", "text-white");
-    btn.classList.remove("bg-gray-100", "text-gray-600");
+      <main id="mainContent" class="flex-1 overflow-y-auto bg-slate-50 p-4 md:p-6">
 
-    const text = btn.textContent;
-
-    if (text.includes("Today")) loadSales("today");
-    else if (text.includes("Week")) loadSales("week");
-    else if (text.includes("Month")) loadSales("month");
-    else loadSales("all");
-
-  });
-});
-window.addEventListener("DOMContentLoaded", () => {
-  loadSales("today");
-});
+        <!-- HEADER -->
+      
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      
+          <div>
+            <h1 class="text-2xl font-bold">Sales</h1>
+            <p class="text-slate-500 text-sm">
+              Monitor and record store sales
+            </p>
+          </div>
+      
+          <button
+            id="newSaleBtn"
+            class="bg-indigo-600 text-white px-5 py-3 rounded-xl font-medium flex items-center gap-2"
+          >
+            <i data-lucide="plus"></i>
+            Record Sale
+          </button>
+      
+        </div>
+      
+        <!-- STATS -->
+      
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      
+          <div class="bg-white p-5 rounded-2xl border">
+            <p class="text-slate-500 text-sm">Total Sales</p>
+            <h2 id="totalSales" class="text-2xl font-bold mt-2">
+              ₦0
+            </h2>
+          </div>
+      
+          <div class="bg-white p-5 rounded-2xl border">
+            <p class="text-slate-500 text-sm">Transactions</p>
+            <h2 id="totalTransactions" class="text-2xl font-bold mt-2">
+              0
+            </h2>
+          </div>
+      
+          <div class="bg-white p-5 rounded-2xl border">
+            <p class="text-slate-500 text-sm">Online Sales</p>
+            <h2 id="onlineSales" class="text-2xl font-bold mt-2">
+              ₦0
+            </h2>
+          </div>
+      
+          <div class="bg-white p-5 rounded-2xl border">
+            <p class="text-slate-500 text-sm">Offline Sales</p>
+            <h2 id="offlineSales" class="text-2xl font-bold mt-2">
+              ₦0
+            </h2>
+          </div>
+      
+        </div>
+      
+        <!-- SALES -->
+      
+        <div class="bg-white rounded-3xl border overflow-hidden">
+      
+          <div class="p-5 border-b">
+            <h3 class="font-semibold">
+              Recent Sales
+            </h3>
+          </div>
+      
+          <div id="salesContainer"></div>
+      
+        </div>
+      
+      </main>
+      
+      <!-- SALE MODAL -->
+      
+      <div
+        id="saleModal"
+        class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"
+      >
+      
+        <div class="bg-white w-full max-w-xl rounded-3xl p-6">
+      
+          <h2 class="text-xl font-bold mb-5">
+            Record Sale
+          </h2>
+      
+          <div class="space-y-4">
+      
+            <select
+              id="productSelect"
+              class="w-full border rounded-xl p-3"
+            >
+            </select>
+      
+            <div
+              id="selectedProduct"
+              class="hidden border rounded-2xl p-4"
+            >
+      
+              <img
+                id="previewImage"
+                class="w-full h-48 object-cover rounded-xl mb-3"
+              >
+      
+              <h3
+                id="previewName"
+                class="font-semibold"
+              ></h3>
+      
+              <p
+                id="previewDescription"
+                class="text-sm text-slate-500 mt-1"
+              ></p>
+      
+              <p
+                id="previewAmount"
+                class="font-bold mt-3"
+              ></p>
+      
+            </div>
+      
+            <input
+              id="saleQuantity"
+              type="number"
+              min="1"
+              value="1"
+              class="w-full border rounded-xl p-3"
+            >
+      
+            <select
+              id="saleType"
+              class="w-full border rounded-xl p-3"
+            >
+              <option value="Online">
+                Online Sale
+              </option>
+      
+              <option value="Offline">
+                Offline Sale
+              </option>
+            </select>
+      
+            <div class="flex justify-end gap-3">
+      
+              <button
+                id="closeSaleModal"
+                class="border px-5 py-3 rounded-xl"
+              >
+                Cancel
+              </button>
+      
+              <button
+                id="saveSale"
+                class="bg-indigo-600 text-white px-5 py-3 rounded-xl"
+              >
+                Record Sale
+              </button>
+      
+            </div>
+      
+          </div>
+      
+        </div>
+      
+      </div>
+      </main>
+<script>
+  lucide.createIcons();
 </script>
+<script src="script/sales.js"></script>
 </body>
 </html>

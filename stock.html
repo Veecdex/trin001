@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DMs </title>
+  <title>Stock </title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
         </a>
 
         <a href="#"
-        class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
+        class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
           <i data-lucide="message-square" class="w-5 h-5"></i>
           Messages
         </a>
@@ -61,7 +61,7 @@
           Sales
         </a>
 
-        <a href="stock.html" class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-600">
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold">
           <i data-lucide="package" class="w-5 h-5"></i>
           Products
         </a>
@@ -130,72 +130,104 @@
       </div>
     </header>
 
-    <!-- MAIN -->
-    <main id="mainContent" class="flex-1 bg-slate-50 overflow-hidden relative">
+    <main id="mainContent" class="flex-1 overflow-y-auto bg-slate-50 p-4 md:p-6">
 
-        <div class="h-full flex bg-white md:rounded-2xl border border-slate-200 overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
       
-          <!-- CHAT LIST -->
-          <div id="chatList"
-            class="w-full md:w-80 border-r border-slate-200 flex flex-col bg-white">
-      
-            <div class="p-3 border-b">
-              <div class="relative">
-            
-                <i data-lucide="search"
-                  class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400">
-                </i>
-            
-                <input
-                  id="searchInput"
-                  type="text"
-                  placeholder="Search customers..."
-                  class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-100 text-sm outline-none"
-                >
-            
-              </div>
-            </div>
-      
-            <div id="chatListItems" class="flex-1 overflow-y-auto"></div>
+          <div>
+            <h1 class="text-2xl font-bold">Products</h1>
+            <p class="text-slate-500 text-sm">
+              Manage products in your store
+            </p>
           </div>
-          <!-- CHAT PANEL (DESKTOP INLINE + MOBILE SLIDE OVERLAY) -->
-          <div id="chatPanel"
-            class="absolute md:relative inset-0 md:inset-auto
-                   flex flex-col flex-1 bg-white
-                   translate-x-full md:translate-x-0
-                   transition-transform duration-300 ease-in-out">
       
-            <!-- HEADER -->
-            <div class="h-14 md:h-16 flex items-center gap-3 px-4 border-b bg-white">
+          <button
+            id="newProductBtn"
+            class="bg-indigo-600 text-white px-5 py-3 rounded-xl font-medium flex items-center gap-2"
+          >
+            <i data-lucide="plus"></i>
+            New Product
+          </button>
       
-              <div id="chatAvatar"
-              class="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm font-semibold">
-             </div>
+        </div>
       
-              <div class="flex-1">
-                <p class="text-sm font-semibold" id="chatName">Select chat</p>
-                <p class="text-[11px] text-green-500">Online</p>
-              </div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
       
-              <!-- MOBILE CLOSE -->
-              <button onclick="closeChat()"
-                class="md:hidden w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500">
-                ✕
+          <div class="bg-white p-5 rounded-2xl border">
+            <p class="text-slate-500 text-sm">Total Products</p>
+            <h2 id="totalProducts" class="text-2xl font-bold mt-2">0</h2>
+          </div>
+      
+          <div class="bg-white p-5 rounded-2xl border">
+            <p class="text-slate-500 text-sm">Inventory Value</p>
+            <h2 id="inventoryValue" class="text-2xl font-bold mt-2">₦0</h2>
+          </div>
+      
+        </div>
+      
+        <div
+          id="productsContainer"
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
+        ></div>
+      
+      </main>
+      
+      <!-- PRODUCT MODAL -->
+      
+      <div
+        id="productModal"
+        class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"
+      >
+      
+        <div class="bg-white w-full max-w-lg rounded-3xl p-6">
+      
+          <h2 id="modalTitle" class="text-xl font-bold mb-5">
+            Create Product
+          </h2>
+      
+          <div class="space-y-4">
+      
+            <input
+              id="productName"
+              type="text"
+              placeholder="Product Name"
+              class="w-full border rounded-xl p-3"
+            >
+      
+            <textarea
+              id="productDescription"
+              placeholder="Product Description"
+              class="w-full border rounded-xl p-3 h-32"
+            ></textarea>
+      
+            <input
+              id="productAmount"
+              type="number"
+              placeholder="Amount"
+              class="w-full border rounded-xl p-3"
+            >
+      
+            <input
+              id="productImage"
+              type="file"
+              accept="image/*"
+              class="w-full border rounded-xl p-3"
+            >
+      
+            <div class="flex justify-end gap-3">
+      
+              <button
+                id="cancelProduct"
+                class="border px-5 py-3 rounded-xl"
+              >
+                Cancel
               </button>
       
-            </div>
-      
-            <!-- MESSAGES -->
-            <div id="messages" class="flex-1 overflow-y-auto p-3 space-y-2 bg-slate-50"></div>
-      
-            <!-- INPUT -->
-            <div class="p-3 border-t bg-white flex gap-2">
-      
-              <input placeholder="Message..."
-                class="flex-1 px-3 py-2.5 rounded-xl bg-slate-100 text-sm outline-none">
-      
-              <button class="px-4 py-2.5 bg-indigo-600 text-white rounded-xl text-sm">
-                Send
+              <button
+                id="saveProduct"
+                class="bg-indigo-600 text-white px-5 py-3 rounded-xl"
+              >
+                Save Product
               </button>
       
             </div>
@@ -204,10 +236,11 @@
       
         </div>
       
-      </main>
+      </div>
 <script>
   lucide.createIcons();
 </script>
-<script src="script/dms.js"></script>
+
+<script src="script/stock.js"></script>
 </body>
 </html>

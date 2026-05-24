@@ -1,0 +1,146 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  body {
+font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Hide Scrollbars */
+::-webkit-scrollbar{
+width:0;
+height:0;
+}
+
+*{
+scrollbar-width:none;
+}
+
+/* MOBILE */
+@media (max-width: 768px){
+
+
+
+/* Hide Brand Text */
+aside .leading-tight{
+  display:none;
+}
+
+/* Center Logo */
+aside .border-b{
+  justify-content:center;
+  padding:16px 0;
+}
+
+/* Icon Only Nav */
+aside nav a{
+  justify-content:center;
+  padding:12px;
+}
+
+aside nav a{
+  font-size:0;
+}
+
+aside nav a i{
+  width:20px;
+  height:20px;
+}
+
+/* Online Store Button */
+aside .bg-gradient-to-r{
+  justify-content:center;
+  padding:12px;
+}
+
+aside .bg-gradient-to-r div{
+  font-size:0;
+}
+
+aside .bg-gradient-to-r i:last-child{
+  display:none;
+}
+
+/* Header */
+header{
+  height:68px !important;
+  padding-left:16px !important;
+  padding-right:16px !important;
+}
+
+header h2{
+  font-size:10px;
+  letter-spacing:.15em;
+}
+
+/* Profile */
+header img{
+  width:34px;
+  height:34px;
+}
+
+header .leading-tight p:first-child{
+  font-size:12px;
+}
+
+header .leading-tight p:last-child{
+  font-size:10px;
+}
+
+/* Main */
+main{
+  padding:16px !important;
+}
+
+/* Welcome */
+main h1{
+  font-size:22px;
+}
+
+
+}
+@media (max-width:768px){
+
+aside nav a svg{
+  width:24px !important;
+  height:24px !important;
+  min-width:24px;
+  min-height:24px;
+}
+
+aside .bg-gradient-to-r svg{
+  width:24px !important;
+  height:24px !important;
+}
+
+}
+@media (max-width: 768px){
+
+aside{
+  width: 64px;
+}
+
+/* keep icons centered only */
+aside nav a{
+  justify-content:center;
+  padding:12px;
+  font-size:0;
+}
+
+aside nav a i{
+  width:20px;
+  height:20px;
+}
+
+/* chat panel fix */
+#chatPanel{
+  position:absolute;
+  inset:0;
+  z-index:50;
+}
+
+/* smoother UI scaling */
+main{
+  padding:12px !important;
+}
+
+}
