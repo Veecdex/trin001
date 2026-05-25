@@ -853,29 +853,30 @@
       <a href="#">Blog</a>
       <a href="#">Contact</a>
     </div>
-    <div class="scrollable-links" id="scrollableLinks">
-      <a href="#" class="link active">All</a>
-      <a href="#" class="link">Fashion</a>
-      <a href="#" class="link">Event Planning</a>
-      <a href="#" class="link">Technology</a>
-      <a href="#" class="link">Health</a>
-      <a href="#" class="link">Education</a>
-      <a href="#" class="link">Real Estate</a>
-      <a href="#" class="link">Food Services</a>
-      <a href="#" class="link">Travel</a>
-      <a href="#" class="link">Event Planning</a>
-      <a href="#" class="link">Technology</a>
-      <a href="#" class="link">Health</a>
-      <a href="#" class="link">Education</a>
-        <a href="#" class="link">Event Planning</a>
-      <a href="#" class="link">Technology</a>
-      <a href="#" class="link">Health</a>
-      <a href="#" class="link">Education</a>
-      <a href="#" class="link">Real Estate</a>
-      <a href="#" class="link">Food Services</a>
+    <div class="fixed top-[72px] left-0 right-0 z-50 bg-white px-3 py-2">
+
+      <div class="relative max-w-5xl mx-auto">
+    
+        <i
+          data-lucide="search"
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+        ></i>
+    
+        <input
+          type="text"
+          placeholder="Search anything..."
+          class="w-full h-12 bg-slate-100 rounded-full pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
+        />
+    
+      </div>
+    
     </div>
   </nav>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
+  <script>
+    lucide.createIcons();
+  </script>
  
   <div class="container-row">
     <div class="container">
@@ -1193,7 +1194,64 @@
     <!-- Duplicate more containers here -->
     
   </div>
+  <div class="container">
 
+    <!-- Top Row -->
+    <div class="top-row">
+
+        <div class="user-info">
+            <img
+                src="images/product.jpg"
+                alt="Product"
+                style="
+                margin-left:3px;
+                border-radius:12px;
+                height:40px;
+                width:40px;
+                object-fit:cover;
+                "
+            >
+
+            <span>Product Name</span>
+        </div>
+
+        <!-- PRICE -->
+        <div class="top-price">
+            <span class="price-tag">$49.99</span>
+        </div>
+
+    </div>
+
+    <!-- Product Image -->
+    <img
+        src="images/product.jpg"
+        alt="Product Image"
+    >
+
+    <!-- Description -->
+    <p class="short-text">
+        Premium quality product designed for comfort, durability and style.
+    </p>
+
+    <!-- Bottom Actions -->
+    <div class="product-actions">
+
+        <button class="wishlist-btn">
+            <i class="bi bi-heart"></i>
+        </button>
+
+        <button class="view-btn">
+            <i class="bi bi-eye"></i>
+        </button>
+
+        <button class="add-cart-btn">
+            <i class="bi bi-bag-plus"></i>
+            Add To Cart
+        </button>
+
+    </div>
+
+</div>
 <script src="https://unpkg.com/feather-icons"></script>
 
   <script>

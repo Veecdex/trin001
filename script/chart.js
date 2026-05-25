@@ -1,147 +1,224 @@
-const salesCtx =
-document.getElementById("salesChart");
+const sales =
+JSON.parse(localStorage.getItem("sales")) || [];
 
-const gradient =
-salesCtx.getContext("2d")
-.createLinearGradient(
-  0,
-  0,
-  0,
-  350
-);
+function loadDashboardCharts() {
 
-gradient.addColorStop(
-  0,
-  "rgba(99,102,241,.35)"
-);
+  // SALES OVERVIEW CHART
+  const last7Days = {};
+  const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
-gradient.addColorStop(
-  1,
-  "rgba(99,102,241,0)"
-);
+  // Initialize all days
+  days.forEach(day => {
+    last7Days[day] = 0;
+  });
 
-new Chart(salesCtx, {
+  sales.forEach(sale => {
 
-  type: "line",
+    const saleDate = new Date(sale.date);
 
-  data: {
+    const dayName =
+    days[saleDate.getDay()];
 
-    labels: [
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-      "Sun"
-    ],
+    last7Days[dayName] += Number(sale.total);
 
-    datasets: [{
+  });
 
-      data: [
-        140,
-        280,
-        220,
-        420,
-        310,
-        600,
-        520
-      ],
+  const salesData =
+  days.map(day => last7Days[day]);
 
-      borderColor: "#6366f1",
+  const salesCtx =
+  document.getElementById("salesChart");
 
-      backgroundColor: gradient,
+  const gradient =
+  salesCtx.getContext("2d")
+  .createLinearGradient(
+    0,
+    0,
+    0,
+    350
+  );
 
-      fill: true,
+  gradient.addColorStop(
+    0,
+    "rgba(99,102,241,.35)"
+  );
 
-      tension: 0.45,
+  gradient.addColorStop(
+    1,
+    "rgba(99,102,241,0)"
+  );
 
-      borderWidth: 4,
+  new Chart(salesCtx, {
 
-      pointRadius: 0
+    type: "line",
 
-    }]
-  },
+    data: {
 
-  options: {
+      labels: days,
 
-    responsive: true,
+      datasets: [{
 
-    maintainAspectRatio: false,
+        data: salesData,
 
-    plugins: {
-      legend: {
-        display: false
-      }
+        borderColor: "#6366f1",
+
+        backgroundColor: gradient,
+
+        fill: true,
+
+        tension: 0.45,
+
+        borderWidth: 4,
+
+        pointRadius: 0
+
+      }]
     },
 
-    scales: {
+    options: {
 
-      x: {
-        grid: {
+      responsive: true,
+
+      maintainAspectRatio: false,
+
+      plugins: {
+        legend: {
           display: false
         }
+      }
+
+    }
+
+  });
+
+
+
+  // SALES CHANNEL CHART
+
+  const onlineSales =
+  sales
+  .filter(
+    sale => sale.type === "Online"
+  )
+  .reduce(
+    (sum, sale) =>
+    sum + Number(sale.total),
+    0
+  );
+
+  const offlineSales =
+  sales
+  .filter(
+    sale => sale.type === "Offline"
+  )
+  .reduce(
+    (sum, sale) =>
+    sum + Number(sale.total),
+    0
+  );
+
+  const totalSales =
+  onlineSales + offlineSales;
+
+  const onlinePercent =
+  totalSales
+  ? Math.round(
+      (onlineSales / totalSales) * 100
+    )
+  : 0;
+
+  const offlinePercent =
+  totalSales
+  ? Math.round(
+      (offlineSales / totalSales) * 100
+    )
+  : 0;
+
+  new Chart(
+    document.getElementById("channelChart"),
+    {
+
+      type: "doughnut",
+
+      data: {
+
+        labels: [
+          "Online",
+          "Offline"
+        ],
+
+        datasets: [{
+
+          data: [
+            onlineSales,
+            offlineSales
+          ],
+
+          backgroundColor: [
+            "#6366f1",
+            "#e2e8f0"
+          ],
+
+          borderWidth: 0
+
+        }]
       },
 
-      y: {
-        grid: {
-          color: "#f1f5f9"
-        },
-        border: {
-          display: false
+      options: {
+
+        responsive: true,
+
+        cutout: "75%",
+
+        plugins: {
+
+          legend: {
+            display: false
+          }
+
         }
+
       }
 
     }
+  );
 
-  }
 
-});
 
-new Chart(
-document.getElementById("channelChart"),
-{
+  // UPDATE SALES CHANNEL TEXT
 
-  type: "doughnut",
+  document.querySelector(
+    ".absolute h2"
+  ).textContent =
+  onlinePercent + "%";
 
-  data: {
+  document.querySelector(
+    ".absolute p"
+  ).textContent =
+  "Online";
 
-    labels: [
-      "Online",
-      "Offline"
-    ],
+  document
+  .getElementById("onlineChannelPercent")
+  .textContent =
+  onlinePercent + "%";
 
-    datasets: [{
+  document
+  .getElementById("offlineChannelPercent")
+  .textContent =
+  offlinePercent + "%";
 
-      data: [
-        78,
-        22
-      ],
+  document
+  .getElementById("onlineChannelAmount")
+  .textContent =
+  "₦" +
+  onlineSales.toLocaleString();
 
-      backgroundColor: [
-        "#6366f1",
-        "#e2e8f0"
-      ],
+  document
+  .getElementById("offlineChannelAmount")
+  .textContent =
+  "₦" +
+  offlineSales.toLocaleString();
 
-      borderWidth: 0
+}
 
-    }]
-  },
-
-  options: {
-
-    responsive: true,
-
-    cutout: "75%",
-
-    plugins: {
-
-      legend: {
-        display: false
-      }
-
-    }
-
-  }
-
-});
+loadDashboardCharts();

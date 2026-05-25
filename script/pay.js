@@ -1,71 +1,47 @@
-const transactions = [
-    {
-      id: "TXN-948520",
-      type: "credit",
-      category: "customer_payment",
-      amount: 75000,
-      customer: "John Doe",
-      orderId: "ORD-1004",
-      status: "successful",
-      date: "23 May 2026 • 12:14 PM"
-    },
-  
-    {
-      id: "TXN-948521",
-      type: "credit",
-      category: "customer_payment",
-      amount: 42000,
-      customer: "Sarah James",
-      orderId: "ORD-1005",
-      status: "successful",
-      date: "23 May 2026 • 11:10 AM"
-    },
-  
-    {
-      id: "TXN-948522",
-      type: "withdrawal",
-      category: "withdrawal",
-      amount: 200000,
-      bankName: "GTBank",
-      accountNumber: "3281",
-      status: "successful",
-      date: "22 May 2026 • 08:45 AM"
-    },
-  
-    {
-      id: "TXN-948523",
-      type: "debit",
-      category: "withdrawal",
-      amount: 150000,
-      bankName: "Access Bank",
-      accountNumber: "1024",
-      status: "successful",
-      date: "21 May 2026 • 05:10 PM"
-    },
-  
-    {
-      id: "TXN-948524",
-      type: "credit",
-      category: "product_sale",
-      amount: 20000,
-      customer: "Michael Smith",
-      product: "Nike Air Max",
-      status: "successful",
-      date: "20 May 2026 • 09:20 AM"
-    },
-  
-    {
-      id: "TXN-948525",
-      type: "credit",
-      category: "product_sale",
-      amount: 15000,
-      customer: "Emma Johnson",
-      product: "Adidas Runner",
-      status: "pending",
-      date: "20 May 2026 • 08:10 AM"
-    }
-  ];
 
+
+const storedTransactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+const defaultTransactions = [
+{
+  id: "TXN-948520",
+  type: "credit",
+  category: "customer_payment",
+  amount: 75000,
+  customer: "John Doe",
+  orderId: "ORD-1004",
+  status: "successful",
+  date: "23 May 2026 • 12:14 PM"
+},
+
+{
+  id: "TXN-948521",
+  type: "credit",
+  category: "customer_payment",
+  amount: 42000,
+  customer: "Sarah James",
+  orderId: "ORD-1005",
+  status: "successful",
+  date: "23 May 2026 • 11:10 AM"
+},
+
+{
+  id: "TXN-948522",
+  type: "withdrawal",
+  category: "withdrawal",
+  amount: 200000,
+  bankName: "GTBank",
+  accountNumber: "3281",
+  status: "successful",
+  date: "22 May 2026 • 08:45 AM"
+}
+];
+
+const transactions = [
+...storedTransactions,
+...defaultTransactions
+];
   const container = document.getElementById("transactionsContainer");
 const searchInput = document.getElementById("transactionSearch");
 const filterSelect = document.getElementById("transactionFilter");
@@ -106,7 +82,7 @@ function renderTransactions(data) {
     } else if (txn.category === "product_sale") {
 
       title = "Product Sale";
-      subtitle = `${txn.customer} • ${txn.product}`;
+      subtitle = `${txn.product}`;
       icon = "shopping-bag";
 
     } else {
@@ -232,5 +208,23 @@ function applyFilters() {
   filterSelect.addEventListener(
     "change",
     applyFilters
+);
+function updateTotalCredits() {
+
+  const totalCredits =
+  transactions
+  .filter(txn => txn.type === "credit")
+  .reduce(
+    (sum, txn) =>
+      sum + Number(txn.amount),
+    0
   );
-  renderTransactions(transactions);
+
+  document
+  .getElementById("totalCredits")
+  .textContent =
+  "₦" +
+  totalCredits.toLocaleString();
+}
+renderTransactions(transactions);
+updateTotalCredits();

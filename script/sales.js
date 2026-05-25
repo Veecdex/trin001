@@ -1,5 +1,16 @@
 lucide.createIcons();
+function saveTransactions(transactions) {
+  localStorage.setItem(
+    "transactions",
+    JSON.stringify(transactions)
+  );
+}
 
+function getTransactions() {
+  return JSON.parse(
+    localStorage.getItem("transactions")
+  ) || [];
+}
 const products =
 JSON.parse(localStorage.getItem("products")) || [];
 
@@ -121,29 +132,65 @@ document
   document.getElementById("saleType")
   .value;
 
-  sales.unshift({
-
+  const total =
+  Number(product.amount) * quantity;
+  
+  const sale = {
+  
     id: Date.now(),
-
+  
     productId: product.id,
-
+  
     quantity,
-
+  
     amount: product.amount,
-
-    total:
-    Number(product.amount) * quantity,
-
+  
+    total,
+  
     type,
-
+  
     date:
     new Date().toLocaleDateString()
-
+  
+  };
+  
+  sales.unshift(sale);
+  
+  /* CREATE TRANSACTION */
+  
+  const transactions =
+  getTransactions();
+  
+  transactions.unshift({
+  
+    id:
+    "TXN-" +
+    Math.floor(
+      100000 + Math.random() * 900000
+    ),
+  
+    type: "credit",
+  
+    category: "product_sale",
+  
+    amount: total,
+  
+    product: product.name,
+  
+    quantity,
+  
+    status: "successful",
+  
+    date:
+    new Date().toLocaleString()
+  
   });
-
+  
+  saveTransactions(transactions);
   saveSales();
   renderSales();
   closeModal();
+
 };
 
 function renderSales() {
@@ -240,11 +287,6 @@ function updateStats() {
   .getElementById("totalSales")
   .textContent =
   "₦" + total.toLocaleString();
-
-  document
-  .getElementById("totalTransactions")
-  .textContent =
-  sales.length;
 
   document
   .getElementById("onlineSales")
