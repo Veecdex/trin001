@@ -1,0 +1,137 @@
+/* ==========================================
+   PRODUCTS PAGE MOBILE OPTIMIZATION
+   ========================================== */
+
+   @media (max-width: 768px) {
+
+    /* Main Content */
+    #mainContent{
+      padding: 10px !important;
+      font-size: 13px;
+    }
+  
+    /* Header */
+    #mainContent h1{
+      font-size: 1.2rem !important;
+      line-height: 1.2;
+    }
+  
+    #mainContent p{
+      font-size: 0.75rem;
+    }
+  
+    /* Header spacing */
+    #mainContent > div:first-child{
+      margin-bottom: 12px !important;
+    }
+  
+    /* New Product Button */
+    #newProductBtn{
+      padding: 8px 12px !important;
+      font-size: 12px !important;
+      border-radius: 12px !important;
+    }
+  
+    #newProductBtn svg{
+      width: 16px !important;
+      height: 16px !important;
+    }
+  
+    /* Stats Section */
+    #mainContent .grid:first-of-type{
+      gap: 8px !important;
+      margin-bottom: 12px !important;
+    }
+  
+    #mainContent .grid:first-of-type > div{
+      padding: 12px !important;
+      border-radius: 16px !important;
+    }
+  
+    #totalProducts,
+    #inventoryValue{
+      font-size: 1rem !important;
+      margin-top: 6px !important;
+    }
+  
+    /* Product Grid */
+    #productsContainer{
+      gap: 10px !important;
+    }
+  
+    /* Product Cards */
+    #productsContainer > div{
+      border-radius: 18px !important;
+    }
+  
+    /* Product Images */
+    #productsContainer img{
+      height: 130px !important;
+    }
+  
+    /* Product Content */
+    #productsContainer .p-5{
+      padding: 12px !important;
+    }
+  
+    /* Product Name */
+    #productsContainer h3{
+      font-size: 0.9rem !important;
+      line-height: 1.3;
+    }
+  
+    /* Product Description */
+    #productsContainer p{
+      font-size: 0.7rem !important;
+      line-height: 1.4;
+    }
+  
+    /* Amount Label */
+    #productsContainer .text-xs{
+      font-size: 0.65rem !important;
+    }
+  
+    /* Product Price */
+    #productsContainer h4{
+      font-size: 0.95rem !important;
+    }
+  
+    /* Edit/Delete Buttons */
+    #productsContainer button{
+      width: 34px !important;
+      height: 34px !important;
+      border-radius: 10px !important;
+    }
+  
+    #productsContainer button svg{
+      width: 15px !important;
+      height: 15px !important;
+    }
+  
+    /* Modal */
+    #productModal .bg-white{
+      border-radius: 20px !important;
+      padding: 18px !important;
+    }
+  
+    #productModal h2{
+      font-size: 1rem !important;
+    }
+  
+    #productModal input,
+    #productModal textarea{
+      padding: 10px !important;
+      font-size: 13px !important;
+    }
+  
+    #productModal textarea{
+      height: 100px !important;
+    }
+  
+    #cancelProduct,
+    #saveProduct{
+      padding: 10px 14px !important;
+      font-size: 13px !important;
+    }
+  
+  }

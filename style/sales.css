@@ -1,0 +1,50 @@
+@media (max-width: 768px) {
+
+  #mainContent {
+    padding: 12px !important;
+  }
+
+  #mainContent h1 {
+    font-size: 1.25rem !important;
+  }
+
+  #mainContent p {
+    font-size: 0.75rem !important;
+  }
+
+  #mainContent .grid {
+    gap: 8px !important;
+  }
+
+  #mainContent .grid > div {
+    padding: 12px !important;
+    border-radius: 16px !important;
+  }
+
+  #mainContent h2 {
+    font-size: 1rem !important;
+  }
+
+  #mainContent button {
+    padding: 8px 12px !important;
+    font-size: 0.8rem !important;
+  }
+
+  #salesContainer img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  #salesContainer h3 {
+    font-size: 0.8rem !important;
+  }
+
+  #salesContainer p {
+    font-size: 0.7rem !important;
+  }
+
+  #salesContainer .font-bold {
+    font-size: 0.8rem !important;
+  }
+
+}

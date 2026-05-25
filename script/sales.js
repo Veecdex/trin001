@@ -1,29 +1,10 @@
-
 lucide.createIcons();
 
-/*
-COPY YOUR PRODUCTS ARRAY
-FROM stock.html HERE
-*/
+const products =
+JSON.parse(localStorage.getItem("products")) || [];
 
-const products = [
-  {
-    id: 1,
-    name: "Nike Air Max",
-    description: "Premium running shoe",
-    amount: 20000,
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-  },
-  {
-    id: 2,
-    name: "Black Hoodie",
-    description: "Comfortable cotton hoodie",
-    amount: 15000,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
-  }
-];
-
-const sales = [];
+let sales =
+JSON.parse(localStorage.getItem("sales")) || [];
 
 const saleModal =
 document.getElementById("saleModal");
@@ -33,6 +14,10 @@ document.getElementById("productSelect");
 
 const salesContainer =
 document.getElementById("salesContainer");
+
+function saveSales() {
+  localStorage.setItem("sales", JSON.stringify(sales));
+}
 
 document
 .getElementById("newSaleBtn")
@@ -45,7 +30,7 @@ document
 function openModal() {
 
   productSelect.innerHTML =
-  '<option value="">Select Product</option>';
+  `<option value="">Select Product</option>`;
 
   products.forEach(product => {
 
@@ -66,41 +51,46 @@ function closeModal() {
   saleModal.classList.add("hidden");
   saleModal.classList.remove("flex");
 
+  document.getElementById("selectedProduct")
+  ?.classList.add("hidden");
+
+  document.getElementById("saleQuantity").value = "";
 }
 
 productSelect.addEventListener(
-"change",
-() => {
+  "change",
+  () => {
 
-  const product =
-  products.find(
-    p => p.id == productSelect.value
-  );
+    const product =
+    products.find(
+      p => p.id == productSelect.value
+    );
 
-  if(!product) return;
+    if (!product) return;
 
-  document
-  .getElementById("selectedProduct")
-  .classList.remove("hidden");
+    document
+    .getElementById("selectedProduct")
+    .classList.remove("hidden");
 
-  document
-  .getElementById("previewImage")
-  .src = product.image;
+    document
+    .getElementById("previewImage")
+    .src = product.image;
 
-  document
-  .getElementById("previewName")
-  .textContent = product.name;
+    document
+    .getElementById("previewName")
+    .textContent = product.name;
 
-  document
-  .getElementById("previewDescription")
-  .textContent = product.description;
+    document
+    .getElementById("previewDescription")
+    .textContent =
+    product.description;
 
-  document
-  .getElementById("previewAmount")
-  .textContent =
-  "₦" + product.amount.toLocaleString();
-
-});
+    document
+    .getElementById("previewAmount")
+    .textContent =
+    "₦" + Number(product.amount).toLocaleString();
+  }
+);
 
 document
 .getElementById("saveSale")
@@ -111,8 +101,8 @@ document
     p => p.id == productSelect.value
   );
 
-  if(!product){
-    alert("Select a product");
+  if (!product) {
+    alert("Select Product");
     return;
   }
 
@@ -122,6 +112,11 @@ document
     .value
   );
 
+  if (!quantity || quantity < 1) {
+    alert("Enter Quantity");
+    return;
+  }
+
   const type =
   document.getElementById("saleType")
   .value;
@@ -130,16 +125,14 @@ document
 
     id: Date.now(),
 
-    productName: product.name,
-
-    productImage: product.image,
-
-    amount: product.amount,
+    productId: product.id,
 
     quantity,
 
+    amount: product.amount,
+
     total:
-    product.amount * quantity,
+    Number(product.amount) * quantity,
 
     type,
 
@@ -148,76 +141,100 @@ document
 
   });
 
+  saveSales();
   renderSales();
-
   closeModal();
-
 };
 
-function renderSales(){
+function renderSales() {
+
+  if (sales.length === 0) {
+
+    salesContainer.innerHTML = `
+      <div class="p-10 text-center text-slate-500">
+        No Sales Yet
+      </div>
+    `;
+
+    updateStats();
+    return;
+  }
 
   salesContainer.innerHTML =
-  sales.map(sale => `
+  sales.map(sale => {
 
-    <div class="p-5 border-b">
+    const product =
+    products.find(
+      p => p.id == sale.productId
+    );
 
-      <div class="flex gap-4">
+    return `
+      <div class="p-5 border-b">
 
-        <img
-          src="${sale.productImage}"
-          class="w-20 h-20 rounded-xl object-cover"
-        >
+        <div class="flex gap-4">
 
-        <div class="flex-1">
+          <img
+            src="${product?.image || 'https://placehold.co/200'}"
+            class="w-20 h-20 rounded-xl object-cover"
+          >
 
-          <h3 class="font-semibold">
-            ${sale.productName}
-          </h3>
+          <div class="flex-1">
 
-          <p class="text-sm text-slate-500 mt-1">
-            Qty: ${sale.quantity}
-          </p>
+            <h3 class="font-semibold">
+              ${product?.name || "Deleted Product"}
+            </h3>
 
-          <p class="text-sm text-slate-500">
-            ${sale.type}
-          </p>
+            <p class="text-sm text-slate-500">
+              Qty: ${sale.quantity}
+            </p>
 
-          <p class="text-sm text-slate-500">
-            ${sale.date}
-          </p>
+            <p class="text-sm text-slate-500">
+              ${sale.type}
+            </p>
 
-        </div>
+            <p class="text-sm text-slate-500">
+              ${sale.date}
+            </p>
 
-        <div class="font-bold">
-          ₦${sale.total.toLocaleString()}
+          </div>
+
+          <div class="font-bold">
+            ₦${Number(sale.total).toLocaleString()}
+          </div>
+
         </div>
 
       </div>
+    `;
 
-    </div>
-
-  `).join("");
+  }).join("");
 
   updateStats();
 }
 
-function updateStats(){
+function updateStats() {
 
   const total =
   sales.reduce(
-    (sum,sale)=>sum+sale.total,
+    (sum, sale) => sum + Number(sale.total),
     0
   );
 
   const online =
   sales
-  .filter(s=>s.type==="Online")
-  .reduce((sum,s)=>sum+s.total,0);
+  .filter(s => s.type === "Online")
+  .reduce(
+    (sum, sale) => sum + Number(sale.total),
+    0
+  );
 
   const offline =
   sales
-  .filter(s=>s.type==="Offline")
-  .reduce((sum,s)=>sum+s.total,0);
+  .filter(s => s.type === "Offline")
+  .reduce(
+    (sum, sale) => sum + Number(sale.total),
+    0
+  );
 
   document
   .getElementById("totalSales")
@@ -239,3 +256,5 @@ function updateStats(){
   .textContent =
   "₦" + offline.toLocaleString();
 }
+
+renderSales();

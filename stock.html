@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="style/customers.css">
+  <link rel="stylesheet" href="style/stock.css">
 </head>
 <body class="bg-gray-50 text-slate-900 h-screen overflow-hidden">
 
@@ -27,7 +28,6 @@
         </div>
         <div class="leading-tight">
           <h1 class="text-sm font-semibold">WIesel</h1>
-          <p class="text-[10px] text-slate-500">Commerce OS</p>
         </div>
       </div>
 
@@ -111,10 +111,39 @@
       <!-- RIGHT -->
       <div class="flex items-center gap-4">
 
-        <button class="relative p-2 rounded-xl hover:bg-slate-100 transition">
-          <i data-lucide="bell" class="w-5 h-5"></i>
-          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-        </button>
+        <div class="relative group">
+
+            <button class="relative p-2 rounded-xl hover:bg-slate-100 transition">
+              <i data-lucide="bell" class="w-5 h-5"></i>
+          
+              <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          
+            <div
+              class="absolute right-0 top-12 w-72 bg-white border border-slate-200 rounded-2xl p-4 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+          
+              <div class="flex gap-3">
+          
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="info" class="w-5 h-5 text-indigo-600"></i>
+                </div>
+          
+                <div>
+                  <h3 class="font-semibold text-sm">
+                    Stay Informed
+                  </h3>
+          
+                  <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                    Receive important platform updates, new feature releases,
+                    security notifications and announcements from Wiesel.
+                  </p>
+                </div>
+          
+              </div>
+          
+            </div>
+          
+          </div>
 
         <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
           <img

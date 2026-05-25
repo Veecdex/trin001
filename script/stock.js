@@ -1,9 +1,13 @@
-
 lucide.createIcons();
 
 let editId = null;
 
-const products = [
+function saveProducts() {
+  localStorage.setItem("products", JSON.stringify(products));
+}
+
+let products =
+JSON.parse(localStorage.getItem("products")) || [
   {
     id: 1,
     name: "Nike Air Max",
@@ -19,6 +23,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
   }
 ];
+
+saveProducts();
 
 const productsContainer =
 document.getElementById("productsContainer");
@@ -71,7 +77,7 @@ function renderProducts() {
             </p>
 
             <h4 class="font-bold text-xl">
-              ₦${product.amount.toLocaleString()}
+              ₦${Number(product.amount).toLocaleString()}
             </h4>
 
           </div>
@@ -102,11 +108,13 @@ function renderProducts() {
 
   `).join("");
 
-  totalProducts.textContent =
-  products.length;
+  totalProducts.textContent = products.length;
 
   const totalValue =
-  products.reduce((sum,p)=>sum+p.amount,0);
+  products.reduce(
+    (sum, product) => sum + Number(product.amount),
+    0
+  );
 
   inventoryValue.textContent =
   "₦" + totalValue.toLocaleString();
@@ -120,17 +128,20 @@ function openModal() {
 }
 
 function closeModal() {
+
   modal.classList.add("hidden");
   modal.classList.remove("flex");
 
-  document.getElementById("productName").value="";
-  document.getElementById("productDescription").value="";
-  document.getElementById("productAmount").value="";
+  document.getElementById("productName").value = "";
+  document.getElementById("productDescription").value = "";
+  document.getElementById("productAmount").value = "";
+  document.getElementById("productImage").value = "";
 
   editId = null;
 }
 
 newProductBtn.onclick = () => {
+
   document.getElementById("modalTitle").textContent =
   "Create Product";
 
@@ -142,10 +153,10 @@ cancelProduct.onclick = closeModal;
 saveProduct.onclick = () => {
 
   const name =
-  document.getElementById("productName").value;
+  document.getElementById("productName").value.trim();
 
   const description =
-  document.getElementById("productDescription").value;
+  document.getElementById("productDescription").value.trim();
 
   const amount =
   document.getElementById("productAmount").value;
@@ -153,23 +164,25 @@ saveProduct.onclick = () => {
   const file =
   document.getElementById("productImage").files[0];
 
-  if(!name || !description || !amount) {
+  if (!name || !description || !amount) {
     alert("Fill all fields");
     return;
   }
 
   const saveData = (imageUrl) => {
 
-    if(editId){
+    if (editId) {
 
       const product =
       products.find(p => p.id === editId);
+
+      if (!product) return;
 
       product.name = name;
       product.description = description;
       product.amount = Number(amount);
 
-      if(imageUrl){
+      if (imageUrl) {
         product.image = imageUrl;
       }
 
@@ -179,21 +192,24 @@ saveProduct.onclick = () => {
         id: Date.now(),
         name,
         description,
-        amount:Number(amount),
-        image:imageUrl || "https://placehold.co/600x400"
+        amount: Number(amount),
+        image:
+          imageUrl ||
+          "https://placehold.co/600x400"
       });
 
     }
 
+    saveProducts();
     renderProducts();
     closeModal();
   };
 
-  if(file){
+  if (file) {
 
     const reader = new FileReader();
 
-    reader.onload = e => {
+    reader.onload = (e) => {
       saveData(e.target.result);
     };
 
@@ -207,25 +223,21 @@ saveProduct.onclick = () => {
 
 };
 
-function deleteProduct(id){
+function deleteProduct(id) {
 
-  const index =
-  products.findIndex(p => p.id === id);
+  products =
+  products.filter(product => product.id !== id);
 
-  if(index > -1){
-
-    products.splice(index,1);
-
-    renderProducts();
-
-  }
-
+  saveProducts();
+  renderProducts();
 }
 
-function editProduct(id){
+function editProduct(id) {
 
   const product =
   products.find(p => p.id === id);
+
+  if (!product) return;
 
   editId = id;
 
