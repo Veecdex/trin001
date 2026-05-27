@@ -1,1311 +1,502 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wiesel</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    /* General Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    body::-webkit-scrollbar {
-      display: none;
-    }
+<title>Store</title>
 
-    /* Ensure scrollbar is hidden for all major browsers */
-    html {
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE/Edge */
-    }
-    body {
-      background-color: #ffffff;
-      height: 100vh;
-      overflow-x: hidden;
-      padding: 5px;
-    }
+<script src="https://cdn.tailwindcss.com"></script>
 
-    /* Navigation Styles */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgb(255, 255, 255);
-      color: #333;
-      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 1000;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    .brand-name {
-      font-size: 2rem;
-      font-weight: 400;
-      color:#333;
-      margin-left: -12px;
-  
-    }
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    .search-bar {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      
-    }
+<script src="https://unpkg.com/lucide@latest"></script>
 
-    .search-bar input {
-      width: 70%;
-      max-width: 500px;
-      padding: 0.7rem;
-      border: 1px solid #ddd;
-      border-radius: 15px;
-      outline: none;
-      transition: box-shadow 0.3s;
-    }
-
-    .search-bar input:focus {
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .search-icon {
-      margin-left: 10px;
-      cursor: pointer;
-    }
-
-    .nav-icons {
-      display: flex;
-      gap: 1.5rem;
-      color: #333;
-    }
-
-    .nav-icons i {
-      cursor: pointer;
-    }
-
-    
-   
-
-
-    /* Scrollable Section for Categories */
-    .categories-section {
-      margin-top: -100px;
-      padding: 3rem;
-      display: flex;
-      position: relative;
-      gap: 0.8rem;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      
-    }
-
-    .categories-section::-webkit-scrollbar {
-      display: none;
-    }
-    .category-container {
-      flex: 0 0 auto;
-      background: rgb(255, 254, 254);
-      border-radius: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      width: 200px;
-      height: 250px;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .category-container .icon {
-      background: #0a111d;
-      color: #fff;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 0.5rem;
-      margin-top: 20px;
-    }
-
-    .category-container p {
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
-      font-weight: 500;
-    }
-
-    .category-container .view-btn {
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
-      color: rgb(255, 251, 251);
-      background: #0a111d;
-      width: 100px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      padding: 10px;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-    }
-
-    .category-container .view-btn i {
-      font-size: 1rem;
-    }
-
-    /* Mobile-specific adjustments */
-    @media (max-width: 768px) {
-      .search-bar {
-        display: none;
-      }
-
-      .search-icon-only {
-        display: inline-block;
-      }
-      .brand-name {
-      font-size: 1.4rem;
-      font-weight: 400;
-     
-    }
-     
-
-      .categories-section {
-        padding: 1rem;
-        margin-top: -80px;
-      }
-   
-      .category-container {
-        width: 150px;
-      }
-    }
-
-    /* Search Page (Mobile Toggle) */
-    .search-page {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #f9f9f9;
-      z-index: 1001;
-      padding: 2rem;
-    }
-
-    .search-page.active {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    .search-page .back-icon {
-      align-self: flex-start;
-      cursor: pointer; 
-    }
-    /* Mobile-specific adjustments */
-@media (min-width: 768px) {
-  .search-icon-only {
-    display: none; /* Hides the search icon on desktop */
-  }
+<style>
+*{
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.menu-icon {
-  cursor: pointer;
+body{
+background:#f8fafc;
 }
 
-/* Dropdown Menu */
-.dropdown-menu {
-  position: absolute;
-  top: 60px; /* Adjust to match your nav height */
-  right: 20px;
-  background-color: #000;
-  color: #fff;
-  border-radius: 15px;
-  display: none; /* Initially hidden */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+.product-card:hover{
+transform:translateY(-4px);
 }
 
-.dropdown-menu a {
-  display: block;
-  padding: 10px 15px;
-  text-decoration: none;
-  color: #fff;
-  border-bottom: 1px solid #333;
+.product-card{
+transition:.25s ease;
+}
+.gallery-item img{
+transition:.5s;
 }
 
-.dropdown-menu a:last-child {
-  border-bottom: none;
+.gallery-item:hover img{
+transform:scale(1.05);
 }
+</style>
 
-.dropdown-menu a:hover {
-  background-color: #444;
-  color: #fff;
-}
-.hero-container {
-      width: 100%;
-     
-      max-height: 500px; /* Restrict for large desktops */
-      min-height: 300px; /* Ensure height on small screens */
-      position: relative;
-      background-color: #131e31;
-      color: white;
-      padding: 20px;
-      display: flex;
-      margin-top: 60px;
-      flex-direction: column;
-      align-items: center;
-      clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
-    }
-
-   
-
-
-    .hero-title {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 1.5rem;
-    }
-
-    .hero-section {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      width: 90%;
-      max-width: 1200px;
-    }
-
-
-
-
-    .blurred-line {
-  width: 100%; /* Full width */
-  height: 1px; /* Thin line */
-  background: rgb(194, 193, 193); /* Light black color with transparency */
- 
-}
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-.card {
-  width: 380px;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-.image-container {
-  width: 100%;
-  height: 190px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-.image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.info {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 20px;
-}
-.circle-image {
-  flex-shrink: 0;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-top: 30px;
-  border: 2px solid #ddd;
-}
-.circle-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.text-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-.text-content .brand-name {
-  font-weight: 700;
-  font-size: 1rem;
-  margin: 0;
-}
-.text-content .info-item {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #555;
-  margin: 5px 0;
-}
-.text-content .info-item i {
-  margin-right: 8px;
-  color: #888;
-  font-weight: 300;
-}
-.business-owner {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #333;
-  font-style: italic;
-}
-.business-owner:before {
-  content: "";
-  width: 30px;
-  height: 2px;
-  background: #333;
-  display: inline-block;
-}
-@media (max-width: 768px) {
-  .card {
-    width: 100%;
-    border-radius: 0px;
-  }
-}
-
-.explore-text {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-left: 70px;
-  margin-bottom: 10px;
-  
-}
-
-.scrollable-links {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 10px 20px;
-      background-color: #fff;
-      border-bottom: 2px solid #ddd;
-      position: fixed;
-     margin-top: 100px;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      cursor: grab; /* Hand pointer for scrolling */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .scrollable-links.grabbing {
-      cursor: grabbing; /* Hand grabbing effect when dragging */
-    }
-
-    .bottom-navigation {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      background: #ffffffde;
-      height: 60px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      border-top: 1px solid #ddd;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 0.9rem;
-      color: rgb(53, 53, 53);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .nav-item svg {
-      width: 22px;
-      height: 22px;
-      margin-bottom: 4px;
-      transition: transform 0.2s ease;
-    }
-
-    .nav-item.active {
-      background-size: initial;
-      border: 1px solid black;
-      border-radius: 4px;
-      padding: 4px;
-    }
-
-    .nav-item.active svg {
-      transform: scale(1.1);
-      color: #000000;
-    
-      
-    }
-
-    .nav-item:hover {
-      color: #0a111d;
-    }
-
-    /* Adjusted layout for mobile */
-    @media (max-width: 768px) {
-      .nav-item svg {
-        width: 25px;
-        height: 25px;
-      }
-
-      .bottom-navigation {
-        justify-content: space-around;
-        height: 50px;
-      }
-    }
-
-    /* Adjusted layout for desktops */
-    @media (min-width: 769px) {
-      .bottom-navigation {
-        max-width: 400px;
-        margin: 0 auto;
-        border-radius: 10px;
-      }
-    }
-
-    .container-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15.3px;
-      margin-top: 123px;
-    }
-
-    .container {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 5px;
-      width: calc(33.39% - 11px);
-      box-sizing: border-box;
- 
-    }
-
-    .container img,
-    .container video {
-      width: 100%;
-      height: 450px;
-      object-fit: cover;
-      border-radius: 20px;
-    
-      margin-top: 10px;
-    }
-
-    .top-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-    }
-
-    .user-info img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .user-info span {
-      font-weight: 500;
-      font-size: 14px;
-      color: #111827;
-    }
-
-    .top-icons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .top-icons i {
-      cursor: pointer;
-      color: #6b7280;
-    }
-
-    .icons-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 12px;
-    }
-
-    .icons-row .left {
-      display: flex;
-      gap: 12px;
-    }
-
-    .icons-row i {
-      cursor: pointer;
-      color: #6b7280;
-    }
-
-    .short-text {
-      margin: 15px 0 8px;
-      font-size: 14px;
-      color: #374151;
-    }
-
-    .short-text a {
-      color: #3b82f6;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .short-text a:hover {
-      text-decoration: underline;
-    }
-
-    .meta-info {
-      font-size: 15px;
-      color: #6b7280;
-    }
-
-    .meta-info i {
-      margin-left: 8px;
-    }
-.PRF{
-  border-radius: 9px;
-}
-    @media screen and (max-width: 768px) {
-      .container-row {
-        gap: 15px; /* Smaller gap for mobile */
-        
-      }
-
-      .container {
-        width: 100%; /* Full width for mobile */
-        border: none;
-       margin-top: -18px;
-       border-radius: 0px;
-       box-shadow: none;
-
-      }
-
-      .container img,
-      .container video {
-        border-radius: 0px; /* Slightly smaller radius for smaller screens */
-        width: 106.5%;
-        margin-left:-10px ;
-      }
-    
-    }
-    .shopping-bag-container {
-    position: relative;
-    display: inline-block;
-}
-    .circle-indicator {
-    position: absolute;
-    top: -5px;
-    right: -10px;
-    background-color: #ff0000;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ffffff;
-}
-.notification-container {
-    position: relative;
-    display: inline-block;
-}
-
-.circle-indicator {
-    position: absolute;
-    top: -5px; /* Adjust positioning */
-    right: -10px; /* Adjust positioning */
-    background-color: #2c3e50; /* Red background for alerts */
-    color: #ffffff; /* White text color */
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border: 1px solid #2c3e50; /* White border for contrast */
-}
-/* Scrollable Container */
-.scrollable-links {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px;
-    gap: 8px;
-    scrollbar-width: none; /* Hide scrollbar (Firefox) */
-}
-
-/* Hide scrollbar for WebKit browsers */
-.scrollable-links::-webkit-scrollbar {
-    display: none;
-}
-
-/* Individual Links */
-.scrollable-links .link {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    color: #333;
-    background: white;
-    border-radius: 50px;
-    border: 1px solid #ddd;
-    transition: 0.3s ease-in-out;
-}
-
-/* Hover Effect */
-.scrollable-links .link:hover {
-    background: #e1e1e1;
-}
-
-/* Active Link Styling */
-.scrollable-links .link.active {
-    background: #2c3e50;
-    color: white;
-    border: 1px solid #2c3e50;
-    font-weight: bold;
-}
-.icon-style {
-    font-size: 18px; /* Standard size */
-    color: #444; /* Neutral dark tone */
-    cursor: pointer;
-    margin: 0 5px;
-    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-/* Adjust for larger screens */
-@media (min-width: 768px) {
-    .icon-style {
-        font-size: 18px; /* Slightly bigger on desktop */
-        margin: 0 8px;
-        
-    }
- 
-}
-
-/* Adjust for larger screens */
-@media (max-width: 768px) {
-
-   .card {
-           
-            top: 280px;
-            width: 105%;
-        }
-        .scrollable-links .link {
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: 500;
-    text-decoration: none;
-    color: #333;
-    background: white;
-    border-radius: 50px;
-    border: 1px solid #ddd;
-    transition: 0.3s ease-in-out;
-}
-}
-
-
-.icon-style:hover {
-    transform: scale(1.1); /* Small zoom effect */
-    color: #007bff; /* Subtle color change */
-}
-
-.card {
-            background: rgba(15, 15, 15, 0.363); /* Transparent white */
-            border-radius: 12px;
-            padding: 5px;
-            margin-top: -200px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-title {
-            font-size: 15px;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 2px;
-        }
-
-        .product-description {
-            font-size: 12px;
-            color: #ddd;
-            margin-bottom: 4px;
-        }
-
-        .product-price {
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .buy-btn {
-            background-color: #333;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 15px;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            transition: 0.3s;
-        }
-
-        .buy-btn:hover {
-            background-color: rgb(29, 29, 29);
-        }
-        .top-price{
-    display:flex;
-    align-items:center;
-}
-
-.price-tag{
-    font-size:16px;
-    font-weight:700;
-    color:#111;
-}
-
-.add-cart-btn{
-    width:100%;
-    border:none;
-    padding:12px;
-    margin-top:10px;
-    border-radius:12px;
-    background:#111;
-    color:#fff;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.add-cart-btn:hover{
-    opacity:.9;
-}
-  </style>
-  
 </head>
 <body>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
+<!-- HEADER -->
 
-  <!-- Navigation -->
-  <nav>
-    <div class="brand-name" style="font-family: 'Pacifico', cursive;  font-weight: bold; color: #2c3e50; letter-spacing: 2px;">
-        UKRIAH
-    </div>
-    
-    
-    
-    <div class="nav-icons">
-   
-      <i style="margin-right: -9px;" class="bi bi-search icon-style"></i> <!-- Search icon -->
-      <a href="#" class="nav-item notification-container">
-        <i class="bi bi-bag icon-style"></i> <!-- Shopping bag icon -->
-        <span class="circle-indicator">8</span>
-    </a>
-    </div>
-    <div class="dropdown-menu">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Portfolio</a>
-      <a href="#">Blog</a>
-      <a href="#">Contact</a>
-    </div>
-    <div class="fixed top-[72px] left-0 right-0 z-50 bg-white px-3 py-2">
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-slate-200">
 
-      <div class="relative max-w-5xl mx-auto">
-    
-        <i
-          data-lucide="search"
-          class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
-        ></i>
-    
-        <input
-          type="text"
-          placeholder="Search anything..."
-          class="w-full h-12 bg-slate-100 rounded-full pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
-        />
-    
-      </div>
-    
-    </div>
-  </nav>
-  <script src="https://unpkg.com/lucide@latest"></script>
+<div class="max-w-7xl mx-auto px-5 py-4">
 
-  <script>
-    lucide.createIcons();
-  </script>
- 
-  <div class="container-row">
-    <div class="container">
-      <!-- Top Row -->
-      <div class="top-row">
-        <div class="user-info">
-          <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/samosa.jpg" alt="User Image">
-          <span>Pasteries</span>
-        </div>
-        <div class="top-icons">
-          <i class="bi bi-three-dots icon-style"></i> <!-- Three-dot horizontal icon -->
-          <i class="bi bi-cart icon-style"></i> <!-- Cart icon -->                
-        </div>
-      </div>
+  <div class="flex items-center gap-3">
+
+    <!-- BRAND -->
   
-      <!-- Image -->
-      <img style="left: 0; right: 0;" src="images/cake.JPG" alt="Content Image">
+    <div class="shrink-0">
   
-   
+      <h1 class="text-lg sm:text-2xl font-black tracking-tight">
+       Akilas Place
+      </h1>
   
-      <!-- Short Text -->
-      <p class="short-text">
-        Soft, freshly baked cupcakes with a rich, creamy topping. Perfect for birthdays, celebrations, or a sweet treat. <a href="#">Buy Now</a>
+      <p class="hidden sm:block text-xs text-slate-500">
+        Retail & Commerce 
       </p>
   
-      <!-- Meta Info -->
-      <p class="meta-info">
-        $49.99    </p>
-       
-    </div>
-    <div class="container">
-
-        <!-- Top Row -->
-        <div class="top-row">
-    
-            <div class="user-info">
-                <img
-                    style="margin-left:3px;border-radius:12px;height:40px;width:40px;object-fit:cover;"
-                    src="images/whandbag.JPG"
-                    alt="Product"
-                >
-    
-                <span>Luxury Handbag</span>
-            </div>
-    
-            <!-- PRICE -->
-            <div class="top-price">
-                <span class="price-tag">$49.99</span>
-            </div>
-    
-        </div>
-    
-        <!-- Product Image -->
-        <img
-            style="left:0;right:0;"
-            src="images/whandbag.JPG"
-            alt="Luxury Handbag"
-        >
-    
-        <!-- Description -->
-        <p class="short-text">
-            Soft premium leather handbag designed for everyday elegance and comfort.
-        </p>
-    
-        <!-- Add To Cart -->
-        <button class="add-cart-btn">
-            Add To Cart
-        </button>
-    
-    </div>
-      
-        <div class="container">
-          <!-- Top Row -->
-          <div class="top-row">
-            <div class="user-info">
-              <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/person_2.jpg" alt="User Image">
-              <span>Biyekineey</span>
-            </div>
-            <div class="top-icons">
-              <i class="bi bi-three-dots icon-style"></i> <!-- Three-dot horizontal icon -->
-              <i class="bi bi-cart icon-style"></i> <!-- Cart icon -->                
-            </div>
-          </div>
-      
-          <!-- Image -->
-          <img style="left: 0; right: 0;" src="images/tidietshirt.JPG" alt="Content Image">
-      
-       
-      
-          <!-- Short Text -->
-          <p class="short-text">
-            Soft, freshly baked cupcakes with a rich, creamy topping. Perfect for birthdays, celebrations, or a sweet treat. <a href="#">Buy Now</a>
-          </p>
-      
-          <!-- Meta Info -->
-          <p class="meta-info">
-            $49.99    </p>
-           
-        </div>
-        <div class="container">
-          <!-- Top Row -->
-          <div class="top-row">
-            <div class="user-info">
-              <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/women.jpg" alt="User Image">
-              <span>Nike Shoes</span>
-            </div>
-            <div class="top-icons">
-              <i class="bi bi-three-dots icon-style"></i> <!-- Three-dot horizontal icon -->
-              <i class="bi bi-cart icon-style"></i> <!-- Cart icon -->                
-            </div>
-          </div>
-      
-          <!-- Image -->
-          <img style="left: 0; right: 0;" src="images/Air.JPG" alt="Content Image">
-      
-       
-      
-          <!-- Short Text -->
-          <p class="short-text">
-            Soft, freshly baked cupcakes with a rich, creamy topping. Perfect for birthdays, celebrations, or a sweet treat. <a href="#">Buy Now</a>
-          </p>
-      
-          <!-- Meta Info -->
-          <p class="meta-info">
-            $49.99    </p>
-           
-        </div>
-        <div class="container">
-          <!-- Top Row -->
-          <div class="top-row">
-            <div class="user-info">
-              <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/person_1.jpg" alt="User Image">
-              <span>Chips samosa</span>
-            </div>
-            <div class="top-icons">
-              <i class="bi bi-three-dots icon-style"></i> <!-- Three-dot horizontal icon -->
-              <i class="bi bi-cart icon-style"></i> <!-- Cart icon -->                
-            </div>
-          </div>
-      
-          <!-- Image -->
-          <img style="left: 0; right: 0;" src="images/chips.JPG" alt="Content Image">
-      
-       
-      
-          <!-- Short Text -->
-          <p class="short-text">
-            Soft, freshly baked cupcakes with a rich, creamy topping. Perfect for birthdays, celebrations, or a sweet treat. <a href="#">Buy Now</a>
-          </p>
-      
-          <!-- Meta Info -->
-          <p class="meta-info">
-            $49.99    </p>
-           
-        </div>
-      
-        <div class="container">
-          <!-- Top Row -->
-          <div class="top-row">
-            <div class="user-info">
-              <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/person_2.jpg" alt="User Image">
-              <span>ola56</span>
-            </div>
-            <div class="top-icons">
-              <i data-feather="more-vertical"></i>
-              <i data-feather="phone"></i>
-              <i data-feather="message-circle"></i>
-            </div>
-          </div>
-      
-          <!-- Image -->
-          <img style="left: 0; right: 0;" src="images/device.JPG" alt="Content Image">
-      
-          <!-- Icon Row -->
-          <div class="icons-row">
-            <div class="left">
-              <i data-feather="heart"></i>
-              <i data-feather="message-circle"></i>
-            </div>
-            <i data-feather="shopping-bag"></i>
-          </div>
-      
-          <!-- Short Text -->
-          <p class="short-text">
-            This is a brief description of the content... <a href="#">More</a>
-          </p>
-      
-          <!-- Meta Info -->
-          <p class="meta-info">
-            2 hrs ago     </p>
-            <p class="meta-info">
-            <i data-feather="map-pin"></i> 
-            Ikeja , Nigeria
-          </p>
-        </div>
-
-    <div class="container">
-      <!-- Top Row -->
-      <div class="top-row">
-        <div class="user-info">
-          <img  style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/women.jpg" alt="User Image">
-          <span>Dave3wuyy</span>
-        </div>
-        <div class="top-icons">
-          <i data-feather="more-vertical"></i>
-          <i data-feather="phone"></i>
-          <i data-feather="message-circle"></i>
-        </div>
-      </div>
-  
-      <!-- Image -->
-      <img style="left: 0; right: 0;" src="images/cloth_2.JPG" alt="Content Image">
-  
-      <!-- Icon Row -->
-      <div class="icons-row">
-        <div class="left">
-          <i data-feather="heart"></i>
-          <i data-feather="message-circle"></i>
-        </div>
-        <i data-feather="shopping-bag"></i>
-      </div>
-  
-      <!-- Short Text -->
-      <p class="short-text">
-        This is a brief description of the content... <a href="#">More</a>
-      </p>
-  
-      <!-- Meta Info -->
-      <p class="meta-info">
-        2 hrs ago     </p>
-        <p class="meta-info">
-        <i data-feather="map-pin"></i> 
-        Agege , Nigeria
-      </p>
-    </div>
-    <div class="container">
-      <!-- Top Row -->
-      <div class="top-row">
-        <div class="user-info">
-          <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/person_1.jpg" alt="User Image">
-          <span>mike009</span>
-        </div>
-        <div class="top-icons">
-          <i data-feather="more-vertical"></i>
-          <i data-feather="phone"></i>
-          <i data-feather="message-circle"></i>
-        </div>
-      </div>
-  
-      <!-- Image -->
-      <img style="left: 0; right: 0;" src="images/handbag.JPG" alt="Content Image">
-  
-      <!-- Icon Row -->
-      <div class="icons-row">
-        <div class="left">
-          <i data-feather="heart"></i>
-          <i data-feather="message-circle"></i>
-        </div>
-        <i data-feather="shopping-bag"></i>
-      </div>
-  
-      <!-- Short Text -->
-      <p class="short-text">
-        This is a brief description of the content... <a href="#">More</a>
-      </p>
-  
-      <!-- Meta Info -->
-      <p class="meta-info">
-        2m ago     </p>
-        <p class="meta-info">
-        <i data-feather="map-pin"></i> 
-       Abokuta , Nigeria
-      </p>
     </div>
   
-    <div class="container">
-      <!-- Top Row -->
-      <div class="top-row">
-        <div class="user-info">
-          <img style=" margin-left: 3px; border-radius: 50px; height: 40px; width: 40px;" src="images/person_2.jpg" alt="User Image">
-          <span>ola56</span>
-        </div>
-        <div class="top-icons">
-          <i data-feather="more-vertical"></i>
-          <i data-feather="phone"></i>
-          <i data-feather="message-circle"></i>
-        </div>
-      </div>
+    <!-- SEARCH -->
   
-      <!-- Image -->
-      <img style="left: 0; right: 0;" src="images/sneakers.JPG" alt="Content Image">
+    <div class="flex-1 relative">
   
-      <!-- Icon Row -->
-      <div class="icons-row">
-        <div class="left">
-          <i data-feather="heart"></i>
-          <i data-feather="message-circle"></i>
-        </div>
-        <i data-feather="shopping-bag"></i>
-      </div>
+      <i
+        data-lucide="search"
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+      ></i>
   
-      <!-- Short Text -->
-      <p class="short-text">
-        This is a brief description of the content... <a href="#">More</a>
-      </p>
+      <input
+        type="text"
+        placeholder="Search..."
+        class="w-full h-10 sm:h-11 rounded-2xl bg-slate-100 border border-slate-200 pl-10 pr-3 text-sm outline-none focus:ring-2 focus:ring-slate-900"
+      />
   
-      <!-- Meta Info -->
-      <p class="meta-info">
-        2 hrs ago     </p>
-        <p class="meta-info">
-        <i data-feather="map-pin"></i> 
-        Ikeja , Nigeria
-      </p>
     </div>
-    <!-- Duplicate more containers here -->
-    
-  </div>
-  <div class="container">
+  
+    <!-- ICONS -->
+  
+    <div class="flex items-center gap-2 sm:gap-3">
 
-    <!-- Top Row -->
-    <div class="top-row">
+  <div class="relative">
 
-        <div class="user-info">
-            <img
-                src="images/product.jpg"
-                alt="Product"
-                style="
-                margin-left:3px;
-                border-radius:12px;
-                height:40px;
-                width:40px;
-                object-fit:cover;
-                "
-            >
-
-            <span>Product Name</span>
-        </div>
-
-        <!-- PRICE -->
-        <div class="top-price">
-            <span class="price-tag">$49.99</span>
-        </div>
-
-    </div>
-
-    <!-- Product Image -->
-    <img
-        src="images/product.jpg"
-        alt="Product Image"
+    <button
+      id="deliveryBtn"
+      class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-slate-100 flex items-center justify-center hover:bg-slate-200"
     >
-
-    <!-- Description -->
-    <p class="short-text">
-        Premium quality product designed for comfort, durability and style.
-    </p>
-
-    <!-- Bottom Actions -->
-    <div class="product-actions">
-
-        <button class="wishlist-btn">
-            <i class="bi bi-heart"></i>
-        </button>
-
-        <button class="view-btn">
-            <i class="bi bi-eye"></i>
-        </button>
-
-        <button class="add-cart-btn">
-            <i class="bi bi-bag-plus"></i>
-            Add To Cart
-        </button>
-
+      <i data-lucide="truck"></i>
+    </button>
+  
+    <div
+      id="deliveryTooltip"
+      class="absolute top-14 right-0 w-64 sm:w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-3 sm:p-4 z-50"
+    >
+      <button
+        id="closeTooltip"
+        class="absolute top-3 right-3 text-slate-400 hover:text-slate-700"
+      >
+        ✕
+      </button>
+  
+  
+  
+      <div class="flex gap-3">
+  
+        <div
+          class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0"
+        >
+          <i data-lucide="truck"></i>
+        </div>
+  
+        <div>
+  
+          <h4 class="font-semibold text-slate-900">
+            Delivery Information
+          </h4>
+          
+          <p class="text-sm text-slate-500 mt-1">
+            Our store is located at <span class="font-medium text-slate-700">Iyana Ipaja Lagos Nigeria</span>.
+            Orders are delivered through trusted dispatch services. After your purchase, we'll contact you using your phone number to confirm delivery details and provide the shipping fee. Thank you for shopping with us.
+          </p>
+  
+        </div>
+  
+      </div>
+  
     </div>
+  
+  </div>
+
+<button class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-slate-100 flex items-center justify-center hover:bg-slate-200">
+<i data-lucide="phone"></i>
+</button>
 
 </div>
-<script src="https://unpkg.com/feather-icons"></script>
 
-  <script>
-    feather.replace();
+</div>
 
-    const searchIconOnly = document.querySelector('.search-icon-only');
-    const searchPage = document.querySelector('.search-page');
-    const backIcon = document.querySelector('.back-icon');
+<!-- SEARCH -->
 
-    searchIconOnly.addEventListener('click', () => {
-      searchPage.classList.add('active');
-    });
 
-    backIcon.addEventListener('click', () => {
-      searchPage.classList.remove('active');
-    });
-  </script>
-    <script>
-      const scrollableLinks = document.getElementById('scrollableLinks');
+
+</div>
+
+</header>
+<div class="max-w-7xl mx-auto px-3 sm:px-5 mt-3">
+
+  <div class="relative overflow-hidden rounded-3xl h-20 sm:h-24">
+
+    <!-- Background -->
+    <img
+      src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1400"
+      class="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px]"
+    />
+
+    <!-- Premium overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/50 to-slate-900/70"></div>
+
+    <!-- Content -->
+    <div class="relative h-full flex items-center justify-between px-4 sm:px-8">
+
+      <!-- LEFT: Brand intro -->
+      <div class="flex items-center gap-3 sm:gap-4">
+
+        <!-- Retail icon badge -->
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
+          <i data-lucide="shopping-bag" class="text-white w-5 h-5"></i>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-sm sm:text-lg tracking-wide">
+            Welcome to Akilas PLace
+          </h2>
+
+          <p class="text-white/70 text-[10px] sm:text-xs flex items-center gap-2 mt-0.5">
+            <i data-lucide="sparkles" class="w-3 h-3"></i>
+            Premium retail experience made simple
+          </p>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Trust / features -->
+      <div class="hidden sm:flex items-center gap-4 text-white/80 text-xs">
+
+        <div class="flex items-center gap-1">
+          <i data-lucide="truck" class="w-4 h-4"></i>
+          Fast Delivery
+        </div>
+
+        <div class="flex items-center gap-1">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          Trusted Store
+        </div>
+
+        <div class="flex items-center gap-1">
+          <i data-lucide="headphones" class="w-4 h-4"></i>
+          Support
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- MAIN -->
+
+<main class="max-w-7xl mx-auto p-3 sm:p-5">
+
+<div class="grid lg:grid-cols-[1fr_350px] gap-6">
+
+<!-- PRODUCTS -->
+
+<section>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   
-      let isDown = false; // Tracks if the mouse is pressed
-      let startX; // Stores the starting x-coordinate
-      let scrollLeft; // Tracks the scroll position
+    <div
+      class="gallery-item relative cursor-pointer overflow-hidden"
+      data-name="Wireless Headphones"
+      data-price="₦18,500"
+      data-desc="Crystal clear audio and premium comfort."
+    >
   
-      scrollableLinks.addEventListener('mousedown', (e) => {
-        isDown = true;
-        scrollableLinks.classList.add('grabbing');
-        startX = e.pageX - scrollableLinks.offsetLeft;
-        scrollLeft = scrollableLinks.scrollLeft;
-      });
+      <img
+        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
+        class="w-full h-full object-cover aspect-square"
+      >
   
-      scrollableLinks.addEventListener('mouseleave', () => {
-        isDown = false;
-        scrollableLinks.classList.remove('grabbing');
-      });
+    </div>
+    <div
+      class="gallery-item relative cursor-pointer overflow-hidden"
+      data-name="Wireless Headphones"
+      data-price="₦18,500"
+      data-desc="Crystal clear audio and premium comfort."
+    >
   
-      scrollableLinks.addEventListener('mouseup', () => {
-        isDown = false;
-        scrollableLinks.classList.remove('grabbing');
-      });
+      <img
+        src="images/tidietshirt.JPG"
+        class="w-full h-full object-cover aspect-square"
+      >
   
-      scrollableLinks.addEventListener('mousemove', (e) => {
-        if (!isDown) return; // Exit if the mouse isn't pressed
-        e.preventDefault();
-        const x = e.pageX - scrollableLinks.offsetLeft;
-        const walk = (x - startX) * 2; // Adjust scroll speed
-        scrollableLinks.scrollLeft = scrollLeft - walk;
-      });
-    </script>
+    </div>
+    <div
+      class="gallery-item relative cursor-pointer overflow-hidden"
+      data-name="Running Sneakers"
+      data-price="₦25,000"
+      data-desc="Designed for comfort and performance."
+    >
+  
+      <img
+        src="images/bags.jpg"
+        class="w-full h-full object-cover aspect-square"
+      >
+  
+    </div>
+  
+    <div
+      class="gallery-item relative cursor-pointer overflow-hidden"
+      data-name="Luxury Watch"
+      data-price="₦15,000"
+      data-desc="Elegant design crafted for modern lifestyles."
+    >
+  
+      <img
+        src="images/Air.JPG"
+        class="w-full h-full object-cover aspect-square"
+      >
+  
+    </div>
+    <div
+    class="gallery-item relative cursor-pointer overflow-hidden"
+    data-name="Wireless Headphones"
+    data-price="₦18,500"
+    data-desc="Crystal clear audio and premium comfort."
+  >
+
+    <img
+      src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
+      class="w-full h-full object-cover aspect-square"
+    >
+
+  </div>
+  <div
+    class="gallery-item relative cursor-pointer overflow-hidden"
+    data-name="Wireless Headphones"
+    data-price="₦18,500"
+    data-desc="Crystal clear audio and premium comfort."
+  >
+
+    <img
+      src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
+      class="w-full h-full object-cover aspect-square"
+    >
+
+  </div>
+  <div
+    class="gallery-item relative cursor-pointer overflow-hidden"
+    data-name="Running Sneakers"
+    data-price="₦25,000"
+    data-desc="Designed for comfort and performance."
+  >
+
+    <img
+      src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"
+      class="w-full h-full object-cover aspect-square"
+    >
+
+  </div>
+
+  <div
+    class="gallery-item relative cursor-pointer overflow-hidden"
+    data-name="Luxury Watch"
+    data-price="₦15,000"
+    data-desc="Elegant design crafted for modern lifestyles."
+  >
+
+    <img
+      src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800"
+      class="w-full h-full object-cover aspect-square"
+    >
+
+  </div>
+  <div
+  class="gallery-item relative cursor-pointer overflow-hidden"
+  data-name="Wireless Headphones"
+  data-price="₦18,500"
+  data-desc="Crystal clear audio and premium comfort."
+>
+
+  <img
+    src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
+    class="w-full h-full object-cover aspect-square"
+  >
+
+</div>
+<div
+  class="gallery-item relative cursor-pointer overflow-hidden"
+  data-name="Wireless Headphones"
+  data-price="₦18,500"
+  data-desc="Crystal clear audio and premium comfort."
+>
+
+  <img
+    src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
+    class="w-full h-full object-cover aspect-square"
+  >
+
+</div>
+<div
+  class="gallery-item relative cursor-pointer overflow-hidden"
+  data-name="Running Sneakers"
+  data-price="₦25,000"
+  data-desc="Designed for comfort and performance."
+>
+
+  <img
+    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"
+    class="w-full h-full object-cover aspect-square"
+  >
+
+</div>
+
+<div
+  class="gallery-item relative cursor-pointer overflow-hidden"
+  data-name="Luxury Watch"
+  data-price="₦15,000"
+  data-desc="Elegant design crafted for modern lifestyles."
+>
+
+  <img
+    src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800"
+    class="w-full h-full object-cover aspect-square"
+  >
+
+</div>
+
+  </div>
+  
+  </section>
+
+<!-- CART -->
+
+<aside class="hidden lg:block">
+
+<div class="sticky top-24">
+
+<div class="bg-white rounded-3xl border border-slate-200 p-6">
+
+<div class="flex items-center justify-between">
+
+<h2 class="font-bold text-xl">
+Cart
+</h2>
+
+<div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center">
+
+<i data-lucide="shopping-bag"></i>
+
+</div>
+
+</div>
+
+<div class="mt-6 space-y-4">
+
+<div class="flex justify-between">
+
+<div>
+
+<h4 class="font-medium">
+Wireless Headphones
+</h4>
+
+<p class="text-sm text-slate-500">
+Qty 1
+</p>
+
+</div>
+
+<span class="font-semibold">
+₦18,500
+</span>
+
+</div>
+
+</div>
+
+<div class="border-t my-5"></div>
+
+<div class="flex justify-between">
+
+<span class="text-slate-500">
+Total
+</span>
+
+<span class="font-bold text-xl">
+₦18,500
+</span>
+
+</div>
+
+<button class="mt-5 w-full h-12 rounded-2xl bg-slate-900 text-white font-semibold">
+
+Continue Order →
+
+</button>
+
+</div>
+
+</div>
+
+</aside>
+
+</div>
+
+</main>
+
+<!-- MOBILE CART -->
+
+<button
+class="lg:hidden fixed bottom-6 right-6 h-14 px-5 rounded-2xl bg-slate-900 text-white shadow-xl flex items-center gap-2">
+
+<i data-lucide="shopping-cart"></i>
+
+<span>2</span>
+
+</button>
+
+<script>
+lucide.createIcons();
+</script>
+<script>
+const deliveryBtn =
+document.getElementById("deliveryBtn");
+
+const deliveryTooltip =
+document.getElementById("deliveryTooltip");
+
+const closeTooltip =
+document.getElementById("closeTooltip");
+
+// Toggle when truck icon is clicked
+deliveryBtn.addEventListener("click", () => {
+  deliveryTooltip.classList.toggle("hidden");
+});
+
+// Close when X is clicked
+closeTooltip.addEventListener("click", () => {
+  deliveryTooltip.classList.add("hidden");
+});
+</script>
 </body>
 </html>
-
-
-
-
-
-
