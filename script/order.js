@@ -1,31 +1,38 @@
 
-    const orders = [
-      {
-        id: "ORD-1021",
-        customer: "John Doe",
-        phone: "+229 60 00 00 00",
-        address: "Cotonou, Littoral",
-        status: "Successful",
-        items: [
-          { name: "Shoes", qty: 2 },
-          { name: "Bag", qty: 1 }
-        ],
-        total: 120
-      },
-      
-      {
-        id: "ORD-1022",
-        customer: "Mary Smith",
-        phone: "+229 61 11 11 11",
-        address: "Porto-Novo",
-        status: "Successful",
-        items: [
-          { name: "Watch", qty: 1 }
-        ],
-        total: 80
-      }
-    ];
- 
+let orders = JSON.parse(localStorage.getItem("orders"));
+
+if (!orders) {
+  orders = [
+    {
+      id: "ORD-1021",
+      customer: "John Doe",
+      phone: "+229 60 00 00 00",
+      address: "Cotonou, Littoral",
+      status: "Successful",
+      items: [
+        { name: "Shoes", qty: 2 },
+        { name: "Bag", qty: 1 }
+      ],
+      total: 120
+    },
+    {
+      id: "ORD-1022",
+      customer: "Mary Smith",
+      phone: "+229 61 11 11 11",
+      address: "Porto-Novo",
+      status: "Successful",
+      items: [
+        { name: "Watch", qty: 1 }
+      ],
+      total: 80
+    }
+  ];
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+function saveOrders() {
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
         const container = document.getElementById("ordersContainer");
         
         function renderOrders(filteredOrders = orders) {

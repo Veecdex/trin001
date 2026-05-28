@@ -50,55 +50,46 @@ document.getElementById("inventoryValue");
 function renderProducts() {
 
   productsContainer.innerHTML = products.map(product => `
-  
-    <div class="bg-white rounded-3xl border overflow-hidden">
+  <div class="flex bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow transition">
 
-      <img
-        src="${product.image}"
-        class="w-full h-52 object-cover"
-      >
+    <img
+      src="${product.image}"
+      class="w-24 h-24 object-cover"
+    >
 
-      <div class="p-5">
+    <div class="flex-1 p-3 flex flex-col justify-between">
 
-        <h3 class="font-semibold text-lg">
+      <div>
+        <h3 class="font-semibold text-sm leading-tight">
           ${product.name}
         </h3>
 
-        <p class="text-sm text-slate-500 mt-2">
+        <p class="text-xs text-slate-500 mt-1 line-clamp-1">
           ${product.description}
         </p>
+      </div>
 
-        <div class="flex items-center justify-between mt-5">
+      <div class="flex items-center justify-between mt-2">
 
-          <div>
+        <span class="font-bold text-sm text-slate-900">
+          ₦${Number(product.amount).toLocaleString()}
+        </span>
 
-            <p class="text-xs text-slate-400">
-              Amount
-            </p>
+        <div class="flex gap-1">
 
-            <h4 class="font-bold text-xl">
-              ₦${Number(product.amount).toLocaleString()}
-            </h4>
+          <button
+            onclick="editProduct(${product.id})"
+            class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"
+          >
+            <i data-lucide="pencil" class="w-4 h-4"></i>
+          </button>
 
-          </div>
-
-          <div class="flex gap-2">
-
-            <button
-              onclick="editProduct(${product.id})"
-              class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
-            >
-              <i data-lucide="pencil"></i>
-            </button>
-
-            <button
-              onclick="deleteProduct(${product.id})"
-              class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center"
-            >
-              <i data-lucide="trash-2"></i>
-            </button>
-
-          </div>
+          <button
+            onclick="deleteProduct(${product.id})"
+            class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center"
+          >
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
 
         </div>
 
@@ -106,7 +97,8 @@ function renderProducts() {
 
     </div>
 
-  `).join("");
+  </div>
+`).join("");
 
   totalProducts.textContent = products.length;
 
@@ -165,7 +157,7 @@ saveProduct.onclick = () => {
   document.getElementById("productImage").files[0];
 
   if (!name || !description || !amount) {
-    alert("Fill all fields");
+    showToast("Please fill all fields", "error");
     return;
   }
 
@@ -203,6 +195,7 @@ saveProduct.onclick = () => {
     saveProducts();
     renderProducts();
     closeModal();
+    showToast(editId ? "Product updated successfully" : "Product created successfully", "success");
   };
 
   if (file) {
@@ -225,11 +218,12 @@ saveProduct.onclick = () => {
 
 function deleteProduct(id) {
 
-  products =
-  products.filter(product => product.id !== id);
+  products = products.filter(product => product.id !== id);
 
   saveProducts();
   renderProducts();
+
+  showToast("Product deleted", "error");
 }
 
 function editProduct(id) {
@@ -254,6 +248,32 @@ function editProduct(id) {
   product.amount;
 
   openModal();
+}
+function showToast(message, type = "success") {
+  const container = document.getElementById("toastContainer");
+
+  const colors = {
+    success: "bg-green-500",
+    error: "bg-red-500",
+    info: "bg-blue-500"
+  };
+
+  const toast = document.createElement("div");
+
+  toast.className = `
+    ${colors[type]}
+    text-white px-4 py-3 rounded-xl shadow-lg
+    text-sm animate-fade-in
+  `;
+
+  toast.textContent = message;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("opacity-0", "translate-x-5");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 renderProducts();
