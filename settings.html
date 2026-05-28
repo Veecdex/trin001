@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>   Profile  </title>
+  <title>Profile</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -172,160 +172,116 @@
       <!-- LEFT -->
       <div class="xl:col-span-2 space-y-6">
   
-        <!-- BUSINESS PROFILE -->
-        <div class="bg-white rounded-3xl border border-slate-200 p-6">
-  
-          <h2 class="font-semibold text-lg mb-5">
-            Business Profile
-          </h2>
-  
-          <div class="flex flex-col md:flex-row gap-6">
-  
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
-                class="w-28 h-28 rounded-2xl object-cover border border-slate-200">
-  
-              <button
-                class="mt-3 w-full h-10 rounded-xl border border-slate-200 text-sm">
-                Change Logo
-              </button>
-            </div>
-  
-            <div class="flex-1 grid md:grid-cols-2 gap-4">
-  
-              <div>
-                <label class="text-sm text-slate-500">
-                  Business Name
-                </label>
-  
-                <input
-                  value="Trinfelly Store"
-                  class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
-              </div>
-  
-              <div>
-                <label class="text-sm text-slate-500">
-                  Business ID
-                </label>
-  
-                <input
-                  value="WSL-BIZ-2026-1023"
-                  disabled
-                  class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-100">
-              </div>
-  
-            </div>
-  
-          </div>
-  
-        </div>
-  
-        <!-- CONTACT -->
-        <div class="bg-white rounded-3xl border border-slate-200 p-6">
-  
-          <h2 class="font-semibold text-lg mb-5">
-            Contact Information
-          </h2>
-  
-          <div class="grid md:grid-cols-2 gap-4">
-  
-            <div>
-              <label class="text-sm text-slate-500">
-                Phone Number
-              </label>
-  
-              <input
-                value="+229 61 00 00 00"
-                class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
-            </div>
-  
-            <div>
-              <label class="text-sm text-slate-500">
-                Email Address
-              </label>
-  
-              <input
-                value="store@email.com"
-                class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
-            </div>
-  
-            <div class="md:col-span-2">
-              <label class="text-sm text-slate-500">
-                Store Address
-              </label>
-  
-              <textarea
-                class="mt-1 w-full p-4 rounded-xl border border-slate-200 h-28 resize-none">Cotonou, Littoral, Benin</textarea>
-            </div>
-  
-          </div>
-  
-        </div>
-  
-        <!-- SECURITY -->
-        <div class="bg-white rounded-3xl border border-slate-200 p-6">
-  
-          <h2 class="font-semibold text-lg mb-5">
-            Security Settings
-          </h2>
-  
-          <div class="space-y-4">
-  
-            <div class="flex items-center justify-between">
-  
-              <div>
-                <h3 class="font-medium">
-                  Transaction PIN
-                </h3>
-  
-                <p class="text-sm text-slate-500">
-                  PIN is hashed and required for withdrawals.
-                </p>
-              </div>
-  
-              <button
-                class="h-11 px-5 rounded-xl bg-indigo-600 text-white">
-                Setup PIN
-              </button>
-  
-            </div>
-  
-            <div class="flex items-center justify-between">
-  
-              <div>
-                <h3 class="font-medium">
-                  OTP Verification
-                </h3>
-  
-                <p class="text-sm text-slate-500">
-                  Required before creating or changing transaction PIN.
-                </p>
-              </div>
-  
-              <span
-                class="px-3 py-1 rounded-full bg-green-100 text-green-600 text-sm">
-                Enabled
-              </span>
-  
-            </div>
-  
-          </div>
-  
-        </div>
-  
-        <!-- SAVE -->
-        <div class="flex justify-end">
-  
-          <button
-            class="h-12 px-8 rounded-xl bg-indigo-600 text-white font-medium">
-            Save Changes
-          </button>
-  
-        </div>
-  
+     <!-- BUSINESS PROFILE -->
+<div class="bg-white rounded-3xl border border-slate-200 p-6">
+
+  <h2 class="font-semibold text-lg mb-5">
+    Business Profile
+  </h2>
+
+  <div class="flex flex-col md:flex-row gap-6">
+
+    <div>
+
+      <img
+        id="storeLogo"
+        src=""
+        class="w-28 h-28 rounded-2xl object-cover border border-slate-200">
+
+      <button
+        class="mt-3 w-full h-10 rounded-xl border border-slate-200 text-sm">
+        Change Logo
+      </button>
+
+    </div>
+
+    <div class="flex-1 grid md:grid-cols-2 gap-4">
+
+      <div>
+        <label class="text-sm text-slate-500">
+          Business Name
+        </label>
+
+        <input
+          id="businessName"
+          class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
       </div>
-  
+
+      <div>
+        <label class="text-sm text-slate-500">
+          Business ID
+        </label>
+
+        <input
+          id="businessId"
+          disabled
+          class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-100">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- CONTACT -->
+<div class="bg-white rounded-3xl border border-slate-200 p-6">
+
+  <h2 class="font-semibold text-lg mb-5">
+    Contact Information
+  </h2>
+
+  <div class="grid md:grid-cols-2 gap-4">
+
+    <div>
+      <label class="text-sm text-slate-500">
+        Phone Number
+      </label>
+
+      <input
+        id="businessPhone"
+        class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
+    </div>
+
+    <div>
+      <label class="text-sm text-slate-500">
+        Email Address
+      </label>
+
+      <input
+        id="businessEmail"
+        class="mt-1 w-full h-12 px-4 rounded-xl border border-slate-200">
+    </div>
+
+    <div class="md:col-span-2">
+
+      <label class="text-sm text-slate-500">
+        Store Address
+      </label>
+
+      <textarea
+        id="businessAddress"
+        class="mt-1 w-full p-4 rounded-xl border border-slate-200 h-28 resize-none"></textarea>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SAVE -->
+<div class="flex justify-end">
+
+  <button
+    id="saveProfileBtn"
+    class="h-12 px-8 rounded-xl bg-indigo-600 text-white font-medium">
+
+    Save Changes
+
+  </button>
+
+</div>
+</div>
       <!-- RIGHT SIDEBAR -->
       <div>
   
@@ -336,71 +292,73 @@
           </h2>
   
           <div class="space-y-5">
-  
+
             <div>
               <p class="text-sm text-slate-500">
                 Business Name
               </p>
-  
-              <p class="font-semibold">
-                Trinfelly Store
+          
+              <p
+                id="sidebarBusinessName"
+                class="font-semibold">
               </p>
             </div>
-  
+          
             <div>
               <p class="text-sm text-slate-500">
                 Business ID
               </p>
-  
-              <p class="font-semibold">
-                WSL-BIZ-2026-1023
+          
+              <p
+                id="sidebarBusinessId"
+                class="font-semibold">
               </p>
             </div>
-  
+          
             <div>
               <p class="text-sm text-slate-500">
                 Phone Number
               </p>
-  
-              <p class="font-semibold">
-                +229 61 00 00 00
+          
+              <p
+                id="sidebarBusinessPhone"
+                class="font-semibold">
               </p>
             </div>
-  
+          
             <div>
               <p class="text-sm text-slate-500">
                 Joined
               </p>
-  
-              <p class="font-semibold">
-                January 2026
+          
+              <p
+                id="sidebarBusinessJoined"
+                class="font-semibold">
               </p>
             </div>
-  
+          
             <div>
               <p class="text-sm text-slate-500">
                 Verification Status
               </p>
-  
+          
               <span
                 class="inline-flex px-3 py-1 rounded-full bg-green-100 text-green-600 text-sm">
                 Verified
               </span>
             </div>
-  
+          
           </div>
-  
         </div>
   
       </div>
-  
-    </div>
-  
+  </div>
   </main>
 
   </div>
 </div>
 <script src="script/chart.js"></script>
+<script src="script/settings.js"></script>
 <script>
   lucide.createIcons();
 </script>
