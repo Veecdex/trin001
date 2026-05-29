@@ -14,6 +14,7 @@
 *{font-family:'Plus Jakarta Sans',sans-serif}
 body{background:#f8fafc}
 
+
 .gallery-item img{transition:.5s}
 .gallery-item:hover img{transform:scale(1.05)}
 .scrollbar-hide {
@@ -24,6 +25,27 @@ body{background:#f8fafc}
 .scrollbar-hide::-webkit-scrollbar {
   display: none;             /* Chrome/Safari */
 }
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#f8fafc;
+overflow-x:hidden;
+}
+body{
+    zoom:0.9;
+   
+}
+/* HIDE SCROLLBAR */
+.scrollbar-hide{
+-ms-overflow-style:none;
+scrollbar-width:none;
+}
+
+.scrollbar-hide::-webkit-scrollbar{
+display:none;
+}
 </style>
 
 </head>
@@ -31,148 +53,179 @@ body{background:#f8fafc}
 <body>
 
 <!-- APP -->
-<div class="bg-white border-b border-slate-200">
+<!-- FIXED TOP AREA -->
+<div class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 backdrop-blur-xl">
 
-<header class="max-w-7xl mx-auto px-5 py-4">
+  <!-- HEADER -->
+  <header class="max-w-7xl mx-auto px-5 py-4">
 
-<div class="flex items-center gap-3">
+    <div class="flex items-center gap-3">
 
-<!-- LOGO -->
-<div class="flex items-center gap-2">
-<img src="images/men.jpg" class="w-9 h-9 rounded-xl object-cover"/>
-<div>
-<h1 class="text-lg font-black">Akilas Place</h1>
-<p class="text-xs text-slate-500 hidden sm:block">Retail & Commerce</p>
-</div>
-</div>
+      <!-- LOGO -->
+      <div class="flex items-center gap-2">
+        <img src="images/men.jpg"
+          class="w-9 h-9 rounded-xl object-cover"/>
 
-<!-- SEARCH -->
-<div class="flex-1 relative ml-2">
+        <div>
+          <h1 class="text-lg font-black text-white">
+            Akilas Place
+          </h1>
 
-<i data-lucide="search"
-class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+          <p class="text-xs text-slate-300 hidden sm:block">
+            Retail & Commerce
+          </p>
+        </div>
+      </div>
 
-<input id="searchInput"
-type="text"
-placeholder="Search products..."
-class="w-full h-11 rounded-2xl bg-slate-100 pl-10 pr-3 text-sm outline-none"/>
+      <!-- SEARCH -->
+      <div class="flex-1 relative ml-2">
 
-<!-- SEARCH DROPDOWN -->
-<div id="searchDropdown"
-class="hidden absolute top-12 left-0 w-full bg-white border rounded-2xl shadow-xl p-2 z-50">
+        <i data-lucide="search"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400">
+        </i>
 
-<div class="text-xs text-slate-400 px-2 py-1">Suggestions</div>
+        <input id="searchInput"
+          type="text"
+          placeholder="Search products..."
+          class="w-full h-11 rounded-2xl bg-white/10 border border-white/10 text-white placeholder:text-slate-300 pl-10 pr-3 text-sm outline-none"/>
 
-<div class="search-item px-3 py-2 hover:bg-slate-100 rounded-xl cursor-pointer">
-Wireless Headphones
-</div>
+        <!-- SEARCH DROPDOWN -->
+        <div id="searchDropdown"
+          class="hidden absolute top-12 left-0 w-full bg-[#1e293b] border border-white/10 rounded-2xl shadow-xl p-2 z-50 backdrop-blur-xl">
 
-<div class="search-item px-3 py-2 hover:bg-slate-100 rounded-xl cursor-pointer">
-Luxury Watch
-</div>
+          <div class="text-xs text-slate-400 px-2 py-1">
+            Suggestions
+          </div>
 
-<div class="search-item px-3 py-2 hover:bg-slate-100 rounded-xl cursor-pointer">
-Running Sneakers
-</div>
+          <div class="search-item px-3 py-2 hover:bg-white/10 rounded-xl cursor-pointer text-white">
+            Wireless Headphones
+          </div>
 
-</div>
+          <div class="search-item px-3 py-2 hover:bg-white/10 rounded-xl cursor-pointer text-white">
+            Luxury Watch
+          </div>
 
-</div>
+          <div class="search-item px-3 py-2 hover:bg-white/10 rounded-xl cursor-pointer text-white">
+            Running Sneakers
+          </div>
 
-<!-- ICONS -->
-<div class="flex items-center gap-2">
+        </div>
 
-<!-- DELIVERY -->
-<div class="relative">
-<button id="deliveryBtn"
-class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
-<i data-lucide="truck"></i>
-</button>
+      </div>
 
-<div id="deliveryTooltip"
-class="hidden absolute top-12 right-0 w-72 bg-white border rounded-2xl shadow-xl p-4 z-50">
+      <!-- ICONS -->
+      <div class="flex items-center gap-2">
 
-<button id="closeTooltip" class="absolute top-2 right-3">✕</button>
+        <!-- DELIVERY -->
+        <div class="relative">
+          <button id="deliveryBtn"
+            class="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center border border-white/10">
 
-<h4 class="font-semibold">Delivery Info</h4>
-<p class="text-sm text-slate-500 mt-1">
-Fast delivery available after order confirmation.
-</p>
+            <i data-lucide="truck"></i>
+          </button>
 
-</div>
-</div>
+          <div id="deliveryTooltip"
+            class="hidden absolute top-12 right-0 w-72 bg-[#1e293b] border border-white/10 rounded-2xl shadow-xl p-4 z-50 text-white">
 
-<button class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
-<i data-lucide="phone"></i>
-</button>
+            <button id="closeTooltip"
+              class="absolute top-2 right-3 text-slate-300">
+              ✕
+            </button>
 
-</div>
+            <h4 class="font-semibold">
+              Delivery Info
+            </h4>
 
-</div>
+            <p class="text-sm text-slate-300 mt-1">
+              Fast delivery available after order confirmation.
+            </p>
 
-</header>
+          </div>
+        </div>
 
-<!-- WELCOME SECTION -->
-<div class="max-w-7xl mx-auto px-5 mt-5 text-center">
+        <button class="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center border border-white/10">
+          <i data-lucide="phone"></i>
+        </button>
 
-  <div class="flex items-center justify-center gap-2">
-
-
-    <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
-      Welcome to Akilas Place
-    </h2>
-
-
-  </div>
-
-  <p class="text-sm text-slate-500 mt-2">
-    See what’s available and start shopping
-  </p>
-
-</div>
-
-<!-- CATEGORIES -->
-<div class="max-w-7xl mx-auto px-5 mt-4">
-
-  <div class="flex justify-center">
-    <div class="flex gap-2 overflow-x-auto scrollbar-hide py-2">
-
-      <button class="px-4 py-2 rounded-full bg-slate-900 text-white text-sm whitespace-nowrap">
-        All
-      </button>
-
-      <button class="px-4 py-2 rounded-full bg-slate-100 text-sm whitespace-nowrap flex items-center gap-1">
-    
-        Electronics
-      </button>
-
-      <button class="px-4 py-2 rounded-full bg-slate-100 text-sm whitespace-nowrap flex items-center gap-1">
-    
-        Fashion
-      </button>
-
-      <button class="px-4 py-2 rounded-full bg-slate-100 text-sm whitespace-nowrap flex items-center gap-1">
-       
-        Shoes
-      </button>
-
-      <button class="px-4 py-2 rounded-full bg-slate-100 text-sm whitespace-nowrap flex items-center gap-1">
-      
-        Accessories
-      </button>
-
-      <button class="px-4 py-2 rounded-full bg-slate-100 text-sm whitespace-nowrap">
-        Deals 🔥
-      </button>
+      </div>
 
     </div>
+
+  </header>
+
+  <!-- HERO -->
+  <div class="max-w-7xl mx-auto px-5 pt-2 pb-3 text-center">
+
+    <div class="flex items-center justify-center gap-2">
+
+      <i data-lucide="sparkles"
+        class="w-5 h-5 text-blue-400">
+      </i>
+
+      <h2 class="text-xl sm:text-2xl font-bold text-white">
+        Welcome to Akilas Place
+      </h2>
+
+      <i data-lucide="shopping-bag"
+        class="w-5 h-5 text-cyan-400">
+      </i>
+
+    </div>
+
+    <p class="text-sm text-slate-300 mt-2">
+      See what’s available and start shopping
+    </p>
+
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="max-w-7xl mx-auto px-5 pb-4">
+
+    <div class="flex justify-center">
+
+      <div class="flex gap-2 overflow-x-auto scrollbar-hide py-1">
+
+        <button class="px-4 py-2 rounded-full bg-white text-slate-900 text-sm whitespace-nowrap font-medium">
+          All
+        </button>
+
+        <button class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white text-sm whitespace-nowrap">
+          Electronics
+        </button>
+
+        <button class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white text-sm whitespace-nowrap">
+          Fashion
+        </button>
+
+        <button class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white text-sm whitespace-nowrap">
+          Shoes
+        </button>
+
+        <button class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white text-sm whitespace-nowrap">
+          Accessories
+        </button>
+
+        <button class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white text-sm whitespace-nowrap">
+          Deals 🔥
+        </button>
+
+      </div>
+
+    </div>
+<!-- Before closing the fixed header -->
+<div class="absolute -bottom-8 left-0 w-full overflow-hidden leading-none">
+  <svg viewBox="0 0 500 60" preserveAspectRatio="none"
+       class="w-full h-12">
+      <path d="M0,0 C150,60 350,60 500,0 L500,60 L0,60 Z"
+            fill="#0f172a"></path>
+  </svg>
+</div>
   </div>
 
 </div>
-</div>
-<!-- PRODUCTS -->
-<main class="max-w-7xl mx-auto p-3">
 
+<main class="max-w-7xl mx-auto p-3 pt-[250px]">
+ 
 <!-- PRODUCTS -->
 <section>
 
@@ -209,6 +262,66 @@ Fast delivery available after order confirmation.
         class="w-full aspect-square object-cover"/>
 
     </div>
+
+      <!-- PRODUCT -->
+      <div class="gallery-item relative overflow-hidden">
+
+        <div class="absolute inset-0 flex items-center justify-center z-10">
+          <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+            <span class="text-sm font-semibold">Shop</span>
+          </div>
+        </div>
+  
+        <img src="images/cloth_1.jpg"
+          class="w-full aspect-square object-cover"/>
+  
+      </div>
+
+          <!-- PRODUCT -->
+          <div class="gallery-item relative overflow-hidden">
+
+            <div class="absolute inset-0 flex items-center justify-center z-10">
+              <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                <span class="text-sm font-semibold">Shop</span>
+              </div>
+            </div>
+      
+            <img src="images/cloth_2.jpg"
+              class="w-full aspect-square object-cover"/>
+      
+          </div>
+
+              <!-- PRODUCT -->
+      <div class="gallery-item relative overflow-hidden">
+
+        <div class="absolute inset-0 flex items-center justify-center z-10">
+          <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+            <span class="text-sm font-semibold">Shop</span>
+          </div>
+        </div>
+  
+        <img src="images/children.jpg"
+          class="w-full aspect-square object-cover"/>
+  
+      </div>
+
+               <!-- PRODUCT -->
+               <div class="gallery-item relative overflow-hidden">
+
+                <div class="absolute inset-0 flex items-center justify-center z-10">
+                  <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+                    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                    <span class="text-sm font-semibold">Shop</span>
+                  </div>
+                </div>
+          
+                <img src="images/handbag.JPG"
+                  class="w-full aspect-square object-cover"/>
+          
+              </div>
 
     <!-- PRODUCT -->
     <div class="gallery-item relative overflow-hidden">
