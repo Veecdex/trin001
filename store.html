@@ -234,131 +234,10 @@ h1, h2, h3, .logo {
  
 <!-- PRODUCTS -->
 <section>
-
-  <!-- NO GAP GRID (joined images feel) -->
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0">
-
-    <!-- PRODUCT -->
-    <div class="gallery-item relative overflow-hidden">
-
-      <!-- CENTER SHOP BADGE -->
-      <div class="absolute inset-0 flex items-center justify-center z-10">
-        <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-          <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-          <span class="text-sm font-semibold">Shop</span>
-        </div>
-      </div>
-
-      <img src="images/pro 4.jpg"
-        class="w-full aspect-square object-cover brightness-75"/>
-
-    </div>
-
-    <!-- PRODUCT -->
-    <div class="gallery-item relative overflow-hidden">
-
-      <div class="absolute inset-0 flex items-center justify-center z-10">
-        <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-          <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-          <span class="text-sm font-semibold">Shop</span>
-        </div>
-      </div>
-
-      <img src="images/pro 3.jpg"
-        class="w-full aspect-square object-cover brightness-75"/>
-
-    </div>
-
-      <!-- PRODUCT -->
-      <div class="gallery-item relative overflow-hidden">
-
-        <div class="absolute inset-0 flex items-center justify-center z-10">
-          <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-            <span class="text-sm font-semibold">Shop</span>
-          </div>
-        </div>
-  
-        <img src="images/pro 2.jpg"
-          class="w-full aspect-square object-cover brightness-75"/>
-  
-      </div>
-
-          <!-- PRODUCT -->
-          <div class="gallery-item relative overflow-hidden">
-
-            <div class="absolute inset-0 flex items-center justify-center z-10">
-              <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-                <span class="text-sm font-semibold">Shop</span>
-              </div>
-            </div>
-      
-            <img src="images/pro 1.jpg"
-              class="w-full aspect-square object-cover brightness-75"/>
-      
-          </div>
-
-              <!-- PRODUCT -->
-      <div class="gallery-item relative overflow-hidden">
-
-        <div class="absolute inset-0 flex items-center justify-center z-10">
-          <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-            <span class="text-sm font-semibold">Shop</span>
-          </div>
-        </div>
-  
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu8tV2rNbutLQaZL7gAH7SSkH7pBUKZZDs8A&s"
-          class="w-full aspect-square object-cover brightness-85"/>
-  
-      </div>
-
-               <!-- PRODUCT -->
-               <div class="gallery-item relative overflow-hidden">
-
-                <div class="absolute inset-0 flex items-center justify-center z-10">
-                  <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-                    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-                    <span class="text-sm font-semibold">Shop</span>
-                  </div>
-                </div>
-          
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRALx0H2IuLMV4gBw8fXbpa---MRbsGyWM9Mg&s"
-                  class="w-full aspect-square object-cover brightness-75"/>
-          
-              </div>
-
-    <!-- PRODUCT -->
-    <div class="gallery-item relative overflow-hidden">
-      <div class="absolute inset-0 flex items-center justify-center z-10">
-        <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-          <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-          <span class="text-sm font-semibold">Shop</span>
-        </div>
-      </div>
-
-      <img src="images/pro 8.jpg"
-        class="w-full aspect-square object-cover brightness-75"/>
-    </div>
-    
-    <!-- PRODUCT -->
-    <div class="gallery-item relative overflow-hidden">
-      <div class="absolute inset-0 flex items-center justify-center z-10">
-        <div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-          <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-          <span class="text-sm font-semibold">Shop</span>
-        </div>
-      </div>
-
-      <img src="images/pro 9.jpg"
-        class="w-full aspect-square object-cover"/>
-    </div>
-
+  <div id="productsGrid"
+       class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0">
   </div>
-
 </section>
-
 </main>
 <button class="fixed bottom-6 right-6 bg-white border border-slate-200 shadow-xl px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all duration-200 z-50">
 
@@ -372,7 +251,84 @@ h1, h2, h3, .logo {
   </span>
 </button>
 
+<div id="loader"
+class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/10">
 
+<div class="w-8 h-8 border-4 border-slate-200 border-t-slate-900 rounded-full animate-spin">
+</div>
+
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal"
+class="hidden fixed inset-0 z-[101] bg-black/50 p-4 flex items-center justify-center">
+
+  <div class="bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl animate-[fadeIn_.2s_ease]">
+
+    <img id="modalImage"
+    class="w-full h-72 object-cover">
+
+    <div class="p-5">
+
+      <div class="flex justify-between items-start">
+
+        <h3 id="modalName"
+        class="text-xl font-semibold text-slate-900">
+        </h3>
+
+        <button id="closeModal">
+          ✕
+        </button>
+
+      </div>
+
+      <p id="modalDescription"
+      class="text-slate-500 text-sm mt-3">
+      </p>
+
+      <div id="modalPrice"
+      class="text-2xl font-bold mt-4 text-slate-900">
+      </div>
+      <div class="flex items-center justify-center gap-4 my-5">
+
+        <button
+        id="minusQty"
+        class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+        
+        <i data-lucide="minus"></i>
+        
+        </button>
+        
+        <span
+        id="quantityDisplay"
+        class="text-xl font-bold min-w-[40px] text-center">
+        1
+        </span>
+        
+        <button
+        id="plusQty"
+        class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+        
+        <i data-lucide="plus"></i>
+        
+        </button>
+        
+        </div>
+        <button
+        id="addToCartBtn"
+        class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+        
+        <i data-lucide="shopping-cart"></i>
+        
+        <span>Add To Cart</span>
+        
+        </button>
+
+    </div>
+
+  </div>
+
+</div>
 <script>
 lucide.createIcons();
 
@@ -402,6 +358,6 @@ searchDropdown.classList.add("hidden");
 }
 });
 </script>
-
+<script src="script/store.js"></script>
 </body>
 </html>

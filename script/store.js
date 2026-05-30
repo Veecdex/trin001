@@ -75,13 +75,29 @@ productsHTML += `
 
 <button
 data-id="${product.id}"
-class="shop-btn bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-lg hover:scale-105 transition">
+class="shop-btn absolute inset-0 flex items-center justify-center z-10">
 
-<i data-lucide="shopping-cart" class="w-4 h-4"></i>
+<div class="bg-white/95 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+width="16"
+height="16"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<circle cx="9" cy="21" r="1"></circle>
+<circle cx="20" cy="21" r="1"></circle>
+<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+
+</svg>
 
 <span class="text-sm font-semibold">
 Shop
 </span>
+
+</div>
 
 </button>
 
@@ -115,20 +131,30 @@ let currentProduct = null;
 
 function showProduct(id){
 
-currentProduct = products.find(
-product => product.id === id
-);
-
-if(!currentProduct) return;
-
-modalImage.src = currentProduct.image;
-modalName.textContent = currentProduct.name;
-modalDescription.textContent = currentProduct.description;
-modalPrice.textContent =
-"₦" + currentProduct.price.toLocaleString();
-
-modal.classList.remove("hidden");
-}
+  loader.classList.remove("hidden");
+  
+  setTimeout(()=>{
+  
+  currentProduct =
+  products.find(product => product.id === id);
+  
+  quantity = 1;
+  quantityDisplay.textContent = quantity;
+  
+  modalImage.src = currentProduct.image;
+  modalName.textContent = currentProduct.name;
+  modalDescription.textContent = currentProduct.description;
+  
+  modalPrice.textContent =
+  "₦" + currentProduct.price.toLocaleString();
+  
+  loader.classList.add("hidden");
+  
+  modal.classList.remove("hidden");
+  
+  },300);
+  
+  }
 
 
 /* EVENT DELEGATION */
@@ -169,7 +195,36 @@ modal.classList.add("hidden");
 
 });
 
+let quantity = 1;
 
+const quantityDisplay =
+document.getElementById("quantityDisplay");
+
+document
+.getElementById("plusQty")
+.addEventListener("click",()=>{
+
+quantity++;
+
+quantityDisplay.textContent =
+quantity;
+
+});
+
+document
+.getElementById("minusQty")
+.addEventListener("click",()=>{
+
+if(quantity > 1){
+
+quantity--;
+
+quantityDisplay.textContent =
+quantity;
+
+}
+
+});
 /* CART */
 
 let cart = [];
@@ -179,8 +234,11 @@ document
 .addEventListener("click",()=>{
 
 if(!currentProduct) return;
+for(let i = 0; i < quantity; i++){
 
-cart.push(currentProduct);
+  cart.push(currentProduct);
+  
+  }
 
 document.getElementById("cartCount")
 .textContent = cart.length;
