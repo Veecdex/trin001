@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Wiesel</title>
-
+<link rel="icon" type="image/png" href="LOGO.png">
 <script src="https://cdn.tailwindcss.com"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,28 +131,39 @@ scrollbar-width:none;
 
         <!-- SEARCH -->
         <div
-        class="w-full max-w-2xl bg-white border border-neutral-200 rounded-full h-14 md:h-16 flex items-center px-4 md:px-6">
-
+        class="w-full max-w-2xl bg-white border border-neutral-200 rounded-full h-14 md:h-16 flex items-center px-3 md:px-6">
+        
+            <!-- Search Icon -->
             <i
             data-lucide="search"
-            class="w-5 h-5 text-neutral-500">
+            class="w-4 h-4 md:w-5 md:h-5 text-neutral-500 flex-shrink-0">
             </i>
-
+        
+            <!-- Input -->
             <input
             type="text"
             placeholder="Search or scan stores powered by Wiesel"
-            class="flex-1 bg-transparent outline-none px-3 md:px-4 text-sm md:text-[15px] placeholder:text-neutral-400">
-
+            class="flex-1 bg-transparent outline-none px-2 md:px-4 text-[16px] md:text-[15px] placeholder:text-neutral-400 placeholder:text-xs md:placeholder:text-sm">
+        
+            <!-- Scan -->
             <button
-            class="w-9 h-9 md:w-10 md:h-10 rounded-full hover:bg-neutral-100 flex items-center justify-center transition">
-
+            class="w-8 h-8 md:w-10 md:h-10 rounded-full hover:bg-neutral-100 flex items-center justify-center transition">
+        
                 <i
                 data-lucide="scan-line"
-                class="w-5 h-5 text-neutral-700">
+                class="w-4 h-4 md:w-5 md:h-5 text-neutral-700">
                 </i>
-
+        
             </button>
-
+        
+            <!-- Search Button -->
+            <button
+            class="ml-2 bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-medium rounded-full px-4 md:px-5 h-9 md:h-10 transition">
+        
+                Search
+        
+            </button>
+        
         </div>
 
         <!-- SUBTEXT -->
