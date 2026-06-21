@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wiesel</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#FAF8F4;
+}
+
+::selection{
+background:#111;
+color:#fff;
+}
+
+input{
+font-weight:500;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="w-full px-4 md:px-10 py-4 md:py-5">
+
+        <div class="header-layout flex items-start justify-between">
+            <!-- LEFT -->
+            <div class="flex items-start gap-3">
+
+                <div
+                class="w-10 h-10 md:w-11 md:h-11 rounded-full border border-neutral-200 bg-white flex items-center justify-center flex-shrink-0">
+
+                    <i
+                    data-lucide="circle-user-round"
+                    class="w-5 h-5 text-neutral-700">
+                    </i>
+
+                </div>
+
+                <div>
+
+                    <p class="text-xs md:text-sm text-neutral-500">
+                        Connect with stores around you
+                    </p>
+
+                    <a
+                    href="#"
+                    class="text-xs md:text-sm font-semibold text-black">
+
+                        Sign in or create account
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="flex items-center gap-3">
+
+                <img
+                src="https://flagcdn.com/w40/ng.png"
+                alt="Nigeria"
+                class="w-6 h-6 rounded-full object-cover border border-neutral-200">
+
+                <button
+                id="merchantBtn"
+                class="flex items-center gap-2 border border-neutral-200 bg-white rounded-full px-3 md:px-4 py-2 text-xs md:text-sm font-medium hover:bg-neutral-50 transition">
+
+                    <i
+                    data-lucide="store"
+                    class="w-4 h-4">
+                    </i>
+
+                    <span class="hidden sm:block">
+                        Sell with Wiesel
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CENTER -->
+    <main class="flex-1 flex flex-col items-center justify-center px-5">
+
+        <!-- LOGO -->
+        <img
+        src="WIESEL LOGO.png"
+        alt="Wiesel"
+        class="w-56 sm:w-64 md:w-[420px] mb-8 md:mb-10 object-contain">
+
+
+        <!-- SEARCH -->
+        <div
+        class="w-full max-w-2xl bg-white border border-neutral-200 rounded-full h-14 md:h-16 flex items-center px-4 md:px-6">
+
+            <i
+            data-lucide="search"
+            class="w-5 h-5 text-neutral-500">
+            </i>
+
+            <input
+            type="text"
+            placeholder="Search or scan stores powered by Wiesel"
+            class="flex-1 bg-transparent outline-none px-3 md:px-4 text-sm md:text-[15px] placeholder:text-neutral-400">
+
+            <button
+            class="w-9 h-9 md:w-10 md:h-10 rounded-full hover:bg-neutral-100 flex items-center justify-center transition">
+
+                <i
+                data-lucide="scan-line"
+                class="w-5 h-5 text-neutral-700">
+                </i>
+
+            </button>
+
+        </div>
+
+        <!-- SUBTEXT -->
+        <p
+        class="mt-4 md:mt-5 text-neutral-500 text-center text-xs sm:text-sm md:text-base max-w-lg">
+
+            Discover neighbourhood stores, communicate directly and receive what you need faster.
+
+        </p>
+
+    </main>
+<!-- FOOTER -->
+<footer
+class="w-full border-t border-neutral-200 bg-transparent px-5 py-4">
+
+    <div
+    class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+
+        <!-- LEFT -->
+        <div
+        class="text-xs text-neutral-500 font-medium">
+
+            © 2026 Wiesel Technologies Ltd.
+
+        </div>
+
+        <!-- RIGHT -->
+        <div
+        class="flex flex-wrap items-center justify-center gap-4 text-xs">
+
+            <a
+            href="#"
+            class="text-neutral-500 hover:text-black transition">
+
+                About
+
+            </a>
+
+            <a
+            href="#"
+            class="text-neutral-500 hover:text-black transition">
+
+                Contact
+
+            </a>
+
+            <a
+            href="#"
+            class="text-neutral-500 hover:text-black transition">
+
+                Terms
+
+            </a>
+
+            <a
+            href="#"
+            class="text-neutral-500 hover:text-black transition">
+
+                Privacy
+
+            </a>
+
+            <span
+            class="text-neutral-400">
+
+                Lagos, Nigeria
+
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+</div>
+
+
+<!-- MODAL -->
+<div
+id="merchantModal"
+class="hidden fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
+
+    <div
+    class="bg-white rounded-3xl max-w-md w-full p-6 md:p-7 border border-neutral-200">
+
+        <div
+        class="w-14 h-14 rounded-2xl bg-neutral-100 flex items-center justify-center mb-5">
+
+            <i
+            data-lucide="store"
+            class="w-7 h-7">
+            </i>
+
+        </div>
+
+        <h2 class="text-xl md:text-2xl font-bold mb-3">
+            Sell with Wiesel
+        </h2>
+
+        <p class="text-neutral-600 leading-relaxed mb-6 text-sm md:text-base">
+
+            Bring your store online with Wiesel.
+
+            Showcase products, communicate directly with customers, receive orders and grow sales through one seamless commerce platform.
+
+        </p>
+
+        <div class="flex gap-3">
+
+            <button
+            id="closeModal"
+            class="flex-1 border border-neutral-200 rounded-xl py-3 font-medium">
+
+                Close
+
+            </button>
+
+            <button
+            class="flex-1 bg-black text-white rounded-xl py-3 font-medium">
+
+                Get Started
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+lucide.createIcons();
+
+const merchantBtn =
+document.getElementById('merchantBtn');
+
+const merchantModal =
+document.getElementById('merchantModal');
+
+const closeModal =
+document.getElementById('closeModal');
+
+merchantBtn.addEventListener('click', () => {
+merchantModal.classList.remove('hidden');
+});
+
+closeModal.addEventListener('click', () => {
+merchantModal.classList.add('hidden');
+});
+
+merchantModal.addEventListener('click',(e)=>{
+
+if(e.target===merchantModal){
+merchantModal.classList.add('hidden');
+}
+
+});
+
+</script>
+
+</body>
+</html>
