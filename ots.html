@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Account • Wiesel</title>
+
+<link rel="icon" href="favicon.png">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#FAF8F4;
+}
+
+::selection{
+background:#111;
+color:#fff;
+}
+
+input{
+font-size:16px;
+}
+
+.auth-panel{
+display:none;
+}
+
+.auth-panel.active{
+display:block;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* no heavy container feel */
+.auth-panel{
+  display:none;
+}
+
+.auth-panel.active{
+  display:block;
+}
+
+input{
+  font-size:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="min-h-screen flex flex-col">
+
+
+
+
+<!-- AUTH -->
+<main class="min-h-screen flex items-center justify-center px-6">
+
+    <div class="w-full max-w-sm text-center">
+  
+      <!-- LOGO -->
+      <div class="flex justify-center mb-10">
+        <img src="WIESEL LOGO.png" class="h-9 md:h-10 object-contain">
+      </div>
+  
+      <!-- TITLE -->
+      <h1 class="text-2xl font-semibold tracking-tight">
+        Welcome to Wiesel
+      </h1>
+  
+      <p class="text-sm text-neutral-500 mt-2 mb-8">
+        Sign in or create an account to continue
+      </p>
+  
+      <!-- TABS -->
+      <div class="flex bg-neutral-100 rounded-full p-1 mb-8">
+        <button id="signinTab"
+          class="flex-1 py-2 text-sm rounded-full bg-white shadow-sm">
+          Sign In
+        </button>
+  
+        <button id="signupTab"
+          class="flex-1 py-2 text-sm text-neutral-500">
+          Create
+        </button>
+      </div>
+  
+    <!-- SIGN IN -->
+<!-- SIGN IN -->
+<div id="signinPanel" class="auth-panel active text-left space-y-4">
+
+    <!-- EMAIL -->
+    <div class="relative">
+
+        <label
+        class="absolute left-10 -top-2.5 bg-white px-2 text-[11px] text-neutral-500">
+            Email Address
+        </label>
+
+        <div class="border border-neutral-200 rounded-xl h-11 px-3 flex items-center">
+
+            <i data-lucide="mail"
+            class="w-4 h-4 text-neutral-400 mr-3"></i>
+
+            <input
+            type="email"
+            class="w-full outline-none bg-transparent text-sm"
+            placeholder="john@example.com"
+            required>
+
+        </div>
+
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="relative">
+
+        <label
+        class="absolute left-10 -top-2.5 bg-white px-2 text-[11px] text-neutral-500">
+            Password
+        </label>
+
+        <div class="border border-neutral-200 rounded-xl h-11 px-3 flex items-center">
+
+            <i data-lucide="lock"
+            class="w-4 h-4 text-neutral-400 mr-3"></i>
+
+            <input
+            id="signinPassword"
+            type="password"
+            class="w-full outline-none bg-transparent text-sm"
+            placeholder="Enter password"
+            required>
+
+            <button
+            type="button"
+            id="toggleSigninPassword"
+            class="ml-2">
+
+                <i
+                data-lucide="eye"
+                id="signinEyeIcon"
+                class="w-4 h-4 text-neutral-400"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div class="text-right">
+
+        <a
+        href="#"
+        class="text-xs text-neutral-500 hover:text-black transition">
+
+            Forgot password?
+
+        </a>
+
+    </div>
+
+    <!-- ERROR -->
+    <div
+    id="signinError"
+    class="hidden text-xs text-red-500">
+    </div>
+
+    <!-- BUTTON -->
+    <button
+    id="signinBtn"
+    class="w-full bg-black text-white h-11 rounded-xl text-sm transition hover:opacity-90">
+
+        Sign In
+
+    </button>
+
+</div>
+  
+      <!-- SIGN UP -->
+<!-- SIGN UP -->
+<div id="signupPanel" class="auth-panel text-left space-y-4">
+
+    <!-- FULL NAME -->
+    <div class="relative">
+
+        <label
+        class="absolute left-10 -top-2.5 bg-white px-2 text-[11px] text-neutral-500">
+            Full Name
+        </label>
+
+        <div class="border border-neutral-200 rounded-xl h-11 px-3 flex items-center">
+
+            <i data-lucide="user"
+            class="w-4 h-4 text-neutral-400 mr-3"></i>
+
+            <input
+            type="text"
+            class="w-full outline-none bg-transparent text-sm"
+            placeholder="John Doe"
+            required>
+
+        </div>
+
+    </div>
+
+    <!-- EMAIL -->
+    <div class="relative">
+
+        <label
+        class="absolute left-10 -top-2.5 bg-white px-2 text-[11px] text-neutral-500">
+            Email Address
+        </label>
+
+        <div class="border border-neutral-200 rounded-xl h-11 px-3 flex items-center">
+
+            <i data-lucide="mail"
+            class="w-4 h-4 text-neutral-400 mr-3"></i>
+
+            <input
+            type="email"
+            class="w-full outline-none bg-transparent text-sm"
+            placeholder="john@example.com"
+            required>
+
+        </div>
+
+    </div>
+
+   <!-- PASSWORD -->
+    <div class="relative">
+
+        <label
+        class="absolute left-10 -top-2.5 bg-white px-2 text-[11px] text-neutral-500">
+            Password
+        </label>
+
+        <div class="border border-neutral-200 rounded-xl h-11 px-3 flex items-center">
+
+            <i data-lucide="lock"
+            class="w-4 h-4 text-neutral-400 mr-3"></i>
+
+            <input
+            id="signupPassword"
+            type="password"
+            class="w-full outline-none bg-transparent text-sm"
+            placeholder="Create password"
+            required>
+
+            <button
+            type="button"
+            id="togglePassword"
+            class="ml-2">
+
+                <i
+                data-lucide="eye"
+                id="eyeIcon"
+                class="w-4 h-4 text-neutral-400"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- PASSWORD RULES -->
+    <div id="passwordRules"
+    class="text-[11px] text-neutral-500 space-y-1">
+
+        <div id="ruleLength">
+            • Minimum 8 characters
+        </div>
+
+        <div id="ruleUpper">
+            • One uppercase letter
+        </div>
+
+        <div id="ruleLower">
+            • One lowercase letter
+        </div>
+
+        <div id="ruleNumber">
+            • One number
+        </div>
+
+    </div>
+
+    <!-- TERMS -->
+    <label
+    class="flex items-start gap-2 text-xs text-neutral-600 cursor-pointer">
+
+        <input
+        id="termsCheck"
+        type="checkbox"
+        class="mt-0.5">
+
+        <span>
+            I agree to the Terms and Privacy Policy
+        </span>
+
+    </label>
+
+    <!-- ERROR -->
+    <div
+    id="signupError"
+    class="hidden text-xs text-red-500">
+    </div>
+
+    <!-- BUTTON -->
+    <button
+    id="signupBtn"
+    class="w-full bg-black text-white h-11 rounded-xl text-sm transition hover:opacity-90">
+
+        Create Account
+
+    </button>
+
+</div>
+
+  </main>
+
+
+<!-- FOOTER -->
+<footer
+class="border-t border-neutral-200 py-5 px-6">
+
+    <div
+    class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+        <div
+        class="text-xs text-neutral-500">
+
+            © 2026 Wiesel Technologies Ltd.
+
+        </div>
+
+        <div
+        class="flex flex-wrap items-center gap-5 text-xs">
+
+            <a href="#" class="text-neutral-500 hover:text-black">
+                About
+            </a>
+
+            <a href="#" class="text-neutral-500 hover:text-black">
+                Contact
+            </a>
+
+            <a href="#" class="text-neutral-500 hover:text-black">
+                Terms
+            </a>
+
+            <a href="#" class="text-neutral-500 hover:text-black">
+                Privacy
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</div>
+
+<script>
+
+lucide.createIcons();
+
+function setTab(active) {
+  if (active === "signin") {
+    signinTab.className = "flex-1 py-2 text-sm rounded-full bg-white shadow-sm";
+    signupTab.className = "flex-1 py-2 text-sm text-neutral-500";
+
+    signinPanel.classList.add("active");
+    signupPanel.classList.remove("active");
+  } else {
+    signupTab.className = "flex-1 py-2 text-sm rounded-full bg-white shadow-sm";
+    signinTab.className = "flex-1 py-2 text-sm text-neutral-500";
+
+    signupPanel.classList.add("active");
+    signinPanel.classList.remove("active");
+  }
+}
+
+signinTab.addEventListener("click", () => setTab("signin"));
+signupTab.addEventListener("click", () => setTab("signup"));
+</script>
+<script>
+
+    const signupBtn = document.getElementById("signupBtn");
+    
+    const signupName = document.getElementById("signupName");
+    const signupEmail = document.getElementById("signupEmail");
+    const signupPassword = document.getElementById("signupPassword");
+    
+    const signupError = document.getElementById("signupError");
+    
+    const termsCheck = document.getElementById("termsCheck");
+    
+    function showError(message){
+    
+        signupError.textContent = message;
+        signupError.classList.remove("hidden");
+    
+    }
+    
+    function clearError(){
+    
+        signupError.classList.add("hidden");
+    
+    }
+    
+    function validatePassword(password){
+    
+        const length = password.length >= 8;
+        const upper = /[A-Z]/.test(password);
+        const lower = /[a-z]/.test(password);
+        const number = /[0-9]/.test(password);
+    
+        document.getElementById("ruleLength").style.color =
+        length ? "green" : "";
+    
+        document.getElementById("ruleUpper").style.color =
+        upper ? "green" : "";
+    
+        document.getElementById("ruleLower").style.color =
+        lower ? "green" : "";
+    
+        document.getElementById("ruleNumber").style.color =
+        number ? "green" : "";
+    
+        return length && upper && lower && number;
+    }
+    
+    signupPassword.addEventListener("input", () => {
+    
+        validatePassword(signupPassword.value);
+    
+    });
+    
+    signupBtn.addEventListener("click", () => {
+    
+        clearError();
+    
+        if(!signupName.value.trim()){
+    
+            showError("Please enter your full name.");
+            signupName.focus();
+            return;
+    
+        }
+    
+        if(!signupEmail.value.trim()){
+    
+            showError("Please enter your email address.");
+            signupEmail.focus();
+            return;
+    
+        }
+    
+        const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+        if(!emailPattern.test(signupEmail.value)){
+    
+            showError("Please enter a valid email address.");
+            signupEmail.focus();
+            return;
+    
+        }
+    
+        if(!signupPassword.value){
+    
+            showError("Please create a password.");
+            signupPassword.focus();
+            return;
+    
+        }
+    
+        if(!validatePassword(signupPassword.value)){
+    
+            showError(
+            "Password does not meet security requirements."
+            );
+    
+            signupPassword.focus();
+            return;
+    
+        }
+    
+        if(!termsCheck.checked){
+    
+            showError(
+            "You must agree to the Terms and Privacy Policy."
+            );
+    
+            return;
+    
+        }
+    
+        alert("Account created successfully.");
+    
+    });
+    
+    </script>
+    <script>
+
+        const togglePassword =
+        document.getElementById("togglePassword");
+        
+        const eyeIcon =
+        document.getElementById("eyeIcon");
+        
+        togglePassword.addEventListener("click",()=>{
+        
+            if(signupPassword.type === "password"){
+        
+                signupPassword.type = "text";
+        
+                eyeIcon.setAttribute(
+                "data-lucide",
+                "eye-off"
+                );
+        
+            }else{
+        
+                signupPassword.type = "password";
+        
+                eyeIcon.setAttribute(
+                "data-lucide",
+                "eye"
+                );
+        
+            }
+        
+            lucide.createIcons();
+        
+        });
+        
+        </script>
+</body>
+</html>
