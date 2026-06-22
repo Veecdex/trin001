@@ -3,7 +3,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>Account • Wiesel</title>
 
@@ -63,9 +65,21 @@ display:block;
   display:block;
 }
 
-input{
-  font-size:15px;
+/* Prevent mobile zoom on form controls */
+input,
+textarea,
+select{
+  font-size:16px !important;
+  -webkit-text-size-adjust:100%;
 }
+
+/* Remove tap highlight */
+input,
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
 </style>
 
 </head>
@@ -108,8 +122,7 @@ input{
           Create
         </button>
       </div>
-  
-    <!-- SIGN IN -->
+
 <!-- SIGN IN -->
 <div id="signinPanel" class="auth-panel active text-left space-y-4">
 
@@ -127,9 +140,10 @@ input{
             class="w-4 h-4 text-neutral-400 mr-3"></i>
 
             <input
+            id="signinEmail"
             type="email"
-            class="w-full outline-none bg-transparent text-sm"
-            placeholder="john@example.com"
+            class="w-full outline-none bg-transparent text-base"
+            placeholder=""
             required>
 
         </div>
@@ -152,8 +166,8 @@ input{
             <input
             id="signinPassword"
             type="password"
-            class="w-full outline-none bg-transparent text-sm"
-            placeholder="Enter password"
+            class="w-full outline-none bg-transparent text-base"
+            placeholder=""
             required>
 
             <button
@@ -170,19 +184,13 @@ input{
 
         </div>
 
-    </div>
+    </div> <!-- password input box -->
 
-    <!-- FORGOT PASSWORD -->
-    <div class="text-right">
-
-        <a
-        href="#"
-        class="text-xs text-neutral-500 hover:text-black transition">
-
-            Forgot password?
-
-        </a>
-
+    <div class="flex justify-end mt-1">
+      <a href="#"
+         class="text-[11px] text-neutral-500 hover:text-black transition">
+         Forgot password?
+      </a>
     </div>
 
     <!-- ERROR -->
@@ -220,9 +228,10 @@ input{
             class="w-4 h-4 text-neutral-400 mr-3"></i>
 
             <input
+            id="signupName"
             type="text"
-            class="w-full outline-none bg-transparent text-sm"
-            placeholder="John Doe"
+            class="w-full outline-none bg-transparent text-base"
+            placeholder=""
             required>
 
         </div>
@@ -243,9 +252,10 @@ input{
             class="w-4 h-4 text-neutral-400 mr-3"></i>
 
             <input
+            id="signupEmail"
             type="email"
-            class="w-full outline-none bg-transparent text-sm"
-            placeholder="john@example.com"
+            class="w-full outline-none bg-transparent text-base"
+            placeholder=""
             required>
 
         </div>
@@ -268,8 +278,8 @@ input{
             <input
             id="signupPassword"
             type="password"
-            class="w-full outline-none bg-transparent text-sm"
-            placeholder="Create password"
+            class="w-full outline-none bg-transparent text-base"
+            placeholder=""
             required>
 
             <button
@@ -386,31 +396,44 @@ class="border-t border-neutral-200 py-5 px-6">
 
 </div>
 
+
+
 <script>
 
-lucide.createIcons();
-
-function setTab(active) {
-  if (active === "signin") {
-    signinTab.className = "flex-1 py-2 text-sm rounded-full bg-white shadow-sm";
-    signupTab.className = "flex-1 py-2 text-sm text-neutral-500";
-
-    signinPanel.classList.add("active");
-    signupPanel.classList.remove("active");
-  } else {
-    signupTab.className = "flex-1 py-2 text-sm rounded-full bg-white shadow-sm";
-    signinTab.className = "flex-1 py-2 text-sm text-neutral-500";
-
-    signupPanel.classList.add("active");
-    signinPanel.classList.remove("active");
-  }
-}
-
-signinTab.addEventListener("click", () => setTab("signin"));
-signupTab.addEventListener("click", () => setTab("signup"));
-</script>
-<script>
-
+    lucide.createIcons();
+    
+    /* ---------------- TAB SWITCHING ---------------- */
+    
+    const signinTab = document.getElementById("signinTab");
+    const signupTab = document.getElementById("signupTab");
+    
+    const signinPanel = document.getElementById("signinPanel");
+    const signupPanel = document.getElementById("signupPanel");
+    
+    function setTab(active) {
+      if (active === "signin") {
+        signinTab.className = "flex-1 py-2 text-sm rounded-full bg-white shadow-sm";
+        signupTab.className = "flex-1 py-2 text-sm text-neutral-500";
+    
+        signinPanel.classList.add("active");
+        signupPanel.classList.remove("active");
+      } else {
+        signupTab.className = "flex-1 py-2 text-sm rounded-full bg-white shadow-sm";
+        signinTab.className = "flex-1 py-2 text-sm text-neutral-500";
+    
+        signupPanel.classList.add("active");
+        signinPanel.classList.remove("active");
+      }
+    }
+    
+    signinTab.addEventListener("click", () => setTab("signin"));
+    signupTab.addEventListener("click", () => setTab("signup"));
+    
+    /* ---------------- SIGNUP VALIDATION ---------------- */
+    const signinBtn = document.getElementById("signinBtn");
+    const signinEmail = document.getElementById("signinEmail");
+    const signinPassword = document.getElementById("signinPassword");
+    const signinError = document.getElementById("signinError");
     const signupBtn = document.getElementById("signupBtn");
     
     const signupName = document.getElementById("signupName");
@@ -418,149 +441,99 @@ signupTab.addEventListener("click", () => setTab("signup"));
     const signupPassword = document.getElementById("signupPassword");
     
     const signupError = document.getElementById("signupError");
-    
     const termsCheck = document.getElementById("termsCheck");
     
-    function showError(message){
-    
-        signupError.textContent = message;
-        signupError.classList.remove("hidden");
-    
+    function showError(message) {
+      signupError.textContent = message;
+      signupError.classList.remove("hidden");
     }
     
-    function clearError(){
-    
-        signupError.classList.add("hidden");
-    
+    function clearError() {
+      signupError.classList.add("hidden");
+      signupError.textContent = "";
     }
     
-    function validatePassword(password){
+    function validatePassword(password) {
+      const length = password.length >= 8;
+      const upper = /[A-Z]/.test(password);
+      const lower = /[a-z]/.test(password);
+      const number = /[0-9]/.test(password);
     
-        const length = password.length >= 8;
-        const upper = /[A-Z]/.test(password);
-        const lower = /[a-z]/.test(password);
-        const number = /[0-9]/.test(password);
+      document.getElementById("ruleLength").style.color = length ? "green" : "";
+      document.getElementById("ruleUpper").style.color = upper ? "green" : "";
+      document.getElementById("ruleLower").style.color = lower ? "green" : "";
+      document.getElementById("ruleNumber").style.color = number ? "green" : "";
     
-        document.getElementById("ruleLength").style.color =
-        length ? "green" : "";
-    
-        document.getElementById("ruleUpper").style.color =
-        upper ? "green" : "";
-    
-        document.getElementById("ruleLower").style.color =
-        lower ? "green" : "";
-    
-        document.getElementById("ruleNumber").style.color =
-        number ? "green" : "";
-    
-        return length && upper && lower && number;
+      return length && upper && lower && number;
     }
     
     signupPassword.addEventListener("input", () => {
-    
-        validatePassword(signupPassword.value);
-    
+      validatePassword(signupPassword.value);
     });
     
     signupBtn.addEventListener("click", () => {
+      clearError();
     
-        clearError();
+      if (!signupName.value.trim()) {
+        return showError("Please enter your full name.");
+      }
     
-        if(!signupName.value.trim()){
+      if (!signupEmail.value.trim()) {
+        return showError("Please enter your email address.");
+      }
     
-            showError("Please enter your full name.");
-            signupName.focus();
-            return;
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
-        }
+      if (!emailPattern.test(signupEmail.value)) {
+        return showError("Please enter a valid email address.");
+      }
     
-        if(!signupEmail.value.trim()){
+      if (!signupPassword.value) {
+        return showError("Please create a password.");
+      }
     
-            showError("Please enter your email address.");
-            signupEmail.focus();
-            return;
+      if (!validatePassword(signupPassword.value)) {
+        return showError("Password does not meet security requirements.");
+      }
     
-        }
+      if (!termsCheck.checked) {
+        return showError("You must agree to the Terms and Privacy Policy.");
+      }
     
-        const emailPattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-        if(!emailPattern.test(signupEmail.value)){
-    
-            showError("Please enter a valid email address.");
-            signupEmail.focus();
-            return;
-    
-        }
-    
-        if(!signupPassword.value){
-    
-            showError("Please create a password.");
-            signupPassword.focus();
-            return;
-    
-        }
-    
-        if(!validatePassword(signupPassword.value)){
-    
-            showError(
-            "Password does not meet security requirements."
-            );
-    
-            signupPassword.focus();
-            return;
-    
-        }
-    
-        if(!termsCheck.checked){
-    
-            showError(
-            "You must agree to the Terms and Privacy Policy."
-            );
-    
-            return;
-    
-        }
-    
-        alert("Account created successfully.");
-    
+      alert("Account created successfully.");
     });
+    signinBtn.addEventListener("click", () => {
+      clearSigninError();
     
-    </script>
-    <script>
-
-        const togglePassword =
-        document.getElementById("togglePassword");
-        
-        const eyeIcon =
-        document.getElementById("eyeIcon");
-        
-        togglePassword.addEventListener("click",()=>{
-        
-            if(signupPassword.type === "password"){
-        
-                signupPassword.type = "text";
-        
-                eyeIcon.setAttribute(
-                "data-lucide",
-                "eye-off"
-                );
-        
-            }else{
-        
-                signupPassword.type = "password";
-        
-                eyeIcon.setAttribute(
-                "data-lucide",
-                "eye"
-                );
-        
-            }
-        
-            lucide.createIcons();
-        
-        });
-        
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+      if (!signinEmail.value.trim()) {
+        return showSigninError("Please enter your email address.");
+      }
+    
+      if (!emailPattern.test(signinEmail.value)) {
+        return showSigninError("Enter a valid email address.");
+      }
+    
+      if (!signinPassword.value) {
+        return showSigninError("Please enter your password.");
+      }
+    
+      if (signinPassword.value.length < 6) {
+        return showSigninError("Password is too short.");
+      }
+    
+      alert("Signin successful (demo)");
+    });
+    function showSigninError(msg){
+      signinError.textContent = msg;
+      signinError.classList.remove("hidden");
+    }
+    
+    function clearSigninError(){
+      signinError.classList.add("hidden");
+      signinError.textContent = "";
+    }
         </script>
 </body>
 </html>
