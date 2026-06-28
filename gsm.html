@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Caller Test</title>
+</head>
+<body>
+
+<h2>Cloudflare Mini Caller</h2>
+
+<input id="room" placeholder="Room ID" />
+<button onclick="join()">Join</button>
+
+<video id="local" autoplay playsinline muted></video>
+<video id="remote" autoplay playsinline></video>
+
+<script>
+let ws;
+let pc;
+let localStream;
+
+const config = {
+  iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+};
+
+async function join() {
+  const room = document.getElementById("room").value;
+
+  ws = new WebSocket("https://old-fire-fc1a.victorpalmtrees001.workers.dev");
+
+  pc = new RTCPeerConnection(config);
+
+  localStream = await navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+  });
+
+  document.getElementById("local").srcObject = localStream;
+
+  localStream.getTracks().forEach(track => {
+    pc.addTrack(track, localStream);
+  });
+
+  pc.ontrack = (event) => {
+    document.getElementById("remote").srcObject = event.streams[0];
+  };
+
+  pc.onicecandidate = (event) => {
+    if (event.candidate) {
+      ws.send(JSON.stringify({
+        room,
+        type: "ice",
+        payload: event.candidate
+      }));
+    }
+  };
+
+  ws.onmessage = async (msg) => {
+    const data = JSON.parse(msg.data);
+
+    if (data.type === "offer") {
+      await pc.setRemoteDescription(data.payload);
+
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+
+      ws.send(JSON.stringify({
+        room,
+        type: "answer",
+        payload: answer
+      }));
+    }
+
+    if (data.type === "answer") {
+      await pc.setRemoteDescription(data.payload);
+    }
+
+    if (data.type === "ice") {
+      await pc.addIceCandidate(data.payload);
+    }
+  };
+
+  ws.onopen = async () => {
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    ws.send(JSON.stringify({
+      room,
+      type: "offer",
+      payload: offer
+    }));
+  };
+}
+</script>
+
+</body>
+</html>
