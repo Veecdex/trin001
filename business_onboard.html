@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+*{
+font-family:Inter,sans-serif;
+}
+
+body{
+overflow:hidden;
+}
+
+.progress{
+animation:load 6s linear forwards;
+}
+
+@keyframes load{
+
+from{
+width:0%;
+}
+
+to{
+width:100%;
+}
+
+}
+
+.bg-word{
+
+font-size:clamp(70px,13vw,220px);
+
+line-height:.92;
+
+font-weight:900;
+
+letter-spacing:-6px;
+
+color:rgba(255,255,255,.08);
+
+user-select:none;
+
+}
+
+.backdrop{
+
+backdrop-filter:blur(18px);
+
+}
+
+.fade{
+
+animation:fade .8s ease;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div
+class="relative h-screen w-screen bg-cover bg-center"
+style="background-image:url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1800&q=80');">
+
+<div class="absolute inset-0 bg-black/60"></div>
+
+<div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black"></div>
+
+<!-- TOP -->
+
+<div class="relative z-20 px-7 pt-6">
+
+<!-- Loader -->
+
+<div class="flex gap-2 mb-5">
+
+<div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+
+<div class="progress h-full bg-white rounded-full"></div>
+
+</div>
+
+<div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+
+<div class="progress h-full bg-white rounded-full"
+style="animation-delay:6s"></div>
+
+</div>
+
+<div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+
+<div class="progress h-full bg-white rounded-full"
+style="animation-delay:12s"></div>
+
+</div>
+
+<div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+
+<div class="progress h-full bg-white rounded-full"
+style="animation-delay:18s"></div>
+
+</div>
+
+<div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+
+<div class="progress h-full bg-white rounded-full"
+style="animation-delay:24s"></div>
+
+</div>
+
+</div>
+
+<div class="flex justify-between items-center">
+
+  <div class="flex items-center gap-3">
+
+    <img
+        src="LOGO.png"
+        alt="Wiesel Logo"
+        class="w-10 h-10 object-contain">
+
+    <div class="text-white text-3xl font-black tracking-tight">
+        WIESEL COMMERCE
+    </div>
+
+</div>
+
+<button
+class="backdrop h-12 w-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:scale-105 duration-300">
+
+<i data-lucide="pause"></i>
+
+</button>
+
+</div>
+
+</div>
+
+<!-- CENTER -->
+
+<div class="absolute inset-0 flex items-center">
+
+<div class="relative px-8 w-full">
+
+<div class="absolute -top-24 left-0 select-none">
+
+<div class="bg-word">
+
+ARE YOU
+
+<br>
+
+ACTIVE?
+
+</div>
+
+</div>
+
+<div class="relative z-10 mt-36 fade">
+
+<h1
+class="text-white text-5xl md:text-6xl font-extrabold leading-tight max-w-2xl">
+
+Turn your physical business
+
+<span class="text-green-400">
+
+into a digital experience.
+
+</span>
+
+</h1>
+
+<p
+class="mt-6 text-white/80 text-lg max-w-xl leading-8">
+
+Give customers one place to discover your products, scan your QR code, browse your online store and shop effortlessly from anywhere.
+
+</p>
+
+<div class="flex flex-wrap gap-3 mt-8">
+
+<span
+class="backdrop px-5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm">
+
+#OnlineStore
+
+</span>
+
+<span
+class="backdrop px-5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm">
+
+#QRCode
+
+</span>
+
+<span
+class="backdrop px-5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm">
+
+#SeamlessShopping
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Bottom -->
+
+<div
+class="absolute bottom-10 left-0 w-full px-8 z-20">
+
+<!-- Floating Next Button -->
+
+<div class="absolute bottom-8 right-8 z-30">
+
+  <button
+      class="w-16 h-16 rounded-full bg-white text-black shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 duration-300">
+
+      <i data-lucide="chevron-right" class="w-8 h-8 stroke-[3]"></i>
+
+  </button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+
+</body>
+</html>
