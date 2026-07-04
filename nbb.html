@@ -3,234 +3,351 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Voice Chat App</title>
+<title>VN Chat</title>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
-body {
-    margin: 0;
+body{
+    margin:0;
     font-family: Arial;
-    background: #0f172a;
-    color: white;
+    background:#f4f6fb;
 }
 
-.chat-container {
-    max-width: 600px;
-    margin: auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+/* APP */
+.app{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    max-width:500px;
+    margin:auto;
+    background:white;
 }
 
-.header {
-    padding: 15px;
-    background: #111827;
-    text-align: center;
-    font-weight: bold;
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    background:white;
+    border-bottom:1px solid #eee;
 }
 
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
+.header .left{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.msg {
-    background: #1f2937;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 10px;
+.avatar{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:linear-gradient(45deg,#4f46e5,#06b6d4);
 }
 
-.msg audio {
-    width: 100%;
-    margin-top: 5px;
+/* CHAT AREA */
+.chat{
+    flex:1;
+    overflow-y:auto;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
-.input-area {
-    display: flex;
-    padding: 10px;
-    background: #111827;
-    gap: 5px;
+/* BUBBLES */
+.msg{
+    max-width:75%;
+    padding:10px 12px;
+    border-radius:15px;
+    font-size:14px;
+    animation:pop .2s ease;
 }
 
-input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
+@keyframes pop{
+    from{transform:scale(.8);opacity:0;}
+    to{transform:scale(1);opacity:1;}
 }
 
-button {
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+.me{
+    align-self:flex-end;
+    background:#4f46e5;
+    color:white;
+    border-bottom-right-radius:5px;
 }
 
-.send-btn {
-    background: #22c55e;
-    color: white;
+.them{
+    align-self:flex-start;
+    background:#eef2ff;
+    color:#111;
+    border-bottom-left-radius:5px;
 }
 
-.record-btn {
-    background: #ef4444;
-    color: white;
+/* INPUT BAR */
+.input{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    border-top:1px solid #eee;
+    background:white;
 }
 
-.stop-btn {
-    background: #f59e0b;
-    color: white;
+.input input{
+    flex:1;
+    padding:10px;
+    border-radius:20px;
+    border:1px solid #ddd;
+    outline:none;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:none;
+    cursor:pointer;
+}
+
+.mic{
+    background:#ef4444;
+    color:white;
+}
+
+.send{
+    background:#4f46e5;
+    color:white;
+}
+
+/* RECORDING UI */
+.recording{
+    position:fixed;
+    bottom:90px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111;
+    color:white;
+    padding:10px 15px;
+    border-radius:20px;
+    display:none;
+    font-size:12px;
+}
+.recording{
+    position:fixed;
+    bottom:90px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111;
+    color:white;
+    padding:10px 15px;
+    border-radius:20px;
+    display:none;
+    font-size:12px;
+    gap:10px;
+    align-items:center;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    background:red;
+    border-radius:50%;
+    animation:pulse 1s infinite;
+    display:inline-block;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);opacity:1;}
+    50%{transform:scale(1.6);opacity:0.4;}
+    100%{transform:scale(1);opacity:1;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="chat-container">
+<div class="app">
 
-    <div class="header">Voice Chat App</div>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="left">
+            <div class="avatar"></div>
+            <div>
+                <div style="font-weight:bold">Wiesel Store</div>
+                <small style="color:green">online</small>
+            </div>
+        </div>
 
-    <div id="messages" class="messages"></div>
-
-    <div class="input-area">
-        <input id="textInput" placeholder="Type a message..." />
-        <button class="send-btn" onclick="sendText()">Send</button>
+        <i class="fa fa-phone"></i>
     </div>
 
-    <div class="input-area">
-        <button class="record-btn" onclick="startRecording()">Record</button>
-        <button class="stop-btn" onclick="stopRecording()">Stop</button>
+    <!-- CHAT -->
+    <div id="chat" class="chat"></div>
+
+    <!-- INPUT -->
+    <div class="input">
+        <input id="text" placeholder="Type message..." />
+        <button class="icon-btn mic"
+        onmousedown="startHold()"
+        onmouseup="stopHold()"
+        ontouchstart="startHold()"
+        ontouchend="stopHold()">
+            <i class="fa fa-microphone"></i>
+        </button>
+
+        <button class="icon-btn send" onclick="sendText()">
+            <i class="fa fa-paper-plane"></i>
+        </button>
     </div>
 
 </div>
 
+<div id="rec" class="recording">
+  <span class="dot"></span>
+  <span id="timer">00:00</span>
+</div>
+
 <script>
-let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
-let mediaRecorder;
-let audioChunks = [];
+  let chat = JSON.parse(localStorage.getItem("chat") || "[]");
+  let recording = false;
+let timerInterval;
+let seconds = 0;
+  let mediaRecorder;
+  let audioChunks = [];
+  let stream;
+  
+  // render messages
+  function render(){
+      const box = document.getElementById("chat");
+      box.innerHTML = "";
+  
+      chat.forEach(m => {
+          const div = document.createElement("div");
+          div.className = "msg " + (m.type === "me" ? "me" : "them");
+  
+          if(m.type === "text"){
+              div.innerHTML = m.text;
+          }
+  
+          if(m.type === "audio"){
+              div.innerHTML = `
+                  <audio controls src="${m.url}" style="width:200px"></audio>
+                  <div style="font-size:10px;opacity:0.7;margin-top:5px">
+                      🎵 ${m.size} KB
+                  </div>
+              `;
+          }
+  
+          box.appendChild(div);
+      });
+  
+      box.scrollTop = box.scrollHeight;
+  }
+  
+  render();
+  
+  // TEXT MESSAGE
+  function sendText(){
+      const input = document.getElementById("text");
+      if(!input.value.trim()) return;
+  
+      chat.push({
+          type:"text",
+          text:input.value,
+          from:"me"
+      });
+  
+      input.value = "";
+      save();
+  }
+  
+  // SAVE
+  function save(){
+      localStorage.setItem("chat", JSON.stringify(chat));
+      render();
+  }
+  
+  //
+  // 🎤 START RECORDING
+  //
+  async function startRec(){
 
-// Load existing messages
-renderMessages();
+stream = await navigator.mediaDevices.getUserMedia({ audio:true });
 
-// TEXT MESSAGE
-function sendText() {
-    const input = document.getElementById("textInput");
-    const text = input.value.trim();
-    if (!text) return;
+mediaRecorder = new MediaRecorder(stream);
+audioChunks = [];
 
-    messages.push({
-        type: "text",
-        data: text,
-        time: Date.now()
+mediaRecorder.ondataavailable = e => {
+    audioChunks.push(e.data);
+};
+
+mediaRecorder.start();
+}
+  
+  //
+  // 🛑 STOP RECORDING
+  //
+  function stopRec(){
+
+if(!mediaRecorder) return;
+
+mediaRecorder.onstop = async () => {
+
+    const blob = new Blob(audioChunks, { type:"audio/webm" });
+
+    const url = URL.createObjectURL(blob);
+
+    const sizeKB = Math.round(blob.size / 1024);
+
+    chat.push({
+        type:"audio",
+        url:url,
+        size:sizeKB
     });
 
-    input.value = "";
-    saveAndRender();
+    save();
+
+    stream.getTracks().forEach(t => t.stop());
+};
+
+mediaRecorder.stop();
+}
+  function startHold(){
+    startRec();
+    startTimer();
 }
 
-async function startRecording() {
-
-try {
-
-    if (!navigator.mediaDevices) {
-        alert("mediaDevices is not supported.");
-        return;
-    }
-
-    if (!window.MediaRecorder) {
-        alert("MediaRecorder is not supported by this browser.");
-        return;
-    }
-
-    const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true
-    });
-
-    mediaRecorder = new MediaRecorder(stream);
-
-    audioChunks = [];
-
-    mediaRecorder.ondataavailable = e => {
-        if (e.data.size > 0) {
-            audioChunks.push(e.data);
-        }
-    };
-
-    mediaRecorder.onstop = () => {
-
-        const audioBlob = new Blob(audioChunks, {
-            type: mediaRecorder.mimeType
-        });
-
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-
-            messages.push({
-                type: "audio",
-                data: reader.result,
-                time: Date.now()
-            });
-
-            saveAndRender();
-        };
-
-        reader.readAsDataURL(audioBlob);
-
-        stream.getTracks().forEach(track => track.stop());
-    };
-
-    mediaRecorder.start();
-
+function stopHold(){
+    stopRec();
+    stopTimer();
 }
-catch (err) {
+function startTimer(){
+    seconds = 0;
 
-    console.error(err);
+    document.getElementById("rec").style.display = "flex";
 
-    alert("Recording failed:\n" + err.message);
+    timerInterval = setInterval(()=>{
+        seconds++;
 
+        let m = String(Math.floor(seconds / 60)).padStart(2,"0");
+        let s = String(seconds % 60).padStart(2,"0");
+
+        document.getElementById("timer").innerText = `${m}:${s}`;
+    },1000);
 }
 
+function stopTimer(){
+    clearInterval(timerInterval);
+
+    document.getElementById("rec").style.display = "none";
 }
-
-// STOP RECORDING
-function stopRecording() {
-    if (mediaRecorder && mediaRecorder.state !== "inactive") {
-        mediaRecorder.stop();
-    }
-}
-
-// SAVE + RENDER
-function saveAndRender() {
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
-    renderMessages();
-}
-
-// RENDER UI
-function renderMessages() {
-    const box = document.getElementById("messages");
-    box.innerHTML = "";
-
-    messages.forEach(msg => {
-        const div = document.createElement("div");
-        div.className = "msg";
-
-        if (msg.type === "text") {
-            div.innerHTML = `<div>${msg.data}</div>`;
-        }
-
-        if (msg.type === "audio") {
-            div.innerHTML = `
-                <audio controls src="${msg.data}"></audio>
-            `;
-        }
-
-        box.appendChild(div);
-    });
-
-    box.scrollTop = box.scrollHeight;
-}
-</script>
+  </script>
 
 </body>
 </html>
