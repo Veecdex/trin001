@@ -214,175 +214,170 @@ body{
 </div>
 
 <script>
-  let isRecording = false;
-  let chat = JSON.parse(localStorage.getItem("chat") || "[]");
-  let recording = false;
-let timerInterval;
-let seconds = 0;
-  let mediaRecorder;
-  let audioChunks = [];
-  let stream;
-  
-  // render messages
-  function render(){
-      const box = document.getElementById("chat");
-      box.innerHTML = "";
-  
-      chat.forEach(m => {
-          const div = document.createElement("div");
-          div.className = "msg " + (m.type === "me" ? "me" : "them");
-  
-          if(m.type === "text"){
-              div.innerHTML = m.text;
-          }
-  
-          if(m.type === "audio"){
-              div.innerHTML = `
-                  <audio controls src="${m.url}" style="width:200px"></audio>
-                  <div style="font-size:10px;opacity:0.7;margin-top:5px">
-                      🎵 ${m.size} KB
-                  </div>
-              `;
-          }
-  
-          box.appendChild(div);
-      });
-  
-      box.scrollTop = box.scrollHeight;
-  }
-  
-  render();
-  
-  // TEXT MESSAGE
-  function sendText(){
-      const input = document.getElementById("text");
-      if(!input.value.trim()) return;
-  
-      chat.push({
-          type:"text",
-          text:input.value,
-          from:"me"
-      });
-  
-      input.value = "";
-      save();
-  }
-  
-  // SAVE
-  function save(){
-      localStorage.setItem("chat", JSON.stringify(chat));
-      render();
-  }
-  
-  //
-  // 🎤 START RECORDING
-  //
-  async function startRec(){
-
-if(isRecording) return;
-isRecording = true;
-
-try {
-    stream = await navigator.mediaDevices.getUserMedia({ audio:true });
-
-    mediaRecorder = new MediaRecorder(stream);
-    audioChunks = [];
-
-    mediaRecorder.ondataavailable = e => {
-        if(e.data.size > 0){
-            audioChunks.push(e.data);
+    let isRecording = false;
+    let chat = JSON.parse(localStorage.getItem("chat") || "[]");
+    
+    let mediaRecorder;
+    let audioChunks = [];
+    let stream;
+    
+    let timerInterval;
+    let seconds = 0;
+    
+    /* ---------------- RENDER ---------------- */
+    function render() {
+        const box = document.getElementById("chat");
+        box.innerHTML = "";
+    
+        chat.forEach(m => {
+            const div = document.createElement("div");
+            div.className = "msg " + (m.from === "me" ? "me" : "them");
+    
+            if (m.type === "text") {
+                div.textContent = m.text;
+            }
+    
+            if (m.type === "audio") {
+                div.innerHTML = `
+                    <audio controls src="${m.url}" style="width:200px"></audio>
+                    <div style="font-size:10px;opacity:0.7;margin-top:5px">
+                        🎵 ${m.size} KB
+                    </div>
+                `;
+            }
+    
+            box.appendChild(div);
+        });
+    
+        box.scrollTop = box.scrollHeight;
+    }
+    
+    render();
+    
+    /* ---------------- SAVE ---------------- */
+    function save() {
+        localStorage.setItem("chat", JSON.stringify(chat));
+        render();
+    }
+    
+    /* ---------------- TEXT MESSAGE ---------------- */
+    function sendText() {
+        const input = document.getElementById("text");
+        const value = input.value.trim();
+    
+        if (!value) return;
+    
+        chat.push({
+            type: "text",
+            text: value,
+            from: "me"
+        });
+    
+        input.value = "";
+        save();
+    }
+    
+    /* ---------------- RECORDING ---------------- */
+    async function startRec() {
+        if (isRecording) return;
+    
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+    
+            mediaRecorder.ondataavailable = e => {
+                if (e.data.size > 0) {
+                    audioChunks.push(e.data);
+                }
+            };
+    
+            mediaRecorder.onstop = handleStop;
+    
+            mediaRecorder.start();
+            isRecording = true;
+    
+        } catch (err) {
+            console.log("Mic error:", err);
+            isRecording = false;
         }
-    };
-
-    mediaRecorder.onstop = handleStop;
-
-    mediaRecorder.start();
-
-} catch(err){
-    console.log(err);
-    isRecording = false;
-}
-}
-  //
-  // 🛑 STOP RECORDING
-  //
-  function stopRec(){
-
-if(!mediaRecorder || mediaRecorder.state === "inactive"){
-    isRecording = false;
-    return;
-}
-
-try {
-    mediaRecorder.stop();
-} catch(err){
-    console.log(err);
-}
-
-isRecording = false;
-}  function startHold(){
-    startRec();
-    startTimer();
-}
-
-function stopHold(){
-    stopRec();
-    stopTimer();
-}
-function startTimer(){
-    seconds = 0;
-
-    document.getElementById("rec").style.display = "flex";
-
-    timerInterval = setInterval(()=>{
-        seconds++;
-
-        let m = String(Math.floor(seconds / 60)).padStart(2,"0");
-        let s = String(seconds % 60).padStart(2,"0");
-
-        document.getElementById("timer").innerText = `${m}:${s}`;
-    },1000);
-}
-
-function stopTimer(){
-    clearInterval(timerInterval);
-
-    document.getElementById("rec").style.display = "none";
-}
-function handleStop(){
-
-try {
-
-    if(audioChunks.length === 0){
-        console.log("No audio captured");
-        return;
     }
-
-    const blob = new Blob(audioChunks, { type:"audio/webm" });
-
-    const url = URL.createObjectURL(blob);
-
-    const sizeKB = Math.round(blob.size / 1024);
-
-    chat.push({
-        type:"audio",
-        url:url,
-        size:sizeKB
-    });
-
-    save();
-
-    if(stream){
-        stream.getTracks().forEach(t => t.stop());
+    
+    function stopRec() {
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            isRecording = false;
+            return;
+        }
+    
+        mediaRecorder.stop();
+        isRecording = false;
     }
-
-} catch(err){
-    console.log("Audio save error:", err);
-}
-
-isRecording = false;
-}
-  </script>
-
+    
+    /* ---------------- HOLD EVENTS ---------------- */
+    function startHold() {
+        startRec();
+        startTimer();
+    }
+    
+    function stopHold() {
+        stopRec();
+        stopTimer();
+    }
+    
+    /* ---------------- TIMER ---------------- */
+    function startTimer() {
+        seconds = 0;
+    
+        document.getElementById("rec").style.display = "flex";
+    
+        clearInterval(timerInterval);
+    
+        timerInterval = setInterval(() => {
+            seconds++;
+    
+            let m = String(Math.floor(seconds / 60)).padStart(2, "0");
+            let s = String(seconds % 60).padStart(2, "0");
+    
+            document.getElementById("timer").innerText = `${m}:${s}`;
+        }, 1000);
+    }
+    
+    function stopTimer() {
+        clearInterval(timerInterval);
+        document.getElementById("rec").style.display = "none";
+    }
+    
+    /* ---------------- HANDLE AUDIO ---------------- */
+    function handleStop() {
+        try {
+            if (audioChunks.length === 0) return;
+    
+            const blob = new Blob(audioChunks, { type: "audio/webm" });
+    
+            const reader = new FileReader();
+    
+            reader.onloadend = () => {
+                chat.push({
+                    type: "audio",
+                    url: reader.result, // BASE64 (persistent)
+                    size: Math.round(blob.size / 1024),
+                    from: "me"
+                });
+    
+                save();
+            };
+    
+            reader.readAsDataURL(blob);
+    
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+            }
+    
+        } catch (err) {
+            console.log("Audio error:", err);
+        }
+    }
+    </script>
 </body>
 </html>
