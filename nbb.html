@@ -194,10 +194,10 @@ body{
     <div class="input">
         <input id="text" placeholder="Type message..." />
         <button class="icon-btn mic"
+        ontouchstart="event.preventDefault(); startHold()"
+        ontouchend="event.preventDefault(); stopHold()"
         onmousedown="startHold()"
-        onmouseup="stopHold()"
-        ontouchstart="startHold()"
-        ontouchend="stopHold()">
+        onmouseup="stopHold()">
             <i class="fa fa-microphone"></i>
         </button>
 
@@ -214,6 +214,7 @@ body{
 </div>
 
 <script>
+  let isRecording = false;
   let chat = JSON.parse(localStorage.getItem("chat") || "[]");
   let recording = false;
 let timerInterval;
@@ -278,47 +279,48 @@ let seconds = 0;
   //
   async function startRec(){
 
-stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+if(isRecording) return;
+isRecording = true;
 
-mediaRecorder = new MediaRecorder(stream);
-audioChunks = [];
+try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio:true });
 
-mediaRecorder.ondataavailable = e => {
-    audioChunks.push(e.data);
-};
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
 
-mediaRecorder.start();
+    mediaRecorder.ondataavailable = e => {
+        if(e.data.size > 0){
+            audioChunks.push(e.data);
+        }
+    };
+
+    mediaRecorder.onstop = handleStop;
+
+    mediaRecorder.start();
+
+} catch(err){
+    console.log(err);
+    isRecording = false;
 }
-  
+}
   //
   // 🛑 STOP RECORDING
   //
   function stopRec(){
 
-if(!mediaRecorder) return;
-
-mediaRecorder.onstop = async () => {
-
-    const blob = new Blob(audioChunks, { type:"audio/webm" });
-
-    const url = URL.createObjectURL(blob);
-
-    const sizeKB = Math.round(blob.size / 1024);
-
-    chat.push({
-        type:"audio",
-        url:url,
-        size:sizeKB
-    });
-
-    save();
-
-    stream.getTracks().forEach(t => t.stop());
-};
-
-mediaRecorder.stop();
+if(!mediaRecorder || mediaRecorder.state === "inactive"){
+    isRecording = false;
+    return;
 }
-  function startHold(){
+
+try {
+    mediaRecorder.stop();
+} catch(err){
+    console.log(err);
+}
+
+isRecording = false;
+}  function startHold(){
     startRec();
     startTimer();
 }
@@ -346,6 +348,39 @@ function stopTimer(){
     clearInterval(timerInterval);
 
     document.getElementById("rec").style.display = "none";
+}
+function handleStop(){
+
+try {
+
+    if(audioChunks.length === 0){
+        console.log("No audio captured");
+        return;
+    }
+
+    const blob = new Blob(audioChunks, { type:"audio/webm" });
+
+    const url = URL.createObjectURL(blob);
+
+    const sizeKB = Math.round(blob.size / 1024);
+
+    chat.push({
+        type:"audio",
+        url:url,
+        size:sizeKB
+    });
+
+    save();
+
+    if(stream){
+        stream.getTracks().forEach(t => t.stop());
+    }
+
+} catch(err){
+    console.log("Audio save error:", err);
+}
+
+isRecording = false;
 }
   </script>
 
