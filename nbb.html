@@ -212,7 +212,6 @@ body{
   <span class="dot"></span>
   <span id="timer">00:00</span>
 </div>
-
 <script>
     let isRecording = false;
     let chat = JSON.parse(localStorage.getItem("chat") || "[]");
@@ -223,6 +222,8 @@ body{
     
     let timerInterval;
     let seconds = 0;
+    
+    let holdActive = false; // 🔥 prevents double trigger
     
     /* ---------------- RENDER ---------------- */
     function render() {
@@ -260,7 +261,7 @@ body{
         render();
     }
     
-    /* ---------------- TEXT MESSAGE ---------------- */
+    /* ---------------- TEXT ---------------- */
     function sendText() {
         const input = document.getElementById("text");
         const value = input.value.trim();
@@ -287,8 +288,8 @@ body{
             mediaRecorder = new MediaRecorder(stream);
             audioChunks = [];
     
-            mediaRecorder.ondataavailable = e => {
-                if (e.data.size > 0) {
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data && e.data.size > 0) {
                     audioChunks.push(e.data);
                 }
             };
@@ -305,24 +306,32 @@ body{
     }
     
     function stopRec() {
-        if (!mediaRecorder || mediaRecorder.state === "inactive") {
-            isRecording = false;
-            return;
+        if (!mediaRecorder || mediaRecorder.state !== "recording") return;
+    
+        try {
+            mediaRecorder.stop();
+        } catch (e) {
+            console.log(e);
         }
     
-        mediaRecorder.stop();
         isRecording = false;
     }
     
-    /* ---------------- HOLD EVENTS ---------------- */
-    function startHold() {
+    /* ---------------- HOLD CONTROL (FIXED) ---------------- */
+    function startHold(e) {
+        if (holdActive) return;
+        holdActive = true;
+    
         startRec();
         startTimer();
     }
     
-    function stopHold() {
-        stopRec();
+    function stopHold(e) {
+        if (!holdActive) return;
+        holdActive = false;
+    
         stopTimer();
+        stopRec();
     }
     
     /* ---------------- TIMER ---------------- */
@@ -336,8 +345,8 @@ body{
         timerInterval = setInterval(() => {
             seconds++;
     
-            let m = String(Math.floor(seconds / 60)).padStart(2, "0");
-            let s = String(seconds % 60).padStart(2, "0");
+            const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+            const s = String(seconds % 60).padStart(2, "0");
     
             document.getElementById("timer").innerText = `${m}:${s}`;
         }, 1000);
@@ -348,10 +357,10 @@ body{
         document.getElementById("rec").style.display = "none";
     }
     
-    /* ---------------- HANDLE AUDIO ---------------- */
+    /* ---------------- AUDIO FINAL ---------------- */
     function handleStop() {
         try {
-            if (audioChunks.length === 0) return;
+            if (!audioChunks.length) return;
     
             const blob = new Blob(audioChunks, { type: "audio/webm" });
     
@@ -360,7 +369,7 @@ body{
             reader.onloadend = () => {
                 chat.push({
                     type: "audio",
-                    url: reader.result, // BASE64 (persistent)
+                    url: reader.result,
                     size: Math.round(blob.size / 1024),
                     from: "me"
                 });
