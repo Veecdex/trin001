@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --surface:#F7F8FA;
+    --border:#E4E7EC;
+    --ink:#14181F;
+    --muted:#6B7280;
+    --ledger:#1B4B91;
+    --ledger-dark:#0F2E5C;
+    --gold:#E8A33D;
+    --gold-soft:#FBF1DF;
+    --success:#1F9D6C;
+    --success-soft:#EAF7F1;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;color:var(--ink);background:var(--surface);}
+  a{color:inherit;text-decoration:none;}
+
+  /* HEADER */
+  header{
+    background:var(--paper);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:20;
+  }
+  .header-inner{max-width:1180px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:18px;}
+  .tally-mark{display:flex;align-items:flex-end;gap:2.5px;height:18px;}
+  .tally-mark span{width:2.5px;background:var(--gold);border-radius:2px;}
+  .tally-mark span:nth-child(1){height:13px;}
+  .tally-mark span:nth-child(2){height:17px;}
+  .tally-mark span:nth-child(3){height:13px;}
+  .tally-mark span:nth-child(4){height:17px;}
+  .tally-mark .slash{width:18px;height:2px;background:var(--gold);transform:rotate(-38deg) translate(1px,-7px);border-radius:2px;}
+  .store-name{display:flex;flex-direction:column;}
+  .store-name b{font-family:'Sora';font-size:15px;font-weight:700;}
+  .store-name span{font-size:11.5px;color:var(--muted);}
+  .header-right{display:flex;align-items:center;gap:16px;}
+  .search-box{
+    display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:8px 12px;min-width:220px;
+  }
+  .search-box svg{width:15px;height:15px;color:var(--muted);flex-shrink:0;}
+  .search-box input{border:none;background:transparent;outline:none;font-family:'Inter';font-size:13.5px;width:100%;}
+  .dash-link{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);border:1px solid var(--border);padding:8px 14px;border-radius:9px;}
+  .dash-link:hover{color:var(--ink);background:var(--surface);}
+  .dash-link svg{width:14px;height:14px;}
+  @media (max-width:700px){ .search-box{display:none;} .header-inner{padding:16px 20px;} }
+
+  /* HERO */
+  .hero{max-width:1180px;margin:0 auto;padding:40px 32px 8px;}
+  .hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+  .hero h1{font-family:'Sora',sans-serif;font-size:32px;margin:0 0 8px;letter-spacing:-0.01em;}
+  .hero p{color:var(--muted);font-size:14.5px;margin:0;max-width:520px;line-height:1.6;}
+
+  /* MAIN */
+  main{max-width:1180px;margin:0 auto;padding:28px 32px 80px;}
+  .filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .result-count{font-size:13px;color:var(--muted);}
+  .result-count b{color:var(--ink);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
+  .card{
+    background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+    display:flex;flex-direction:column;transition:.18s;
+  }
+  .card:hover{border-color:#D6DBE3;box-shadow:0 8px 20px rgba(20,24,31,0.06);transform:translateY(-2px);}
+  .card-img{aspect-ratio:1/0.85;background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;overflow:hidden;}
+  .card-img img{width:100%;height:100%;object-fit:cover;}
+  .stock-tag{position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:600;padding:4px 9px;border-radius:20px;background:rgba(255,255,255,0.9);backdrop-filter:blur(4px);}
+  .stock-tag.low{color:#8a5a12;background:var(--gold-soft);}
+  .stock-tag.out{color:#B23434;background:var(--gold-soft);}
+  .card-body{padding:16px;display:flex;flex-direction:column;flex:1;}
+  .card-body h3{font-family:'Sora';font-size:14.5px;margin:0 0 5px;}
+  .card-body p{font-size:12.5px;color:var(--muted);line-height:1.55;margin:0 0 14px;flex:1;}
+  .price-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
+  .price{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:16.5px;color:var(--ledger);}
+
+  .buy-btn{
+    width:100%;border:none;border-radius:10px;padding:11px;font-family:'Sora';font-weight:600;font-size:13.5px;
+    background:var(--ledger);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s;
+  }
+  .buy-btn svg{width:15px;height:15px;}
+  .buy-btn:hover{background:var(--ledger-dark);}
+  .buy-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed;}
+
+  .empty-state{text-align:center;padding:100px 20px;color:var(--muted);}
+  .empty-state svg{width:44px;height:44px;opacity:.35;margin-bottom:14px;}
+  .empty-state h3{font-family:'Sora';color:var(--ink);font-size:17px;margin:0 0 6px;}
+  .empty-state p{font-size:13.5px;max-width:340px;margin:0 auto;line-height:1.6;}
+
+  /* MODAL */
+  .overlay{
+    position:fixed;inset:0;background:rgba(15,20,28,0.5);display:none;align-items:center;justify-content:center;
+    padding:20px;z-index:50;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--paper);border-radius:18px;width:100%;max-width:420px;overflow:hidden;
+    animation:pop .18s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:scale(.97);}to{opacity:1;transform:scale(1);}}
+  .modal-img{height:200px;background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--muted);}
+  .modal-img img{width:100%;height:100%;object-fit:cover;}
+  .modal-body{padding:22px;}
+  .modal-body h3{font-family:'Sora';font-size:18px;margin:0 0 4px;}
+  .modal-body .price{font-size:17px;display:block;margin-bottom:14px;}
+  .modal-body p.desc{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 20px;}
+
+  .modal-body label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--ink);}
+  .modal-body input[type=email]{
+    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);
+    font-family:'Inter';font-size:13.5px;color:var(--ink);margin-bottom:14px;
+  }
+  .modal-body input[type=email]:focus{outline:none;border-color:var(--ledger);background:var(--paper);box-shadow:0 0 0 3px rgba(27,75,145,0.12);}
+  .modal-error{background:var(--danger, #D64545);}
+
+  .status-banner{
+    max-width:1180px;margin:16px auto 0;padding:0 32px;
+  }
+  .status-banner-inner{border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;}
+  .status-banner-inner.paid{background:var(--success-soft);color:var(--success);}
+  .status-banner-inner.pending{background:var(--gold-soft);color:#8a5a12;}
+  .status-banner-inner svg{width:16px;height:16px;flex-shrink:0;}
+
+  .payouts-banner{max-width:1180px;margin:16px auto 0;padding:0 32px;}
+  .payouts-banner-inner{background:var(--gold-soft);border:1px solid #EED8AC;border-radius:12px;padding:14px 18px;font-size:13px;color:#7a5210;display:flex;align-items:center;gap:10px;}
+  .payouts-banner-inner svg{width:16px;height:16px;flex-shrink:0;}
+
+  .qty-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 8px 8px 14px;margin-bottom:16px;}
+  .qty-row span{font-size:13px;font-weight:600;}
+  .stepper{display:flex;align-items:center;gap:12px;}
+  .stepper button{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .stepper button:hover{background:var(--surface);}
+  .stepper button svg{width:14px;height:14px;}
+  .stepper b{font-family:'IBM Plex Mono',monospace;min-width:20px;text-align:center;}
+
+  .total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px dashed var(--border);margin-bottom:16px;}
+  .total-row span{font-size:13px;color:var(--muted);font-weight:600;}
+  .total-row b{font-family:'IBM Plex Mono',monospace;font-size:18px;}
+
+  .modal-actions{display:flex;gap:10px;}
+  .btn-cancel{flex:1;border:1px solid var(--border);background:var(--paper);border-radius:10px;padding:11px;font-family:'Sora';font-weight:600;font-size:13.5px;cursor:pointer;}
+  .btn-cancel:hover{background:var(--surface);}
+  .btn-confirm{flex:2;border:none;background:var(--ledger);color:#fff;border-radius:10px;padding:11px;font-family:'Sora';font-weight:600;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+  .btn-confirm:hover{background:var(--ledger-dark);}
+  .btn-confirm svg{width:15px;height:15px;}
+
+  /* success state inside modal */
+  .success-view{padding:36px 22px;text-align:center;}
+  .success-icon{width:52px;height:52px;border-radius:50%;background:var(--success-soft);color:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+  .success-icon svg{width:26px;height:26px;}
+  .success-view h3{font-family:'Sora';font-size:17px;margin:0 0 6px;}
+  .success-view p{font-size:13px;color:var(--muted);margin:0 0 22px;line-height:1.6;}
+
+  /* toast */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--ink);color:#fff;padding:12px 20px;border-radius:10px;font-size:13.5px;font-weight:600;
+    display:flex;align-items:center;gap:8px;transition:.25s;opacity:0;z-index:60;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+  .toast svg{width:15px;height:15px;color:var(--success);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="tally-mark"><span></span><span></span><span></span><span></span><div class="slash"></div></div>
+      <div class="store-name">
+        <b id="storeName">Store</b>
+        <span>Powered by Tally</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="search-box">
+        <i data-lucide="search"></i>
+        <input type="text" id="searchInput" placeholder="Search products…">
+      </div>
+      <a class="dash-link" href="initdash.html"><i data-lucide="layout-dashboard"></i>Merchant dashboard</a>
+    </div>
+  </div>
+</header>
+
+<div class="status-banner" id="statusBanner" style="display:none;"></div>
+<div class="payouts-banner" id="payoutsBanner" style="display:none;">
+  <div class="payouts-banner-inner">
+    <i data-lucide="clock"></i>
+    <span>This store is still setting up payouts — Buy Now will be enabled once that's done.</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Online store</div>
+  <h1 id="heroHeading">Shop the catalog</h1>
+  <p>Everything here is stocked and ready — pick what you need and buy now, no account required.</p>
+</div>
+
+<main>
+  <div class="filter-row">
+    <span class="result-count"><b id="resultCount">0</b> products</span>
+  </div>
+  <div class="grid" id="productsGrid"></div>
+</main>
+
+<!-- Buy Now Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast"><i data-lucide="check-circle-2"></i><span id="toastText"></span></div>
+
+<script>
+  // Point this at your deployed Worker (see tally-backend/README.md)
+  const API_BASE = "https://tally-api.victorpalmtrees001.workers.dev";
+
+  lucide.createIcons();
+
+  const naira = (n) => '₦' + Number(n).toLocaleString('en-NG');
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('s');
+  const reference = params.get('reference');
+
+  let storeData = null;
+  let allProducts = [];
+  let currentQty = 1;
+  let currentProduct = null;
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function renderMissingSlug(){
+    document.querySelector('main').innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="link-2-off"></i>
+        <h3>No store selected</h3>
+        <p>This link is missing a store reference. Ask the merchant for their store link, which looks like <code>store.html?s=their-store-slug</code>.</p>
+      </div>`;
+    lucide.createIcons();
+  }
+
+  async function loadStore(){
+    const res = await fetch(`${API_BASE}/api/store/${slug}`);
+    if(!res.ok){
+      document.querySelector('main').innerHTML = `
+        <div class="empty-state">
+          <i data-lucide="store"></i>
+          <h3>Store not found</h3>
+          <p>This store link doesn't match any merchant. Double-check the link you were given.</p>
+        </div>`;
+      lucide.createIcons();
+      return;
+    }
+    storeData = await res.json();
+    allProducts = storeData.products;
+    document.getElementById('storeName').textContent = storeData.businessName;
+    document.getElementById('heroHeading').textContent = `Shop ${storeData.businessName}`;
+    document.title = `${storeData.businessName} — Store`;
+
+    if(!storeData.payoutsReady){
+      document.getElementById('payoutsBanner').style.display = 'block';
+    }
+
+    renderGrid('');
+  }
+
+  function renderGrid(filter){
+    const grid = document.getElementById('productsGrid');
+    let products = allProducts;
+    if(filter){
+      const f = filter.toLowerCase();
+      products = products.filter(p => p.name.toLowerCase().includes(f) || (p.desc || '').toLowerCase().includes(f));
+    }
+    document.getElementById('resultCount').textContent = products.length;
+
+    if(allProducts.length === 0){
+      grid.outerHTML = `<div class="empty-state" id="productsGrid">
+          <i data-lucide="shopping-bag"></i>
+          <h3>No products yet</h3>
+          <p>Once this merchant adds products from their dashboard, they'll show up here for customers to buy.</p>
+        </div>`;
+      lucide.createIcons();
+      return;
+    }
+
+    if(products.length === 0){
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+          <i data-lucide="search-x"></i>
+          <h3>No matches</h3>
+          <p>Try a different search term.</p>
+        </div>`;
+      lucide.createIcons();
+      return;
+    }
+
+    const canBuy = storeData.payoutsReady;
+    grid.innerHTML = products.map(p => {
+      const outOfStock = p.stock <= 0;
+      const lowStock = !outOfStock && p.stock <= 5;
+      const disabled = outOfStock || !canBuy;
+      return `
+      <div class="card">
+        <div class="card-img">
+          ${p.image ? `<img src="${p.image}">` : '<i data-lucide="image"></i>'}
+          ${outOfStock ? '<span class="stock-tag out">Out of stock</span>' : (lowStock ? `<span class="stock-tag low">Only ${p.stock} left</span>` : '')}
+        </div>
+        <div class="card-body">
+          <h3>${escapeHtml(p.name)}</h3>
+          <p>${escapeHtml(p.desc || 'No description added.')}</p>
+          <div class="price-row"><span class="price">${naira(p.price)}</span></div>
+          <button class="buy-btn" ${disabled ? 'disabled' : ''} onclick="openModal('${p.id}')">
+            <i data-lucide="zap"></i>${outOfStock ? 'Out of stock' : 'Buy now'}
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+    lucide.createIcons();
+  }
+
+  document.getElementById('searchInput').addEventListener('input', (e) => renderGrid(e.target.value));
+
+  function openModal(id){
+    const product = allProducts.find(p => p.id === id);
+    if(!product) return;
+    currentProduct = product;
+    currentQty = 1;
+    renderModal();
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function closeModal(){
+    document.getElementById('overlay').classList.remove('open');
+  }
+  document.getElementById('overlay').addEventListener('click', (e) => {
+    if(e.target.id === 'overlay') closeModal();
+  });
+
+  function renderModal(errorText){
+    const p = currentProduct;
+    document.getElementById('modal').innerHTML = `
+      <div class="modal-img">${p.image ? `<img src="${p.image}">` : '<i data-lucide="image"></i>'}</div>
+      <div class="modal-body">
+        <h3>${escapeHtml(p.name)}</h3>
+        <span class="price">${naira(p.price)}</span>
+        <p class="desc">${escapeHtml(p.desc || 'No description added.')}</p>
+
+        <label for="buyerEmail">Your email (for the receipt)</label>
+        <input type="email" id="buyerEmail" placeholder="you@example.com">
+
+        <div class="qty-row">
+          <span>Quantity</span>
+          <div class="stepper">
+            <button onclick="changeQty(-1)"><i data-lucide="minus"></i></button>
+            <b id="qtyVal">${currentQty}</b>
+            <button onclick="changeQty(1)"><i data-lucide="plus"></i></button>
+          </div>
+        </div>
+
+        <div class="total-row">
+          <span>Total</span>
+          <b id="totalVal">${naira(p.price * currentQty)}</b>
+        </div>
+
+        ${errorText ? `<div class="msg-error" style="background:#FDEEEE;color:#D64545;font-size:12.5px;padding:9px 12px;border-radius:8px;margin-bottom:14px;">${escapeHtml(errorText)}</div>` : ''}
+
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          <button class="btn-confirm" id="confirmBtn" onclick="confirmPurchase()"><i data-lucide="zap"></i>Pay with Paystack</button>
+        </div>
+      </div>
+    `;
+    lucide.createIcons();
+  }
+
+  function changeQty(delta){
+    const next = currentQty + delta;
+    if(next < 1 || next > currentProduct.stock) return;
+    currentQty = next;
+    document.getElementById('qtyVal').textContent = currentQty;
+    document.getElementById('totalVal').textContent = naira(currentProduct.price * currentQty);
+  }
+
+  async function confirmPurchase(){
+    const email = document.getElementById('buyerEmail').value.trim();
+    if(!email || !email.includes('@')){
+      renderModal('Enter a valid email to continue.');
+      return;
+    }
+
+    const btn = document.getElementById('confirmBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i data-lucide="loader-2"></i>Starting payment…';
+    lucide.createIcons();
+
+    try{
+      const callbackUrl = `${window.location.origin}${window.location.pathname}?s=${slug}`;
+      const res = await fetch(`${API_BASE}/api/store/${slug}/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: currentProduct.id, qty: currentQty, email, callbackUrl })
+      });
+      const data = await res.json();
+      if(!res.ok){
+        renderModal(data.error || 'Could not start payment.');
+        return;
+      }
+      // Hand off to the real Paystack checkout page
+      window.location.href = data.authorizationUrl;
+    }catch(e){
+      renderModal('Could not reach the server. Try again.');
+    }
+  }
+
+  function showToast(text){
+    const toast = document.getElementById('toast');
+    document.getElementById('toastText').textContent = text;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  async function checkReturnFromPaystack(){
+    if(!reference) return;
+    const banner = document.getElementById('statusBanner');
+    banner.style.display = 'block';
+    banner.innerHTML = `<div class="status-banner-inner pending"><i data-lucide="loader-2"></i>Confirming your payment…</div>`;
+    lucide.createIcons();
+
+    try{
+      const res = await fetch(`${API_BASE}/api/store/${slug}/verify-transaction?reference=${encodeURIComponent(reference)}`);
+      const data = await res.json();
+      if(data.status === 'paid'){
+        banner.innerHTML = `<div class="status-banner-inner paid"><i data-lucide="check-circle-2"></i>Payment confirmed — thank you for your order!</div>`;
+      } else {
+        banner.innerHTML = `<div class="status-banner-inner pending"><i data-lucide="clock"></i>We haven't received confirmation of this payment yet. It may still be processing.</div>`;
+      }
+    }catch(e){
+      banner.innerHTML = `<div class="status-banner-inner pending"><i data-lucide="alert-triangle"></i>Could not confirm payment status right now.</div>`;
+    }
+    lucide.createIcons();
+
+    // clean the reference out of the URL, keep the store slug
+    const cleanUrl = `${window.location.origin}${window.location.pathname}?s=${slug}`;
+    window.history.replaceState({}, '', cleanUrl);
+  }
+
+  (async function init(){
+    if(!slug){ renderMissingSlug(); return; }
+    await loadStore();
+    await checkReturnFromPaystack();
+    // refresh product/stock data after a confirmed payment
+    if(reference) await loadStore();
+  })();
+</script>
+<script src="schema.sql"></script>
+</body>
+</html>

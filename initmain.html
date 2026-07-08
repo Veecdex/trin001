@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tally — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --surface:#F7F8FA;
+    --border:#E4E7EC;
+    --ink:#14181F;
+    --muted:#6B7280;
+    --ledger:#1B4B91;
+    --ledger-dark:#0F2E5C;
+    --ledger-line: rgba(255,255,255,0.06);
+    --gold:#E8A33D;
+    --success:#1F9D6C;
+    --danger:#D64545;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;color:var(--ink);background:var(--paper);}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;}
+  @media (max-width:900px){ .wrap{grid-template-columns:1fr;} .brand{display:none;} }
+
+  /* LEFT BRAND PANEL */
+  .brand{
+    background:
+      repeating-linear-gradient(0deg, var(--ledger-line) 0px, var(--ledger-line) 1px, transparent 1px, transparent 32px),
+      linear-gradient(160deg, var(--ledger-dark), var(--ledger));
+    color:#fff;
+    padding:56px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+    overflow:hidden;
+  }
+  .brand::after{
+    content:"";
+    position:absolute; right:-120px; bottom:-120px;
+    width:360px; height:360px; border-radius:50%;
+    background:radial-gradient(circle, rgba(232,163,61,0.22), transparent 70%);
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.02em;}
+  .tally-mark{display:flex;align-items:flex-end;gap:3px;height:22px;}
+  .tally-mark span{width:3px;background:var(--gold);border-radius:2px;}
+  .tally-mark span:nth-child(1){height:16px;}
+  .tally-mark span:nth-child(2){height:20px;}
+  .tally-mark span:nth-child(3){height:16px;}
+  .tally-mark span:nth-child(4){height:20px;}
+  .tally-mark .slash{width:22px;height:2px;background:var(--gold);transform:rotate(-38deg) translate(2px,-9px);border-radius:2px;}
+
+  .brand h1{font-family:'Sora',sans-serif;font-size:34px;line-height:1.25;font-weight:700;max-width:420px;margin:40px 0 16px;letter-spacing:-0.01em;}
+  .brand p{color:rgba(255,255,255,0.72);max-width:380px;line-height:1.6;font-size:15px;}
+  .brand-footer{font-size:13px;color:rgba(255,255,255,0.55);position:relative;z-index:1;}
+  .stat-row{display:flex;gap:28px;margin-top:36px;position:relative;z-index:1;}
+  .stat-row div b{display:block;font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--gold);}
+  .stat-row div span{font-size:12px;color:rgba(255,255,255,0.6);}
+
+  /* RIGHT FORM PANEL */
+  .panel{display:flex;align-items:center;justify-content:center;padding:32px;}
+  .card{width:100%;max-width:400px;}
+  .card h2{font-family:'Sora',sans-serif;font-size:26px;margin:0 0 6px;letter-spacing:-0.01em;}
+  .card .sub{color:var(--muted);font-size:14px;margin:0 0 28px;}
+
+  .tabs{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:28px;}
+  .tabs button{flex:1;border:none;background:transparent;padding:9px 0;border-radius:8px;font-family:'Inter';font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer;transition:.15s;}
+  .tabs button.active{background:var(--paper);color:var(--ledger);box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+
+  label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+  .field{margin-bottom:18px;}
+  input[type=text], input[type=email]{
+    width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:10px;
+    font-family:'Inter';font-size:14.5px;background:var(--surface);color:var(--ink);
+    transition:.15s;
+  }
+  input[type=text]:focus, input[type=email]:focus{outline:none;border-color:var(--ledger);background:var(--paper);box-shadow:0 0 0 3px rgba(27,75,145,0.12);}
+
+  .pin-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;}
+  .pin-label-row span{font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
+  .pin-row{display:flex;gap:8px;}
+  .pin-row input{
+    width:100%;aspect-ratio:1/1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;
+    border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--ink);
+    -webkit-text-security:disc;
+  }
+  .pin-row input:focus{outline:none;border-color:var(--ledger);background:var(--paper);box-shadow:0 0 0 3px rgba(27,75,145,0.12);}
+
+  .msg{font-size:13px;padding:10px 12px;border-radius:8px;margin-bottom:16px;display:none;}
+  .msg.error{background:#FDEEEE;color:var(--danger);display:block;}
+  .msg.success{background:#EAF7F1;color:var(--success);display:block;}
+
+  .submit{
+    width:100%;padding:12px;border:none;border-radius:10px;background:var(--ledger);color:#fff;
+    font-family:'Sora',sans-serif;font-weight:600;font-size:14.5px;cursor:pointer;margin-top:6px;transition:.15s;
+  }
+  .submit:hover{background:var(--ledger-dark);}
+  .switch-hint{text-align:center;font-size:13px;color:var(--muted);margin-top:20px;}
+  .switch-hint a{color:var(--ledger);font-weight:600;text-decoration:none;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="brand">
+    <div>
+      <div class="logo">
+        <div class="tally-mark"><span></span><span></span><span></span><span></span><div class="slash"></div></div>
+        Tally
+      </div>
+      <h1>Every sale, every product, every naira — counted.</h1>
+      <p>Tally is where small businesses keep their books straight: track sales as they happen, manage what you sell, and get ready to accept split payments with a verified account.</p>
+      <div class="stat-row">
+        <div><b>02</b><span>steps to get set up</span></div>
+        <div><b>6-digit</b><span>PIN, nothing to forget</span></div>
+        <div><b>0%</b><span>spreadsheets needed</span></div>
+      </div>
+    </div>
+    <div class="brand-footer">Built for merchants who'd rather run their shop than their software.</div>
+  </div>
+
+  <div class="panel">
+    <div class="card">
+      <div class="tabs">
+        <button id="tabLogin" class="active" onclick="setMode('login')">Log in</button>
+        <button id="tabSignup" onclick="setMode('signup')">Create account</button>
+      </div>
+
+      <h2 id="formTitle">Welcome back</h2>
+      <p class="sub" id="formSub">Log in with your business email and PIN.</p>
+
+      <div class="msg" id="msgBox"></div>
+
+      <form id="authForm" autocomplete="off">
+        <div class="field" id="businessField" style="display:none;">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Adaeze Fabrics">
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@business.com">
+        </div>
+
+        <div class="field">
+          <div class="pin-label-row"><label style="margin:0;">6-digit PIN</label><span>PASSWORD</span></div>
+          <div class="pin-row" data-pin="main">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+          </div>
+        </div>
+
+        <div class="field" id="confirmField" style="display:none;">
+          <div class="pin-label-row"><label style="margin:0;">Confirm PIN</label><span></span></div>
+          <div class="pin-row" data-pin="confirm">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+            <input type="text" inputmode="numeric" maxlength="1">
+          </div>
+        </div>
+
+        <button type="submit" class="submit" id="submitBtn">Log in</button>
+      </form>
+
+      <div class="switch-hint" id="switchHint">
+        New to Tally? <a onclick="setMode('signup')">Create an account</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Point this at your deployed Worker (see tally-backend/README.md)
+  const API_BASE = "https://tally-api.victorpalmtrees001.workers.dev";
+
+  let mode = 'login';
+
+  function setMode(m){
+    mode = m;
+    document.getElementById('tabLogin').classList.toggle('active', m==='login');
+    document.getElementById('tabSignup').classList.toggle('active', m==='signup');
+    document.getElementById('businessField').style.display = m==='signup' ? 'block' : 'none';
+    document.getElementById('confirmField').style.display = m==='signup' ? 'block' : 'none';
+    document.getElementById('formTitle').textContent = m==='signup' ? 'Create your account' : 'Welcome back';
+    document.getElementById('formSub').textContent = m==='signup' ? 'Set up Tally for your business in under a minute.' : 'Log in with your business email and PIN.';
+    document.getElementById('submitBtn').textContent = m==='signup' ? 'Create account' : 'Log in';
+    document.getElementById('switchHint').innerHTML = m==='signup'
+      ? 'Already have an account? <a onclick="setMode(\'login\')">Log in</a>'
+      : 'New to Tally? <a onclick="setMode(\'signup\')">Create an account</a>';
+    hideMsg();
+  }
+
+  // PIN auto-advance behavior
+  document.querySelectorAll('.pin-row').forEach(row => {
+    const inputs = [...row.querySelectorAll('input')];
+    inputs.forEach((inp, i) => {
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.replace(/[^0-9]/g,'');
+        if(inp.value && i < inputs.length-1) inputs[i+1].focus();
+      });
+      inp.addEventListener('keydown', (e) => {
+        if(e.key === 'Backspace' && !inp.value && i > 0) inputs[i-1].focus();
+      });
+    });
+  });
+
+  function readPin(name){
+    const inputs = [...document.querySelector(`.pin-row[data-pin="${name}"]`).querySelectorAll('input')];
+    return inputs.map(i => i.value).join('');
+  }
+  function clearPins(){
+    document.querySelectorAll('.pin-row input').forEach(i => i.value = '');
+  }
+
+  function showMsg(text, type){
+    const box = document.getElementById('msgBox');
+    box.textContent = text;
+    box.className = 'msg ' + type;
+  }
+  function hideMsg(){
+    const box = document.getElementById('msgBox');
+    box.className = 'msg';
+    box.textContent = '';
+  }
+
+  function setLoading(loading){
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = loading;
+    btn.style.opacity = loading ? 0.7 : 1;
+  }
+
+  document.getElementById('authForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    hideMsg();
+
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const pin = readPin('main');
+
+    if(!email){ showMsg('Enter your email address.', 'error'); return; }
+    if(pin.length !== 6){ showMsg('Your PIN must be exactly 6 digits.', 'error'); return; }
+
+    setLoading(true);
+    try{
+      if(mode === 'signup'){
+        const businessName = document.getElementById('businessName').value.trim();
+        const confirmPin = readPin('confirm');
+        if(!businessName){ showMsg('Enter your business name.', 'error'); setLoading(false); return; }
+        if(confirmPin !== pin){ showMsg('PINs do not match.', 'error'); setLoading(false); return; }
+
+        const res = await fetch(`${API_BASE}/api/auth/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ businessName, email, pin })
+        });
+        const data = await res.json();
+        if(!res.ok){ showMsg(data.error || 'Could not create your account.', 'error'); setLoading(false); return; }
+
+        localStorage.setItem('tally_token', data.token);
+        showMsg('Account created. Redirecting to your dashboard…', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 700);
+
+      } else {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, pin })
+        });
+        const data = await res.json();
+        if(!res.ok){ showMsg(data.error || 'Incorrect email or PIN.', 'error'); setLoading(false); return; }
+
+        localStorage.setItem('tally_token', data.token);
+        showMsg('Welcome back. Redirecting…', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 500);
+      }
+    }catch(reqErr){
+    console.error("Fetch Error:", reqErr);
+
+    showMsg(reqErr.message, "error");
+
+    setLoading(false);
+}
+  });
+
+  // If already logged in, skip straight to dashboard
+  if(localStorage.getItem('tally_token')){
+    window.location.href = 'dashboard.html';
+  }
+</script>
+</body>
+</html>
