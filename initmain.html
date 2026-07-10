@@ -269,7 +269,7 @@
 
         localStorage.setItem('tally_token', data.token);
         showMsg('Account created. Redirecting to your dashboard…', 'success');
-        setTimeout(() => window.location.href = 'dashboard.html', 700);
+        setTimeout(() => window.location.href = 'initdash.html', 700);
 
       } else {
         const res = await fetch(`${API_BASE}/api/auth/login`, {
@@ -282,7 +282,7 @@
 
         localStorage.setItem('tally_token', data.token);
         showMsg('Welcome back. Redirecting…', 'success');
-        setTimeout(() => window.location.href = 'dashboard.html', 500);
+        setTimeout(() => window.location.href = 'initdash.html', 500);
       }
     }catch(reqErr){
     console.error("Fetch Error:", reqErr);
@@ -295,7 +295,7 @@
 
   // If already logged in, skip straight to dashboard
   if(localStorage.getItem('tally_token')){
-    window.location.href = 'dashboard.html';
+    window.location.href = 'initdash.html';
   }
 </script>
 </body>
