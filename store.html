@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,7 +311,64 @@
   }
   .checkout-btn:active{ transform: scale(0.98); }
   .checkout-btn i{ width:17px; height:17px; }
+  .checkout-btn:disabled{ opacity:.4; cursor:not-allowed; pointer-events:none; }
   .checkout-note{ text-align:center; font-size:11px; color: var(--muted); margin-top:10px; }
+
+  /* ---------- brand ring / preloader (shared) ---------- */
+  .brand-ring{
+    position:relative; display:flex; align-items:center; justify-content:center;
+    width:64px; height:64px; border-radius:50%;
+    border:3px solid rgba(17,17,17,0.12);
+    border-top-color: var(--ink);
+    animation: spin .8s linear infinite;
+  }
+  .brand-ring.small{ width:44px; height:44px; border-width:2.5px; }
+  .brand-ring-logo{
+    width:34px; height:34px; border-radius:50%;
+    background: var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    animation: spin-reverse .8s linear infinite;
+  }
+  .brand-ring.small .brand-ring-logo{ width:22px; height:22px; }
+  .brand-ring-logo i{ width:16px; height:16px; color:#fff; }
+  .brand-ring.small .brand-ring-logo i{ width:11px; height:11px; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  @keyframes spin-reverse{ to{ transform: rotate(-360deg); } }
+
+  .page-preloader{
+    position:fixed; inset:0; z-index:200; background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+  .page-preloader.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+
+  .pm-image{ position:relative; }
+  .pm-image-loading{
+    position:absolute; inset:0; background: rgba(255,255,255,0.9);
+    display:flex; align-items:center; justify-content:center; z-index:3;
+    transition: opacity .2s ease, visibility .2s ease;
+  }
+  .pm-image-loading.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+
+  /* ---------- toast ---------- */
+  .toast-container{
+    position:fixed; left:50%; bottom:96px; transform: translateX(-50%);
+    z-index:150; display:flex; flex-direction:column; gap:8px; align-items:center;
+    width:100%; padding:0 16px; pointer-events:none;
+  }
+  .toast{
+    display:flex; align-items:center; gap:10px;
+    background: var(--ink); color:#fff;
+    padding: 12px 18px; border-radius: 999px;
+    font-size:12.5px; font-weight:600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+    max-width:360px;
+    opacity:0; transform: translateY(12px);
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .toast.show{ opacity:1; transform: translateY(0); }
+  .toast i{ width:16px; height:16px; color:#fff; flex-shrink:0; }
+  .toast span{ color:#fff; }
 
   @media (max-width: 980px){ .grid{ grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 720px){
@@ -327,6 +383,14 @@
 </style>
 </head>
 <body>
+
+<div class="page-preloader" id="pagePreloader">
+  <div class="brand-ring">
+    <div class="brand-ring-logo"><i data-lucide="store"></i></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
 
 <div class="util-bar">
   <div class="wrap">
@@ -405,7 +469,14 @@
 <div class="product-modal" id="productModal">
   <div class="sheet-handle"></div>
   <div class="modal-close" id="closeProductModal"><i data-lucide="x"></i></div>
-  <div class="pm-image"><img id="pmImage" src="" alt=""></div>
+  <div class="pm-image">
+    <img id="pmImage" src="" alt="">
+    <div class="pm-image-loading" id="pmImageLoading">
+      <div class="brand-ring small">
+        <div class="brand-ring-logo"><i data-lucide="store"></i></div>
+      </div>
+    </div>
+  </div>
   <div class="pm-body">
     <div class="pm-badge" id="pmBadge" style="display:none;"></div>
     <div class="pm-name" id="pmName"></div>
@@ -460,7 +531,7 @@
     </div>
   </div>
   <div class="cart-footer" id="cartFooter" style="display:none;">
-    <button class="checkout-btn" id="checkoutBtn"><i data-lucide="credit-card"></i><span id="checkoutBtnLabel">Proceed to payment · ₦0</span></button>
+    <button class="checkout-btn" id="checkoutBtn" disabled><i data-lucide="credit-card"></i><span id="checkoutBtnLabel">Proceed to payment · ₦0</span></button>
     <div class="checkout-note">Payment is handled securely at the next step</div>
   </div>
 </div>
@@ -499,6 +570,27 @@
   const DELIVERY_FEE = 800;
 
   function formatPrice(n){ return "₦" + n.toLocaleString("en-NG"); }
+
+  function showToast(message){
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i data-lucide="circle-check"></i><span>${message}</span>`;
+    container.appendChild(toast);
+    initIcons();
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 250);
+    }, 2200);
+  }
+
+  const pagePreloader = document.getElementById('pagePreloader');
+  function hidePagePreloader(){
+    pagePreloader.classList.add('hidden');
+    setTimeout(() => pagePreloader.remove(), 300);
+  }
+  setTimeout(hidePagePreloader, 350);
 
   function initIcons(){
     if (window.lucide && typeof lucide.createIcons === 'function') { lucide.createIcons(); }
@@ -552,10 +644,16 @@
     else { badgeEl.style.display = 'none'; }
     document.getElementById('pmQtyValue').textContent = modalQty;
 
+    const loadingEl = document.getElementById('pmImageLoading');
+    loadingEl.classList.remove('hidden');
+    initIcons();
+
     closeCartDrawer();
     productOverlay.classList.add('open');
     productModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+
+    setTimeout(() => loadingEl.classList.add('hidden'), 400);
   }
 
   function closeProductModal(){
@@ -597,7 +695,11 @@
     });
   });
 
-  function addToCart(id, qty){ cart[id] = (cart[id] || 0) + qty; updateCartUI(); }
+  function addToCart(id, qty){
+    cart[id] = (cart[id] || 0) + qty;
+    updateCartUI();
+    showToast(`${products[id].name} added to cart`);
+  }
   function setQty(id, qty){
     if(qty <= 0){ delete cart[id]; } else { cart[id] = qty; }
     updateCartUI(); renderCartItems();
@@ -684,6 +786,7 @@
   function openCartDrawer(){
     closeProductModal();
     renderCartItems();
+    validateCheckoutForm();
     cartOverlay.classList.add('open');
     cartDrawer.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -703,11 +806,24 @@
     const email = document.getElementById('ckEmail').value.trim();
     const phone = document.getElementById('ckPhone').value.trim();
     const address = document.getElementById('ckAddress').value.trim();
-    if(!name || !email || !phone || !address){
-      alert('Please fill in your name, email, phone, and delivery address to continue.');
-      return;
-    }
     alert(`Thanks, ${name}! This is a template — wire this button up to your real payment provider (Paystack, Flutterwave, Stripe, etc.) to take this live.`);
+  });
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phonePattern = /^[0-9+\-\s()]{7,}$/;
+
+  function validateCheckoutForm(){
+    const name = document.getElementById('ckName').value.trim();
+    const email = document.getElementById('ckEmail').value.trim();
+    const phone = document.getElementById('ckPhone').value.trim();
+    const address = document.getElementById('ckAddress').value.trim();
+    const valid = name.length >= 2 && emailPattern.test(email) && phonePattern.test(phone) && address.length >= 5;
+    document.getElementById('checkoutBtn').disabled = !valid;
+    return valid;
+  }
+
+  ['ckName','ckEmail','ckPhone','ckAddress'].forEach(fieldId => {
+    document.getElementById(fieldId).addEventListener('input', validateCheckoutForm);
   });
 
   document.querySelectorAll('.chip').forEach(chip=>{
