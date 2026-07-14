@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,8 @@
 
   *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+
   body{
     font-family: var(--font);
     background: var(--bg);
@@ -33,6 +36,10 @@
 
   a{ color:inherit; text-decoration:none; }
   button{ font-family:var(--font); }
+
+  /* Defensive: iOS Safari zooms the viewport on focus if any input's
+     effective font-size is under 16px. Force 16px on every field. */
+  input, textarea, select{ font-size:16px !important; touch-action: manipulation; }
 
   .wrap{ max-width:1240px; margin:0 auto; padding:0 32px; }
 
@@ -131,11 +138,12 @@
   .search-bar{
     display:flex; align-items:center; gap:10px;
     border:1px solid var(--line); border-radius: 10px; padding: 13px 16px;
+    cursor:text;
   }
   .search-bar i{ width:18px; height:18px; color: var(--muted); flex-shrink:0; cursor:pointer; }
   .search-bar input{
     border:none; outline:none; background:transparent;
-    font-family: var(--font); font-size:16px; color: var(--ink); width:100%;
+    font-family: var(--font); color: var(--ink); width:100%;
   }
   .search-bar input::placeholder{ color: var(--muted); }
 
@@ -151,7 +159,9 @@
   }
   .search-dropdown-item:hover{ background:var(--surface); color:var(--ink); }
   .search-dropdown-item i{ width:15px; height:15px; color:var(--muted); flex-shrink:0; }
+  .search-dropdown-item .cat-tag{ margin-left:auto; font-size:10.5px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; flex-shrink:0; }
   .search-dropdown-empty{ padding:14px 10px; font-size:12.5px; color:var(--muted); text-align:center; }
+  .search-dropdown-label{ padding:8px 10px 4px; font-size:10.5px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
 
   .chips{
     display:flex; gap:10px; margin-top:22px;
@@ -221,6 +231,11 @@
     position:absolute; top:10px; left:10px; background: var(--ink); color:#fff;
     font-size:10px; font-weight:700; padding:4px 8px; border-radius:6px;
   }
+  .card-cat{
+    position:absolute; bottom:10px; left:10px; background: rgba(255,255,255,0.92); color: var(--ink);
+    font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+    padding:4px 8px; border-radius:6px;
+  }
   .card-body{ padding:13px 2px 0; }
   .card-body .name{ font-size:13.5px; font-weight:600; line-height:1.35; }
   .card-body .rating{ display:flex; align-items:center; gap:4px; margin-top:5px; font-size:11.5px; color: var(--muted); }
@@ -269,6 +284,11 @@
   .pm-badge{
     display:inline-block; background: var(--ink); color:#fff;
     font-size:10px; font-weight:700; padding:4px 9px; border-radius:6px; margin-bottom:10px;
+  }
+  .pm-cat{
+    display:inline-block; background: var(--surface); color: var(--ink-soft); border:1px solid var(--line);
+    font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+    padding:4px 9px; border-radius:6px; margin-bottom:10px; margin-left:6px;
   }
   .pm-name{ font-size:20px; font-weight:800; letter-spacing:-.01em; }
   .pm-rating{ display:flex; align-items:center; gap:5px; margin-top:8px; font-size:12.5px; color: var(--muted); }
@@ -328,7 +348,7 @@
   .field label{ font-size:11.5px; font-weight:700; color: var(--ink-soft); display:block; margin-bottom:6px; }
   .field-input{ display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:10px; padding:11px 13px; }
   .field-input i{ width:16px; height:16px; color: var(--muted); flex-shrink:0; }
-  .field-input input{ border:none; outline:none; background:transparent; font-family: var(--font); font-size:16px; color: var(--ink); width:100%; }
+  .field-input input{ border:none; outline:none; background:transparent; font-family: var(--font); color: var(--ink); width:100%; }
   .field-input input::placeholder{ color: var(--muted); }
   .field-row{ display:flex; gap:10px; }
   .field-row .field{ flex:1; }
@@ -344,27 +364,18 @@
   .checkout-btn:disabled{ opacity:.4; cursor:not-allowed; pointer-events:none; }
   .checkout-note{ text-align:center; font-size:11px; color: var(--muted); margin-top:10px; }
 
-  /* ---------- brand ring / preloader (shared, real image) ---------- */
+  /* ---------- brand preloader (real store image, no ring/border) ---------- */
   .brand-ring{
-    position:relative; display:flex; align-items:center; justify-content:center;
-    width:64px; height:64px; border-radius:50%;
-    border:3px solid rgba(17,17,17,0.12);
-    border-top-color: var(--ink);
-    animation: spin .8s linear infinite;
+    width:64px; height:64px; border-radius:50%; overflow:hidden;
+    box-shadow: 0 6px 20px rgba(17,17,17,0.14);
+    animation: brand-pulse 1.1s ease-in-out infinite;
   }
-  .brand-ring.small{ width:44px; height:44px; border-width:2.5px; }
-  .brand-ring-logo{
-    width:34px; height:34px; border-radius:50%;
-    overflow:hidden;
-    background: var(--surface);
-    border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    animation: spin-reverse .8s linear infinite;
+  .brand-ring.small{ width:44px; height:44px; box-shadow: 0 4px 14px rgba(17,17,17,0.12); }
+  .brand-ring img{ width:100%; height:100%; object-fit:cover; display:block; }
+  @keyframes brand-pulse{
+    0%, 100%{ transform: scale(1); opacity:1; }
+    50%{ transform: scale(0.86); opacity:.65; }
   }
-  .brand-ring.small .brand-ring-logo{ width:22px; height:22px; }
-  .brand-ring-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-  @keyframes spin{ to{ transform: rotate(360deg); } }
-  @keyframes spin-reverse{ to{ transform: rotate(-360deg); } }
 
   .page-preloader{
     position:fixed; inset:0; z-index:200; background:#fff;
@@ -441,6 +452,130 @@
   .me-list-label{ flex:1; font-size:13.5px; font-weight:600; }
   .me-list-item .chevron{ width:16px; height:16px; color:var(--muted); }
 
+  /* ---------- shared sub-sheet header (history / orders / chats / settings) ---------- */
+  .sub-panel{
+    position:fixed; left:50%; bottom:0; z-index:97; width:100%; max-width:480px;
+    transform: translate(-50%, 100%); transition: transform .3s ease;
+    background:#fff; border-radius: 22px 22px 0 0; max-height:88vh;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .sub-panel.open{ transform: translate(-50%, 0); }
+  .sub-panel-header{ display:flex; align-items:center; gap:12px; padding: 14px 18px 14px; border-bottom:1px solid var(--line); flex-shrink:0; }
+  .sub-panel-header .back-btn{
+    width:34px; height:34px; border-radius:50%; background: var(--surface); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .sub-panel-header .back-btn i{ width:17px; height:17px; }
+  .sub-panel-header h3{ font-size:16px; font-weight:800; flex:1; }
+  .sub-panel-header .modal-close{ position:static; }
+  .sub-panel-body{ overflow-y:auto; padding: 14px 18px 26px; flex:1; }
+
+  /* store history */
+  .history-row{ display:flex; align-items:center; gap:13px; padding:12px 6px; border-bottom:1px solid var(--line-soft); }
+  .history-row:last-child{ border-bottom:none; }
+  .row-logo{ width:48px; height:48px; border-radius:12px; object-fit:cover; border:1px solid var(--line-soft); flex-shrink:0; background:var(--surface); }
+  .history-info{ flex:1; min-width:0; }
+  .history-info .name{ font-size:13.5px; font-weight:700; }
+  .history-info .loc{ display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--muted); margin-top:3px; }
+  .history-info .loc i{ width:12px; height:12px; flex-shrink:0; }
+  .visit-btn{
+    flex-shrink:0; background: var(--ink); color:#fff; border:none; padding:9px 15px; border-radius:999px;
+    font-size:11.5px; font-weight:700; cursor:pointer;
+  }
+
+  /* orders */
+  .order-row{ display:flex; align-items:center; gap:13px; padding:13px 6px; border-bottom:1px solid var(--line-soft); }
+  .order-row:last-child{ border-bottom:none; }
+  .order-info{ flex:1; min-width:0; }
+  .order-info .name{ font-size:13.5px; font-weight:700; }
+  .order-info .amount{ font-size:12.5px; color:var(--ink-soft); margin-top:3px; font-weight:600; }
+  .status-pill{ display:inline-block; font-size:10.5px; font-weight:700; padding:4px 10px; border-radius:999px; margin-top:7px; }
+  .status-pill.delivered{ background:#E6F4EC; color:#1A7F4B; }
+  .status-pill.transit{ background:#FCF0DC; color:#9A6413; }
+  .status-pill.processing{ background:#EAF0FE; color:#2952CC; }
+  .status-pill.cancelled{ background:#FBE9E7; color:#B3261E; }
+
+  /* chats list */
+  .chat-row{ display:flex; align-items:center; gap:13px; padding:12px 6px; border-bottom:1px solid var(--line-soft); cursor:pointer; transition:background .15s ease; }
+  .chat-row:hover{ background:var(--surface); }
+  .chat-row:last-child{ border-bottom:none; }
+  .chat-row-info{ flex:1; min-width:0; }
+  .chat-row-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .chat-row-top .name{ font-size:13.5px; font-weight:700; }
+  .chat-row-top .time{ font-size:11px; color:var(--muted); flex-shrink:0; }
+  .chat-row .preview{ font-size:12px; color:var(--muted); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* settings */
+  .settings-avatar-wrap{ display:flex; justify-content:center; margin: 6px 0 22px; }
+  .settings-avatar{ position:relative; width:84px; height:84px; }
+  .settings-avatar img{ width:100%; height:100%; border-radius:50%; object-fit:cover; border:1px solid var(--line); background:var(--surface); display:block; }
+  .avatar-edit-btn{
+    position:absolute; bottom:-2px; right:-2px; width:28px; height:28px; border-radius:50%;
+    background: var(--ink); border:2px solid #fff; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .avatar-edit-btn i{ width:13px; height:13px; color:#fff; }
+  .settings-save-btn{
+    width:100%; margin-top:8px; display:flex; align-items:center; justify-content:center; gap:8px;
+    background: var(--ink); color:#fff; border:none; padding:15px; border-radius:12px;
+    font-size:14px; font-weight:700; cursor:pointer;
+  }
+  .settings-save-btn:active{ transform: scale(0.98); }
+  .settings-save-btn i{ width:16px; height:16px; }
+
+  /* ---------- chat window (full page) ---------- */
+  .chat-window{
+    position:fixed; inset:0; z-index:99; background:#fff;
+    transform: translateY(100%); transition: transform .3s ease;
+    display:flex; flex-direction:column;
+  }
+  .chat-window.open{ transform: translateY(0); }
+  .chat-window-header{ display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line); flex-shrink:0; }
+  .chat-window-header .back-btn{
+    width:34px; height:34px; border-radius:50%; background: var(--surface); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .chat-window-header .back-btn i{ width:17px; height:17px; }
+  .chat-window-header img{ width:38px; height:38px; border-radius:50%; object-fit:cover; border:1px solid var(--line-soft); flex-shrink:0; }
+  .chat-window-header .who{ flex:1; min-width:0; }
+  .chat-window-header .who .name{ font-size:13.5px; font-weight:800; }
+  .chat-window-header .who .status{ font-size:11px; color:#1A7F4B; margin-top:1px; }
+  .call-btn{
+    width:38px; height:38px; border-radius:50%; background: var(--ink); border:none;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .call-btn i{ width:17px; height:17px; color:#fff; }
+
+  .chat-window-body{ flex:1; overflow-y:auto; padding:18px 16px; display:flex; flex-direction:column; gap:10px; background: var(--surface); }
+  .msg-row{ display:flex; }
+  .msg-row.out{ justify-content:flex-end; }
+  .msg-row.in{ justify-content:flex-start; }
+  .msg-bubble{ max-width:78%; padding:10px 14px; border-radius:16px; font-size:13px; line-height:1.45; }
+  .msg-row.out .msg-bubble{ background: var(--ink); color:#fff; border-bottom-right-radius:4px; }
+  .msg-row.in .msg-bubble{ background:#fff; color:var(--ink); border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .msg-time{ font-size:9.5px; opacity:.6; margin-top:4px; display:block; }
+  .msg-voice{ display:flex; align-items:center; gap:9px; min-width:150px; }
+  .msg-voice .play-btn{ width:26px; height:26px; border-radius:50%; background: rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .msg-row.in .msg-voice .play-btn{ background: var(--surface); }
+  .msg-voice .play-btn i{ width:13px; height:13px; }
+  .msg-row.out .msg-voice .play-btn i{ color:#fff; }
+  .msg-voice .wave{ flex:1; height:18px; display:flex; align-items:center; gap:2px; }
+  .msg-voice .wave span{ width:2.5px; border-radius:2px; background: currentColor; opacity:.55; }
+  .msg-voice .dur{ font-size:10.5px; opacity:.75; flex-shrink:0; }
+
+  .chat-window-inputbar{ display:flex; align-items:center; gap:8px; padding:12px 14px calc(12px + env(safe-area-inset-bottom)); border-top:1px solid var(--line); flex-shrink:0; background:#fff; }
+  .chat-window-inputbar input{ flex:1; border:1px solid var(--line); border-radius:999px; padding:11px 16px; outline:none; background: var(--surface); font-family:var(--font); color:var(--ink); }
+  .chat-window-inputbar input::placeholder{ color:var(--muted); }
+  .chat-icon-btn{ width:40px; height:40px; border-radius:50%; border:none; background: var(--surface); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+  .chat-icon-btn i{ width:18px; height:18px; color: var(--ink); }
+  .chat-icon-btn.send{ background: var(--ink); border-color: var(--ink); }
+  .chat-icon-btn.send i{ color:#fff; }
+  .chat-icon-btn.recording{ background:#B3261E; border-color:#B3261E; animation: rec-pulse 1s ease-in-out infinite; }
+  .chat-icon-btn.recording i{ color:#fff; }
+  @keyframes rec-pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(179,38,30,0.35); } 50%{ box-shadow:0 0 0 8px rgba(179,38,30,0); } }
+
+  .empty-sub{ text-align:center; padding:60px 16px; color:var(--muted); font-size:13px; }
+  .empty-sub i{ width:34px; height:34px; color:var(--line); margin-bottom:12px; }
+
   @media (max-width: 980px){ .grid{ grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 720px){
     .wrap{ padding:0 18px; }
@@ -457,9 +592,7 @@
 
 <div class="page-preloader" id="pagePreloader">
   <div class="brand-ring">
-    <div class="brand-ring-logo">
-      <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80" alt="Store logo">
-    </div>
+    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80" alt="Store logo">
   </div>
 </div>
 
@@ -509,7 +642,7 @@
 <main>
   <div class="wrap">
     <div class="search-wrap">
-      <div class="search-bar">
+      <div class="search-bar" id="inlineSearchBar">
         <i data-lucide="search" id="inlineSearchIcon"></i>
         <input type="text" id="searchInput" placeholder="Search products in this store" autocomplete="off" enterkeyhint="search">
       </div>
@@ -537,9 +670,7 @@
     <div class="products-area" id="productsArea">
       <div class="grid-loading" id="gridLoading">
         <div class="brand-ring small">
-          <div class="brand-ring-logo">
-            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80" alt="Loading">
-          </div>
+          <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80" alt="Loading">
         </div>
       </div>
       <div id="productsContent"></div>
@@ -557,14 +688,13 @@
     <img id="pmImage" src="" alt="">
     <div class="pm-image-loading" id="pmImageLoading">
       <div class="brand-ring small">
-        <div class="brand-ring-logo">
-          <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80" alt="Loading">
-        </div>
+        <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80" alt="Loading">
       </div>
     </div>
   </div>
   <div class="pm-body">
     <div class="pm-badge" id="pmBadge" style="display:none;"></div>
+    <div class="pm-cat" id="pmCat" style="display:none;"></div>
     <div class="pm-name" id="pmName"></div>
     <div class="pm-rating"><i data-lucide="star"></i><span id="pmRating"></span></div>
     <div class="pm-price" id="pmPrice"></div>
@@ -647,9 +777,9 @@
   <div class="sheet-handle"></div>
   <div class="modal-close" id="closeMePanel"><i data-lucide="x"></i></div>
   <div class="me-header">
-    <div class="me-avatar"><span>JD</span></div>
-    <div class="me-name">Jane Doe</div>
-    <div class="me-email">jane.doe@email.com</div>
+    <div class="me-avatar"><img id="meAvatarImg" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&h=200&q=80" alt="Profile photo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>
+    <div class="me-name" id="meNameDisplay">Jane Doe</div>
+    <div class="me-email" id="meEmailDisplay">jane.doe@email.com</div>
     <div class="me-joined"><i data-lucide="calendar"></i><span>Member since March 2025</span></div>
   </div>
   <div class="me-divider"></div>
@@ -664,9 +794,9 @@
       <div class="me-list-label">Orders</div>
       <i data-lucide="chevron-right" class="chevron"></i>
     </div>
-    <div class="me-list-item" data-me-action="chat">
+    <div class="me-list-item" data-me-action="chats">
       <div class="me-list-icon"><i data-lucide="message-circle"></i></div>
-      <div class="me-list-label">Chat</div>
+      <div class="me-list-label">Chats</div>
       <i data-lucide="chevron-right" class="chevron"></i>
     </div>
     <div class="me-list-item" data-me-action="settings">
@@ -674,6 +804,90 @@
       <div class="me-list-label">Settings</div>
       <i data-lucide="chevron-right" class="chevron"></i>
     </div>
+  </div>
+</div>
+
+<!-- Store history sub-panel -->
+<div class="sub-panel" id="historyPanel">
+  <div class="sub-panel-header">
+    <div class="back-btn" id="historyBack"><i data-lucide="chevron-left"></i></div>
+    <h3>Store history</h3>
+    <div class="modal-close" id="historyClose"><i data-lucide="x"></i></div>
+  </div>
+  <div class="sub-panel-body" id="historyBody"></div>
+</div>
+
+<!-- Orders sub-panel -->
+<div class="sub-panel" id="ordersPanel">
+  <div class="sub-panel-header">
+    <div class="back-btn" id="ordersBack"><i data-lucide="chevron-left"></i></div>
+    <h3>Orders</h3>
+    <div class="modal-close" id="ordersClose"><i data-lucide="x"></i></div>
+  </div>
+  <div class="sub-panel-body" id="ordersBody"></div>
+</div>
+
+<!-- Chats list sub-panel -->
+<div class="sub-panel" id="chatsListPanel">
+  <div class="sub-panel-header">
+    <div class="back-btn" id="chatsListBack"><i data-lucide="chevron-left"></i></div>
+    <h3>Chats</h3>
+    <div class="modal-close" id="chatsListClose"><i data-lucide="x"></i></div>
+  </div>
+  <div class="sub-panel-body" id="chatsListBody"></div>
+</div>
+
+<!-- Settings sub-panel -->
+<div class="sub-panel" id="settingsPanel">
+  <div class="sub-panel-header">
+    <div class="back-btn" id="settingsBack"><i data-lucide="chevron-left"></i></div>
+    <h3>Settings</h3>
+    <div class="modal-close" id="settingsClose"><i data-lucide="x"></i></div>
+  </div>
+  <div class="sub-panel-body">
+    <div class="settings-avatar-wrap">
+      <div class="settings-avatar">
+        <img id="settingsAvatarPreview" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&h=200&q=80" alt="Profile photo">
+        <div class="avatar-edit-btn" id="avatarEditBtn"><i data-lucide="camera"></i></div>
+      </div>
+      <input type="file" accept="image/*" id="avatarFileInput" style="display:none;">
+    </div>
+    <div class="field">
+      <label>Full name</label>
+      <div class="field-input"><i data-lucide="user"></i><input type="text" id="setName" value="Jane Doe"></div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <div class="field-input"><i data-lucide="mail"></i><input type="email" id="setEmail" value="jane.doe@email.com"></div>
+    </div>
+    <div class="field">
+      <label>Phone number</label>
+      <div class="field-input"><i data-lucide="phone"></i><input type="tel" id="setPhone" value="080 123 4567"></div>
+    </div>
+    <div class="field">
+      <label>Delivery address</label>
+      <div class="field-input"><i data-lucide="map-pin"></i><input type="text" id="setAddress" value="12 Ademola Street, Lekki, Lagos"></div>
+    </div>
+    <button class="settings-save-btn" id="settingsSaveBtn"><i data-lucide="check"></i><span>Save changes</span></button>
+  </div>
+</div>
+
+<!-- Chat conversation window -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-window-header">
+    <div class="back-btn" id="chatWindowBack"><i data-lucide="chevron-left"></i></div>
+    <img id="chatWindowLogo" src="" alt="">
+    <div class="who">
+      <div class="name" id="chatWindowName"></div>
+      <div class="status">Usually replies within an hour</div>
+    </div>
+    <a class="call-btn" id="chatWindowCall" href="#" aria-label="Call store"><i data-lucide="phone"></i></a>
+  </div>
+  <div class="chat-window-body" id="chatWindowBody"></div>
+  <div class="chat-window-inputbar">
+    <button class="chat-icon-btn" id="chatVoiceBtn" aria-label="Send voice note"><i data-lucide="mic"></i></button>
+    <input type="text" id="chatTextInput" placeholder="Type a message" autocomplete="off" enterkeyhint="send">
+    <button class="chat-icon-btn send" id="chatSendBtn" aria-label="Send message"><i data-lucide="send"></i></button>
   </div>
 </div>
 
@@ -703,7 +917,19 @@
       description: "Full-grain leather with a structured base that holds its shape. Interior pocket keeps small essentials organised." },
     necklace: { name: "Fine chain necklace", price: 14200, badge: "-10%", rating: 4.7, sold: 63, category: "accessories", isNew: true,
       image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=700&q=80",
-      description: "An 18k gold-plated chain with a lobster clasp. Tarnish-resistant and safe for everyday wear." }
+      description: "An 18k gold-plated chain with a lobster clasp. Tarnish-resistant and safe for everyday wear." },
+    joggers: { name: "Tapered jersey joggers", price: 15800, badge: null, rating: 4.6, sold: 74, category: "apparel", isNew: false,
+      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=700&q=80",
+      description: "Soft brushed jersey with a tapered leg and elastic waistband. Built for lounging or running errands." },
+    runner: { name: "Lightweight running trainer", price: 31500, badge: "New", rating: 4.8, sold: 29, category: "footwear", isNew: true,
+      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",
+      description: "A breathable mesh upper over a responsive foam sole, tuned for daily miles without weighing you down." },
+    candle: { name: "Amber glass candle", price: 8600, badge: null, rating: 4.9, sold: 65, category: "home", isNew: false,
+      image: "https://images.unsplash.com/photo-1602874801007-bd36c0d1e2b0?auto=format&fit=crop&w=700&q=80",
+      description: "A soy-blend candle in a reusable amber glass jar with roughly 40 hours of clean, even burn time." },
+    throwblanket: { name: "Ribbed cotton throw", price: 21200, badge: null, rating: 4.7, sold: 33, category: "home", isNew: false,
+      image: "https://images.unsplash.com/photo-1580301762395-83c8f9226f10?auto=format&fit=crop&w=700&q=80",
+      description: "A generously sized ribbed-knit throw in brushed cotton, perfect for the sofa or the foot of the bed." }
   };
 
   const bestSellerIds = ["crewneck", "sneaker", "watch", "backpack"];
@@ -767,6 +993,7 @@
         <div class="card-image">
           ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ""}
           <img src="${p.image}" alt="${escapeHtml(p.name)}">
+          <span class="card-cat">${categoryLabels[p.category] || p.category}</span>
           <button class="quick-add" data-quick-add="${id}" aria-label="Add to cart"><i data-lucide="circle-plus"></i></button>
         </div>
         <div class="card-body">
@@ -831,11 +1058,11 @@
       }
       if(ids.length === 0){
         const msg = activeFilter.type === "search"
-          ? `We couldn't find anything for "${escapeHtml(activeFilter.query)}"`
-          : `Nothing here just yet`;
+          ? `No matches for "${escapeHtml(activeFilter.query)}"`
+          : `Nothing in this category yet`;
         const sub = activeFilter.type === "search"
-          ? `Try a different search term, or browse our full collection below.`
-          : `We're still stocking this category — check back soon or browse everything below.`;
+          ? `We couldn't find any products for that search. Try a different term, or browse our full collection below.`
+          : `We're still stocking this category — check back soon, or browse everything we currently have below.`;
         content.innerHTML = emptyStateHTML(msg, sub, `<button id="resetFilterBtn">Browse all products</button>`);
       } else {
         content.innerHTML = singleSectionHTML(label, 'filteredGrid');
@@ -897,7 +1124,8 @@
     const q = filterText.trim().toLowerCase();
     const ids = Object.keys(products).filter(id => !q || products[id].name.toLowerCase().includes(q));
     if(ids.length === 0) return `<div class="search-dropdown-empty">No matching products</div>`;
-    return ids.map(id => `<div class="search-dropdown-item" data-suggest="${id}"><i data-lucide="search"></i>${escapeHtml(products[id].name)}</div>`).join("");
+    const label = q ? '' : `<div class="search-dropdown-label">All products</div>`;
+    return label + ids.map(id => `<div class="search-dropdown-item" data-suggest="${id}"><i data-lucide="search"></i>${escapeHtml(products[id].name)}<span class="cat-tag">${categoryLabels[products[id].category] || products[id].category}</span></div>`).join("");
   }
 
   function showSearchDropdown(){
@@ -908,6 +1136,7 @@
   function hideSearchDropdown(){ searchDropdown.classList.add('hidden'); }
 
   searchInput.addEventListener('focus', showSearchDropdown);
+  searchInput.addEventListener('click', showSearchDropdown);
   searchInput.addEventListener('input', showSearchDropdown);
   searchInput.addEventListener('keydown', (e) => {
     if(e.key === 'Enter'){ e.preventDefault(); performInlineSearch(searchInput.value); }
@@ -951,6 +1180,9 @@
     const badgeEl = document.getElementById('pmBadge');
     if(p.badge){ badgeEl.style.display = 'inline-block'; badgeEl.textContent = p.badge; }
     else { badgeEl.style.display = 'none'; }
+    const catEl = document.getElementById('pmCat');
+    catEl.style.display = 'inline-block';
+    catEl.textContent = categoryLabels[p.category] || p.category;
     document.getElementById('pmQtyValue').textContent = modalQty;
 
     const loadingEl = document.getElementById('pmImageLoading');
@@ -1173,8 +1405,8 @@
     const ids = matchIds(query);
     if(ids.length === 0){
       resultsEl.innerHTML = emptyStateHTML(
-        `We couldn't find anything for "${escapeHtml(query)}"`,
-        `Try a different search term, or explore the full store from the home tab.`,
+        `No matches for "${escapeHtml(query)}"`,
+        `We couldn't find any products for that search. Try a different term, or explore the full store from the home tab.`,
         `<button id="clearSearchPageBtn">Clear search</button>`
       );
     } else {
@@ -1209,6 +1441,8 @@
     closeSearchPage();
     closeProductModal();
     closeCartDrawer();
+    closeAllSubPanels();
+    closeChatWindow();
     meOverlay.classList.add('open');
     mePanel.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1219,11 +1453,321 @@
     document.body.style.overflow = '';
   }
   document.getElementById('closeMePanel').addEventListener('click', () => { closeMePanel(); setActiveNav('home'); });
-  meOverlay.addEventListener('click', () => { closeMePanel(); setActiveNav('home'); });
+  meOverlay.addEventListener('click', () => {
+    closeMePanel(); closeAllSubPanels(); closeChatWindow(); setActiveNav('home');
+  });
+
+  /* current customer profile (this is a template — wire this to real auth/account data) */
+  const profile = {
+    name: "Jane Doe",
+    email: "jane.doe@email.com",
+    phone: "080 123 4567",
+    address: "12 Ademola Street, Lekki, Lagos",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&h=200&q=80"
+  };
+
+  /* the store this template represents, used when chatting from the bottom-nav Chat tab */
+  const currentStore = {
+    id: "northfield",
+    name: "Northfield",
+    logo: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=120&h=120&q=80",
+    phone: "+2348012345678"
+  };
+
+  const storeHistory = [
+    { name: "Northfield", logo: currentStore.logo, location: "Victoria Island, Lagos" },
+    { name: "Urban Roots", logo: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=120&h=120&q=80", location: "Ikeja, Lagos" },
+    { name: "Palm & Co", logo: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=120&h=120&q=80", location: "Lekki Phase 1, Lagos" },
+    { name: "The Corner Store", logo: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=120&h=120&q=80", location: "Yaba, Lagos" }
+  ];
+
+  const orders = [
+    { store: "Northfield", logo: currentStore.logo, amount: 45200, status: "delivered", statusLabel: "Delivered" },
+    { store: "Urban Roots", logo: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=120&h=120&q=80", amount: 18700, status: "transit", statusLabel: "In transit" },
+    { store: "Palm & Co", logo: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=120&h=120&q=80", amount: 9300, status: "processing", statusLabel: "Processing" },
+    { store: "The Corner Store", logo: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=120&h=120&q=80", amount: 12650, status: "cancelled", statusLabel: "Cancelled" }
+  ];
+
+  const chatStores = [
+    { id: "northfield", name: "Northfield", logo: currentStore.logo, phone: currentStore.phone, preview: "Your order has shipped! It should arrive within 25–35 minutes.", time: "2h" },
+    { id: "urbanroots", name: "Urban Roots", logo: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=120&h=120&q=80", phone: "+2348023456789", preview: "Thanks for shopping with us, see you again soon!", time: "1d" },
+    { id: "palmco", name: "Palm & Co", logo: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=120&h=120&q=80", phone: "+2348034567890", preview: "We've refunded your last order in full.", time: "4d" }
+  ];
+
+  const chatMessages = {
+    northfield: [
+      { from: "in", type: "text", text: "Hi Jane! Welcome to Northfield 👋 how can we help today?", time: "10:02 AM" },
+      { from: "out", type: "text", text: "Hey, just checking on my delivery time", time: "10:05 AM" },
+      { from: "in", type: "text", text: "Your order has shipped! It should arrive within 25–35 minutes.", time: "10:06 AM" }
+    ],
+    urbanroots: [
+      { from: "in", type: "text", text: "Thanks for shopping with us, see you again soon!", time: "Yesterday" }
+    ],
+    palmco: [
+      { from: "in", type: "text", text: "We've refunded your last order in full.", time: "4 days ago" },
+      { from: "out", type: "text", text: "Perfect, thank you!", time: "4 days ago" }
+    ]
+  };
+
+  function findChatStore(id){
+    if(id === currentStore.id) return currentStore;
+    return chatStores.find(s => s.id === id);
+  }
+
+  /* -------- sub-panels: history / orders / chats / settings -------- */
+  const subPanels = {
+    history: document.getElementById('historyPanel'),
+    orders: document.getElementById('ordersPanel'),
+    chats: document.getElementById('chatsListPanel'),
+    settings: document.getElementById('settingsPanel')
+  };
+
+  function closeAllSubPanels(){
+    Object.values(subPanels).forEach(p => p.classList.remove('open'));
+  }
+
+  function openSubPanel(key){
+    closeAllSubPanels();
+    mePanel.classList.remove('open');
+    subPanels[key].classList.add('open');
+    document.body.style.overflow = 'hidden';
+    meOverlay.classList.add('open');
+  }
+
+  function backToMeFromSubPanel(){
+    closeAllSubPanels();
+    mePanel.classList.add('open');
+  }
+
+  function renderHistoryPanel(){
+    const body = document.getElementById('historyBody');
+    if(storeHistory.length === 0){
+      body.innerHTML = `<div class="empty-sub"><i data-lucide="clock"></i><div>No stores visited yet. Once you browse a store, it'll show up here.</div></div>`;
+    } else {
+      body.innerHTML = storeHistory.map(h => `
+        <div class="history-row">
+          <img class="row-logo" src="${h.logo}" alt="${escapeHtml(h.name)}">
+          <div class="history-info">
+            <div class="name">${escapeHtml(h.name)}</div>
+            <div class="loc"><i data-lucide="map-pin"></i>${escapeHtml(h.location)}</div>
+          </div>
+          <button class="visit-btn" data-visit="${escapeHtml(h.name)}">Visit</button>
+        </div>`).join("");
+    }
+    initIcons();
+  }
+
+  function renderOrdersPanel(){
+    const body = document.getElementById('ordersBody');
+    if(orders.length === 0){
+      body.innerHTML = `<div class="empty-sub"><i data-lucide="package"></i><div>No orders yet. Anything you buy across stores will show up here.</div></div>`;
+    } else {
+      body.innerHTML = orders.map(o => `
+        <div class="order-row">
+          <img class="row-logo" src="${o.logo}" alt="${escapeHtml(o.store)}">
+          <div class="order-info">
+            <div class="name">${escapeHtml(o.store)}</div>
+            <div class="amount">${formatPrice(o.amount)}</div>
+            <span class="status-pill ${o.status}">${escapeHtml(o.statusLabel)}</span>
+          </div>
+        </div>`).join("");
+    }
+    initIcons();
+  }
+
+  function renderChatsListPanel(){
+    const body = document.getElementById('chatsListBody');
+    if(chatStores.length === 0){
+      body.innerHTML = `<div class="empty-sub"><i data-lucide="message-circle"></i><div>No conversations yet. Message a store and it'll appear here.</div></div>`;
+    } else {
+      body.innerHTML = chatStores.map(c => `
+        <div class="chat-row" data-chat-store="${c.id}">
+          <img class="row-logo" style="border-radius:50%;" src="${c.logo}" alt="${escapeHtml(c.name)}">
+          <div class="chat-row-info">
+            <div class="chat-row-top"><div class="name">${escapeHtml(c.name)}</div><div class="time">${escapeHtml(c.time)}</div></div>
+            <div class="preview">${escapeHtml(c.preview)}</div>
+          </div>
+        </div>`).join("");
+    }
+    initIcons();
+  }
+
+  document.getElementById('historyBody').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-visit]');
+    if(btn) showToast(`Opening ${btn.dataset.visit} — connect this to real store routing.`);
+  });
+
+  document.getElementById('chatsListBody').addEventListener('click', (e) => {
+    const row = e.target.closest('[data-chat-store]');
+    if(row) openChatWindow(row.dataset.chatStore, 'chatsList');
+  });
+
   document.querySelectorAll('.me-list-item').forEach(item => {
     item.addEventListener('click', () => {
-      showToast('This is a template — connect real account pages here.');
+      const action = item.dataset.meAction;
+      if(action === 'history'){ renderHistoryPanel(); openSubPanel('history'); }
+      else if(action === 'orders'){ renderOrdersPanel(); openSubPanel('orders'); }
+      else if(action === 'chats'){ renderChatsListPanel(); openSubPanel('chats'); }
+      else if(action === 'settings'){ openSubPanel('settings'); }
     });
+  });
+
+  document.getElementById('historyBack').addEventListener('click', backToMeFromSubPanel);
+  document.getElementById('ordersBack').addEventListener('click', backToMeFromSubPanel);
+  document.getElementById('chatsListBack').addEventListener('click', backToMeFromSubPanel);
+  document.getElementById('settingsBack').addEventListener('click', backToMeFromSubPanel);
+  document.getElementById('historyClose').addEventListener('click', () => { closeAllSubPanels(); closeMePanel(); setActiveNav('home'); });
+  document.getElementById('ordersClose').addEventListener('click', () => { closeAllSubPanels(); closeMePanel(); setActiveNav('home'); });
+  document.getElementById('chatsListClose').addEventListener('click', () => { closeAllSubPanels(); closeMePanel(); setActiveNav('home'); });
+  document.getElementById('settingsClose').addEventListener('click', () => { closeAllSubPanels(); closeMePanel(); setActiveNav('home'); });
+
+  /* -------- settings: editable profile + avatar -------- */
+  document.getElementById('avatarEditBtn').addEventListener('click', () => {
+    document.getElementById('avatarFileInput').click();
+  });
+  document.getElementById('avatarFileInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      document.getElementById('settingsAvatarPreview').src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('settingsSaveBtn').addEventListener('click', () => {
+    profile.name = document.getElementById('setName').value.trim() || profile.name;
+    profile.email = document.getElementById('setEmail').value.trim() || profile.email;
+    profile.phone = document.getElementById('setPhone').value.trim() || profile.phone;
+    profile.address = document.getElementById('setAddress').value.trim() || profile.address;
+    profile.avatar = document.getElementById('settingsAvatarPreview').src;
+
+    document.getElementById('meNameDisplay').textContent = profile.name;
+    document.getElementById('meEmailDisplay').textContent = profile.email;
+    document.getElementById('meAvatarImg').src = profile.avatar;
+    document.getElementById('ckName').value = profile.name;
+    document.getElementById('ckEmail').value = profile.email;
+    document.getElementById('ckPhone').value = profile.phone;
+    document.getElementById('ckAddress').value = profile.address;
+
+    showToast('Profile updated');
+    backToMeFromSubPanel();
+  });
+
+  /* -------- chat conversation window -------- */
+  const chatWindow = document.getElementById('chatWindow');
+  let activeChatId = null;
+  let chatOpenedFrom = 'directNav';
+
+  function chatBubbleHTML(msg){
+    if(msg.type === 'voice'){
+      const bars = Array.from({length:16}, () => Math.round(6 + Math.random()*12)).map(h => `<span style="height:${h}px;"></span>`).join("");
+      return `
+        <div class="msg-bubble">
+          <div class="msg-voice">
+            <div class="play-btn"><i data-lucide="play"></i></div>
+            <div class="wave">${bars}</div>
+            <div class="dur">${msg.duration}</div>
+          </div>
+          <span class="msg-time">${escapeHtml(msg.time)}</span>
+        </div>`;
+    }
+    return `
+      <div class="msg-bubble">
+        ${escapeHtml(msg.text)}
+        <span class="msg-time">${escapeHtml(msg.time)}</span>
+      </div>`;
+  }
+
+  function renderChatWindow(id){
+    const body = document.getElementById('chatWindowBody');
+    const msgs = chatMessages[id] || [];
+    if(msgs.length === 0){
+      body.innerHTML = `<div class="empty-sub"><i data-lucide="message-circle"></i><div>Say hello to start the conversation.</div></div>`;
+    } else {
+      body.innerHTML = msgs.map(m => `<div class="msg-row ${m.from}">${chatBubbleHTML(m)}</div>`).join("");
+    }
+    initIcons();
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function openChatWindow(id, from){
+    const store = findChatStore(id);
+    if(!store) return;
+    activeChatId = id;
+    chatOpenedFrom = from || 'directNav';
+    if(!chatMessages[id]) chatMessages[id] = [];
+
+    document.getElementById('chatWindowLogo').src = store.logo;
+    document.getElementById('chatWindowLogo').alt = store.name;
+    document.getElementById('chatWindowName').textContent = store.name;
+    document.getElementById('chatWindowCall').href = `tel:${store.phone}`;
+
+    closeAllSubPanels();
+    closeMePanel();
+    closeSearchPage();
+    closeProductModal();
+    closeCartDrawer();
+
+    renderChatWindow(id);
+    chatWindow.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setActiveNav('chat');
+  }
+
+  function closeChatWindow(){
+    chatWindow.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('chatWindowBack').addEventListener('click', () => {
+    closeChatWindow();
+    if(chatOpenedFrom === 'chatsList'){
+      renderChatsListPanel();
+      openSubPanel('chats');
+      setActiveNav('me');
+    } else {
+      setActiveNav('home');
+    }
+  });
+
+  document.getElementById('chatWindowCall').addEventListener('click', () => {
+    showToast('Starting call — this is a template, wire this up to real telephony.');
+  });
+
+  const chatTextInput = document.getElementById('chatTextInput');
+  function sendChatText(){
+    const text = chatTextInput.value.trim();
+    if(!text || !activeChatId) return;
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
+    chatMessages[activeChatId].push({ from: 'out', type: 'text', text, time });
+    chatTextInput.value = '';
+    renderChatWindow(activeChatId);
+  }
+  document.getElementById('chatSendBtn').addEventListener('click', sendChatText);
+  chatTextInput.addEventListener('keydown', (e) => { if(e.key === 'Enter'){ e.preventDefault(); sendChatText(); } });
+
+  let recording = false;
+  document.getElementById('chatVoiceBtn').addEventListener('click', function(){
+    if(!activeChatId) return;
+    if(!recording){
+      recording = true;
+      this.classList.add('recording');
+      this.querySelector('i').setAttribute('data-lucide', 'square');
+      initIcons();
+      showToast('Recording voice note…');
+    } else {
+      recording = false;
+      this.classList.remove('recording');
+      this.querySelector('i').setAttribute('data-lucide', 'mic');
+      initIcons();
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
+      const duration = `0:0${Math.max(2, Math.round(Math.random()*7))}`;
+      chatMessages[activeChatId].push({ from: 'out', type: 'voice', duration, time });
+      renderChatWindow(activeChatId);
+    }
   });
 
   /* ---------------- bottom nav ---------------- */
@@ -1234,9 +1778,15 @@
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const type = item.dataset.nav;
+      if(type === 'chat'){
+        openChatWindow(currentStore.id, 'directNav');
+        return;
+      }
       setActiveNav(type);
       closeSearchPage();
       closeMePanel();
+      closeAllSubPanels();
+      closeChatWindow();
       if(type === 'search') openSearchPage();
       else if(type === 'me') openMePanel();
     });
