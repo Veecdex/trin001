@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   :root{
     --paper:#FFFFFF;
@@ -120,6 +120,7 @@
   .btn svg{width:15px;height:15px;}
   .btn.secondary{background:var(--surface);color:var(--ink);border:1px solid var(--border);}
   .btn.secondary:hover{background:#EDEFF2;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
 
   /* Products grid */
   .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
@@ -152,6 +153,15 @@
   .status-badge.verified{background:var(--success-soft);color:var(--success);}
   .status-badge.unverified{background:var(--surface);color:var(--muted);}
   .note{background:var(--gold-soft);border:1px solid #EED8AC;border-radius:10px;padding:14px 16px;font-size:13px;color:#7a5210;line-height:1.6;margin-top:6px;}
+
+  /* Share / QR flyer */
+  .flyer-layout{display:grid;grid-template-columns:280px 1fr;gap:24px;}
+  @media (max-width:760px){.flyer-layout{grid-template-columns:1fr;}}
+  .flyer-preview-wrap{display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+  .flyer-preview-wrap canvas{width:100%;max-width:280px;height:auto;border-radius:10px;box-shadow:0 8px 24px rgba(15,46,92,0.18);display:block;}
+  .flyer-actions{display:flex;flex-direction:column;gap:10px;}
+  .flyer-actions .btn{width:100%;justify-content:center;}
+  .flyer-empty{color:var(--muted);font-size:13.5px;text-align:center;padding:20px;}
 </style>
 </head>
 <body>
@@ -169,6 +179,9 @@
         </div>
         <div class="navitem" data-section="products" onclick="showSection('products')">
           <i data-lucide="package"></i><span class="navlabel">Products</span>
+        </div>
+        <div class="navitem" data-section="share" onclick="showSection('share')">
+          <i data-lucide="qr-code"></i><span class="navlabel">Share Store</span>
         </div>
         <div class="navitem" data-section="verify" onclick="showSection('verify')">
           <i data-lucide="shield-check"></i><span class="navlabel">Verify Account</span>
@@ -292,6 +305,34 @@
         <h2>Your catalog</h2>
         <p class="card-sub">All products currently created.</p>
         <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <!-- SHARE STORE / QR FLYER -->
+    <section class="section" id="share">
+      <div class="topbar">
+        <div>
+          <h1>Share Store</h1>
+          <p>Generate a printable flyer with a QR code that scans straight to your online store.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Store flyer</h2>
+        <p class="card-sub">Anyone who scans this lands directly on your storefront — great for stickers, posters, or Instagram.</p>
+        <div class="flyer-layout">
+          <div class="flyer-preview-wrap" id="flyerPreviewWrap">
+            <p class="flyer-empty" id="flyerEmptyMsg">Click "Generate flyer" to create your QR flyer.</p>
+            <canvas id="flyerCanvas" style="display:none;"></canvas>
+          </div>
+          <div class="flyer-actions">
+            <button type="button" class="btn" id="generateFlyerBtn" onclick="generateFlyer()"><i data-lucide="qr-code"></i>Generate flyer</button>
+            <button type="button" class="btn secondary" id="downloadFlyerBtn" onclick="downloadFlyer()" style="display:none;"><i data-lucide="download"></i>Download flyer (PNG)</button>
+            <button type="button" class="btn secondary" id="shareFlyerBtn" onclick="shareFlyer()" style="display:none;"><i data-lucide="share-2"></i>Share flyer</button>
+            <button type="button" class="btn secondary" onclick="copyStoreLink()"><i data-lucide="copy"></i>Copy store link</button>
+          </div>
+        </div>
+        <div id="hiddenQrHost" style="position:absolute;left:-9999px;top:-9999px;"></div>
       </div>
     </section>
 
@@ -571,6 +612,249 @@
         </tbody>
       </table>
     `;
+  }
+
+  /* ---------- Share Store / QR Flyer ---------- */
+  let flyerBlob = null; // cached PNG blob of the last generated flyer
+
+  function roundRectPath(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function wrapCenteredText(ctx, text, cx, y, maxWidth, lineHeight){
+    const words = text.split(' ');
+    let line = '';
+    const lines = [];
+    for(let i = 0; i < words.length; i++){
+      const test = line ? `${line} ${words[i]}` : words[i];
+      if(ctx.measureText(test).width > maxWidth && line){
+        lines.push(line);
+        line = words[i];
+      }else{
+        line = test;
+      }
+    }
+    if(line) lines.push(line);
+    const startY = y - ((lines.length - 1) * lineHeight) / 2;
+    lines.forEach((l, i) => ctx.fillText(l, cx, startY + i * lineHeight));
+    return lines.length;
+  }
+
+  async function generateFlyer(){
+    const link = document.getElementById('storeLinkInput').value;
+    if(!link){ alert('Store link is not ready yet — give the page a second and try again.'); return; }
+    const bizName = document.getElementById('bizName').textContent || 'My Store';
+
+    const genBtn = document.getElementById('generateFlyerBtn');
+    genBtn.disabled = true;
+    genBtn.innerHTML = '<i data-lucide="loader-2"></i>Generating…';
+    lucide.createIcons();
+
+    try{
+      // wait for webfonts so canvas text renders with the right typeface
+      if(document.fonts && document.fonts.ready) await document.fonts.ready;
+
+      // build the QR code into a hidden host, then read its canvas
+      const host = document.getElementById('hiddenQrHost');
+      host.innerHTML = '';
+      new QRCode(host, {
+        text: link,
+        width: 640,
+        height: 640,
+        colorDark: '#0F2E5C',
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      // qrcode.js draws its <canvas> synchronously
+      const qrCanvas = host.querySelector('canvas');
+      if(!qrCanvas) throw new Error('Could not generate QR code.');
+
+      drawFlyer(qrCanvas, bizName, link);
+
+      document.getElementById('flyerEmptyMsg').style.display = 'none';
+      const canvas = document.getElementById('flyerCanvas');
+      canvas.style.display = 'block';
+      document.getElementById('downloadFlyerBtn').style.display = 'flex';
+      document.getElementById('shareFlyerBtn').style.display = 'flex';
+
+      canvas.toBlob(blob => { flyerBlob = blob; }, 'image/png');
+    }catch(e){
+      alert(e.message || 'Could not generate the flyer.');
+    }finally{
+      genBtn.disabled = false;
+      genBtn.innerHTML = '<i data-lucide="qr-code"></i>Generate flyer';
+      lucide.createIcons();
+    }
+  }
+
+  // draws uppercase text with manual letter-spacing (canvas letter-spacing support is inconsistent across browsers)
+  function drawTrackedText(ctx, text, cx, y, spacing){
+    const chars = text.split('');
+    const widths = chars.map(c => ctx.measureText(c).width);
+    const total = widths.reduce((a,b) => a + b, 0) + spacing * (chars.length - 1);
+    let x = cx - total / 2;
+    const prevAlign = ctx.textAlign;
+    ctx.textAlign = 'left';
+    chars.forEach((c, i) => { ctx.fillText(c, x, y); x += widths[i] + spacing; });
+    ctx.textAlign = prevAlign;
+  }
+
+  function drawFlyer(qrCanvas, bizName, link){
+    const canvas = document.getElementById('flyerCanvas');
+    // logical design size stays 1080x1350 (clean 4:5), but we render at 2x pixel
+    // density so the downloaded/shared PNG is crisp on print and retina screens
+    const LOGICAL_W = 1080, LOGICAL_H = 1350, RENDER_SCALE = 2;
+    canvas.width = LOGICAL_W * RENDER_SCALE;
+    canvas.height = LOGICAL_H * RENDER_SCALE;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(RENDER_SCALE, RENDER_SCALE);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    const W = LOGICAL_W, H = LOGICAL_H;
+
+    // background gradient — deep, premium, on-brand navy
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, '#1B4B91');
+    grad.addColorStop(1, '#0B234A');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // soft gold glow behind the QR area for depth
+    const glow = ctx.createRadialGradient(W/2, 690, 40, W/2, 690, 460);
+    glow.addColorStop(0, 'rgba(232,163,61,0.20)');
+    glow.addColorStop(1, 'rgba(232,163,61,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // gold top accent bar
+    ctx.fillStyle = '#E8A33D';
+    ctx.fillRect(0, 0, W, 12);
+
+    // tally mark logo (small centered brand lockup)
+    const markX = W / 2 - 46, markY = 78;
+    ctx.fillStyle = '#E8A33D';
+    const bars = [[0,13],[9,7],[18,13],[27,7]];
+    bars.forEach(([dx, dy]) => ctx.fillRect(markX + dx, markY + (24 - dy), 6, dy * 2));
+    ctx.save();
+    ctx.translate(markX + 44, markY + 12);
+    ctx.rotate(-38 * Math.PI/180);
+    ctx.fillRect(-24, -3, 48, 5);
+    ctx.restore();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255,255,255,0.65)';
+    ctx.font = '700 22px Sora, sans-serif';
+    drawTrackedText(ctx, 'TALLY', W / 2, 160, 6);
+
+    // kicker
+    ctx.fillStyle = '#E8A33D';
+    ctx.font = '700 22px Sora, sans-serif';
+    drawTrackedText(ctx, 'NOW OPEN ONLINE', W / 2, 210, 4);
+
+    // business name — big, bold, the hero
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '800 74px Sora, sans-serif';
+    const nameLines = wrapCenteredText(ctx, bizName, W / 2, 310, 940, 80);
+
+    // catchy call-to-action line
+    const ctaY = 310 + (nameLines - 1) * 40 + 92;
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    ctx.font = '600 34px Sora, sans-serif';
+    ctx.fillText('Scan. Shop. Enjoy.', W / 2, ctaY);
+
+    // white card holding the QR code, with a soft drop shadow + thin gold ring
+    const qrSize = 540;
+    const cardPad = 36;
+    const cardW = qrSize + cardPad * 2;
+    const cardH = qrSize + cardPad * 2;
+    const cardX = (W - cardW) / 2;
+    const cardY = ctaY + 56;
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.35)';
+    ctx.shadowBlur = 40;
+    ctx.shadowOffsetY = 18;
+    ctx.fillStyle = '#FFFFFF';
+    roundRectPath(ctx, cardX, cardY, cardW, cardH, 32);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.strokeStyle = '#E8A33D';
+    ctx.lineWidth = 3;
+    roundRectPath(ctx, cardX + 3, cardY + 3, cardW - 6, cardH - 6, 30);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.drawImage(qrCanvas, cardX + cardPad, cardY + cardPad, qrSize, qrSize);
+
+    // scan to shop — bold, unmissable
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '800 46px Sora, sans-serif';
+    drawTrackedText(ctx, 'SCAN TO SHOP NOW', W / 2, cardY + cardH + 78, 1.5);
+
+    // store link, clean mono
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.font = '500 25px IBM Plex Mono, monospace';
+    const shortLink = link.replace(/^https?:\/\//, '');
+    ctx.fillText(shortLink.length > 40 ? shortLink.slice(0, 40) + '…' : shortLink, W / 2, cardY + cardH + 122);
+
+    // bottom divider + footer
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(W/2 - 90, H - 84);
+    ctx.lineTo(W/2 + 90, H - 84);
+    ctx.stroke();
+
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.font = '600 21px Sora, sans-serif';
+    drawTrackedText(ctx, 'POWERED BY TALLY', W / 2, H - 46, 2);
+  }
+
+  function downloadFlyer(){
+    const canvas = document.getElementById('flyerCanvas');
+    const finish = (blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const bizSlug = (document.getElementById('bizName').textContent || 'store').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+      a.href = url;
+      a.download = `${bizSlug}-tally-qr-flyer.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    };
+    if(flyerBlob){ finish(flyerBlob); }
+    else{ canvas.toBlob(blob => { flyerBlob = blob; finish(blob); }, 'image/png'); }
+  }
+
+  async function shareFlyer(){
+    const canvas = document.getElementById('flyerCanvas');
+    const doShare = async (blob) => {
+      const bizName = document.getElementById('bizName').textContent || 'My store';
+      const file = new File([blob], 'tally-qr-flyer.png', { type: 'image/png' });
+      if(navigator.canShare && navigator.canShare({ files: [file] })){
+        try{
+          await navigator.share({
+            files: [file],
+            title: `${bizName} on Tally`,
+            text: `Shop ${bizName} online — scan the QR code or use this link: ${document.getElementById('storeLinkInput').value}`
+          });
+        }catch(e){ /* user cancelled share — no-op */ }
+      }else{
+        // fallback: just download it
+        downloadFlyer();
+      }
+    };
+    if(flyerBlob){ doShare(flyerBlob); }
+    else{ canvas.toBlob(blob => { flyerBlob = blob; doShare(blob); }, 'image/png'); }
   }
 
   /* ---------- Verify account ---------- */
