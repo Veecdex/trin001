@@ -2,246 +2,453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Professional CV - ND VEE</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <style>
-      @media (max-width: 1190px) {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Delivery Link · Vikky Technologies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161222;
+    --indigo:#2B2159;
+    --indigo-deep:#1B1440;
+    --amber:#FF7A1A;
+    --amber-soft:#FFE8D6;
+    --paper:#FAF9F6;
+    --card:#FFFFFF;
+    --line:#E7E3DA;
+    --muted:#847F92;
+    --success:#1D9A6C;
+    --success-soft:#DFF5EB;
+    --radius:18px;
+    --shadow: 0 1px 2px rgba(22,18,34,0.04), 0 12px 32px -12px rgba(22,18,34,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #EFE9FF 0%, transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px 16px 40px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{width:100%;max-width:420px;}
 
-html {
-  font-size: 12px ; /* 👈 scales EVERYTHING proportionally */
-  
-}
+  /* ---------- brand strip ---------- */
+  .brandstrip{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px;color:var(--muted);font-size:12.5px;letter-spacing:.02em;}
+  .brandstrip .dot{width:5px;height:5px;border-radius:50%;background:var(--amber);}
 
-.max-w-6xl {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}}
-    @media print {
-      body {
-        background: white !important;
-      }
-      .cv-container {
-        box-shadow: none !important;
-        margin: 0 !important;
-        max-width: 100% !important;
-        border-radius: 0 !important;
-      }
-    }
-    
-  </style>
+  /* ---------- card ---------- */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+
+  /* header */
+  .header{
+    background:linear-gradient(160deg, var(--indigo) 0%, var(--indigo-deep) 100%);
+    padding:22px 22px 26px;
+    color:#fff;
+    position:relative;
+  }
+  .header::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-1px; height:18px;
+    background:var(--card);
+    border-radius:18px 18px 0 0;
+  }
+  .storerow{display:flex;align-items:center;gap:13px;}
+  .logo{
+    width:48px;height:48px;border-radius:13px;
+    background:linear-gradient(135deg,var(--amber),#FFB259);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#3A1B00;
+    flex:none;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+  }
+  .storemeta{min-width:0;}
+  .storename{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .orderid{font-size:12px;color:rgba(255,255,255,.62);margin-top:3px;letter-spacing:.02em;}
+  .statuspill{
+    margin-top:16px;display:inline-flex;align-items:center;gap:7px;
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16);
+    padding:6px 12px 6px 10px;border-radius:99px;font-size:12.5px;font-weight:500;color:#fff;
+  }
+  .statuspill .pulse{width:7px;height:7px;border-radius:50%;background:var(--amber);position:relative;flex:none;}
+  .statuspill .pulse::before{
+    content:"";position:absolute;inset:-5px;border-radius:50%;background:var(--amber);opacity:.35;
+    animation:ping 1.8s cubic-bezier(.4,0,.6,1) infinite;
+  }
+  .statuspill.done .pulse{background:var(--success);}
+  .statuspill.done .pulse::before{background:var(--success);animation:none;opacity:0;}
+  @keyframes ping{0%{transform:scale(1);opacity:.5;}75%,100%{transform:scale(2.4);opacity:0;}}
+
+  /* body */
+  .body{padding:22px;}
+
+  .section-label{
+    font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 10px;
+  }
+
+  .amountrow{
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding-bottom:16px;margin-bottom:16px;border-bottom:1px dashed var(--line);
+  }
+  .amountrow .label{font-size:13px;color:var(--muted);}
+  .amountrow .amount{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:26px;color:var(--ink);}
+
+  .summary{font-size:14px;line-height:1.65;color:#3C3750;margin:0 0 20px;}
+
+  .customer{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-bottom:22px;}
+  .crow{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px;color:var(--ink);}
+  .crow:not(:last-child){border-bottom:1px solid var(--line);}
+  .crow .ico{width:18px;flex:none;color:var(--amber);}
+  .crow .val{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .customer .cname{font-weight:600;font-size:14.5px;margin-bottom:2px;}
+
+  /* tracker (signature element) */
+  .tracker{margin:6px 4px 26px;}
+  .track-line{position:relative;height:4px;background:var(--line);border-radius:99px;overflow:hidden;}
+  .track-fill{position:absolute;left:0;top:0;bottom:0;width:8%;background:linear-gradient(90deg,var(--amber),#FFB259);border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+  .track-fill.done{background:linear-gradient(90deg,var(--success),#38C08C);}
+  .track-labels{display:flex;justify-content:space-between;margin-top:9px;font-size:11px;color:var(--muted);font-weight:500;}
+  .track-labels span.active{color:var(--ink);font-weight:600;}
+
+  /* buttons */
+  .btn{
+    width:100%;padding:15px 18px;border-radius:13px;border:none;font-family:'Inter',sans-serif;
+    font-weight:600;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn:disabled{cursor:not-allowed;opacity:.5;transform:none;}
+  .btn-primary{background:var(--indigo);color:#fff;box-shadow:0 8px 20px -8px rgba(43,33,89,.55);}
+  .btn-primary:hover:not(:disabled){box-shadow:0 10px 24px -8px rgba(43,33,89,.65);}
+  .btn-success{background:var(--success);color:#fff;box-shadow:0 8px 20px -8px rgba(29,154,108,.5);}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line);box-shadow:none;font-weight:500;font-size:13.5px;padding:11px;}
+  .btnstack{display:flex;flex-direction:column;gap:10px;}
+
+  .expired-note{
+    display:flex;gap:9px;align-items:flex-start;background:#FDF2F2;border:1px solid #F5D8D8;color:#A23B3B;
+    padding:12px 13px;border-radius:12px;font-size:12.5px;line-height:1.5;margin-top:14px;
+  }
+
+  /* footer */
+  .footer{padding:16px 22px 20px;border-top:1px solid var(--line);}
+  .poweredby{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12px;color:var(--muted);}
+  .poweredby b{color:var(--indigo);font-family:'Space Grotesk',sans-serif;font-weight:700;}
+  .vmark{width:16px;height:16px;border-radius:5px;background:var(--indigo);display:inline-flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;color:#fff;}
+  .expirynote{text-align:center;font-size:11.5px;color:var(--muted);margin-top:9px;line-height:1.5;}
+
+  /* customer / tracking page specifics */
+  .track-hero{padding:34px 22px 26px;text-align:center;}
+  .track-icon{
+    width:74px;height:74px;border-radius:50%;margin:0 auto 16px;
+    display:flex;align-items:center;justify-content:center;font-size:32px;
+    background:var(--amber-soft);
+    animation:float 2.6s ease-in-out infinite;
+  }
+  .track-icon.done{background:var(--success-soft);animation:none;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  .track-headline{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:21px;margin:0 0 6px;}
+  .track-sub{font-size:13.5px;color:var(--muted);margin:0;}
+
+  .switcher{
+    text-align:center;margin-top:16px;
+  }
+  .switcher a{font-size:12px;color:var(--muted);text-decoration:none;border-bottom:1px dashed var(--line);padding-bottom:1px;}
+  .switcher a:hover{color:var(--indigo);}
+
+  .hide{display:none !important;}
+  @media (prefers-reduced-motion: reduce){
+    .statuspill .pulse::before, .track-icon{animation:none;}
+  }
+</style>
 </head>
-<body class="bg-slate-100 py-8 px-4 font-sans text-slate-800">
-  <div class="cv-container max-w-6xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
-    <div class="grid grid-cols-3">
-      
-      <!-- Sidebar -->
-      <aside class="bg-slate-900 text-white p-8 col-span-1">
-        <div class="text-center mb-10">
-          <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-4xl font-bold mb-4">
-            NV
-          </div>
-          <h1 class="text-3xl font-bold">NDUKWE N. VICTOR</h1>
-          <p class="text-slate-300 mt-2">Full Stack Web Developer</p>
+<body>
+<div class="app">
+
+  <div class="brandstrip"><span class="dot"></span> SECURE DELIVERY LINK <span class="dot"></span></div>
+
+  <!-- ============ AGENT / RIDER VIEW ============ -->
+  <div id="agentView" class="card">
+    <div class="header">
+      <div class="storerow">
+        <div class="logo" id="logoBadge">FB</div>
+        <div class="storemeta">
+          <div class="storename" id="storeName">Fresh Bites Kitchen</div>
+          <div class="orderid" id="orderIdLabel">Order #ORD-0000</div>
         </div>
+      </div>
+      <div class="statuspill" id="statusPill"><span class="pulse"></span><span id="statusPillText">Ready for pickup</span></div>
+    </div>
 
-        <section class="mb-8">
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Contact</h2>
-          <div class="space-y-3 text-sm">
-            <p><i class="fas fa-envelope w-5 text-blue-400"></i> ndukwedivinevictor@gmal.com</p>
-            <p><i class="fas fa-phone w-5 text-blue-400"></i> +229 014 072 7363 </p>
-            <p><i class="fas fa-location-dot w-5 text-blue-400"></i> Cotonou, Benin</p>
-            <p><i class="fas fa-globe w-5 text-blue-400"></i> Portfolio / GitHub</p>
-          </div>
-        </section>
+    <div class="body">
+      <div class="amountrow">
+        <span class="label">Order amount</span>
+        <span class="amount" id="orderAmount">₦0</span>
+      </div>
 
-        <section class="mb-8">
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Technical Skills</h2>
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">HTML5</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">CSS3</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">JavaScript</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Tailwind CSS</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Firebase</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">REST APIs</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Git & GitHub</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">UI/UX Design</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Canva</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Graphic Design</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Microsoft Excel</span>
-          </div>
-        </section>
+      <p class="section-label">Order summary</p>
+      <p class="summary" id="orderSummary">—</p>
 
-        <section class="mb-8">
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Certifications</h2>
-          <div class="space-y-4 text-sm">
-            <div>
-              <p class="font-medium">Web Development Certification</p>
-              <p class="text-slate-400">Professional Certification</p>
-            </div>
-            <div>
-              <p class="font-medium">Leadership Certificate</p>
-              <p class="text-slate-400">Leadership Development</p>
-            </div>
-            <div>
-              <p class="font-medium">Entrepreneurship Development Program</p>
-              <p class="text-slate-400">Business & Innovation Training</p>
-            </div>
-            <div>
-              <p class="font-medium">CCTV Installation Training</p>
-              <p class="text-slate-400">Technical Installation & Security Systems</p>
-            </div>
-          </div>
-        </section>
+      <p class="section-label">Customer details</p>
+      <div class="customer">
+        <div class="cname" id="custName">—</div>
+        <div class="crow"><span class="ico">☎</span><span class="val" id="custPhone">—</span></div>
+        <div class="crow"><span class="ico">✉</span><span class="val" id="custEmail">—</span></div>
+      </div>
 
-        <section class="mb-8">
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Education</h2>
-          <div class="space-y-4 text-sm">
-            <div>
-              <p class="font-medium">B.Sc. Accounting</p>
-              <p class="text-slate-400">ESAE BENIN UNIVERSITY</p>
-              <p class="text-slate-500">2023 – Present</p>
-            </div>
-            <div>
-              <p class="font-medium">West African Senior School Certificate Examination (WASSCE)</p>
-              <p class="text-slate-500">Talent Link Comprehensive College</p>
-            </div>
-          </div>
-        </section>
+      <div class="tracker">
+        <div class="track-line"><div class="track-fill" id="trackFill"></div></div>
+        <div class="track-labels">
+          <span id="lbl-pending">Order ready</span>
+          <span id="lbl-otw">Out for delivery</span>
+          <span id="lbl-done">Delivered</span>
+        </div>
+      </div>
 
-        <section class="mb-8">
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Languages</h2>
-          <div class="space-y-2 text-sm">
-            <p>English — Professional Proficiency</p>
-            <p>French — Working Proficiency</p>
-          </div>
-        </section>
+      <div class="btnstack">
+        <button class="btn btn-primary" id="startBtn">▶&nbsp; Start delivery</button>
+        <button class="btn btn-success hide" id="finishBtn">✓&nbsp; Confirm delivered</button>
+      </div>
 
-        <section class="mb-8">
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Core Strengths</h2>
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Leadership</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Problem Solving</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Communication</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Team Collaboration</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Analytical Thinking</span>
-            <span class="bg-slate-800 px-3 py-1 rounded-full text-sm">Adaptability</span>
-          </div>
-        </section>
+      <div class="expired-note hide" id="expiredNote">
+        ⓘ&nbsp; This order has been delivered. The link is now closed and can no longer be used.
+      </div>
+    </div>
 
-        <section>
-          <h2 class="text-lg font-semibold border-b border-slate-700 pb-2 mb-4">Interests</h2>
-          <div class="space-y-2 text-sm">
-            <p>Technology Innovation</p>
-            <p>Entrepreneurship</p>
-            <p>Financial Technology</p>
-            <p>E-Commerce</p>
-          </div>
-        </section>
-      </aside>
-
-      <!-- Main Content -->
-      <main class="p-8 col-span-2">
-        <section class="mb-8">
-          <h2 class="text-2xl font-bold text-slate-900 mb-4">Professional Summary</h2>
-          <p class="text-slate-600 leading-relaxed">
-            Results-driven web developer and IT professional with hands-on experience building modern, scalable, and user-focused digital solutions. Proficient in front-end development, real-time application architecture, API integration, and cloud-based services. Experienced in developing secure, responsive web applications with strong emphasis on performance, usability, and business value. Combines technical expertise with analytical thinking, accounting knowledge, and entrepreneurial insight to deliver impactful technology solutions.
-          </p>
-        </section>
-
-        <section class="mb-8">
-          <h2 class="text-2xl font-bold text-slate-900 mb-6">Professional Experience</h2>
-
-          <div class="relative border-l-2 border-blue-200 pl-8 space-y-8">
-            <div class="relative">
-              <div class="absolute -left-11 top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-              <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                <div>
-                  <h3 class="text-lg font-semibold">Freelance Web Developer</h3>
-                  <p class="text-blue-600 font-medium">Independent Consultant</p>
-                </div>
-                <span class="text-sm text-slate-500">2024 – Present</span>
-              </div>
-              <p class="text-slate-600">Design and develop responsive business websites and web applications for clients, focusing on modern UI/UX, performance optimization, and scalable architecture.</p>
-            </div>
-
-            <div class="relative">
-              <div class="absolute -left-11 top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-              <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                <div>
-                  <h3 class="text-lg font-semibold">Accounting Intern</h3>
-                  <p class="text-blue-600 font-medium">Hospitality Industry</p>
-                </div>
-                <span class="text-sm text-slate-500">2023</span>
-              </div>
-              <p class="text-slate-600">Supported financial record-keeping, transaction reconciliation, expense tracking, and operational reporting while gaining practical exposure to accounting systems and business processes.</p>
-            </div>
-
-            <div class="relative">
-              <div class="absolute -left-11 top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-              <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                <div>
-                  <h3 class="text-lg font-semibold">Computer Instructor</h3>
-                  <p class="text-blue-600 font-medium">Educational Institution</p>
-                </div>
-                <span class="text-sm text-slate-500">2022 – 2023</span>
-              </div>
-              <p class="text-slate-600">Delivered practical computer education, including digital literacy, office productivity tools, and foundational programming concepts.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6">Selected Projects</h2>
-  
-            <div class="relative border-l-2 border-blue-200 pl-8 space-y-8">
-              <div class="relative">
-                <div class="absolute -left-11 top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                  <div>
-                    <h3 class="text-lg font-semibold">Financial Dashboard & Gift Card Platform</h3>
-                    <p class="text-blue-600 font-medium">In Development</p>
-                  </div>
-                
-                </div>
-                <p class="text-slate-600">A modern fintech platform enabling businesses to buy, sell, and manage branded gift cards through an intuitive financial dashboard.</p>
-                <p class="text-sm text-slate-500 mt-3">Technologies: Tailwind CSS, JavaScript, Firebase</p>
-              </div>
-  
-              <div class="relative">
-                <div class="absolute -left-11 top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                  <div>
-                    <h3 class="text-lg font-semibold">E-Commerce Web Application</h3>
-                  </div>
-                </div>
-                <p class="text-slate-600">Developed a full-featured e-commerce platform with secure authentication, real-time product interactions, shopping cart functionality, and integrated payment gateway API for live transactions.</p>
-                <p class="text-sm text-slate-500 mt-3">Technologies: Tailwind CSS, JavaScript, Firebase, Payment Gateway API</p>
-              </div>
-  
-              <div class="relative">
-                <div class="absolute -left-11 top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                  <div>
-                    <h3 class="text-lg font-semibold">Real-Time Chat Application</h3>
-                  </div>
-                </div>
-                <p class="text-slate-600">Built a secure messaging platform with user authentication, instant real-time communication, and cloud-based data synchronization.</p>
-                <p class="text-sm text-slate-500 mt-3">Technologies: Tailwind CSS, JavaScript, Firebase</p>
-              </div>
-            </div>
-          </section>
-       
-        <section class="mt-8">
-          <h2 class="text-2xl font-bold text-slate-900 mb-4">References</h2>
-          <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
-            <p class="text-slate-600">Professional references are available upon request.</p>
-          </div>
-        </section>
-      </main>
+    <div class="footer">
+      <div class="poweredby">Powered by <b><span class="vmark">V</span>&nbsp;Vikky Technologies</b></div>
+      <div class="expirynote">This link is for delivery purposes only and expires once the order is completed.</div>
     </div>
   </div>
+
+  <!-- ============ CUSTOMER TRACKING VIEW ============ -->
+  <div id="trackView" class="card hide">
+    <div class="header" style="padding-bottom:0;">
+      <div class="storerow">
+        <div class="logo" id="logoBadge2">FB</div>
+        <div class="storemeta">
+          <div class="storename" id="storeName2">Fresh Bites Kitchen</div>
+          <div class="orderid" id="orderIdLabel2">Order #ORD-0000</div>
+        </div>
+      </div>
+    </div>
+    <div class="track-hero">
+      <div class="track-icon" id="trackIcon">🛵</div>
+      <h2 class="track-headline" id="trackHeadline">Your order is being prepared</h2>
+      <p class="track-sub" id="trackSub">We'll update this page the moment it's out for delivery.</p>
+      <div class="tracker" style="margin-top:24px;">
+        <div class="track-line"><div class="track-fill" id="trackFill2"></div></div>
+        <div class="track-labels">
+          <span id="lbl2-pending">Order ready</span>
+          <span id="lbl2-otw">Out for delivery</span>
+          <span id="lbl2-done">Delivered</span>
+        </div>
+      </div>
+    </div>
+    <div class="body" style="padding-top:0;">
+      <div class="amountrow" style="border-bottom:1px dashed var(--line);">
+        <span class="label">Order amount</span>
+        <span class="amount" id="orderAmount2">₦0</span>
+      </div>
+      <p class="section-label">Order summary</p>
+      <p class="summary" id="orderSummary2" style="margin-bottom:0;">—</p>
+    </div>
+    <div class="footer">
+      <div class="poweredby">Powered by <b><span class="vmark">V</span>&nbsp;Vikky Technologies</b></div>
+    </div>
+  </div>
+
+  <div class="switcher">
+    <a href="#" id="switchLink">Preview the other page →</a>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURATION — edit this block for a real order/delivery
+   ============================================================ */
+const CONFIG = {
+  orderId: "ORD-58213",
+  storeName: "Fresh Bites Kitchen",
+  amount: "₦8,500",
+  summary: "1x Jollof Rice Combo, 2x Chicken Suya, 1x Chapman Drink",
+  customerName: "Amara Johnson",
+  customerPhone: "+234 802 345 6789",
+  customerEmail: "amara.johnson@example.com",
+};
+
+const STORAGE_KEY = "delivery-order:" + CONFIG.orderId;
+
+function initials(name){
+  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join("");
+}
+
+async function getOrderState(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, true);
+    if(res && res.value) return JSON.parse(res.value);
+  }catch(e){ /* not found yet */ }
+  const fresh = { status: "pending", startedAt: null, deliveredAt: null };
+  try{ await window.storage.set(STORAGE_KEY, JSON.stringify(fresh), true); }catch(e){}
+  return fresh;
+}
+
+async function setOrderState(patch){
+  const current = await getOrderState();
+  const next = Object.assign({}, current, patch);
+  try{ await window.storage.set(STORAGE_KEY, JSON.stringify(next), true); }catch(e){ console.error("storage error", e); }
+  return next;
+}
+
+/* ---------- populate static content ---------- */
+function paintStatic(){
+  const badge = initials(CONFIG.storeName);
+  document.getElementById("logoBadge").textContent = badge;
+  document.getElementById("logoBadge2").textContent = badge;
+  document.getElementById("storeName").textContent = CONFIG.storeName;
+  document.getElementById("storeName2").textContent = CONFIG.storeName;
+  document.getElementById("orderIdLabel").textContent = "Order #" + CONFIG.orderId;
+  document.getElementById("orderIdLabel2").textContent = "Order #" + CONFIG.orderId;
+  document.getElementById("orderAmount").textContent = CONFIG.amount;
+  document.getElementById("orderAmount2").textContent = CONFIG.amount;
+  document.getElementById("orderSummary").textContent = CONFIG.summary;
+  document.getElementById("orderSummary2").textContent = CONFIG.summary;
+  document.getElementById("custName").textContent = CONFIG.customerName;
+  document.getElementById("custPhone").textContent = CONFIG.customerPhone;
+  document.getElementById("custEmail").textContent = CONFIG.customerEmail;
+}
+
+/* ---------- render agent view based on state ---------- */
+function renderAgent(state){
+  const pill = document.getElementById("statusPill");
+  const pillText = document.getElementById("statusPillText");
+  const fill = document.getElementById("trackFill");
+  const startBtn = document.getElementById("startBtn");
+  const finishBtn = document.getElementById("finishBtn");
+  const expiredNote = document.getElementById("expiredNote");
+  const labels = ["lbl-pending","lbl-otw","lbl-done"].map(id=>document.getElementById(id));
+  labels.forEach(l=>l.classList.remove("active"));
+
+  if(state.status === "pending"){
+    pill.classList.remove("done");
+    pillText.textContent = "Ready for pickup";
+    fill.style.width = "8%";
+    fill.classList.remove("done");
+    labels[0].classList.add("active");
+    startBtn.classList.remove("hide"); startBtn.disabled = false;
+    finishBtn.classList.add("hide");
+    expiredNote.classList.add("hide");
+  } else if(state.status === "on_the_way"){
+    pill.classList.remove("done");
+    pillText.textContent = "Out for delivery";
+    fill.style.width = "55%";
+    fill.classList.remove("done");
+    labels[1].classList.add("active");
+    startBtn.classList.add("hide");
+    finishBtn.classList.remove("hide"); finishBtn.disabled = false;
+    expiredNote.classList.add("hide");
+  } else if(state.status === "delivered"){
+    pill.classList.add("done");
+    pillText.textContent = "Delivered";
+    fill.style.width = "100%";
+    fill.classList.add("done");
+    labels[2].classList.add("active");
+    startBtn.classList.add("hide");
+    finishBtn.classList.add("hide");
+    expiredNote.classList.remove("hide");
+  }
+}
+
+/* ---------- render customer/tracking view based on state ---------- */
+function renderTrack(state){
+  const icon = document.getElementById("trackIcon");
+  const headline = document.getElementById("trackHeadline");
+  const sub = document.getElementById("trackSub");
+  const fill = document.getElementById("trackFill2");
+  const labels = ["lbl2-pending","lbl2-otw","lbl2-done"].map(id=>document.getElementById(id));
+  labels.forEach(l=>l.classList.remove("active"));
+
+  if(state.status === "pending"){
+    icon.textContent = "👨‍🍳"; icon.classList.remove("done");
+    headline.textContent = "Your order is being prepared";
+    sub.textContent = "We'll update this page the moment it's out for delivery.";
+    fill.style.width = "8%"; fill.classList.remove("done");
+    labels[0].classList.add("active");
+  } else if(state.status === "on_the_way"){
+    icon.textContent = "🛵"; icon.classList.remove("done");
+    headline.textContent = "Order is on the way";
+    sub.textContent = "Your rider has picked up the order and is heading your way.";
+    fill.style.width = "55%"; fill.classList.remove("done");
+    labels[1].classList.add("active");
+  } else if(state.status === "delivered"){
+    icon.textContent = "✅"; icon.classList.add("done");
+    headline.textContent = "Delivered — enjoy!";
+    sub.textContent = "This order was confirmed delivered. Thanks for your order.";
+    fill.style.width = "100%"; fill.classList.add("done");
+    labels[2].classList.add("active");
+  }
+}
+
+/* ---------- view routing (agent vs tracking "page") ---------- */
+function currentView(){
+  return location.hash.replace("#","") === "track" ? "track" : "agent";
+}
+
+function showView(view){
+  document.getElementById("agentView").classList.toggle("hide", view !== "agent");
+  document.getElementById("trackView").classList.toggle("hide", view !== "track");
+  document.getElementById("switchLink").textContent =
+    view === "agent" ? "Preview the customer tracking page →" : "← Back to delivery page";
+}
+
+async function refresh(){
+  const state = await getOrderState();
+  renderAgent(state);
+  renderTrack(state);
+  return state;
+}
+
+/* ---------- wire up ---------- */
+paintStatic();
+showView(currentView());
+refresh();
+
+window.addEventListener("hashchange", ()=> showView(currentView()));
+document.getElementById("switchLink").addEventListener("click", (e)=>{
+  e.preventDefault();
+  location.hash = currentView() === "agent" ? "track" : "";
+});
+
+document.getElementById("startBtn").addEventListener("click", async ()=>{
+  const btn = document.getElementById("startBtn");
+  btn.disabled = true; btn.textContent = "Starting…";
+  const state = await setOrderState({ status: "on_the_way", startedAt: Date.now() });
+  renderAgent(state); renderTrack(state);
+});
+
+document.getElementById("finishBtn").addEventListener("click", async ()=>{
+  const btn = document.getElementById("finishBtn");
+  btn.disabled = true; btn.textContent = "Confirming…";
+  const state = await setOrderState({ status: "delivered", deliveredAt: Date.now() });
+  renderAgent(state); renderTrack(state);
+});
+
+/* poll shared state every 2.5s so both pages stay in sync live */
+setInterval(refresh, 2500);
+</script>
 </body>
 </html>
