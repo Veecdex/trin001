@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d64a32">
+  <meta name="description" content="Aulin gives supermarkets and food stores the tools to list products, sell online, coordinate delivery and connect payments.">
+  <title>Aulin — Your Store, Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box} :root{--purple:#d64a32;--ink:#20202a;--muted:#858493;--line:#eeedf2}
+    html{scroll-behavior:smooth;scroll-padding-top:100px;scrollbar-gutter:stable} body{margin:0;font-family:Manrope,sans-serif;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased}
+    button,input{font:inherit}button{cursor:pointer}.brand-gradient{background:linear-gradient(145deg,#ff9b50,#b83227)}
+    .search-shell{transition:border-color .2s,box-shadow .2s,background .2s}.search-shell:focus-within{border-color:#f0b4a1;background:#fff;box-shadow:0 0 0 4px #d64a3212}
+    .icon-button{display:inline-flex;align-items:center;justify-content:center;transition:background .2s,color .2s,transform .2s}.icon-button:hover{background:#fff0e9;color:var(--purple)}.icon-button:active{transform:scale(.96)}
+    .menu-line{display:block;height:2px;border-radius:10px;background:currentColor;transition:width .2s}.menu-button:hover .menu-line:first-child{width:17px}.menu-button:hover .menu-line:last-child{width:14px}
+    .floating-panel{animation:appear .17s ease-out}@keyframes appear{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .hero-visual{position:relative;isolation:isolate}.hero-photo{position:relative;height:clamp(340px,39vw,500px);overflow:hidden;border-radius:43% 13% 28% 12%/24% 15% 22% 18%;background:#e9e8df;transform:translateZ(0)}
+    .hero-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;transition:transform .8s cubic-bezier(.2,.7,.2,1)}.hero-visual:hover .hero-photo img{transform:scale(1.035)}
+    .hero-photo:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 48%,#10121414 65%,#10121494 100%)}
+    .image-caption{position:absolute;z-index:2;bottom:26px;left:27px;right:27px;color:#fff}.float-card{position:absolute;z-index:3;display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid #ffffffd9;border-radius:16px;background:#fffffff0;box-shadow:0 14px 45px #1c183d1a;backdrop-filter:blur(16px)}
+    .hero-orbit{position:absolute;z-index:-1;width:78%;aspect-ratio:1;right:-8%;top:8%;border:1px solid #f8e7e0;border-radius:50%}.hero-orbit:after{content:"";position:absolute;inset:9%;border:1px solid #fcf1ec;border-radius:50%}.hero-dot{position:absolute;width:9px;height:9px;top:13%;right:15%;border-radius:50%;background:#df6840;box-shadow:0 0 0 7px #df68401a}
+    .hero-kicker{display:inline-flex;align-items:center;gap:9px;color:#c64a32;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase}.hero-kicker:before{content:"";width:21px;height:1px;background:#df6840}
+    .hero-title{font-size:clamp(43px,5.1vw,70px);font-weight:300;line-height:1.13;letter-spacing:-.065em;color:#22212a}.hero-title .light-line{color:#8d817e;font-weight:300}.hero-title .accent-line{color:#d64a32;font-weight:300}.hero-description{max-width:410px;color:#777583;font-size:14px;font-weight:400;line-height:1.95}
+    .primary-link,.secondary-link{transition:transform .2s,box-shadow .2s,background .2s,color .2s}.primary-link:hover{transform:translateY(-2px);background:#24242a;box-shadow:0 10px 24px #20202a22}.secondary-link:hover{color:var(--purple)}.micro-label{font-size:9px;font-weight:700;letter-spacing:1.7px;text-transform:uppercase}
+    /* Full-width, image-led journey strip: warm grocery-inspired brand colors */
+    .journey-strip{width:100%;overflow:hidden;background:#f8e8df;border-top:1px solid #f1d6cb;border-bottom:1px solid #f1d6cb}
+    .journey-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%}
+    .journey-step{position:relative;display:flex;align-items:flex-end;gap:14px;min-height:174px;padding:24px clamp(16px,2.3vw,34px);overflow:hidden;isolation:isolate;color:#fff;transition:filter .25s}
+    .journey-step:before{content:"";position:absolute;z-index:-1;inset:0;background-size:cover;background-position:center;transform:scale(1.015);filter:brightness(.86) saturate(.82) contrast(.91);transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .35s}
+    .journey-step:after{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:linear-gradient(110deg,rgba(66,36,30,.56) 0%,rgba(131,53,36,.35) 54%,rgba(220,112,62,.24) 100%),linear-gradient(0deg,rgba(36,25,22,.30),rgba(36,25,22,.04) 72%);transition:opacity .25s}
+    .journey-step:nth-child(1):before{background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1000&q=85')}
+    .journey-step:nth-child(2):before{background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85')}
+    .journey-step:nth-child(3):before{background-image:url('https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=1200&q=80')}
+    .journey-step:nth-child(4):before{background-image:url('https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=1000&q=85')}
+    .journey-step:nth-child(2):after{background:linear-gradient(110deg,rgba(66,36,30,.56),rgba(131,53,36,.35) 58%,rgba(220,112,62,.24)),linear-gradient(0deg,rgba(36,25,22,.30),rgba(36,25,22,.04) 72%)}
+    .journey-step:nth-child(3):after{background:linear-gradient(110deg,rgba(66,36,30,.56),rgba(131,53,36,.35) 58%,rgba(220,112,62,.24)),linear-gradient(0deg,rgba(36,25,22,.30),rgba(36,25,22,.04) 72%)}
+    .journey-step:nth-child(4):after{background:linear-gradient(110deg,rgba(66,36,30,.56),rgba(131,53,36,.35) 58%,rgba(220,112,62,.24)),linear-gradient(0deg,rgba(36,25,22,.30),rgba(36,25,22,.04) 72%)}
+    .journey-step+.journey-step{border-left:1px solid rgba(255,255,255,.42)}
+    .journey-step:hover:before{transform:scale(1.045);filter:brightness(.90) saturate(.88) contrast(.93)}.journey-step:hover:after{opacity:.94}
+    .journey-icon{position:absolute;z-index:1;top:20px;left:clamp(16px,2.3vw,34px);display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(255,255,255,.58);border-radius:14px;background:rgba(255,255,255,.16);color:#fff;box-shadow:0 8px 22px rgba(55,19,12,.12);backdrop-filter:blur(10px)}
+    .journey-copy{position:relative;z-index:1;min-width:0;max-width:270px;padding-top:45px;text-shadow:0 1px 10px rgba(42,14,10,.25)}
+    .journey-index{display:block;margin-bottom:6px;font-size:9px;line-height:1;font-weight:800;letter-spacing:1.7px;color:rgba(255,255,255,.78)}
+    .journey-copy h2{margin:0;color:#fff;font-size:clamp(13px,1.1vw,16px);font-weight:750;letter-spacing:-.35px;line-height:1.3}
+    .journey-copy p{max-width:230px;margin:6px 0 0;color:rgba(255,255,255,.86);font-size:10px;line-height:1.55}
+    .journey-arrow{position:absolute;z-index:1;right:clamp(15px,2vw,28px);top:24px;flex:0 0 auto;color:#fff;opacity:.85;transition:transform .2s}
+    .journey-step:hover .journey-arrow{transform:translate(3px,-3px)}
+    @media(max-width:900px){.journey-track{display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none}.journey-track::-webkit-scrollbar{display:none}.journey-step{flex:0 0 min(290px,74vw);min-height:166px;scroll-snap-align:start;padding:22px 22px}.journey-step+.journey-step{border-left:1px solid rgba(255,255,255,.42)}.journey-icon{left:22px}}
+    @media(max-width:639px){.journey-step{flex-basis:80vw;min-height:158px}.journey-copy h2{font-size:15px}.journey-copy p{font-size:10px}}
+    /* Soft, image-led product story sections */
+    .showcase-section{position:relative;overflow:hidden}
+    .showcase-image-wrap{isolation:isolate;min-height:390px;display:flex;align-items:center;justify-content:center;padding:26px 8px 34px}
+    .showcase-image-wrap:before{content:"";position:absolute;z-index:-1;inset:7% -3% 2% 8%;border-radius:28% 10% 24% 12%;background:linear-gradient(140deg,#f9e6dc,#f7eee7 65%,#f4ddd2)}
+    .showcase-image-two:before{inset:7% 8% 2% -3%;background:linear-gradient(140deg,#f4e8df,#faeee8 65%,#f3ddd3)}
+    /* The feature photos are framed as real devices rather than free-floating crops. */
+    .device-monitor{position:relative;z-index:1;width:min(100%,560px);padding:10px 10px 11px;border:1px solid #d5d4d1;border-radius:15px;background:linear-gradient(145deg,#343438,#111114 65%,#252529);box-shadow:0 24px 55px rgba(50,38,32,.18),inset 0 0 0 1px rgba(255,255,255,.2)}
+    .device-monitor-screen{position:relative;overflow:hidden;aspect-ratio:16/10;border-radius:5px;background:#f7f5f1}
+    .showcase-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.86) brightness(1.04) contrast(.97);transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .35s}
+    .device-monitor-screen:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(140deg,rgba(255,255,255,.08),transparent 45%,rgba(20,20,20,.04))}
+    .device-monitor-stand{position:relative;width:18%;height:30px;margin:0 auto;background:linear-gradient(90deg,#b7b7b9,#ededed 45%,#9c9c9f);clip-path:polygon(36% 0,64% 0,75% 72%,100% 100%,0 100%,25% 72%)}
+    .device-monitor-base{width:34%;height:8px;margin:0 auto;border-radius:0 0 8px 8px;background:linear-gradient(#c8c8ca,#8e8e91);box-shadow:0 5px 9px rgba(40,30,25,.08)}
+    .device-phone{position:relative;z-index:1;width:min(66%,270px);min-width:205px;padding:8px;border:2px solid #c9c8c5;border-radius:39px;background:linear-gradient(145deg,#f8f8f7,#202024 23%,#111114 78%,#bdbdbd);box-shadow:0 26px 58px rgba(50,38,32,.2),inset 0 0 0 1px rgba(255,255,255,.6)}
+    .device-phone-screen{position:relative;overflow:hidden;aspect-ratio:9/18.5;border-radius:30px;background:#f7f4ef}
+    .device-phone-screen .showcase-image{object-position:center;filter:saturate(.84) brightness(1.045) contrast(.96)}
+    .device-phone-screen:before{content:"";position:absolute;z-index:2;top:7px;left:50%;width:30%;height:17px;transform:translateX(-50%);border-radius:20px;background:#111114;box-shadow:0 1px 0 rgba(255,255,255,.12)}
+    .showcase-image-wrap:hover .showcase-image{transform:scale(1.025);filter:saturate(.92) brightness(1.06) contrast(.98)}
+    .showcase-image-one{padding-left:0}.showcase-image-two{padding-right:0}
+    .showcase-orbit{position:absolute;z-index:-1;top:-8%;right:-4%;width:116px;height:116px;border:1px solid #efd8cd;border-radius:50%}
+    .showcase-orbit-two{right:auto;left:-4%;top:-7%;border-color:#eeded4}
+    .image-note{position:absolute;z-index:2;bottom:23px;display:flex;align-items:center;gap:11px;max-width:calc(100% - 42px);padding:12px 16px;border:1px solid rgba(255,255,255,.85);border-radius:15px;background:rgba(255,253,251,.94);box-shadow:0 12px 36px rgba(52,34,27,.12);backdrop-filter:blur(12px)}
+    .image-note-one{left:24px}.image-note-two{right:24px}
+    .image-note-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:#fff0e8;color:#d64a32}
+    .image-note strong,.image-note small{display:block}.image-note strong{font-size:11px;font-weight:750;color:#302e3b}.image-note small{margin-top:3px;font-size:9px;color:#85808a}
+    .showcase-eyebrow{display:inline-flex;align-items:center;gap:10px;color:#9a7770;font-size:9px;font-weight:800;letter-spacing:1.6px}
+    .showcase-eyebrow span{display:grid;place-items:center;width:27px;height:27px;border:1px solid #f0d8cd;border-radius:50%;color:#ce5638;font-size:9px;letter-spacing:0}
+    .showcase-features{list-style:none;padding:0;margin-bottom:0}
+    .showcase-features li{display:flex;align-items:flex-start;gap:10px;min-width:0;padding:12px 11px;border:1px solid #f1e9e5;border-radius:13px;background:rgba(255,255,255,.78);transition:border-color .2s,background .2s,transform .2s}
+    .showcase-features li:hover{border-color:#edc9bb;background:#fffaf7;transform:translateY(-1px)}
+    .showcase-features li>span{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:#fff0e8;color:#ce5034}
+    .showcase-features strong,.showcase-features small{display:block}.showcase-features strong{font-size:11px;font-weight:750;line-height:1.45;color:#393640}.showcase-features small{margin-top:4px;font-size:10px;line-height:1.6;color:#898590}
+    @media(max-width:767px){.showcase-image-wrap{min-height:0;padding:20px 4px 28px}.device-monitor{padding:7px 7px 8px;border-radius:10px}.device-monitor-stand{height:22px}.device-monitor-base{height:6px}.device-phone{width:min(65%,250px);min-width:190px;padding:6px;border-radius:31px}.device-phone-screen{border-radius:24px}.device-phone-screen:before{top:6px;height:13px}.showcase-row{gap:28px}.showcase-row+.showcase-row{margin-top:64px}.image-note{bottom:12px;padding:9px 11px}.image-note-one{left:8px}.image-note-two{right:8px}.showcase-orbit{width:82px;height:82px}.showcase-features li{padding:10px}.showcase-copy{min-width:0}}
+    @media(min-width:1500px){.hero-title{font-size:72px}}@media(max-width:1023px){.hero-title{font-size:clamp(45px,7vw,65px)}.hero-photo{height:clamp(360px,60vw,500px)}.hero-orbit{right:-3%}}
+    @media(max-width:639px){.hero-title{font-size:clamp(42px,11.5vw,55px);letter-spacing:-.06em}.hero-photo{height:355px;border-radius:37% 12% 24% 10%/19% 12% 19% 15%}.float-card{padding:10px 11px;gap:9px}.image-caption{left:21px;right:21px;bottom:21px}.hero-orbit{width:95%;right:-4%;top:4%}}
+
+    .faq-section{background:linear-gradient(180deg,#fff 0%,#fcf8f5 100%)}
+    .faq-list{border-top:1px solid #e9e2de}
+    .faq-item{border-bottom:1px solid #e9e2de;padding:0 2px}
+    .faq-item summary{position:relative;list-style:none;cursor:pointer;padding:22px 42px 22px 0;color:#302e35;font-size:13px;font-weight:650;line-height:1.6}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-item summary:after{content:'+';position:absolute;right:4px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:27px;height:27px;border:1px solid #eadbd4;border-radius:50%;color:#d64a32;font-size:18px;font-weight:400;transition:transform .2s,background .2s}
+    .faq-item[open] summary:after{content:'−';background:#fff0e9;transform:translateY(-50%) rotate(180deg)}
+    .faq-item p{max-width:620px;margin:-4px 42px 22px 0;color:#777583;font-size:12px;line-height:1.9}
+    .final-cta{position:relative;background-image:radial-gradient(ellipse at 95% 0%,rgba(214,74,50,.22),transparent 40%),linear-gradient(120deg,#171717,#202020)}
+    .final-cta:after{content:'';position:absolute;right:-65px;bottom:-160px;width:330px;height:330px;border:1px solid rgba(255,255,255,.08);border-radius:50%;box-shadow:0 0 0 36px rgba(255,255,255,.025),0 0 0 72px rgba(255,255,255,.02);pointer-events:none}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+    /* Black-and-white editorial finish below the hero and journey strip */
+    .showcase-section{background:#fff!important;color:#171717}
+    .showcase-image-wrap:before,.showcase-image-two:before{background:#f7f7f7!important}
+    .showcase-orbit,.showcase-orbit-two{border-color:#e8e8e8!important}
+    .image-note{border-color:#ededed!important;background:rgba(255,255,255,.97)!important;box-shadow:0 12px 36px rgba(0,0,0,.07)!important}
+    .image-note-icon{background:#f3f3f3!important;color:#171717!important}
+    .showcase-eyebrow{color:#555!important}
+    .showcase-eyebrow span{border-color:#dedede!important;color:#222!important}
+    .showcase-features li{border-color:#e8e8e8!important;background:#fff!important}
+    .showcase-features li:hover{border-color:#cfcfcf!important;background:#fafafa!important}
+    .showcase-features li>span{background:#f2f2f2!important;color:#222!important}
+    .faq-section{margin:0 20px 64px;border-radius:28px;background:#111!important;color:#fff;padding-top:clamp(48px,7vw,88px)!important;padding-bottom:clamp(48px,7vw,88px)!important}
+    .faq-section .micro-label{color:#bcbcbc!important}
+    .faq-section h2{color:#fff!important}
+    .faq-section h2 span{color:#bcbcbc!important}
+    .faq-section p{color:#bcbcbc!important}
+    .faq-list{border-top:1px solid #3b3b3b!important}
+    .faq-item{border-bottom:1px solid #3b3b3b!important}
+    .faq-item summary{color:#fff!important}
+    .faq-item summary:after{border-color:#555!important;background:transparent!important;color:#fff!important}
+    .faq-item[open] summary:after{background:#fff!important;color:#111!important;border-color:#fff!important}
+    .faq-item p{color:#bdbdbd!important}
+    .final-cta{background:#fff!important;color:#111!important;box-shadow:none!important;padding-top:clamp(42px,6vw,76px)!important;padding-bottom:clamp(42px,6vw,76px)!important;margin-bottom:32px!important}
+    .final-cta:after,.final-cta .pointer-events-none{display:none!important}
+    .final-cta .micro-label{color:#555!important}
+    .final-cta h2{color:#111!important}
+    .final-cta p{color:#666!important}
+    .final-cta a{background:#111!important;color:#fff!important}
+    .final-cta a:hover{background:#333!important}
+    footer#help{background:#fff!important;border-color:#e8e8e8!important}
+    footer#help .text-\[\#e15b36\],footer#help .text-\[\#d64a32\]{color:#222!important}
+    footer#help .border-t{border-color:#e8e8e8!important}
+    footer#help a:hover{color:#111!important}
+    @media(max-width:639px){.faq-section{margin:0 10px 42px;border-radius:22px}.final-cta{margin-left:14px!important;margin-right:14px!important;padding-left:8px!important;padding-right:8px!important}}
+
+
+    /* Keep mobile navigation actions grouped against the right edge. */
+    @media(max-width:639px){
+      header nav[aria-label="Main navigation"]{margin-left:auto;justify-content:flex-end;}
+      /* Small screens: keep search to one icon until the shopper asks for it. */
+      #storeSearchForm{position:relative;flex:0 0 42px;width:42px;height:42px;padding:2px;overflow:hidden;border-color:transparent;background:transparent;box-shadow:none;border-radius:14px;z-index:60}
+      #storeSearchForm>input,#storeSearchForm>div,#storeSearchForm>#scanButton,#storeSearchForm>#voiceButton{display:none!important}
+      #storeSearchForm>button[type="submit"]{width:38px;height:38px;color:#28243f;background:#f5f5f7}
+      #storeSearchForm.is-open{position:absolute;top:calc(100% - 3px);left:12px;right:12px;width:auto;height:52px;padding:5px 7px;overflow:visible;display:flex;flex:initial;background:#fff;border:1px solid #dedee3;box-shadow:0 12px 35px rgba(20,20,25,.12)}
+      #storeSearchForm.is-open>input{display:block!important;min-width:0;font-size:12px}
+      #storeSearchForm.is-open>div{display:block!important}
+      #storeSearchForm.is-open>#scanButton,#storeSearchForm.is-open>#voiceButton{display:inline-flex!important}
+      #storeSearchForm.is-open>button[type="submit"]{background:#f5f5f7}
+    }
+    /* Lightweight product-management animation inside the monitor mockup. */
+    .admin-demo{position:absolute;inset:0;display:flex;background:#fafbfc;color:#242630;font-family:Manrope,sans-serif;font-size:clamp(5px,.68vw,10px);overflow:hidden}
+    .admin-demo-sidebar{width:20%;flex-shrink:0;display:flex;flex-direction:column;gap:8px;padding:5% 3%;background:#fff;border-right:1px solid #eceef1}
+    .admin-demo-logo{display:flex;align-items:center;gap:5px;font-weight:800;font-size:1.3em;margin-bottom:12%}.admin-logo-mark{display:grid;place-items:center;width:17px;height:17px;border-radius:5px;background:#17181d;color:white;font-size:12px}
+    .admin-nav{display:flex;align-items:center;gap:6px;padding:8px 6px;border-radius:5px;color:#7d818b;white-space:nowrap}.admin-nav svg{width:1.3em;height:1.3em}.admin-nav.active{background:#f0f1f4;color:#252730;font-weight:700}
+    .admin-user{display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:10px;border-top:1px solid #eceef1}.admin-avatar{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#e8e9f3;font-weight:800}.admin-user b,.admin-user small{display:block;white-space:nowrap}.admin-user b{font-size:.85em}.admin-user small{margin-top:2px;color:#9296a0;font-size:.75em}
+    .admin-demo-main{position:relative;min-width:0;flex:1;padding:3.5% 4%}.admin-topbar{display:flex;align-items:center;justify-content:space-between;gap:8px}.admin-topbar small{color:#8a8e98;font-size:.78em;letter-spacing:.08em}.admin-topbar h4{margin:3px 0 0;font-size:1.9em;font-weight:750;letter-spacing:-.05em}.admin-add-btn{display:flex;align-items:center;gap:4px;padding:8px 10px;border-radius:5px;background:#202127;color:white;white-space:nowrap;font-weight:700}.admin-add-btn svg{width:1.2em;height:1.2em}
+    .admin-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:5% 0}.admin-summary>div{padding:8px;border:1px solid #eceef1;border-radius:6px;background:#fff}.admin-summary small,.admin-summary strong,.admin-summary span{display:block}.admin-summary small{color:#898d97;font-size:.78em;white-space:nowrap}.admin-summary strong{margin:5px 0 2px;font-size:1.9em;letter-spacing:-.04em}.admin-summary span{color:#999da5;font-size:.72em;white-space:nowrap}
+    .admin-table{overflow:hidden;border:1px solid #eceef1;border-radius:6px;background:#fff}.admin-table-heading,.admin-product-row{display:grid;grid-template-columns:minmax(0,1.8fr) .65fr .55fr;align-items:center;gap:5px;padding:8px 9px}.admin-table-heading{background:#f8f9fa;color:#90949d;font-size:.8em}.admin-product-row{min-height:40px;border-top:1px solid #f0f1f3;transition:background .35s}.admin-product-row>b{font-size:.92em}.admin-product{display:flex;align-items:center;gap:6px;min-width:0}.product-thumb{display:grid;place-items:center;flex-shrink:0;width:25px;height:25px;border-radius:5px;font-style:normal;font-size:14px}.thumb-orange{background:#fff0df}.thumb-green{background:#eaf4e8}.thumb-cream{background:#f7efe3}.admin-product b,.admin-product small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.admin-product b{font-size:.9em}.admin-product small{margin-top:3px;color:#9a9da5;font-size:.75em}.admin-product-row em{justify-self:start;padding:3px 5px;border-radius:4px;background:#eaf7ef;color:#2c8a56;font-size:.75em;font-style:normal}.active-row{animation:admin-highlight 5.4s ease-in-out infinite}.admin-saved-toast{position:absolute;right:5%;bottom:5%;display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid #e5e8e6;border-radius:7px;background:#fff;box-shadow:0 8px 25px #252a3014;opacity:0;animation:saved-toast 5.4s ease-in-out infinite}.admin-saved-toast>span:first-child{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e7f7ed;color:#21804b}.admin-saved-toast svg{width:12px;height:12px}.admin-saved-toast b,.admin-saved-toast small{display:block;white-space:nowrap}.admin-saved-toast b{font-size:.9em}.admin-saved-toast small{margin-top:2px;color:#8c929a;font-size:.75em}
+    @keyframes admin-highlight{0%,15%,100%{background:#fff}25%,65%{background:#f0faf3}80%{background:#fff}}@keyframes saved-toast{0%,14%,80%,100%{opacity:0;transform:translateY(7px)}23%,68%{opacity:1;transform:translateY(0)}}
+    /* Customer storefront mockup: a cart interaction cycles gently, without distracting from the page. */
+    .shop-demo{position:absolute;inset:0;overflow:hidden;padding:0 5% 12%;background:#fff;color:#24242a;font-family:Manrope,sans-serif;font-size:clamp(6px,1.45vw,10px)}.shop-status{height:7%;display:flex;align-items:center;justify-content:space-between;padding:0 2%;font-size:.9em;font-weight:800}.shop-status>span:last-child{display:flex;gap:4px}.shop-status svg{width:1.1em;height:1.1em}.shop-demo-head{display:flex;align-items:center;gap:7px;padding:3% 1%}.shop-store-mark{display:grid;place-items:center;width:29px;height:29px;border-radius:9px;background:#191a1e;color:#fff}.shop-store-mark svg{width:15px;height:15px}.shop-store-name{flex:1;min-width:0}.shop-store-name b,.shop-store-name small{display:block}.shop-store-name b{font-size:1.15em}.shop-store-name small{margin-top:2px;color:#9999a1;font-size:.85em}.shop-cart{position:relative;display:grid;place-items:center;width:27px;height:27px;border:1px solid #ececf0;border-radius:8px}.shop-cart svg{width:14px;height:14px}.shop-cart b{position:absolute;right:-4px;top:-5px;display:grid;place-items:center;width:13px;height:13px;border-radius:50%;background:#202126;color:#fff;font-size:8px;animation:cart-count 5s ease-in-out infinite}.shop-search{display:flex;align-items:center;gap:6px;margin:2% 1% 5%;padding:8px 9px;border-radius:8px;background:#f5f6f7;color:#9b9da4}.shop-search svg{width:12px;height:12px}.shop-welcome{display:flex;flex-direction:column;gap:4px;margin:0 1% 4%}.shop-welcome small{font-size:.7em;letter-spacing:.12em;color:#999da3}.shop-welcome b{font-size:1.9em;letter-spacing:-.06em;font-weight:750}.shop-welcome span{font-size:.9em;color:#888c94}.shop-category-row{display:flex;gap:5px;margin:0 1% 4%;overflow:hidden;white-space:nowrap}.shop-category-row span{padding:5px 8px;border:1px solid #ececf0;border-radius:6px;color:#7c7e87;font-size:.82em}.shop-category-row .chosen{border-color:#202126;background:#202126;color:white}.shop-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0 1%}.shop-product{min-width:0;padding:5px;border:1px solid #eff0f2;border-radius:8px;background:#fff}.shop-product-art{display:grid;place-items:center;height:clamp(42px,7.5vw,76px);margin-bottom:6px;border-radius:5px;font-size:2.8em}.art-orange{background:#fff0df}.art-green{background:#eaf4e8}.art-bread{background:#f8f0e3}.art-red{background:#fcebed}.shop-product>b,.shop-product>small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.shop-product>b{font-size:.94em}.shop-product>small{margin-top:3px;color:#9a9da5;font-size:.78em}.shop-product-bottom{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-top:6px}.shop-product-bottom strong{font-size:1em}.shop-add{display:grid;place-items:center;width:19px;height:19px;border-radius:6px;background:#202126;color:#fff}.shop-add svg{width:11px;height:11px}.add-one{animation:add-pop 5s ease-in-out infinite}.add-two{animation:add-pop 5s ease-in-out infinite;animation-delay:2.5s}.cart-feedback{position:absolute;z-index:3;left:7%;right:7%;bottom:13%;display:flex;align-items:center;gap:7px;padding:9px;border:1px solid #e7e9e7;border-radius:9px;background:#fff;box-shadow:0 9px 28px #1c1d2218;opacity:0;animation:cart-toast 5s ease-in-out infinite}.cart-feedback-check{display:grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#e8f7ee;color:#24814d}.cart-feedback-check svg{width:12px;height:12px}.cart-feedback>span:nth-child(2){flex:1;min-width:0}.cart-feedback b,.cart-feedback small{display:block;white-space:nowrap}.cart-feedback b{font-size:.9em}.cart-feedback small{margin-top:2px;color:#90949c;font-size:.75em}.cart-feedback-total{font-size:.9em;font-weight:800}.shop-bottom-nav{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:7px 3% 5%;border-top:1px solid #f0f0f2;background:#fff}.shop-bottom-nav span{display:flex;flex-direction:column;align-items:center;gap:3px;color:#9b9da5;font-size:.7em}.shop-bottom-nav span:first-child{color:#24242a}.shop-bottom-nav svg{width:13px;height:13px}
+    @keyframes add-pop{0%,15%,100%{transform:scale(1);background:#202126}22%,35%{transform:scale(1.15);background:#278252}45%{transform:scale(1);background:#202126}}@keyframes cart-toast{0%,15%,83%,100%{opacity:0;transform:translateY(8px)}24%,70%{opacity:1;transform:translateY(0)}}@keyframes cart-count{0%,15%,100%{transform:scale(1)}24%,35%{transform:scale(1.3)}}
+    @media(prefers-reduced-motion:reduce){.active-row,.admin-saved-toast,.add-one,.add-two,.cart-feedback,.shop-cart b{animation:none!important}.admin-saved-toast{opacity:1;transform:none}}
+
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="sticky top-0 z-50 border-b border-gray-200/80 bg-white/95 backdrop-blur-xl">
+    <div class="relative mx-auto max-w-[1600px] px-4 sm:px-7 lg:px-12">
+      <div class="flex min-h-[78px] items-center gap-3 sm:min-h-[86px] sm:gap-5 lg:gap-9">
+        <a href="#discover" aria-label="Aulin home" class="flex shrink-0 items-center gap-2.5 sm:gap-3">
+          <svg viewBox="0 0 48 48" class="h-9 w-9 sm:h-10 sm:w-10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="aulinGradient" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#FF9B50"/><stop offset="1" stop-color="#B83227"/></linearGradient></defs><path d="M12 17.5H36L38.5 40H9.5L12 17.5Z" fill="url(#aulinGradient)"/><path d="M17 18V13.5C17 9.6 20.1 6.5 24 6.5C27.9 6.5 31 9.6 31 13.5V18" stroke="#D64A32" stroke-width="3.5" stroke-linecap="round"/><path d="M18 31.5L24 24L30 31.5M24 24V35" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="text-[24px] font-extrabold tracking-[-1.4px] text-[#28243f] sm:text-[26px]">aulin<span class="text-[#e15b36]">.</span></span>
+        </a>
+        <form id="storeSearchForm" class="search-shell flex h-[46px] min-w-0 flex-1 items-center rounded-2xl border border-[#e6e6ed] bg-[#f9f9fc] px-2 sm:h-[50px] sm:px-3 lg:px-4" role="search">
+          <button type="submit" class="icon-button h-9 w-9 shrink-0 rounded-xl text-[#77778b]" aria-label="Find store"><i data-lucide="search" class="h-5 w-5"></i></button>
+          <input id="searchInput" type="text" inputmode="url" placeholder="Enter a store URL or scan its QR code" aria-label="Enter a store URL or scan its QR code" class="h-full min-w-0 flex-1 bg-transparent px-2 text-[11px] font-medium text-[#25243a] outline-none placeholder:text-[#9999aa] sm:px-3 sm:text-[13px]" autocomplete="url">
+          <div class="mx-1 hidden h-6 w-px bg-[#e7e6ee] sm:block"></div>
+          <button id="scanButton" type="button" class="icon-button h-9 w-9 shrink-0 rounded-xl text-[#77778b]" aria-label="Scan store QR code" title="Scan a store QR code"><i data-lucide="scan-line" class="h-5 w-5"></i></button>
+          <button id="voiceButton" type="button" class="icon-button ml-0.5 h-9 w-9 shrink-0 rounded-xl text-[#77778b]" aria-label="Voice input" title="Voice input"><i data-lucide="mic" class="h-5 w-5"></i></button>
+        </form>
+        <nav class="flex shrink-0 items-center gap-0.5 sm:gap-1.5" aria-label="Main navigation">
+          <button id="profileButton" type="button" class="icon-button h-10 w-10 rounded-2xl text-[#454459] sm:h-11 sm:w-11" aria-label="Your profile" title="Profile"><i data-lucide="circle-user-round" class="h-[22px] w-[22px] stroke-[1.7]"></i></button>
+          <button id="businessButton" type="button" class="icon-button h-10 w-10 rounded-2xl text-[#454459] sm:h-11 sm:w-11" aria-label="Business portal" title="Business"><i data-lucide="store" class="h-[22px] w-[22px] stroke-[1.7]"></i></button>
+          <button id="menuButton" type="button" class="menu-button ml-0.5 flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-[5px] rounded-2xl text-[#333149] hover:bg-[#f0eeff] sm:ml-1 sm:h-11 sm:w-11" aria-label="Open main menu" aria-expanded="false" aria-controls="menuPanel"><span class="menu-line w-[21px]"></span><span class="menu-line w-[15px]"></span><span class="menu-line w-[21px]"></span></button>
+        </nav>
+      </div>
+      <div id="menuPanel" class="floating-panel absolute right-4 top-[68px] hidden w-64 rounded-2xl border border-gray-100 bg-white p-2 shadow-[0_18px_60px_rgba(29,25,66,0.12)] sm:right-7 sm:top-[76px]" role="menu">
+        <p class="px-3 pb-2 pt-3 text-[10px] font-bold uppercase tracking-[1.8px] text-gray-400">Explore Aulin</p>
+        <a href="#discover" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-700 hover:bg-[#fff2ec]" role="menuitem"><i data-lucide="compass" class="h-[18px] w-[18px] text-[#d64a32]"></i>Discover stores</a>
+        <a href="#how-it-works" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-700 hover:bg-[#fff2ec]" role="menuitem"><i data-lucide="grid-2x2" class="h-[18px] w-[18px] text-[#d64a32]"></i>How it works</a>
+        <a href="#get-started" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-700 hover:bg-[#fff2ec]" role="menuitem"><i data-lucide="store" class="h-[18px] w-[18px] text-[#d64a32]"></i>Bring your store online</a>
+        <div class="my-2 h-px bg-gray-100"></div><a href="#help" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-700 hover:bg-[#fff2ec]" role="menuitem"><i data-lucide="circle-help" class="h-[18px] w-[18px] text-[#d64a32]"></i>Help and support</a>
+      </div>
+      <div id="feedback" class="hidden pb-3 text-xs font-medium text-[#6754d9]" role="status" aria-live="polite"></div>
+    </div>
+  </header>
+  <main>
+    <section id="discover" class="relative overflow-hidden bg-[#fdfdff]">
+      <div class="pointer-events-none absolute -left-52 top-32 h-[400px] w-[400px] rounded-full bg-[#f5f2ff] opacity-80 blur-3xl"></div>
+      <div class="relative mx-auto grid max-w-[1600px] items-center gap-12 px-5 pb-20 pt-14 sm:px-8 sm:pb-24 sm:pt-16 lg:grid-cols-[.91fr_1.09fr] lg:gap-12 lg:px-12 lg:pb-24 lg:pt-16 xl:gap-20 xl:pt-20">
+        <div class="relative z-10 max-w-[590px]">
+          <h1 class="hero-title">Turn your physical store <span class="light-line block">digital.</span><span class="accent-line block">Run everything</span><span class="light-line block">independently.</span></h1>
+          <p class="hero-description mt-7">Your supermarket deserves more than a physical location. Bring your products online and manage your digital storefront independently, with the tools to run your business your way.</p>
+          <div id="get-started" class="mt-9 flex flex-wrap items-center gap-4">
+            <a href="#how-it-works" class="primary-link inline-flex h-[49px] items-center gap-3 rounded-xl bg-black px-5 text-[12px] font-semibold text-white shadow-[0_7px_20px_rgba(0,0,0,.12)]">Bring your store online<i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+            <a href="#how-it-works" class="secondary-link inline-flex h-[49px] items-center gap-2 rounded-xl border border-[#e8e7ed] bg-white px-4 text-[12px] font-semibold text-[#25242a] hover:bg-[#f8f8fa]"><i data-lucide="play-circle" class="h-[19px] w-[19px]"></i>Explore Aulin</a>
+          </div>
+          
+        </div>
+        <div class="hero-visual mx-auto w-full max-w-[710px] lg:ml-auto"><div class="hero-orbit"></div><div class="hero-dot"></div>
+          <div class="hero-photo border-[6px] border-white shadow-[0_26px_80px_rgba(38,31,78,.12)]"><img src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=1500&q=85" alt="Well-stocked supermarket with grocery aisles" fetchpriority="high"><div class="image-caption"><p class="micro-label text-white/75">Your business, expanded</p><p class="mt-2 max-w-[340px] text-[24px] font-light leading-tight tracking-[-.8px] sm:text-[30px]">Your shelves, <span class="font-medium">beyond your walls.</span></p></div></div>
+          <div class="float-card -left-2 top-[11%] sm:-left-7 sm:top-[13%]"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#fff0e8] text-[#d64a32]"><i data-lucide="monitor-smartphone" class="h-[21px] w-[21px]"></i></div><div><p class="text-[11px] font-bold text-[#302e3c] sm:text-[12px]">Your online store</p><p class="mt-1 text-[9px] text-[#858292] sm:text-[10px]">Your products, your identity</p></div><span class="ml-1 h-2 w-2 shrink-0 rounded-full bg-emerald-500"></span></div>
+          <div class="float-card -bottom-5 right-2 sm:bottom-10 sm:-right-5"><div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#fff1e9] text-[#d64a32]"><i data-lucide="scan-line" class="h-5 w-5"></i></div><div><p class="text-[11px] font-bold text-[#302e3c]">One store. One link.</p><p class="mt-1 text-[9px] text-[#858292] sm:text-[10px]">Easy for customers to find</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="journey" class="journey-strip" aria-label="How Aulin powers your online store">
+      <div class="journey-track">
+        <article class="journey-step"><span class="journey-icon"><i data-lucide="store" class="h-[21px] w-[21px]"></i></span><div class="journey-copy"><span class="journey-index">STEP 01</span><h2>Set up your store</h2><p>List your products and get your storefront ready.</p></div><i data-lucide="arrow-up-right" class="journey-arrow h-4 w-4" aria-hidden="true"></i></article>
+        <article class="journey-step"><span class="journey-icon"><i data-lucide="qr-code" class="h-[21px] w-[21px]"></i></span><div class="journey-copy"><span class="journey-index">STEP 02</span><h2>Share your QR & URL</h2><p>Put your store link on shelves, signs and social channels.</p></div><i data-lucide="arrow-up-right" class="journey-arrow h-4 w-4" aria-hidden="true"></i></article>
+        <article class="journey-step"><span class="journey-icon"><i data-lucide="shopping-bag" class="h-[21px] w-[21px]"></i></span><div class="journey-copy"><span class="journey-index">STEP 03</span><h2>Receive orders</h2><p>Let customers browse and order from anywhere.</p></div><i data-lucide="arrow-up-right" class="journey-arrow h-4 w-4" aria-hidden="true"></i></article>
+        <article class="journey-step"><span class="journey-icon"><i data-lucide="package-check" class="h-[21px] w-[21px]"></i></span><div class="journey-copy"><span class="journey-index">STEP 04</span><h2>Serve every customer</h2><p>Manage orders and coordinate delivery in one flow.</p></div><i data-lucide="arrow-up-right" class="journey-arrow h-4 w-4" aria-hidden="true"></i></article>
+      </div>
+    </section>
+    <section id="how-it-works" class="showcase-section border-t border-[#f2eae6] bg-[#fffdfb]">
+      <div class="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="micro-label text-[#cf4c32]">Built for both sides of the shop</p>
+          <h2 class="mt-4 text-[32px] font-light leading-tight tracking-[-1.5px] text-[#282631] sm:text-[42px]">A better way to run your store <span class="text-[#b98778]">and serve your customers.</span></h2>
+          <p class="mx-auto mt-4 max-w-xl text-[13px] leading-7 text-[#82808e]">Aulin connects the work your team does behind the scenes with the simple, welcoming experience your customers see.</p>
+        </div>
+
+        <div class="showcase-row mt-14 grid items-center gap-9 sm:mt-16 md:grid-cols-2 md:gap-12 lg:gap-20">
+          <div class="showcase-image-wrap showcase-image-one relative min-w-0">
+            <div class="device-monitor" aria-label="Desktop monitor showing an online product catalogue">
+              <div class="device-monitor-screen" aria-label="Animated preview of a store staff member managing products">
+                <div class="admin-demo">
+                  <aside class="admin-demo-sidebar"><span class="admin-demo-logo"><span class="admin-logo-mark">a</span> aulin</span><span class="admin-nav active"><i data-lucide="layout-dashboard"></i> Overview</span><span class="admin-nav"><i data-lucide="package"></i> Products</span><span class="admin-nav"><i data-lucide="shopping-bag"></i> Orders</span><span class="admin-nav"><i data-lucide="settings-2"></i> Settings</span><div class="admin-user"><span class="admin-avatar">S</span><span><b>Store team</b><small>Staff workspace</small></span></div></aside>
+                  <div class="admin-demo-main"><div class="admin-topbar"><div><small>YOUR STORE / CATALOGUE</small><h4>Products</h4></div><span class="admin-add-btn"><i data-lucide="plus"></i> Add product</span></div><div class="admin-summary"><div><small>Total products</small><strong>248</strong><span>Ready to sell</span></div><div><small>In stock</small><strong>231</strong><span>Available online</span></div><div><small>Needs attention</small><strong>03</strong><span>Review details</span></div></div><div class="admin-table"><div class="admin-table-heading"><span>Product</span><span>Price</span><span>Status</span></div><div class="admin-product-row"><span class="admin-product"><i class="product-thumb thumb-orange">🍊</i><span><b>Fresh oranges</b><small>Produce · AUL-104</small></span></span><b>₦2,500</b><em>Active</em></div><div class="admin-product-row active-row"><span class="admin-product"><i class="product-thumb thumb-green">🥬</i><span><b>Fresh vegetables</b><small>Produce · AUL-108</small></span></span><b>₦1,800</b><em>Active</em></div><div class="admin-product-row"><span class="admin-product"><i class="product-thumb thumb-cream">🍞</i><span><b>Bakery loaf</b><small>Bakery · AUL-112</small></span></span><b>₦1,200</b><em>Active</em></div></div><div class="admin-saved-toast"><span><i data-lucide="check"></i></span><span><b>Product saved</b><small>Your store listing is updated</small></span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="device-monitor-stand" aria-hidden="true"></div><div class="device-monitor-base" aria-hidden="true"></div>
+            <div class="image-note image-note-one"><span class="image-note-icon"><i data-lucide="boxes" class="h-4 w-4"></i></span><span><strong>One place to manage it</strong><small>Your store, your details, your control</small></span></div>
+            <span class="showcase-orbit" aria-hidden="true"></span>
+          </div>
+          <div class="showcase-copy md:pl-2 lg:pl-5">
+            <span class="showcase-eyebrow"><span>01</span> THE WORK BEHIND THE SCENES</span>
+            <h3 class="mt-5 max-w-lg text-[29px] font-light leading-[1.16] tracking-[-1.2px] text-[#282631] sm:text-[36px]">Your business, organised <span class="text-[#b98778]">from the inside out.</span></h3>
+            <p class="mt-4 max-w-lg text-[13px] leading-7 text-[#777583]">Keep the essentials of your digital business in one clear workflow, so your team can spend less time juggling tools and more time running the store.</p>
+            <ul class="showcase-features mt-6 grid gap-3 sm:grid-cols-2">
+              <li><span><i data-lucide="package-check" class="h-4 w-4"></i></span><div><strong>Product management</strong><small>Keep listings and product details in order.</small></div></li>
+              <li><span><i data-lucide="landmark" class="h-4 w-4"></i></span><div><strong>Local account setup</strong><small>Connect the business payment details you use.</small></div></li>
+              <li><span><i data-lucide="badge-check" class="h-4 w-4"></i></span><div><strong>Business profile & identity</strong><small>Present your store with confidence.</small></div></li>
+              <li><span><i data-lucide="workflow" class="h-4 w-4"></i></span><div><strong>A smoother workflow</strong><small>Keep everyday operations connected.</small></div></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="showcase-row mt-20 grid items-center gap-9 md:mt-28 md:grid-cols-2 md:gap-12 lg:gap-20">
+          <div class="showcase-copy order-2 md:order-1 md:pr-2 lg:pr-5">
+            <span class="showcase-eyebrow"><span>02</span> THE EXPERIENCE CUSTOMERS GET</span>
+            <h3 class="mt-5 max-w-lg text-[29px] font-light leading-[1.16] tracking-[-1.2px] text-[#282631] sm:text-[36px]">Shopping that feels <span class="text-[#b98778]">easy from start to finish.</span></h3>
+            <p class="mt-4 max-w-lg text-[13px] leading-7 text-[#777583]">Give customers a beautiful place to discover what you sell, ask questions, place an order and follow its progress without the usual back-and-forth.</p>
+            <ul class="showcase-features mt-6 grid gap-3 sm:grid-cols-2">
+              <li><span><i data-lucide="messages-square" class="h-4 w-4"></i></span><div><strong>Clear communication</strong><small>Make it easier to stay in touch with your store.</small></div></li>
+              <li><span><i data-lucide="shopping-cart" class="h-4 w-4"></i></span><div><strong>Browse, cart & checkout</strong><small>A straightforward path from product to order.</small></div></li>
+              <li><span><i data-lucide="package-check" class="h-4 w-4"></i></span><div><strong>Delivery tracking</strong><small>Help customers follow their order's progress.</small></div></li>
+              <li><span><i data-lucide="route" class="h-4 w-4"></i></span><div><strong>Connected fulfilment</strong><small>Keep orders moving through a clearer process.</small></div></li>
+            </ul>
+          </div>
+          <div class="showcase-image-wrap showcase-image-two relative order-1 min-w-0 md:order-2">
+            <div class="device-phone" aria-label="Smartphone showing a digital shopping experience">
+              <div class="device-phone-screen" aria-label="Animated customer shopping preview with products being added to a cart">
+                <div class="shop-demo"><div class="shop-status"><span>9:41</span><span><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div><div class="shop-demo-head"><span class="shop-store-mark"><i data-lucide="shopping-bag"></i></span><span class="shop-store-name"><b>Market House</b><small>Fresh picks, every day</small></span><span class="shop-cart"><i data-lucide="shopping-cart"></i><b>2</b></span></div><div class="shop-search"><i data-lucide="search"></i><span>What are you looking for?</span></div><div class="shop-welcome"><small>GOOD MORNING</small><b>Fresh finds for you.</b><span>Picked for your home</span></div><div class="shop-category-row"><span class="chosen">All items</span><span>Produce</span><span>Bakery</span></div><div class="shop-products"><div class="shop-product"><div class="shop-product-art art-orange">🍊</div><b>Sweet oranges</b><small>Fresh produce</small><div class="shop-product-bottom"><strong>₦2,500</strong><span class="shop-add add-one"><i data-lucide="plus"></i></span></div></div><div class="shop-product"><div class="shop-product-art art-green">🥑</div><b>Ripe avocados</b><small>Fresh produce</small><div class="shop-product-bottom"><strong>₦1,800</strong><span class="shop-add add-two"><i data-lucide="plus"></i></span></div></div><div class="shop-product"><div class="shop-product-art art-bread">🥖</div><b>Farmhouse bread</b><small>From our bakery</small><div class="shop-product-bottom"><strong>₦1,200</strong><span class="shop-add"><i data-lucide="plus"></i></span></div></div><div class="shop-product"><div class="shop-product-art art-red">🍓</div><b>Fresh strawberries</b><small>Sweet & juicy</small><div class="shop-product-bottom"><strong>₦3,400</strong><span class="shop-add"><i data-lucide="plus"></i></span></div></div></div><div class="cart-feedback"><span class="cart-feedback-check"><i data-lucide="check"></i></span><span><b>Added to your cart</b><small>Sweet oranges · Qty 1</small></span><span class="cart-feedback-total">₦2,500</span></div><div class="shop-bottom-nav"><span><i data-lucide="house"></i>Home</span><span><i data-lucide="grid-2x2"></i>Browse</span><span><i data-lucide="heart"></i>Saved</span><span><i data-lucide="user-round"></i>You</span></div></div>
+              </div>
+            </div>
+            <div class="image-note image-note-two"><span class="image-note-icon"><i data-lucide="shopping-bag" class="h-4 w-4"></i></span><span><strong>From browse to doorstep</strong><small>A more considered shopping journey</small></span></div>
+            <span class="showcase-orbit showcase-orbit-two" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq-section px-5 py-20 sm:px-8 sm:py-24 lg:px-12" aria-labelledby="faq-heading">
+      <div class="mx-auto grid max-w-[1240px] gap-10 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+        <div class="max-w-md">
+          <span class="micro-label text-[#d64a32]">A FEW THINGS TO KNOW</span>
+          <h2 id="faq-heading" class="mt-4 text-[34px] font-light leading-tight tracking-[-1.5px] text-[#282631] sm:text-[43px]">Questions? <span class="text-[#b98778]">We’ve got you.</span></h2>
+          <p class="mt-4 text-[13px] leading-7 text-[#777583]">A quick look at how Aulin helps independent stores get online and run their digital operations.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item" open><summary>Is Aulin free to use?</summary><p>You can get started without a fixed monthly subscription. Aulin makes money when you make a sale online, so we grow alongside your business. Payment processing or other applicable transaction fees may still apply.</p></details>
+          <details class="faq-item"><summary>How do I receive money when a customer pays?</summary><p>Customer payments are processed through the payment setup connected to your Aulin store. Payouts are sent to the Nigerian bank account linked to your business, typically on the next business day, subject to payment processing and settlement schedules.</p></details>
+          <details class="faq-item"><summary>What is Aulin?</summary><p>Aulin brings together the digital tools stores need to present their products online, manage orders and offer customers a smoother shopping experience.</p></details>
+          <details class="faq-item"><summary>Who can use Aulin?</summary><p>Aulin is built for supermarkets, grocery stores and other independent retailers that want to sell online while keeping their own business identity.</p></details>
+          <details class="faq-item"><summary>Do I need technical skills to set up my store?</summary><p>Aulin is designed to make setup straightforward, with guided tools for your business profile, product listings and online storefront—without needing to build a website from scratch.</p></details>
+          <details class="faq-item"><summary>Can customers browse products and place orders online?</summary><p>Yes. Aulin gives customers a place to discover products, place orders and receive order updates, while your team manages orders through your business tools.</p></details>
+          <details class="faq-item"><summary>Does Aulin provide delivery services?</summary><p>Aulin helps your team coordinate delivery workflows and track orders. You can work with your own delivery staff or available delivery partners, depending on your setup.</p></details>
+          <details class="faq-item"><summary>How do I get started?</summary><p>Start by sharing your business details through the onboarding process. You can then set up your profile, add products and prepare your online store.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta mx-5 mb-16 overflow-hidden rounded-[26px] bg-[#171717] px-6 py-12 text-white sm:mx-8 sm:px-10 sm:py-16 lg:mx-auto lg:mb-20 lg:max-w-[1480px] lg:px-16">
+      <div class="relative z-10 mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+        <div class="max-w-2xl"><span class="micro-label text-[#ffad8f]">YOUR STORE, READY FOR MORE</span><h2 class="mt-4 max-w-2xl text-[32px] font-light leading-tight tracking-[-1.4px] text-white sm:text-[43px]">Don’t have a business account yet?</h2><p class="mt-4 max-w-xl text-[13px] leading-7 text-white/65">Bring your products, your identity and your customers together in one digital home.</p></div>
+        <a href="#businessButton" class="inline-flex shrink-0 items-center gap-3 rounded-full bg-white px-6 py-4 text-[12px] font-bold text-[#222] transition hover:-translate-y-0.5 hover:bg-[#fff0e9]">Open a business account <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+      </div>
+      <div class="pointer-events-none relative mt-8 h-px bg-white/10"><span class="absolute -top-1 right-[12%] h-2 w-2 rounded-full bg-[#e15b36]"></span></div>
+    </section>
+  </main>
+  <footer id="help" class="aulin-footer">
+    <nav class="aulin-footer-links" aria-label="Legal and contact links">
+      <a href="#terms">Terms of Service</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="mailto:support@yourdomain.com">Contact</a>
+    </nav>
+    <p class="aulin-footer-copyright">© <span id="copyrightYear">2026</span> Aulin. All rights reserved.</p>
+  </footer>
+  <style>
+    .aulin-footer{width:100%;background:#fff;border-top:1px solid #ededed;padding:22px 20px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+    .aulin-footer-links{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(18px,4vw,42px)}
+    .aulin-footer-links a{color:#111;font-size:12px;font-weight:800;letter-spacing:.01em;text-decoration:none;transition:opacity .2s ease}
+    .aulin-footer-links a:hover{opacity:.58}
+    .aulin-footer-copyright{margin:0;color:#666;font-size:11px;font-weight:500;line-height:1.5}
+    @media(max-width:420px){.aulin-footer{padding:20px 14px 18px;gap:13px}.aulin-footer-links{gap:10px 20px}.aulin-footer-links a{font-size:11px}}
+    @media(prefers-reduced-motion:reduce){.aulin-footer-links a{transition:none}}
+  </style>
+  <script>
+    lucide.createIcons();
+    document.getElementById('copyrightYear').textContent=new Date().getFullYear();
+    const menuButton=document.getElementById('menuButton'),menuPanel=document.getElementById('menuPanel'),searchInput=document.getElementById('searchInput'),searchForm=document.getElementById('storeSearchForm'),feedback=document.getElementById('feedback');
+    const searchSubmit=searchForm.querySelector('button[type="submit"]');
+    function setMobileSearch(open){searchForm.classList.toggle('is-open',open);if(open){window.setTimeout(()=>searchInput.focus(),30)}else{searchInput.blur()}}
+    searchSubmit.addEventListener('click',event=>{if(window.matchMedia('(max-width: 639px)').matches&&!searchForm.classList.contains('is-open')){event.preventDefault();event.stopPropagation();setMobileSearch(true)}});
+    document.addEventListener('click',event=>{if(window.matchMedia('(max-width: 639px)').matches&&searchForm.classList.contains('is-open')&&!searchForm.contains(event.target)){setMobileSearch(false)}});
+        function showFeedback(message){feedback.textContent=message;feedback.classList.remove('hidden')}
+    function toggleMenu(force){const open=typeof force==='boolean'?force:menuPanel.classList.contains('hidden');menuPanel.classList.toggle('hidden',!open);menuButton.setAttribute('aria-expanded',String(open))}
+    menuButton.addEventListener('click',event=>{event.stopPropagation();toggleMenu()});menuPanel.addEventListener('click',event=>{if(event.target.closest('a'))toggleMenu(false);event.stopPropagation()});document.addEventListener('click',event=>{if(!menuPanel.contains(event.target)&&!menuButton.contains(event.target))toggleMenu(false)});
+    // Smoothly ease internal navigation links into view rather than using abrupt jumps.
+    document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',event=>{
+      const href=link.getAttribute('href');if(!href||href==='#')return;
+      const target=document.querySelector(href);if(!target)return;
+      event.preventDefault();toggleMenu(false);
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.scrollIntoView({behavior:'auto',block:'start'});history.replaceState(null,'',href);return}
+      const start=window.scrollY, headerOffset=window.innerWidth<640?84:100;
+      const destination=Math.max(0,target.getBoundingClientRect().top+window.scrollY-headerOffset);
+      const distance=destination-start, duration=Math.min(1500,Math.max(750,Math.abs(distance)*0.55));let startTime=null;
+      function step(now){if(startTime===null)startTime=now;const progress=Math.min(1,(now-startTime)/duration);const eased=progress<.5?4*progress*progress*progress:1-Math.pow(-2*progress+2,3)/2;window.scrollTo(0,start+distance*eased);if(progress<1)requestAnimationFrame(step);else history.replaceState(null,'',href)}requestAnimationFrame(step);
+    }));
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'){toggleMenu(false);setMobileSearch(false)}if(event.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){event.preventDefault();if(window.matchMedia('(max-width: 639px)').matches)setMobileSearch(true);searchInput.focus()}});
+    searchForm.addEventListener('submit',event=>{event.preventDefault();const value=searchInput.value.trim();if(!value){if(window.matchMedia('(max-width: 639px)').matches&&!searchForm.classList.contains('is-open'))setMobileSearch(true);else searchInput.focus();showFeedback('Enter a store URL to continue, or use the scan icon.');return}let candidate=value;if(!/^https?:\/\//i.test(candidate))candidate='https://'+candidate;try{const url=new URL(candidate);if(!url.hostname.includes('.')||url.hostname.endsWith('.'))throw new Error('Invalid store URL');showFeedback('Store URL entered: '+url.hostname+'. Connect your store resolver to open this storefront.')}catch{showFeedback('Enter a valid store URL, such as store.example.com.')}});
+    document.getElementById('profileButton').addEventListener('click',()=>showFeedback('This section is for customers. If you have an account, your profile displays here and can be used across different stores. Powered by Aulin.'));
+    document.getElementById('businessButton').addEventListener('click',()=>{
+      feedback.innerHTML='<div class="flex flex-wrap items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 shadow-sm"><span class="font-semibold">Aulin for business</span><span class="text-gray-500">Choose an option:</span><button type="button" id="businessSignupOption" class="rounded-lg bg-black px-4 py-2 font-semibold text-white">Sign up</button><button type="button" id="businessLoginOption" class="rounded-lg border border-gray-300 px-4 py-2 font-semibold text-gray-800">Log in</button></div>';
+      feedback.classList.remove('hidden');document.getElementById('businessSignupOption').addEventListener('click',()=>showFeedback('Business sign-up will be available here when the Aulin business portal is connected.'));document.getElementById('businessLoginOption').addEventListener('click',()=>showFeedback('Business login will be available here when the Aulin business portal is connected.'));
+    });
+    document.getElementById('scanButton').addEventListener('click',()=>showFeedback('QR scanning needs a camera-based QR reader integration.'));
+    document.getElementById('voiceButton').addEventListener('click',()=>{const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!Recognition){showFeedback('Voice input is not supported in this browser. Try a compatible browser.');return}const recognition=new Recognition();recognition.lang='en-NG';recognition.interimResults=false;recognition.maxAlternatives=1;showFeedback('Listening… Speak a store URL.');recognition.onresult=event=>{searchInput.value=event.results[0][0].transcript;searchInput.focus();showFeedback('Voice input added. Submit to continue.')};recognition.onerror=()=>showFeedback('Voice input could not start. Check microphone permission.');try{recognition.start()}catch{showFeedback('Voice input is already active. Try again shortly.')}});
+  </script>
+</body>
+</html>
