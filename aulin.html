@@ -314,13 +314,32 @@
   </main>
   <footer id="help" class="aulin-footer">
     <nav class="aulin-footer-links" aria-label="Legal and contact links">
-      <a href="#terms">Terms of Service</a>
-      <a href="#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
       <a href="mailto:support@yourdomain.com">Contact</a>
     </nav>
     <p class="aulin-footer-copyright">© <span id="copyrightYear">2026</span> Aulin. All rights reserved.</p>
   </footer>
   <style>
+    .aulin-dialog-backdrop{position:fixed;z-index:1000;inset:0;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(24,22,28,.32);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .aulin-dialog-backdrop.hidden{display:none}
+    .aulin-dialog-card{position:relative;width:min(100%,420px);padding:34px 30px 28px;border:1px solid rgba(255,255,255,.9);border-radius:25px;background:linear-gradient(155deg,#fff 0%,#fffaf7 100%);box-shadow:0 28px 90px rgba(32,25,25,.2);text-align:center;animation:aulinDialogIn .2s ease-out}
+    .aulin-dialog-close{position:absolute;top:15px;right:15px;display:grid;place-items:center;width:36px;height:36px;border:1px solid #eee9e6;border-radius:12px;background:#fff;color:#555;transition:background .2s,transform .2s}
+    .aulin-dialog-close:hover{background:#f7f3f1;transform:rotate(4deg)}
+    .aulin-dialog-close svg{width:18px;height:18px}
+    .aulin-dialog-symbol{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 19px;border:1px solid #f3dfd5;border-radius:19px;background:#fff0e8;color:#c84b31}
+    .aulin-dialog-symbol svg{width:26px;height:26px}
+    .aulin-dialog-eyebrow{margin:0;color:#b65a43;font-size:9px;font-weight:800;letter-spacing:2px}
+    .aulin-dialog-card h2{margin:9px 0 0;color:#242226;font-size:23px;font-weight:700;letter-spacing:-.8px;line-height:1.3}
+    .aulin-dialog-card #aulinDialogMessage{margin:12px auto 0;max-width:320px;color:#77716f;font-size:12px;line-height:1.85}
+    .aulin-dialog-query{margin:17px auto 0;max-width:100%;overflow-wrap:anywhere;border:1px solid #f0e8e3;border-radius:11px;background:#fff;padding:10px 12px;color:#55504e;font-size:11px}
+    .aulin-dialog-action,.aulin-dialog-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:23px;padding:0 18px;border:1px solid #202020;border-radius:12px;background:#171717;color:#fff;font-size:12px;font-weight:700;transition:background .2s,transform .2s}
+    .aulin-dialog-action:hover{background:#383838;transform:translateY(-1px)}
+    .aulin-dialog-secondary{margin:23px 8px 0 0;border-color:#e7e2df;background:#fff;color:#292525}
+    .aulin-dialog-secondary:hover{background:#f7f4f2}
+    @keyframes aulinDialogIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media(max-width:480px){.aulin-dialog-card{padding:32px 22px 24px;border-radius:22px}.aulin-dialog-card h2{font-size:21px}}
+    @media(prefers-reduced-motion:reduce){.aulin-dialog-card{animation:none}.aulin-dialog-close,.aulin-dialog-action,.aulin-dialog-secondary{transition:none}}
     .aulin-footer{width:100%;background:#fff;border-top:1px solid #ededed;padding:22px 20px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
     .aulin-footer-links{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(18px,4vw,42px)}
     .aulin-footer-links a{color:#111;font-size:12px;font-weight:800;letter-spacing:.01em;text-decoration:none;transition:opacity .2s ease}
@@ -352,14 +371,164 @@
       function step(now){if(startTime===null)startTime=now;const progress=Math.min(1,(now-startTime)/duration);const eased=progress<.5?4*progress*progress*progress:1-Math.pow(-2*progress+2,3)/2;window.scrollTo(0,start+distance*eased);if(progress<1)requestAnimationFrame(step);else history.replaceState(null,'',href)}requestAnimationFrame(step);
     }));
     document.addEventListener('keydown',event=>{if(event.key==='Escape'){toggleMenu(false);setMobileSearch(false)}if(event.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){event.preventDefault();if(window.matchMedia('(max-width: 639px)').matches)setMobileSearch(true);searchInput.focus()}});
-    searchForm.addEventListener('submit',event=>{event.preventDefault();const value=searchInput.value.trim();if(!value){if(window.matchMedia('(max-width: 639px)').matches&&!searchForm.classList.contains('is-open'))setMobileSearch(true);else searchInput.focus();showFeedback('Enter a store URL to continue, or use the scan icon.');return}let candidate=value;if(!/^https?:\/\//i.test(candidate))candidate='https://'+candidate;try{const url=new URL(candidate);if(!url.hostname.includes('.')||url.hostname.endsWith('.'))throw new Error('Invalid store URL');showFeedback('Store URL entered: '+url.hostname+'. Connect your store resolver to open this storefront.')}catch{showFeedback('Enter a valid store URL, such as store.example.com.')}});
-    document.getElementById('profileButton').addEventListener('click',()=>showFeedback('This section is for customers. If you have an account, your profile displays here and can be used across different stores. Powered by Aulin.'));
-    document.getElementById('businessButton').addEventListener('click',()=>{
-      feedback.innerHTML='<div class="flex flex-wrap items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 shadow-sm"><span class="font-semibold">Aulin for business</span><span class="text-gray-500">Choose an option:</span><button type="button" id="businessSignupOption" class="rounded-lg bg-black px-4 py-2 font-semibold text-white">Sign up</button><button type="button" id="businessLoginOption" class="rounded-lg border border-gray-300 px-4 py-2 font-semibold text-gray-800">Log in</button></div>';
-      feedback.classList.remove('hidden');document.getElementById('businessSignupOption').addEventListener('click',()=>showFeedback('Business sign-up will be available here when the Aulin business portal is connected.'));document.getElementById('businessLoginOption').addEventListener('click',()=>showFeedback('Business login will be available here when the Aulin business portal is connected.'));
+    // Accessible, bright app-style dialog for search results and navigation actions.
+    const dialog=document.createElement('div');
+    dialog.id='aulinDialog';
+    dialog.className='aulin-dialog-backdrop hidden';
+    dialog.innerHTML=`<section class="aulin-dialog-card" role="dialog" aria-modal="true" aria-labelledby="aulinDialogTitle" aria-describedby="aulinDialogMessage">
+      <button type="button" class="aulin-dialog-close" aria-label="Close dialog"><i data-lucide="x"></i></button>
+      <div class="aulin-dialog-symbol"><i data-lucide="search-x"></i></div>
+      <p class="aulin-dialog-eyebrow">AULIN SEARCH</p>
+      <h2 id="aulinDialogTitle">No results found</h2>
+      <p id="aulinDialogMessage">We couldn't find a store matching your search. Check the spelling or try another store name or URL.</p>
+      <div class="aulin-dialog-query hidden" id="aulinDialogQuery"></div>
+      <button type="button" class="aulin-dialog-action">Got it</button>
+    </section>`;
+    document.body.appendChild(dialog);
+    const dialogTitle=dialog.querySelector('#aulinDialogTitle');
+    const dialogMessage=dialog.querySelector('#aulinDialogMessage');
+    const dialogQuery=dialog.querySelector('#aulinDialogQuery');
+    function closeDialog(){dialog.classList.add('hidden');document.body.style.overflow='';}
+    function openDialog(title,message,query=''){
+      dialogTitle.textContent=title;dialogMessage.textContent=message;
+      dialogQuery.textContent=query;dialogQuery.classList.toggle('hidden',!query);
+      dialog.classList.remove('hidden');document.body.style.overflow='hidden';
+      lucide.createIcons();dialog.querySelector('.aulin-dialog-close').focus();
+    }
+    dialog.querySelectorAll('.aulin-dialog-close,.aulin-dialog-action').forEach(button=>button.addEventListener('click',closeDialog));
+    dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog()});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape')closeDialog()});
+
+    searchForm.addEventListener('submit',event=>{
+      event.preventDefault();
+      const value=searchInput.value.trim();
+      if(!value){
+        if(window.matchMedia('(max-width: 639px)').matches&&!searchForm.classList.contains('is-open'))setMobileSearch(true);
+        else searchInput.focus();
+        showFeedback('Enter a store name or URL, or use voice input to search.');
+        return;
+      }
+      // No store-search API is connected in this static landing page yet.
+      // Show the no-results state instead of claiming that a URL was found.
+      openDialog('No results for that search','We couldn’t find a store matching your search. Try checking the store name or URL and search again.',value);
     });
-    document.getElementById('scanButton').addEventListener('click',()=>showFeedback('QR scanning needs a camera-based QR reader integration.'));
-    document.getElementById('voiceButton').addEventListener('click',()=>{const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!Recognition){showFeedback('Voice input is not supported in this browser. Try a compatible browser.');return}const recognition=new Recognition();recognition.lang='en-NG';recognition.interimResults=false;recognition.maxAlternatives=1;showFeedback('Listening… Speak a store URL.');recognition.onresult=event=>{searchInput.value=event.results[0][0].transcript;searchInput.focus();showFeedback('Voice input added. Submit to continue.')};recognition.onerror=()=>showFeedback('Voice input could not start. Check microphone permission.');try{recognition.start()}catch{showFeedback('Voice input is already active. Try again shortly.')}});
+
+    document.getElementById('profileButton').addEventListener('click',()=>{
+      openDialog('Your Aulin profile','Your customer profile is where you’ll be able to manage your details, view orders and keep track of activity across supported Aulin stores.','Customer account');
+    });
+    document.getElementById('businessButton').addEventListener('click',()=>{
+      dialogTitle.textContent='Aulin for business';
+      dialogMessage.textContent='Manage your digital storefront, products and orders. Choose how you would like to continue.';
+      dialogQuery.textContent='Business workspace';dialogQuery.classList.remove('hidden');
+      const action=dialog.querySelector('.aulin-dialog-action');
+      action.textContent='Sign up for business';
+      action.onclick=()=>openDialog('Business sign-up','The business portal is not connected to this landing page yet. Once it is available, you’ll be able to create your store account here.','Coming soon');
+      let login=dialog.querySelector('.aulin-dialog-secondary');
+      if(!login){login=document.createElement('button');login.type='button';login.className='aulin-dialog-secondary';action.insertAdjacentElement('beforebegin',login);}
+      login.textContent='Log in';login.onclick=()=>openDialog('Business login','The business portal is not connected to this landing page yet. Please return when business login is available.','Business account');
+      dialog.classList.remove('hidden');document.body.style.overflow='hidden';lucide.createIcons();dialog.querySelector('.aulin-dialog-close').focus();
+    });
+    document.getElementById('scanButton').addEventListener('click',()=>{
+      openDialog('Scan a store QR code','QR scanning needs camera access and a QR-reader integration, which is not connected on this page yet. You can enter a store name or URL in the search field instead.','QR scanner');
+    });
+
+    // Voice input with a real microphone permission/audio check before speech recognition.
+    // Browser speech-to-text still depends on the browser's online recognition service.
+    const voiceButton=document.getElementById('voiceButton');
+    let activeRecognition=null, voiceIsStarting=false, micStream=null, micAudioContext=null, micMeterFrame=null, micHeardSound=false, noSpeechRetries=0;
+    function setVoiceUI(listening){
+      voiceButton.classList.toggle('text-[#d64a32]',listening);
+      voiceButton.setAttribute('aria-pressed',String(listening));
+      voiceButton.setAttribute('aria-label',listening?'Stop voice input':'Voice input');
+      voiceButton.title=listening?'Stop listening':'Voice input';
+      const icon=voiceButton.querySelector('i');
+      if(icon)icon.setAttribute('data-lucide',listening?'mic-off':'mic');
+      if(window.lucide)lucide.createIcons();
+    }
+    function stopMicMeter(){
+      if(micMeterFrame!==null){cancelAnimationFrame(micMeterFrame);micMeterFrame=null;}
+      if(micStream){micStream.getTracks().forEach(track=>track.stop());micStream=null;}
+      if(micAudioContext){try{micAudioContext.close()}catch{}micAudioContext=null;}
+    }
+    function stopVoiceInput(){
+      const recognition=activeRecognition;activeRecognition=null;voiceIsStarting=false;
+      if(recognition){try{recognition.abort()}catch{}}
+      stopMicMeter();setVoiceUI(false);
+    }
+    function voiceHelp(title,message){openDialog(title,message,'Voice search');}
+    async function startVoiceInput(){
+      if(activeRecognition||voiceIsStarting)return;
+      if(window.matchMedia('(max-width: 639px)').matches&&!searchForm.classList.contains('is-open'))setMobileSearch(true);
+      if(!window.isSecureContext && location.hostname!=='localhost' && location.hostname!=='127.0.0.1'){
+        voiceHelp('Secure connection required','Voice search needs HTTPS (or localhost). Open the deployed Aulin page using its https:// address, then allow microphone access.');return;
+      }
+      const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+      if(!Recognition){voiceHelp('Speech recognition unavailable','This browser does not support built-in speech recognition. Use the latest Google Chrome or Microsoft Edge on an internet connection, or type your search.');return;}
+      if(!navigator.mediaDevices?.getUserMedia){voiceHelp('Microphone unavailable','This browser cannot access the microphone from this page. Open Aulin over HTTPS in an up-to-date browser.');return;}
+      voiceIsStarting=true;micHeardSound=false;noSpeechRetries=0;setVoiceUI(true);showFeedback('Requesting microphone access…');
+      try{
+        // This explicit permission and audio-level test catches silent/incorrect microphone input.
+        micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+        if(!voiceIsStarting){stopMicMeter();return;}
+        const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+        if(AudioContextClass){
+          micAudioContext=new AudioContextClass();
+          if(micAudioContext.state==='suspended')await micAudioContext.resume();
+          const source=micAudioContext.createMediaStreamSource(micStream), analyser=micAudioContext.createAnalyser();
+          analyser.fftSize=1024;source.connect(analyser);const samples=new Uint8Array(analyser.fftSize);
+          const monitor=()=>{if(!micAudioContext||!micStream)return;analyser.getByteTimeDomainData(samples);let sum=0;for(let i=0;i<samples.length;i++){const v=(samples[i]-128)/128;sum+=v*v;}if(Math.sqrt(sum/samples.length)>.025)micHeardSound=true;micMeterFrame=requestAnimationFrame(monitor);};monitor();
+        }
+        const recognition=new Recognition();activeRecognition=recognition;
+        recognition.lang='en-US';recognition.interimResults=true;recognition.maxAlternatives=3;recognition.continuous=true;
+        let finalTranscript='',gotResult=false,handledError=false,stopping=false;
+        const cleanup=(message)=>{if(activeRecognition===recognition)activeRecognition=null;voiceIsStarting=false;stopMicMeter();setVoiceUI(false);if(message)showFeedback(message);};
+        recognition.onstart=()=>{voiceIsStarting=false;showFeedback('Listening — speak clearly now. Keep speaking until your words appear.');};
+        recognition.onresult=event=>{
+          gotResult=true;let interim='';
+          for(let i=event.resultIndex;i<event.results.length;i++){
+            const result=event.results[i];const transcript=(result[0]?.transcript||'').trim();
+            if(result.isFinal){finalTranscript=(finalTranscript+' '+transcript).trim();}
+            else if(transcript){interim=(interim+' '+transcript).trim();}
+          }
+          const transcript=(finalTranscript||interim).trim();
+          if(transcript){searchInput.value=transcript;searchInput.dispatchEvent(new Event('input',{bubbles:true}));showFeedback((finalTranscript?'Heard: “'+finalTranscript+'”':'Hearing: “'+interim+'”')+' — tap the microphone to finish, then press Enter or search.');}
+        };
+        recognition.onnomatch=()=>showFeedback('I heard audio but could not recognise the words. Move closer to the microphone and try speaking more slowly.');
+        recognition.onerror=event=>{
+          handledError=true;voiceIsStarting=false;
+          const messages={
+            'not-allowed':'Microphone access is blocked. Click the site-settings/lock icon by the address bar, set Microphone to Allow, then reload this page.',
+            'service-not-allowed':'The browser or network blocked speech recognition. Try updated Chrome or Edge and check your internet connection.',
+            'audio-capture':'The browser cannot capture audio. Connect/enable a microphone and select it in your computer sound settings.',
+            'no-speech':micHeardSound?'Your microphone is picking up sound, but the browser speech service is not returning words. Check your internet connection, reload Chrome/Edge, and try again.':'No microphone audio was detected. Check the selected input device and its input volume in your computer sound settings, then try again.',
+            'network':'The speech-to-text service could not connect. Check your internet connection; browser speech recognition needs an online service.',
+            'language-not-supported':'The browser speech service does not support the selected language. Update Chrome or Edge and try again.',
+            'aborted':'Voice input stopped.'
+          };
+          cleanup(messages[event.error]||('Speech recognition failed ('+(event.error||'unknown error')+'). Check microphone permissions and internet access.'));
+        };
+        recognition.onend=()=>{
+          if(activeRecognition!==recognition){return;}
+          if(stopping){cleanup('Voice input stopped.');return;}
+          // Retry once after the browser ends a no-speech session; keep the microphone test alive.
+          if(!gotResult&&!handledError&&noSpeechRetries<1){noSpeechRetries++;showFeedback('Still waiting for speech. Please speak clearly now…');try{recognition.start();return;}catch{}}
+          const message=gotResult&&searchInput.value.trim()?'Voice input complete. Check the words, then press Enter or the search icon.':micHeardSound?'The microphone detects sound, but speech recognition did not return words. Try Chrome/Edge with internet access.':'No microphone sound was detected. Check the selected microphone and its input volume.';
+          cleanup(message);
+        };
+        recognition.start();
+      }catch(error){
+        voiceIsStarting=false;stopMicMeter();setVoiceUI(false);
+        if(error?.name==='NotAllowedError'||error?.name==='PermissionDeniedError')voiceHelp('Allow microphone access','Your browser blocked microphone access. Open the site settings beside the address bar, change Microphone to Allow, reload the page, and try again.');
+        else if(error?.name==='NotFoundError'||error?.name==='DevicesNotFoundError')voiceHelp('No microphone found','Connect a microphone or enable your computer’s built-in microphone, then check the input device in system sound settings.');
+        else voiceHelp('Could not start microphone','The microphone could not be started ('+(error?.name||'unknown error')+'). Check browser permission, close other apps using the microphone, then reload and try again.');
+      }
+    }
+    voiceButton.addEventListener('click',()=>{
+      if(activeRecognition||voiceIsStarting){if(activeRecognition){try{activeRecognition.stop()}catch{}activeRecognition=null;}voiceIsStarting=false;stopMicMeter();setVoiceUI(false);showFeedback('Voice input stopped.');return;}
+      startVoiceInput();
+    });
+    window.addEventListener('pagehide',stopVoiceInput);
+
   </script>
 </body>
 </html>
